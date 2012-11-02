@@ -1,3 +1,3 @@
 node default {
-  include base
+  include base, nginx
 }
