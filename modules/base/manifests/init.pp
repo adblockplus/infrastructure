@@ -1,4 +1,3 @@
 class base {
-  package {'emacs': ensure => present}
-  package {'mercurial': ensure => present}
+  package {['mercurial', 'emacs']: ensure => present}
 }
