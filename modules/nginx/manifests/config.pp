@@ -1,27 +1,64 @@
-# Define: nginx::config
+# Class: nginx::config
 #
-# Define a nginx config snippet. Places all config snippets into
-# /etc/nginx/conf.d, where they will be automatically loaded by http module
+# This module manages NGINX bootstrap and configuration
 #
+# Parameters:
 #
-# Parameters :
-# * ensure: typically set to "present" or "absent". Defaults to "present"
-# * content: set the content of the config snipppet. Defaults to 'template("nginx/${name}.conf.erb")'
-# * order: specifies the load order for this config snippet. Defaults to "500"
+# There are no default parameters for this class.
 #
-define nginx::config($ensure='present', $content=undef, $order='500') {
-  $real_content = $content ? {
-    undef   => template("nginx/${name}.conf.erb"),
-    default => $content,
+# Actions:
+#
+# Requires:
+#
+# Sample Usage:
+#
+# This class file is not called directly
+class nginx::config inherits nginx::params {
+  File {
+    owner => 'root',
+    group => 'root',
+    mode  => '0644',
   }
 
-  file { "${nginx::nginx_conf}/${order}-${name}.conf":
-    ensure  => $ensure,
-    content => $real_content,
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root',
-    notify  => Service['nginx'],
+  file { "${nginx::params::nx_conf_dir}":
+    ensure => directory,
+  }
+
+  file { "${nginx::params::nx_conf_dir}/conf.d":
+    ensure => directory,
+  }
+
+  file { "${nginx::config::nx_run_dir}":
+    ensure => directory,
+  }
+
+  file { "${nginx::config::nx_client_body_temp_path}":
+    ensure => directory,
+    owner  => $nginx::params::nx_daemon_user,
+  }
+
+  file {"${nginx::config::nx_proxy_temp_path}":
+    ensure => directory,
+    owner  => $nginx::params::nx_daemon_user,
+  }
+
+  file { '/etc/nginx/sites-enabled/default':
+    ensure => absent,
+  }
+
+  file { "${nginx::params::nx_conf_dir}/nginx.conf":
+    ensure  => file,
+    content => template('nginx/conf.d/nginx.conf.erb'),
+  }
+
+  file { "${nginx::params::nx_conf_dir}/conf.d/proxy.conf":
+    ensure  => file,
+    content => template('nginx/conf.d/proxy.conf.erb'),
+  }
+
+  file { "${nginx::config::nx_temp_dir}/nginx.d":
+    ensure  => directory,
+    purge   => true,
+    recurse => true,
   }
 }
-

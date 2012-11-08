@@ -1,91 +1,56 @@
 # Class: nginx
 #
-# Install nginx.
+# This module manages NGINX.
 #
 # Parameters:
-# * $nginx_user. Defaults to 'www-data'.
-# * $nginx_worker_processes. Defaults to '1'.
-# * $nginx_worker_connections. Defaults to '1024'.
 #
-# Create config directories :
-# * /etc/nginx/conf.d for http config snippet
-# * /etc/nginx/includes for sites includes
+# There are no default parameters for this class. All module parameters are managed
+# via the nginx::params class
 #
-# Provide 3 definitions :
-# * nginx::config (http config snippet)
-# * nginx::site (http site)
-# * nginx::site_include (site includes)
+# Actions:
 #
-# Templates:
-#   - nginx.conf.erb => /etc/nginx/nginx.conf
+# Requires:
+#  puppetlabs-stdlib - https://github.com/puppetlabs/puppetlabs-stdlib
 #
+#  Packaged NGINX
+#    - RHEL: EPEL or custom package
+#    - Debian/Ubuntu: Default Install or custom package
+#    - SuSE: Default Install or custom package
+#
+#  stdlib
+#    - puppetlabs-stdlib module >= 0.1.6
+#    - plugin sync enabled to obtain the anchor type
+#
+# Sample Usage:
+#
+# The module works with sensible defaults:
+#
+# node default {
+#   include nginx
+# }
 class nginx {
-  $nginx_includes = '/etc/nginx/includes'
-  $nginx_conf = '/etc/nginx/conf.d'
 
-  $real_nginx_user = $::nginx_user ? {
-    undef   => 'www-data',
-    default => $::nginx_user
+  class { 'stdlib': }
+
+  class { 'nginx::package':
+    notify => Class['nginx::service'],
   }
 
-  $real_nginx_worker_processes = $::nginx_worker_processes ? {
-    undef   => '1',
-    default => $::nginx_worker_processes
+  class { 'nginx::config':
+    require => Class['nginx::package'],
+    notify  => Class['nginx::service'],
   }
 
-  $real_nginx_worker_connections = $::nginx_worker_connections ? {
-    undef   => '1024',
-    default => $::nginx_worker_connections
+  class { 'nginx::service': }
+
+  # Allow the end user to establish relationships to the "main" class
+  # and preserve the relationship to the implementation classes through
+  # a transitive relationship to the composite class.
+  anchor{ 'nginx::begin':
+    before => Class['nginx::package'],
+    notify => Class['nginx::service'],
   }
-
-  if ! defined(Package['nginx']) { package { 'nginx': ensure => installed }}
-
-  #restart-command is a quick-fix here, until http://projects.puppetlabs.com/issues/1014 is solved
-  service { 'nginx':
-    ensure     => running,
-    enable     => true,
-    hasrestart => true,
-    require    => File['/etc/nginx/nginx.conf'],
-    restart    => '/etc/init.d/nginx reload'
-  }
-
-  file { '/etc/nginx/nginx.conf':
-    ensure  => present,
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root',
-    content => template('nginx/nginx.conf.erb'),
-    notify  => Service['nginx'],
-    require => Package['nginx'],
-  }
-
-  file { $nginx_conf:
-    ensure  => directory,
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root',
-    require => Package['nginx'],
-  }
-
-  file { '/etc/nginx/ssl':
-    ensure  => directory,
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root',
-    require => Package['nginx'],
-  }
-
-  file { $nginx_includes:
-    ensure  => directory,
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root',
-    require => Package['nginx'],
-  }
-
-  # Nuke default files
-  file { '/etc/nginx/fastcgi_params':
-    ensure  => absent,
-    require => Package['nginx'],
+  anchor { 'nginx::end':
+    require => Class['nginx::service'],
   }
 }
