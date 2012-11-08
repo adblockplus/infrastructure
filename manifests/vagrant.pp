@@ -9,6 +9,7 @@ node default {
     user => 'anwiki',
     password => 'vagrant',
     host => 'localhost',
-    grant => ['all']
+    grant => ['all'],
+    require => Class['mysql::config']
   }
 }
