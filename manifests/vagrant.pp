@@ -1,5 +1,10 @@
 node default {
   include base, nginx
+  
+  nginx::resource::vhost {'adblockplus.org':
+    ensure => present,
+    www_root => '/var/www/adblockplus.org'
+  }
 
   class {'mysql::server':
     config_hash => {'root_password' => 'vagrant'}
