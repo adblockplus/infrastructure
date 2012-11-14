@@ -10,13 +10,15 @@ cd "$TEMP_DIR"
 
 hg clone https://hg.adblockplus.org/anwiki anwiki-hg &>/dev/null
 hg archive -R anwiki-hg -r local anwiki
-rm -rf anwiki-hg
 
 find anwiki/anwiki -name .htaccess -exec rm '{}' \;
 find anwiki/anwiki -name index.html -exec rm '{}' \;
 find anwiki/anwiki/_override -name '*.cfg.php' -exec rm '{}' \;
 rm anwiki/anwiki/htaccess-DISABLED
 rm anwiki/anwiki/_anwiki-override-DISABLED.inc.php
+
+mkdir -p "$ANWIKI_ROOT"
+mkdir -p "$PHP_ROOT"
 
 SITE_DIR="anwiki/anwiki"
 chown -R www-data:www-data anwiki/anwiki
