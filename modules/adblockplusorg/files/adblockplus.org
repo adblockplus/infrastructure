@@ -1,14 +1,13 @@
 server {
   location / {
-    index index.php index index.html;
+    index index.php;
     rewrite ^/anwiki/(.*) /$1 permanent;
   }
 
-  location ~ ^/.*\.php$ {
-    set $scriptPath /var/www/adblockplus.org/phproot$fastcgi_script_name;
+  location ~ \.php$ {
     fastcgi_pass unix:/tmp/php-fastcgi.sock;
     fastcgi_index index.php;
-    fastcgi_param SCRIPT_FILENAME $scriptPath;
+    fastcgi_param SCRIPT_FILENAME /var/www/adblockplus.org/phproot$fastcgi_script_name;
     include fastcgi_params;
   }
 }
