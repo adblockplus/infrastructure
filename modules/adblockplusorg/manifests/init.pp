@@ -58,7 +58,12 @@ class adblockplusorg {
   }
 
   exec {'/usr/local/bin/deploy-anwiki':
-    subscribe => File['/usr/local/bin/deploy-anwiki']
+    subscribe => File['/usr/local/bin/deploy-anwiki'],
+    before => File['/var/www/adblockplus.org/phproot/_anwiki-override.inc.php']
+  }
+
+  file {'/var/www/adblockplus.org/phproot/_anwiki-override.inc.php':
+    source => 'puppet:///modules/adblockplusorg/_anwiki-override.inc.php'
   }
 
   class {'mysql::server':
