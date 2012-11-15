@@ -1,5 +1,5 @@
 class adblockplusorg {
-  package {['nginx']: ensure => 'present'}
+  package {['nginx', 'spawn-fcgi', 'php5-cgi']: ensure => 'present'}
 
   file {'/etc/nginx/sites-enabled/default':
     ensure => 'absent',
@@ -25,6 +25,29 @@ class adblockplusorg {
     hasrestart => true,
     hasstatus => true,
     subscribe => File['/etc/nginx/sites-enabled/adblockplus.org']
+  }
+
+  file {'/etc/init.d/php-fastcgi':
+    mode => 755,
+    owner => root,
+    group => root,
+    source => 'puppet:///modules/adblockplusorg/php-fastcgi-init'
+  }
+
+  file {'/etc/default/php-fastcgi':
+    mode => 755,
+    owner => root,
+    group => root,
+    source => 'puppet:///modules/adblockplusorg/php-fastcgi-default'
+  }
+
+  service {'php-fastcgi':
+    ensure => 'running',
+    enable => true,
+    hasrestart => true,
+    require => [Package['spawn-fcgi'], Package['php5-cgi']],
+    subscribe => [File['/etc/init.d/php-fastcgi'],
+                  File['/etc/default/php-fastcgi']]
   }
 
   file {'/usr/local/bin/deploy-anwiki':
