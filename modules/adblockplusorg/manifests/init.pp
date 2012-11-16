@@ -1,5 +1,5 @@
 class adblockplusorg {
-  package {['nginx', 'spawn-fcgi', 'php5-cgi']: ensure => 'present'}
+  package {['nginx', 'spawn-fcgi', 'php5-cgi', 'php5-mysql']: ensure => 'present'}
 
   file {'/etc/nginx/sites-enabled/default':
     ensure => 'absent',
