@@ -57,6 +57,33 @@ class adblockplusorg {
     source => 'puppet:///modules/adblockplusorg/deploy-anwiki'
   }
 
+  file {'/var/www/adblockplus.org/httpdocs':
+    ensure => 'directory',
+    recurse => true
+  }
+
+  file {'/var/www/adblockplus.org/httpdocs/index.php':
+    mode => 744,
+    owner => 'www-data',
+    group => 'www-data',
+    content => ''
+  }
+
+  file {'/var/www/adblockplus.org/httpdocs/default-static':
+    ensure => 'link',
+    target => '/var/www/adblockplus.org/anwiki/default-static'
+  }
+
+  file {'/var/www/adblockplus.org/httpdocs/_override-static':
+    ensure => 'link',
+    target => '/var/www/adblockplus.org/anwiki/_override-static'
+  }
+
+  file {'/var/www/adblockplus.org/httpdocs/_addons-static':
+    ensure => 'link',
+    target => '/var/www/adblockplus.org/anwiki/_addons-static'
+  }
+
   exec {'/usr/local/bin/deploy-anwiki':
     subscribe => File['/usr/local/bin/deploy-anwiki'],
     before => File['/var/www/adblockplus.org/phproot/_anwiki-override.inc.php']
