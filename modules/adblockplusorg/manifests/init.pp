@@ -24,7 +24,7 @@ class adblockplusorg {
     enable => true,
     hasrestart => true,
     hasstatus => true,
-    subscribe => File['/etc/nginx/sites-enabled/adblockplus.org']
+    subscribe => File['/etc/nginx/sites-available/adblockplus.org']
   }
 
   file {'/etc/init.d/php-fastcgi':
