@@ -32,6 +32,8 @@ rm -rf "$CACHE_DIR"
 mkdir -p "$CACHE_DIR/{config,content/bygroup,content/byid,content/byname,system}"
 chown -R www-data:www-data "$WRITABLE_DIR"
 
-chown -R www-data:www-data "$ANWIKI_ROOT"
+ACLSDRIVER_CONFIGRULES="$ANWIKI_ROOT/_override/drivers/aclsdrivers/aclsdriver_configrules/aclsdriver_configrules.cfg.php"
+touch "$ACLSDRIVER_CONFIGRULES"
+chown www-data "$ACLSDRIVER_CONFIGRULES"
 
 rm -rf "$TEMP_DIR"
