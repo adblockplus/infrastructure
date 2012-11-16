@@ -2,7 +2,7 @@ server {
   root /var/www/adblockplus.org/httpdocs;
 
   location / {
-    index index.php;
+    index index.php index index.html;
     rewrite ^/anwiki/(.*) /$1 permanent;
   }
 
