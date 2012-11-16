@@ -57,9 +57,9 @@ class adblockplusorg {
     source => 'puppet:///modules/adblockplusorg/deploy-anwiki'
   }
 
-  file {'/var/www/adblockplus.org/httpdocs':
-    ensure => 'directory',
-    recurse => true
+  file {['/var', '/var/www', '/var/www/adblockplus.org',
+         '/var/www/adblockplus.org/httpdocs']:
+    ensure => 'directory'
   }
 
   file {'/var/www/adblockplus.org/httpdocs/index.php':
