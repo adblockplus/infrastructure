@@ -25,9 +25,12 @@ chown -R www-data:www-data anwiki/anwiki
 cp -prf "$SITE_DIR"/{_addons,_addons-static,_override,_override-static,default,default-static,sources,anwiki.inc.php} "$ANWIKI_ROOT"
 cp -prf "$SITE_DIR"/{index.php,engine.inc.php} "$PHP_ROOT"
 
+mkdir -p "$ANWIKI_ROOT/_writable/status"
+
 CACHE_DIR="$ANWIKI_ROOT/_writable/cache"
 rm -rf "$CACHE_DIR"
 mkdir -p "$CACHE_DIR/{config,content/bygroup,content/byid,content/byname,system}"
-chown -R www-data:www-data "$CACHE_DIR"
+
+chown -R www-data:www-data "$ANWIKI_ROOT"
 
 rm -rf "$TEMP_DIR"
