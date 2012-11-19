@@ -26,10 +26,13 @@ cp -prf "$SITE_DIR"/{_addons,_addons-static,_override,_override-static,default,d
 cp -prf "$SITE_DIR"/{index.php,engine.inc.php} "$PHP_ROOT"
 
 WRITABLE_DIR="$ANWIKI_ROOT/_writable"
-mkdir -p "$WRITABLE_DIR/status"
+
+mkdir -p "$WRITABLE_DIR/"{status,tmp}
+
 CACHE_DIR="$WRITABLE_DIR/cache"
 rm -rf "$CACHE_DIR"
-mkdir -p "$CACHE_DIR/{config,content/bygroup,content/byid,content/byname,system}"
+mkdir -p "$CACHE_DIR/"{config,content/bygroup,content/byid,content/byname,system}
+
 chown -R www-data:www-data "$WRITABLE_DIR"
 
 ACLSDRIVER_CONFIGRULES="$ANWIKI_ROOT/_override/drivers/aclsdrivers/aclsdriver_configrules/aclsdriver_configrules.cfg.php"
