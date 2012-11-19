@@ -1,0 +1,47 @@
+Adblock Plus infrastructure
+===========================
+
+Website development
+-------------------
+
+### Requirements
+
+* [VirtualBox](https://www.virtualbox.org/)
+* [Vagrant](http://vagrantup.com/)
+
+### Set up the server
+
+All you have to do is start _Vagrant_ (that's going to take a while on
+first boot):
+
+    vagrant up
+
+### Set up anwiki
+
+1. Then go to [http://localhost:8080](http://localhost:8080).
+
+2. Click on the green _Begin installation_ button.
+
+3. Enter _http://localhost:8080/_ as _Root URL_ and empty the _Cookies
+domain_ field.
+
+4. Click on _Edit MySQL Connection_ and enter _anwiki_ as _user_ and
+_database_, _vagrant_ as password. You have to repeat this step for
+some reason.
+
+5. Press all the green buttons until you're asked to create an account. Do so.
+
+6. Click on _Don't ping_, ignore the error message on the next page
+and proceed to the website.
+
+7. Go to
+[http://localhost:8080/index.php?p=en/_include/menu](http://localhost:8080/index.php?p=en/_include/menu).
+
+8. Click on _Delete_ and then on _Delete the page in ALL languages_.
+
+9. Click on the plus in the upper right corner, then on _Manage_.
+
+10. Click on _Import contents_ and chose an export file from the
+production website. Then _Upload now_.
+
+11. Click on _all_ and _Import now_.
