@@ -7,6 +7,8 @@ server {
   }
 
   location ~ \.php$ {
+    client_max_body_size 8m;
+
     fastcgi_pass unix:/tmp/php-fastcgi.sock;
     fastcgi_index index.php;
 
