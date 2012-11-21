@@ -1,9 +1,44 @@
 server {
+  listen 8080;
   root /var/www/adblockplus.org/httpdocs;
 
   location / {
     index index.php index index.html;
+
+    set $preferredLang en;
+    if ($http_accept_language ~ ^(\w\w)\b) {
+      set $preferredLang $1;
+    }
+    if (!-f $document_root/static/$preferredLang/index) {
+      set $preferredLang en;
+    }
+
+    if ($arg_a ~ ^(view|show)?$) {
+      rewrite ^/(index\.html)?$ /$preferredLang/? redirect;
+      rewrite ^/(\w\w(_\w\w)?)$ /$1/ redirect;
+    }
+
+    rewrite ^/(\w\w)/installation$ /$1/ permanent;
     rewrite ^/anwiki/(.*) /$1 permanent;
+
+    if (-f $request_filename) {
+      break;
+    }
+    if (-d $request_filename) {
+      break;
+    }
+
+    if ($http_user_agent ~ \bChrome/\d+) {
+      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/chrome;
+    }
+    if ($http_user_agent ~ \bPresto/\d+) {
+      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/opera;
+    }
+    if ($http_user_agent !~ \bChrome/\d+) {
+      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/firefox;
+    }
+
+    rewrite ^/(.*) /index.php?p=$1 last;
   }
 
   location ~ \.php$ {
