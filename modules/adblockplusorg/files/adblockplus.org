@@ -4,6 +4,10 @@ server {
   location / {
     index index.php index index.html;
 
+    if ($arg_a = "view") {
+      rewrite ^(.*) $1? permanent;
+    }
+
     set $preferredLang en;
     if ($http_accept_language ~ ^(\w\w)\b) {
       set $preferredLang $1;
@@ -37,11 +41,66 @@ server {
       rewrite ^/(\w\w(_\w\w)?)/?$ /$1/firefox;
     }
 
+    set $static "";
+    if (-f "$document_root/static$uri") {
+      set $static "ok";
+    }
+    if (-d "$document_root/static$uri") {
+      set $static "ok";
+    }
+    set $static "$static!$arg_a!$cookie_anwiki_anwsesscode";
+    if ($static ~ ^ok!(view|show)?!$) {
+      rewrite (.*) /static$1 last;
+    }
+
     rewrite ^/(.*) /index.php?p=$1 last;
   }
 
+  location /static/ {
+      index index;
+      internal;
+      types {
+        image/png png;
+        text/xml xml;
+        text/css css;
+      }
+      default_type text/html;
+      charset utf-8;
+
+      set $browserClass ' nongecko';
+      if ($http_user_agent ~ \bGecko/\d+) {
+        set $browserClass ' gecko';
+      }
+      if ($http_user_agent ~ \bK-Meleon\b) {
+        set $browserClass ' kmeleon';
+      }
+      if ($http_user_agent ~ \bChrome/\d+) {
+        set $browserClass ' chrome';
+      }
+      if ($http_user_agent ~ \bPresto/\d+) {
+        set $browserClass ' opera';
+      }
+      sub_filter ' id="content" class="multicolumn"' ' id="content" class="multicolumn$browserClass"';
+  }
+
+
   location ~ \.php$ {
     client_max_body_size 8m;
+
+    set $browserClass ' nongecko';
+    if ($http_user_agent ~ \bGecko/\d+) {
+      set $browserClass ' gecko';
+    }
+    if ($http_user_agent ~ \bK-Meleon\b) {
+      set $browserClass ' kmeleon';
+    }
+    if ($http_user_agent ~ \bChrome/\d+) {
+      set $browserClass ' chrome';
+    }
+    if ($http_user_agent ~ \bPresto/\d+) {
+      set $browserClass ' opera';
+    }
+    sub_filter ' id="content" class="multicolumn"' ' id="content" class="multicolumn$browserClass"';
 
     fastcgi_pass unix:/tmp/php-fastcgi.sock;
     fastcgi_index index.php;
