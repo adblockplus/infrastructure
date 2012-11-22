@@ -39,10 +39,15 @@ and proceed to the website.
 
 8. Click on _Delete_ and then on _Delete the page in ALL languages_.
 
-9. Click on _Manage_ in the upper right area, then on _Import
-contents_.
+9. Click on _Manage_ in the upper right area, then on _Edit
+configuration_.
 
-10. Chose an export file from the production website. Then _Upload
+10. Click on _Edit location_ and check _Friendly URLs_, then click on
+_Save settings_.
+
+11. Click on _Manage_ again, then _Import contents_.
+
+12. Chose an export file from the production website. Then _Upload
 now_.
 
-11. Click on _all_ and _Import now_.
+13. Click on _all_ and _Import now_.
