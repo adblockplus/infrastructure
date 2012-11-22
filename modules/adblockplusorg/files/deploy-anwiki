@@ -9,6 +9,12 @@ mkdir "$TEMP_DIR"
 cd "$TEMP_DIR"
 
 hg clone https://hg.adblockplus.org/anwiki anwiki-hg &>/dev/null
+
+if [[ $? != 0 ]]; then
+    echo "Unable to clone anwiki repository" >&2
+    exit 1
+fi
+
 hg archive -R anwiki-hg -r local anwiki
 
 find anwiki/anwiki -name .htaccess -exec rm '{}' \;
