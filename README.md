@@ -26,8 +26,8 @@ first boot):
 domain_ field.
 
 4. Click on _Edit MySQL Connection_ and enter _anwiki_ as _user_ and
-_database_, _vagrant_ as password. You have to repeat this step for
-some reason.
+_database_, _vagrant_ as password. You'll have to repeat this step for
+each plugin.
 
 5. Press all the green buttons until you're asked to create an account. Do so.
 
@@ -35,13 +35,14 @@ some reason.
 and proceed to the website.
 
 7. Go to
-[http://localhost:8080/index.php?p=en/_include/menu](http://localhost:8080/index.php?p=en/_include/menu).
+[http://localhost:8080/en/_include/menu](http://localhost:8080/index.php?p=en/_include/menu).
 
 8. Click on _Delete_ and then on _Delete the page in ALL languages_.
 
-9. Click on the plus in the upper right corner, then on _Manage_.
+9. Click on _Manage_ in the upper right area, then on _Import
+contents_.
 
-10. Click on _Import contents_ and chose an export file from the
-production website. Then _Upload now_.
+10. Chose an export file from the production website. Then _Upload
+now_.
 
 11. Click on _all_ and _Import now_.
