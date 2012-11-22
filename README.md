@@ -18,11 +18,11 @@ first boot):
 
 ### Set up anwiki
 
-1. Then go to [http://localhost:8080](http://localhost:8080).
+1. Then go to [http://33.33.33.33](http://33.33.33.33).
 
 2. Click on the green _Begin installation_ button.
 
-3. Enter _http://localhost:8080/_ as _Root URL_ and empty the _Cookies
+3. Enter _http://33.33.33.33/_ as _Root URL_ and empty the _Cookies
 domain_ field.
 
 4. Click on _Edit MySQL Connection_ and enter _anwiki_ as _user_ and
@@ -35,7 +35,7 @@ each plugin.
 and proceed to the website.
 
 7. Go to
-[http://localhost:8080/en/_include/menu](http://localhost:8080/index.php?p=en/_include/menu).
+[http://33.33.33.33/en/_include/menu](http://33.33.33.33/en/_include/menu).
 
 8. Click on _Delete_ and then on _Delete the page in ALL languages_.
 
