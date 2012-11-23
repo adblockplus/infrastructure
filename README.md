@@ -8,6 +8,7 @@ Website development
 
 * [VirtualBox](https://www.virtualbox.org/)
 * [Vagrant](http://vagrantup.com/)
+* A clone of the _anwiki_ repository, next to this directory.
 
 ### Set up the server
 
@@ -51,3 +52,17 @@ _Save settings_.
 now_.
 
 13. Click on _all_ and _Import now_.
+
+### Update anwiki
+
+SSH to the server:
+
+    vagrant ssh
+
+Then execute the following:
+
+    sudo deploy-anwiki
+
+If you have a clone of anwiki (see _Requirements_), this will deploy
+it on the virtual machine. If not, it will clone anwiki from the
+official repository.
