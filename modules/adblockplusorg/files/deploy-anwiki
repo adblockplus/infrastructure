@@ -1,17 +1,16 @@
 #!/bin/bash
 
-ANWIKI_ROOT=/var/www/adblockplus.org/anwiki
-PHP_ROOT=/var/www/adblockplus.org/phproot
+anwiki_root="/var/www/adblockplus.org/anwiki"
+php_root="/var/www/adblockplus.org/phproot"
 
-TEMP_DIR="/tmp/anwiki-$$"
-rm -rf "$TEMP_DIR"
-mkdir "$TEMP_DIR"
-cd "$TEMP_DIR"
+temp_dir="/tmp/anwiki-$$"
+rm -rf "$temp_dir"
+mkdir "$temp_dir"
+cd "$temp_dir"
 
-LOCAL_ANWIKI_REPOSITORY="/mnt/local_anwiki_repository"
-
-if [[ -d $LOCAL_ANWIKI_REPOSITORY ]]; then
-    cp -r "$LOCAL_ANWIKI_REPOSITORY" anwiki
+local_anwiki_repository="/mnt/local_anwiki_repository"
+if [[ -d $local_anwiki_repository ]]; then
+    cp -r "$local_anwiki_repository" anwiki
     rm -r anwiki/.hg*
 else
     hg clone https://hg.adblockplus.org/anwiki anwiki-hg &>/dev/null
@@ -30,26 +29,26 @@ find anwiki/anwiki/_override -name '*.cfg.php' -exec rm '{}' \;
 rm anwiki/anwiki/htaccess-DISABLED
 rm anwiki/anwiki/_anwiki-override-DISABLED.inc.php
 
-mkdir -p "$ANWIKI_ROOT"
-mkdir -p "$PHP_ROOT"
+mkdir -p "$anwiki_root"
+mkdir -p "$php_root"
 
-SITE_DIR="anwiki/anwiki"
+site_dir="anwiki/anwiki"
 chown -R www-data:www-data anwiki/anwiki
-cp -prf "$SITE_DIR"/{_addons,_addons-static,_override,_override-static,default,default-static,sources,anwiki.inc.php} "$ANWIKI_ROOT"
-cp -prf "$SITE_DIR"/{index.php,engine.inc.php} "$PHP_ROOT"
+cp -prf "$site_dir"/{_addons,_addons-static,_override,_override-static,default,default-static,sources,anwiki.inc.php} "$anwiki_root"
+cp -prf "$site_dir"/{index.php,engine.inc.php} "$php_root"
 
-WRITABLE_DIR="$ANWIKI_ROOT/_writable"
+writable_dir="$anwiki_root/_writable"
 
-mkdir -p "$WRITABLE_DIR/"{status,tmp}
+mkdir -p "$writable_dir/"{status,tmp}
 
-CACHE_DIR="$WRITABLE_DIR/cache"
-rm -rf "$CACHE_DIR"
-mkdir -p "$CACHE_DIR/"{config,content/bygroup,content/byid,content/byname,system}
+cache_dir="$writable_dir/cache"
+rm -rf "$cache_dir"
+mkdir -p "$cache_dir/"{config,content/bygroup,content/byid,content/byname,system}
 
-chown -R www-data:www-data "$WRITABLE_DIR"
+chown -R www-data:www-data "$writable_dir"
 
-ACLSDRIVER_CONFIGRULES="$ANWIKI_ROOT/_override/drivers/aclsdrivers/aclsdriver_configrules/aclsdriver_configrules.cfg.php"
-touch "$ACLSDRIVER_CONFIGRULES"
-chown www-data "$ACLSDRIVER_CONFIGRULES"
+aclsdriver_configrules="$anwiki_root/_override/drivers/aclsdrivers/aclsdriver_configrules/aclsdriver_configrules.cfg.php"
+touch "$aclsdriver_configrules"
+chown www-data "$aclsdriver_configrules"
 
-rm -rf "$TEMP_DIR"
+rm -rf "$temp_dir"
