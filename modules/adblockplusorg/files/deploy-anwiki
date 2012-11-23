@@ -8,14 +8,21 @@ rm -rf "$TEMP_DIR"
 mkdir "$TEMP_DIR"
 cd "$TEMP_DIR"
 
-hg clone https://hg.adblockplus.org/anwiki anwiki-hg &>/dev/null
+LOCAL_ANWIKI_REPOSITORY="/mnt/local_anwiki_repository"
 
-if [[ $? != 0 ]]; then
-    echo "Unable to clone anwiki repository" >&2
-    exit 1
+if [[ -d $LOCAL_ANWIKI_REPOSITORY ]]; then
+    cp -r "$LOCAL_ANWIKI_REPOSITORY" anwiki
+    rm -r anwiki/.hg*
+else
+    hg clone https://hg.adblockplus.org/anwiki anwiki-hg &>/dev/null
+
+    if [[ $? != 0 ]]; then
+	echo "Unable to clone anwiki repository" >&2
+	exit 1
+    fi
+
+    hg archive -R anwiki-hg -r local anwiki
 fi
-
-hg archive -R anwiki-hg -r local anwiki
 
 find anwiki/anwiki -name .htaccess -exec rm '{}' \;
 find anwiki/anwiki -name index.html -exec rm '{}' \;
