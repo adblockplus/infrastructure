@@ -1,0 +1,3 @@
+modules/apt = ../infrastructure-puppetlabs-apt
+modules/mysql = ../infrastructure-puppetlabs-mysql
+modules/stdlib = ../infrastructure-puppetlabs-stdlib
