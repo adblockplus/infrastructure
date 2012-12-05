@@ -2,10 +2,21 @@ Adblock Plus infrastructure
 ===========================
 
 The new Adblock Plus infrastructure uses
-[Puppet](http://puppetlabs.com/) to set up and configure our servers,
+[Puppet](http://puppetlabs.com/) to set up and configure our nodes,
 and to have realistic test environments for infrastructure components.
 
 Our Puppet manifests are only tested with Ubuntu 12.04 right now.
+
+Development environment
+-----------------------
+
+With the new infrastructure, any work we do on our systems or
+infrastructure components should be done in a local test
+environment. Thanks to Puppet, we can easily set up local VMs just
+like our production environments.
+
+The most convenient way to do this is to use Vagrant, as described
+below.
 
 ### Requirements
 
@@ -19,11 +30,16 @@ first boot):
 
     vagrant up
 
+After you've made changes to Puppet manifests, you can update it like this:
+
+	vagrant provision
+
 Website development
 -------------------
 
 ### Requirements
 
+* Make sure the _adblockplusorg_ module is included in _vagrant.pp_.
 * A clone of the _anwiki_ repository, next to this directory.
 
 ### Set up anwiki
