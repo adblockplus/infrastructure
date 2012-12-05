@@ -1,14 +1,16 @@
 Adblock Plus infrastructure
 ===========================
 
-Website development
--------------------
+The new Adblock Plus infrastructure uses
+[Puppet](http://puppetlabs.com/) to set up and configure our servers,
+and to have realistic test environments for infrastructure components.
+
+Our Puppet manifests are only tested with Ubuntu 12.04 right now.
 
 ### Requirements
 
 * [VirtualBox](https://www.virtualbox.org/)
 * [Vagrant](http://vagrantup.com/)
-* A clone of the _anwiki_ repository, next to this directory.
 
 ### Set up the server
 
@@ -17,9 +19,16 @@ first boot):
 
     vagrant up
 
+Website development
+-------------------
+
+### Requirements
+
+* A clone of the _anwiki_ repository, next to this directory.
+
 ### Set up anwiki
 
-1. Then go to [http://33.33.33.33](http://33.33.33.33).
+1. Go to [http://33.33.33.33](http://33.33.33.33).
 
 2. Click on the green _Begin installation_ button.
 
