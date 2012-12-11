@@ -1,5 +1,5 @@
 class adblockplusorg {
-  package {['nginx', 'spawn-fcgi', 'php5-cgi', 'php5-mysql']: ensure => 'present'}
+  package {['nginx', 'php5-cgi', 'php5-mysql']: ensure => 'present'}
 
   file {'/etc/nginx/sites-enabled/default':
     ensure => 'absent',
@@ -25,29 +25,6 @@ class adblockplusorg {
     hasrestart => true,
     hasstatus => true,
     subscribe => File['/etc/nginx/sites-available/adblockplus.org']
-  }
-
-  file {'/etc/init.d/php-fastcgi':
-    mode => 755,
-    owner => root,
-    group => root,
-    source => 'puppet:///modules/adblockplusorg/php-fastcgi-init'
-  }
-
-  file {'/etc/default/php-fastcgi':
-    mode => 755,
-    owner => root,
-    group => root,
-    source => 'puppet:///modules/adblockplusorg/php-fastcgi-default'
-  }
-
-  service {'php-fastcgi':
-    ensure => 'running',
-    enable => true,
-    hasrestart => true,
-    require => [Package['spawn-fcgi'], Package['php5-cgi']],
-    subscribe => [File['/etc/init.d/php-fastcgi'],
-                  File['/etc/default/php-fastcgi']]
   }
 
   file {'/usr/local/bin/deploy-anwiki':
@@ -93,6 +70,20 @@ class adblockplusorg {
     source => 'puppet:///modules/adblockplusorg/_anwiki-override.inc.php'
   }
 
+  package {'php5-fpm':
+    ensure => absent,
+	require => Class['mysql::server']
+  }
+	  
+  class {'spawn-fcgi':}
+
+  # No PHP_FCGI_MAX_REQUESTS=100 in that something :(
+  spawn-fcgi::php-pool {'global':
+    ensure => present,
+    socket => '/tmp/php-fastcgi.sock',
+    children => '3'
+  }
+  
   class {'mysql::server':
     config_hash => {'root_password' => 'vagrant'}
   }
