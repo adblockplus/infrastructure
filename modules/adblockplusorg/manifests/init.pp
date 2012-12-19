@@ -1,6 +1,8 @@
 class adblockplusorg {
   package {['nginx', 'php5-cgi', 'php5-mysql']: ensure => 'present'}
 
+  Package['php5-cgi'] -> Package['php5-mysql']
+  
   file {'/etc/nginx/sites-enabled/default':
     ensure => 'absent',
     require => Package['nginx']
