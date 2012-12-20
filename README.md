@@ -65,7 +65,7 @@ and proceed to the website.
 
 8. Click on _Delete_ and then on _Delete the page in ALL languages_.
 
-9. Click on _Manage_ in the upper right area, then on _Edit
+9. Click on _Manage_ in the lower right area, then on _Edit
 configuration_.
 
 10. Click on _Edit location_ and check _Friendly URLs_, then click on
