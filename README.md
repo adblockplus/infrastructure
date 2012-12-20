@@ -44,11 +44,11 @@ Website development
 
 ### Set up anwiki
 
-1. Go to [http://33.33.33.33](http://33.33.33.33).
+1. Go to [http://10.8.0.97](http://10.8.0.97).
 
 2. Click on the green _Begin installation_ button.
 
-3. Enter _http://33.33.33.33/_ as _Root URL_ and empty the _Cookies
+3. Enter _http://10.8.0.97/_ as _Root URL_ and empty the _Cookies
 domain_ field.
 
 4. Click on _Edit MySQL Connection_ and enter _anwiki_ as _user_ and
@@ -61,7 +61,7 @@ each plugin.
 and proceed to the website.
 
 7. Go to
-[http://33.33.33.33/en/_include/menu](http://33.33.33.33/en/_include/menu).
+[http://10.8.0.97/en/_include/menu](http://10.8.0.97/en/_include/menu).
 
 8. Click on _Delete_ and then on _Delete the page in ALL languages_.
 
