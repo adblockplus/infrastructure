@@ -16,12 +16,23 @@ server {
       set $preferredLang en;
     }
 
-    if ($arg_a ~ ^(view|show)?$) {
-      rewrite ^/(index\.html)?$ /$preferredLang/? redirect;
-      rewrite ^/(\w\w(_\w\w)?)$ /$1/ redirect;
+    set $browser "firefox";
+    if ($http_user_agent ~ \bChrome/\d+) {
+      set $browser "chrome";
+    }
+    if ($http_user_agent ~ \bPresto/\d+) {
+      set $browser "opera";
+    }
+    if ($http_user_agent ~ \bAndroid\s.*\bAppleWebKit/\d+) {
+      set $browser "android";
     }
 
-    rewrite ^/(\w\w)/installation$ /$1/ permanent;
+    if ($arg_a ~ ^(view|show)?$) {
+      rewrite ^/(index\.html)?$ /$preferredLang/$browser redirect;
+      rewrite ^/(\w\w(_\w\w)?)$ /$1/$browser redirect;
+    }
+
+    rewrite ^/(\w\w(_\w\w)?)/installation$ /$1/ permanent;
     rewrite ^/anwiki/(.*) /$1 permanent;
 
     if (-f $request_filename) {
@@ -31,28 +42,24 @@ server {
       break;
     }
 
-    if ($http_user_agent ~ \bChrome/\d+) {
-      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/chrome;
+    set $static_uri $uri;
+    if ($uri ~ ^/(\w\w(_\w\w)?)/(firefox|chrome|opera|android)) {
+      set $static_uri "/$1/";
+      set $browser $3;
     }
-    if ($http_user_agent ~ \bPresto/\d+) {
-      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/opera;
-    }
-    if ($http_user_agent !~ \bChrome/\d+) {
-      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/firefox;
-    }
-
     set $static "";
-    if (-f "$document_root/static$uri") {
+    if (-f "$document_root/static$static_uri") {
       set $static "ok";
     }
-    if (-d "$document_root/static$uri") {
+    if (-d "$document_root/static$static_uri") {
       set $static "ok";
     }
     set $static "$static!$arg_a!$cookie_anwiki_anwsesscode";
     if ($static ~ ^ok!(view|show)?!$) {
-      rewrite (.*) /static$1 last;
+      rewrite ^ /static$static_uri?browser=$browser last;
     }
 
+    rewrite ^/(\w\w(_\w\w)?)/(firefox|chrome|opera|android) /index.php?p=$1&browser=$3 last;
     rewrite ^/(.*) /index.php?p=$1 last;
   }
 
@@ -67,40 +74,20 @@ server {
       default_type text/html;
       charset utf-8;
 
-      set $browserClass ' nongecko';
-      if ($http_user_agent ~ \bGecko/\d+) {
-        set $browserClass ' gecko';
+      if ($arg_browser) {
+        set $browser_class ' class="$arg_browser"';
       }
-      if ($http_user_agent ~ \bK-Meleon\b) {
-        set $browserClass ' kmeleon';
-      }
-      if ($http_user_agent ~ \bChrome/\d+) {
-        set $browserClass ' chrome';
-      }
-      if ($http_user_agent ~ \bPresto/\d+) {
-        set $browserClass ' opera';
-      }
-      sub_filter ' id="content" class="multicolumn"' ' id="content" class="multicolumn$browserClass"';
+      sub_filter ' id="content"' ' id="content"$browser_class';
   }
 
 
   location ~ \.php$ {
     client_max_body_size 8m;
 
-    set $browserClass ' nongecko';
-    if ($http_user_agent ~ \bGecko/\d+) {
-      set $browserClass ' gecko';
+    if ($arg_browser) {
+      set $browser_class ' class="$arg_browser"';
     }
-    if ($http_user_agent ~ \bK-Meleon\b) {
-      set $browserClass ' kmeleon';
-    }
-    if ($http_user_agent ~ \bChrome/\d+) {
-      set $browserClass ' chrome';
-    }
-    if ($http_user_agent ~ \bPresto/\d+) {
-      set $browserClass ' opera';
-    }
-    sub_filter ' id="content" class="multicolumn"' ' id="content" class="multicolumn$browserClass"';
+    sub_filter ' id="content"' ' id="content"$browser_class';
 
     fastcgi_pass unix:/tmp/php-fastcgi.sock;
     fastcgi_index index.php;
