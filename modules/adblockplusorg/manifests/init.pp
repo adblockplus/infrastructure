@@ -2,7 +2,7 @@ class adblockplusorg {
   package {['nginx', 'php5-cgi', 'php5-mysql']: ensure => 'present'}
 
   Package['php5-cgi'] -> Package['php5-mysql']
-  
+
   file {'/etc/nginx/sites-enabled/default':
     ensure => 'absent',
     require => Package['nginx']
@@ -69,14 +69,16 @@ class adblockplusorg {
   }
 
   file {'/var/www/adblockplus.org/phproot/_anwiki-override.inc.php':
-    source => 'puppet:///modules/adblockplusorg/_anwiki-override.inc.php'
+    source => 'puppet:///modules/adblockplusorg/_anwiki-override.inc.php',
+    owner => 'www-data',
+    group => 'www-data'
   }
 
   package {'php5-fpm':
     ensure => absent,
-	require => Class['mysql::server']
+    require => Class['mysql::server']
   }
-	  
+
   class {'spawn-fcgi':}
 
   # No PHP_FCGI_MAX_REQUESTS=100 in that something :(
@@ -85,7 +87,7 @@ class adblockplusorg {
     socket => '/tmp/php-fastcgi.sock',
     children => '3'
   }
-  
+
   class {'mysql::server':
     config_hash => {'root_password' => 'vagrant'}
   }
