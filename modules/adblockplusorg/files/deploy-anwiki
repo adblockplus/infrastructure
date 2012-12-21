@@ -34,6 +34,7 @@ mkdir -p "$php_root"
 
 site_dir="anwiki/anwiki"
 chown -R www-data:www-data anwiki/anwiki
+rm -rf "$anwiki_root"/{_addons,_addons-static,_override,_override-static,default,default-static,sources}
 cp -prf "$site_dir"/{_addons,_addons-static,_override,_override-static,default,default-static,sources,anwiki.inc.php} "$anwiki_root"
 cp -prf "$site_dir"/{index.php,engine.inc.php} "$php_root"
 
