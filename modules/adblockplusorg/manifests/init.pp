@@ -81,18 +81,24 @@ class adblockplusorg {
 
   file {'/var/www/adblockplus.org/anwiki/_override/drivers/sessionsdrivers/sessionsdriver_mysql/sessionsdriver_mysql.cfg.php':
     source => 'puppet:///modules/adblockplusorg/anwiki.cfg.php',
+    replace => 'no',
+    ensure => 'present',
     owner => 'www-data',
     group => 'www-data'
   }
 
   file {'/var/www/adblockplus.org/anwiki/_override/drivers/usersdrivers/usersdriver_mysql/usersdriver_mysql.cfg.php':
     source => 'puppet:///modules/adblockplusorg/anwiki.cfg.php',
+    replace => 'no',
+    ensure => 'present',
     owner => 'www-data',
     group => 'www-data'
   }
 
   file {'/var/www/adblockplus.org/anwiki/_override/drivers/storagedrivers/storagedriver_mysql/storagedriver_mysql.cfg.php':
     source => 'puppet:///modules/adblockplusorg/anwiki.cfg.php',
+    replace => 'no',
+    ensure => 'present',
     owner => 'www-data',
     group => 'www-data'
   }
