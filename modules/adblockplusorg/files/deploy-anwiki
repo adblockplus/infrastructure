@@ -30,7 +30,7 @@ rm anwiki/anwiki/htaccess-DISABLED
 rm anwiki/anwiki/_anwiki-override-DISABLED.inc.php
 
 rm -rf "$anwiki_root"/{_addons,_addons-static,_override-static,default,default-static,sources}
-find "$anwiki_root/_override" -type f -not -name '*.cfg.php' -exec rm -f '{}' && rmdir -p "$(dirname '{}')" \;
+find "$anwiki_root/_override" -type f -not -name '*.cfg.php' -exec rm -f '{}' \&\& rmdir -p "$(dirname '{}')" \;
 
 mkdir -p "$anwiki_root"
 mkdir -p "$php_root"
