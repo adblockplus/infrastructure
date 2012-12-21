@@ -65,11 +65,34 @@ class adblockplusorg {
 
   exec {'/usr/local/bin/deploy-anwiki':
     subscribe => File['/usr/local/bin/deploy-anwiki'],
-    before => File['/var/www/adblockplus.org/phproot/_anwiki-override.inc.php']
+    before => [
+      File['/var/www/adblockplus.org/phproot/_anwiki-override.inc.php'],
+      File['/var/www/adblockplus.org/anwiki/_override/drivers/sessionsdrivers/sessionsdriver_mysql/sessionsdriver_mysql.cfg.php'],
+      File['/var/www/adblockplus.org/anwiki/_override/drivers/usersdrivers/usersdriver_mysql/usersdriver_mysql.cfg.php'],
+      File['/var/www/adblockplus.org/anwiki/_override/drivers/storagedrivers/storagedriver_mysql/storagedriver_mysql.cfg.php']
+    ]
   }
 
   file {'/var/www/adblockplus.org/phproot/_anwiki-override.inc.php':
     source => 'puppet:///modules/adblockplusorg/_anwiki-override.inc.php',
+    owner => 'www-data',
+    group => 'www-data'
+  }
+
+  file {'/var/www/adblockplus.org/anwiki/_override/drivers/sessionsdrivers/sessionsdriver_mysql/sessionsdriver_mysql.cfg.php':
+    source => 'puppet:///modules/adblockplusorg/anwiki.cfg.php',
+    owner => 'www-data',
+    group => 'www-data'
+  }
+
+  file {'/var/www/adblockplus.org/anwiki/_override/drivers/usersdrivers/usersdriver_mysql/usersdriver_mysql.cfg.php':
+    source => 'puppet:///modules/adblockplusorg/anwiki.cfg.php',
+    owner => 'www-data',
+    group => 'www-data'
+  }
+
+  file {'/var/www/adblockplus.org/anwiki/_override/drivers/storagedrivers/storagedriver_mysql/storagedriver_mysql.cfg.php':
+    source => 'puppet:///modules/adblockplusorg/anwiki.cfg.php',
     owner => 'www-data',
     group => 'www-data'
   }
