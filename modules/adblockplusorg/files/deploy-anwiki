@@ -10,17 +10,17 @@ cd "$temp_dir"
 
 local_anwiki_repository="/mnt/local_anwiki_repository"
 if [[ -d $local_anwiki_repository ]]; then
-    cp -r "$local_anwiki_repository" anwiki
-    rm -r anwiki/.hg*
+  cp -r "$local_anwiki_repository" anwiki
+  rm -r anwiki/.hg*
 else
-    hg clone https://hg.adblockplus.org/anwiki anwiki-hg &>/dev/null
+  hg clone https://hg.adblockplus.org/anwiki anwiki-hg &>/dev/null
 
-    if [[ $? != 0 ]]; then
-	echo "Unable to clone anwiki repository" >&2
-	exit 1
-    fi
+  if [[ $? != 0 ]]; then
+    echo "Unable to clone anwiki repository" >&2
+    exit 1
+  fi
 
-    hg archive -R anwiki-hg -r local anwiki
+  hg archive -R anwiki-hg -r local anwiki
 fi
 
 find anwiki/anwiki -name .htaccess -exec rm '{}' \;
