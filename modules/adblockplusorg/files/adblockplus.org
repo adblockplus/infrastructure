@@ -29,7 +29,7 @@ server {
 
     if ($arg_a ~ ^(view|show)?$) {
       rewrite ^/(index\.html)?$ /$preferredLang/$browser redirect;
-      rewrite ^/(\w\w(_\w\w)?)$ /$1/$browser redirect;
+      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/$browser redirect;
     }
 
     rewrite ^/(\w\w(_\w\w)?)/installation$ /$1/ permanent;
@@ -43,7 +43,7 @@ server {
     }
 
     set $static_uri $uri;
-    if ($uri ~ ^/(\w\w(_\w\w)?)/(firefox|chrome|opera|android)) {
+    if ($uri ~ ^/(\w\w(_\w\w)?)/(firefox|chrome|opera|android)/?$) {
       set $static_uri "/$1/";
       set $browser $3;
     }
@@ -59,7 +59,7 @@ server {
       rewrite ^ /static$static_uri?browser=$browser last;
     }
 
-    rewrite ^/(\w\w(_\w\w)?)/(firefox|chrome|opera|android) /index.php?p=$1&browser=$3 last;
+    rewrite ^/(\w\w(_\w\w)?)/(firefox|chrome|opera|android)/?$ /index.php?p=$1&browser=$3 last;
     rewrite ^/(.*) /index.php?p=$1 last;
   }
 
