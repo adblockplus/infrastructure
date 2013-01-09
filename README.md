@@ -68,8 +68,8 @@ and proceed to the website.
 9. Click on _Manage_ in the lower right area, then on _Edit
 configuration_.
 
-10. Click on _Edit location_ and check _Friendly URLs_, then click on
-_Save settings_.
+10. Click on _Edit location_, set _Home_ to _en_ and check _Friendly
+URLs_, then click on _Save settings_.
 
 11. Click on _Manage_ again, then _Import contents_.
 
