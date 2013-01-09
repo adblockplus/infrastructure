@@ -16,20 +16,20 @@ server {
       set $preferredLang en;
     }
 
-    set $browser "firefox";
+    set $user_agent "firefox";
     if ($http_user_agent ~ \bChrome/\d+) {
-      set $browser "chrome";
+      set $user_agent "chrome";
     }
     if ($http_user_agent ~ \bPresto/\d+) {
-      set $browser "opera";
+      set $user_agent "opera";
     }
     if ($http_user_agent ~ \bAndroid\s.*\bAppleWebKit/\d+) {
-      set $browser "android";
+      set $user_agent "android";
     }
 
     if ($arg_a ~ ^(view|show)?$) {
-      rewrite ^/(index\.html)?$ /$preferredLang/$browser redirect;
-      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/$browser redirect;
+      rewrite ^/(index\.html)?$ /$preferredLang/$user_agent redirect;
+      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/$user_agent redirect;
     }
 
     rewrite ^/(\w\w(_\w\w)?)/installation$ /$1/ permanent;
@@ -43,9 +43,10 @@ server {
     }
 
     set $static_uri $uri;
+    set $platform $user_agent;
     if ($uri ~ ^/(\w\w(_\w\w)?)/(firefox|chrome|opera|android)/?$) {
       set $static_uri "/$1/";
-      set $browser $3;
+      set $platform $3;
     }
     set $static "";
     if (-f "$document_root/static$static_uri") {
@@ -56,10 +57,10 @@ server {
     }
     set $static "$static!$arg_a!$cookie_anwiki_anwsesscode";
     if ($static ~ ^ok!(view|show)?!$) {
-      rewrite ^ /static$static_uri?browser=$browser last;
+      rewrite ^ /static$static_uri?platform=$platform&user_agent=$user_agent last;
     }
 
-    rewrite ^/(\w\w(_\w\w)?)/(firefox|chrome|opera|android)/?$ /index.php?p=$1&browser=$3 last;
+    rewrite ^/(\w\w(_\w\w)?)/(firefox|chrome|opera|android)/?$ /index.php?p=$1&platform=$3&user_agent=$user_agent last;
     rewrite ^/(.*) /index.php?p=$1 last;
   }
 
@@ -74,20 +75,20 @@ server {
       default_type text/html;
       charset utf-8;
 
-      if ($arg_browser) {
-        set $browser_class ' class="$arg_browser"';
+      if ($arg_platform) {
+        set $platform_class ' class="$arg_platform ua-$arg_user_agent"';
       }
-      sub_filter ' id="content"' ' id="content"$browser_class';
+      sub_filter ' id="content"' ' id="content"$platform_class';
   }
 
 
   location ~ \.php$ {
     client_max_body_size 8m;
 
-    if ($arg_browser) {
-      set $browser_class ' class="$arg_browser"';
+    if ($arg_platform) {
+      set $platform_class ' class="$arg_platform ua-$arg_user_agent"';
     }
-    sub_filter ' id="content"' ' id="content"$browser_class';
+    sub_filter ' id="content"' ' id="content"$platform_class';
 
     fastcgi_pass unix:/tmp/php-fastcgi.sock;
     fastcgi_index index.php;
