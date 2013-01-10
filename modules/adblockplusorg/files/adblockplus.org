@@ -82,6 +82,7 @@ server {
       default_type text/html;
       charset utf-8;
 
+      set $platform_class '';
       if ($arg_platform) {
         set $platform_class ' class="$arg_platform ua-$arg_user_agent"';
       }
@@ -92,6 +93,7 @@ server {
   location ~ \.php$ {
     client_max_body_size 8m;
 
+    set $platform_class '';
     if ($arg_platform) {
       set $platform_class ' class="$arg_platform ua-$arg_user_agent"';
     }
