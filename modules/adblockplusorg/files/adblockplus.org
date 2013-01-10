@@ -16,7 +16,10 @@ server {
       set $preferredLang en;
     }
 
-    set $user_agent "firefox";
+    set $user_agent "";
+    if ($http_user_agent ~ \bGecko/\d+) {
+      set $user_agent "firefox";
+    }
     if ($http_user_agent ~ \bChrome/\d+) {
       set $user_agent "chrome";
     }
@@ -27,9 +30,14 @@ server {
       set $user_agent "android";
     }
 
+    set $platform "firefox";
+    if ($user_agent) {
+      set $platform $user_agent;
+    }
+
     if ($arg_a ~ ^(view|show)?$) {
-      rewrite ^/(index\.html)?$ /$preferredLang/$user_agent redirect;
-      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/$user_agent redirect;
+      rewrite ^/(index\.html)?$ /$preferredLang/$platform redirect;
+      rewrite ^/(\w\w(_\w\w)?)/?$ /$1/$platform redirect;
     }
 
     rewrite ^/(\w\w(_\w\w)?)/installation$ /$1/ permanent;
@@ -43,7 +51,6 @@ server {
     }
 
     set $static_uri $uri;
-    set $platform $user_agent;
     if ($uri ~ ^/(\w\w(_\w\w)?)/(firefox|chrome|opera|android)/?$) {
       set $static_uri "/$1/";
       set $platform $3;
