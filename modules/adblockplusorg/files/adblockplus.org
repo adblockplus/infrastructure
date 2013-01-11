@@ -82,6 +82,9 @@ server {
       default_type text/html;
       charset utf-8;
 
+      # For existing language directories without index page
+      error_page 403 = /en;
+
       set $platform_class '';
       if ($arg_platform) {
         set $platform_class ' class="$arg_platform ua-$arg_user_agent"';
