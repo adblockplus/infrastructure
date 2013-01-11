@@ -59,7 +59,7 @@ server {
     if (-f "$document_root/static$static_uri") {
       set $static "ok";
     }
-    if (-d "$document_root/static$static_uri") {
+    if (-f "$document_root/static$static_uri/index") {
       set $static "ok";
     }
     set $static "$static!$arg_a!$cookie_anwiki_anwsesscode";
@@ -81,9 +81,6 @@ server {
       }
       default_type text/html;
       charset utf-8;
-
-      # For existing language directories without index page
-      error_page 403 = /en;
 
       set $platform_class '';
       if ($arg_platform) {
