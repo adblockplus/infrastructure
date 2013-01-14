@@ -10,7 +10,7 @@ def define_standard_vm(config, name, address)
       puppet.module_path = 'modules'
     end
 
-    yield(config)
+    yield(config) if block_given?
   end
 
 end
