@@ -23,24 +23,26 @@ below.
 * [VirtualBox](https://www.virtualbox.org/)
 * [Vagrant](http://vagrantup.com/)
 
-### Set up the server
+### Start a VM
 
-All you have to do is start _Vagrant_ (that's going to take a while on
-first boot):
+Right now, there's only one VM called _webserver_, but we'll have one
+for each type of server we manage in the future.
 
-    vagrant up
+To start the _webserver_ VM:
+
+    vagrant up webserver
 
 After you've made changes to Puppet manifests, you can update it like this:
 
-	vagrant provision
+	vagrant provision webserver
 
 Website development
 -------------------
 
 ### Requirements
 
-* Make sure the _adblockplusorg_ module is included in _vagrant.pp_.
 * A clone of the _anwiki_ repository, next to this directory.
+* The running _webserver_ VM.
 
 ### Set up anwiki
 
