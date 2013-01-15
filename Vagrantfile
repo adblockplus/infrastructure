@@ -23,4 +23,6 @@ Vagrant::Config.run do |config|
         '/mnt/local_anwiki_repository', local_anwiki_repository)
     end
   end
+
+  define_standard_vm config, :monitoringserver, '10.8.0.98'
 end
