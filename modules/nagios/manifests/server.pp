@@ -9,21 +9,43 @@ class nagios::server($htpasswd_source) {
     group => root,
     source => $htpasswd_source
   }
-  
-  Nagios_host <| |> {
-    target => '/etc/nagios3/conf.d/hosts_nagios2.cfg',
-    notify => [Service['nagios3'], File['/etc/nagios3/conf.d/hosts_nagios2.cfg']]
+
+  file {['/etc/nagios3/conf.d/extinfo_nagios2.cfg',
+         '/etc/nagios3/conf.d/hosts_nagios2.cfg',
+         '/etc/nagios3/conf.d/hostgroups_nagios2.cfg',
+         '/etc/nagios3/conf.d/localhost_nagios2.cfg',
+         '/etc/nagios3/conf.d/services_nagios2.cfg']:
+    ensure => absent
   }
 
-  file {'/etc/nagios3/conf.d/hosts_nagios2.cfg': mode => 644}
+  resources {['nagios_host', 'nagios_hostgroup', 'nagios_service']:
+    purge => true
+  }
+  
+  Nagios_host <| |> {
+    target => '/etc/nagios3/conf.d/hosts.cfg',
+    notify => [Service['nagios3'], File['/etc/nagios3/conf.d/hosts.cfg']]
+  }
 
   Nagios_hostgroup <| |> {
-    target => '/etc/nagios3/conf.d/hostgroups_nagios2.cfg',
-    notify => Service['nagios3']
+    target => '/etc/nagios3/conf.d/hostgroups.cfg',
+    notify => [Service['nagios3'], File['/etc/nagios3/conf.d/hosts.cfg']]
+  }
+
+  Nagios_service <| |> {
+    target => '/etc/nagios3/conf.d/services.cfg',
+    notify => [Service['nagios3'], File['/etc/nagios3/conf.d/hosts.cfg']]
   }
 
   service {'nagios3':
     ensure => running,
-    enable => true
+    enable => true,
+    require => Package['nagios3']
+  }
+
+  file {['/etc/nagios3/conf.d/hosts.cfg',
+         '/etc/nagios3/conf.d/hostgroups.cfg',
+         '/etc/nagios3/conf.d/services.cfg']:
+    mode => 644
   }
 }
