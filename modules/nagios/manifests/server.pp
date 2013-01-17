@@ -12,7 +12,7 @@ class nagios::server($htpasswd_source) {
   
   Nagios_host <| |> {
     target => '/etc/nagios3/conf.d/hosts_nagios2.cfg',
-    notify => Service['nagios3']
+    notify => [Service['nagios3'], File['/etc/nagios3/conf.d/hosts_nagios2.cfg']]
   }
 
   file {'/etc/nagios3/conf.d/hosts_nagios2.cfg': mode => 644}
