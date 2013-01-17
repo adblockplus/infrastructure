@@ -7,13 +7,33 @@ and to have realistic test environments for infrastructure components.
 
 Our Puppet manifests are only tested with Ubuntu 12.04 right now.
 
+Private files
+-------------
+
+Some parts of our infrastructure are, obviously, confidential. We have
+htpasswd files, SSH keys and SSL certificates that we need to be
+careful with.
+
+That's why _modules/private_ is missing, and needs to be placed there
+manually. We provide stub versions of all those files in
+_modules/private-stub_, so just linking or copying that to
+_modules/private_ will make everything work locally.
+
+Types of nodes
+--------------
+
+We have one manifest for each type of node we manage, right now these
+are:
+
+* webserver (see _Website development_ below)
+* monitoringserver
+
 Development environment
 -----------------------
 
-With the new infrastructure, any work we do on our systems or
-infrastructure components should be done in a local test
-environment. Thanks to Puppet, we can easily set up local VMs just
-like our production environments.
+Any work we do on our systems or infrastructure components should be
+done in a local test environment. Thanks to Puppet, we can easily set
+up local VMs that mirror our production environments.
 
 The most convenient way to do this is to use Vagrant, as described
 below.
@@ -22,11 +42,12 @@ below.
 
 * [VirtualBox](https://www.virtualbox.org/)
 * [Vagrant](http://vagrantup.com/)
+* _modules/private_ exists (see above)
 
 ### Start a VM
 
-Right now, there's only one VM called _webserver_, but we'll have one
-for each type of server we manage in the future.
+For each manifest (i.e. each type of server), we have a preconfigured
+Vagrant VM.
 
 To start the _webserver_ VM:
 
