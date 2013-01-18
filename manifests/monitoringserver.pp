@@ -1,6 +1,10 @@
 node default {
   include base
 
+  class {'nagios::client':
+    server_ip => 'localhost'
+  }
+  
   class {'nagios::server':
     htpasswd_source => 'puppet:///modules/private/nagios-htpasswd'
   }
@@ -11,25 +15,32 @@ node default {
   nagios_hostgroup {'all': members => '*'}
   nagios_hostgroup {'http-servers': members => 'localhost, 10.8.0.97'}
 
-  nagios_service {'disk-space':
-    use => 'generic-service',
-    hostgroup_name => 'all',
-    service_description => 'Disk Space',
-    check_command => 'check_all_disks!20%!10%'
-  }
-
-  nagios_service {'total-processes':
-    use => 'generic-service',
-    hostgroup_name => 'all',
-    service_description => 'Total Processes',
-    check_command => 'check_procs!250!400'
-  }
-
   nagios_service {'current-load':
     use => 'generic-service',
     hostgroup_name => 'all',
     service_description => 'Current Load',
-    check_command => 'check_load!5.0!4.0!3.0!10.0!6.0!4.0'
+    check_command => 'check_nrpe_1arg!check_load'
+  }
+
+  nagios_service {'disk-space':
+    use => 'generic-service',
+    hostgroup_name => 'all',
+    service_description => 'Disk Space',
+    check_command => 'check_nrpe_1arg!check_disk'
+  }
+  
+  nagios_service {'total-processes':
+    use => 'generic-service',
+    hostgroup_name => 'all',
+    service_description => 'Total Processes',
+    check_command => 'check_nrpe_1arg!check_total_procs'
+  }
+
+  nagios_service {'zombie-processes':
+    use => 'generic-service',
+    hostgroup_name => 'all',
+    service_description => 'Zombie Processes',
+    check_command => 'check_nrpe_1arg!check_zombie_procs'
   }
 
   nagios_service {'ssh':
