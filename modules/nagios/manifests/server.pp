@@ -1,5 +1,5 @@
 class nagios::server($htpasswd_source) {
-  package {['nagios3', 'nagios3-doc']:
+  package {['nagios3', 'nagios3-doc', 'nagios-nrpe-plugin']:
     ensure => present
   }
 
