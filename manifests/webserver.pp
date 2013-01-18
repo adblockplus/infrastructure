@@ -1,3 +1,3 @@
 node default {
-  include base, nagios::client, adblockplusorg
+  include base, adblockplusorg
 }
