@@ -1,0 +1,10 @@
+/srv/log/access.log /srv/log/error.log {
+	daily
+	rotate 30
+	compress
+	missingok
+	nodateext
+	postrotate
+		/usr/bin/killall -HUP nginx
+	endscript
+}
