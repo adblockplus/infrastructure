@@ -14,13 +14,6 @@ class nginx (
     managehome => false
   }
 
-  file {'/srv/log':
-    ensure => directory,
-    owner => root,
-    group => root,
-    mode => 644
-  }
-  
   file {'/etc/nginx/nginx.conf':
     mode => 644,
     owner => root,
@@ -43,7 +36,6 @@ class nginx (
     hasrestart => true,
     hasstatus => true,
     require => [
-                 File['/srv/log'],
                  File['/etc/nginx/nginx.conf'],
                  User['nginx']
                ],
