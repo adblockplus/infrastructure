@@ -6,12 +6,12 @@ class nginx (
 
   user {'nginx':
     ensure => present,
-	uid => 106,
-	gid => users,
+    uid => 106,
+    gid => users,
     comment => 'User for nginx',
     home => '/var/lib/nginx',
-	shell => '/bin/false',
-	managehome => false
+    shell => '/bin/false',
+    managehome => false
   }
 
   file {'/srv/log':
