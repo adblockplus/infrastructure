@@ -70,7 +70,8 @@ class adblockplusorg {
       File['/var/www/adblockplus.org/anwiki/_override/drivers/sessionsdrivers/sessionsdriver_mysql/sessionsdriver_mysql.cfg.php'],
       File['/var/www/adblockplus.org/anwiki/_override/drivers/usersdrivers/usersdriver_mysql/usersdriver_mysql.cfg.php'],
       File['/var/www/adblockplus.org/anwiki/_override/drivers/storagedrivers/storagedriver_mysql/storagedriver_mysql.cfg.php']
-    ]
+    ],
+    refreshonly => true
   }
 
   file {'/var/www/adblockplus.org/phproot/_anwiki-override.inc.php':
