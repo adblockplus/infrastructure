@@ -4,10 +4,13 @@ def define_standard_vm(config, name, address)
     config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
     config.vm.network :hostonly, address
 
-    config.vm.provision :puppet do |puppet|
-      puppet.manifests_path = 'manifests'
-      puppet.manifest_file = name.to_s() + '.pp'
-      puppet.module_path = 'modules'
+    manifest_files = ['vagrant.pp', name.to_s() + '.pp']
+    manifest_files.each do |manifest_file|
+      config.vm.provision :puppet do |puppet|
+        puppet.manifests_path = 'manifests'
+        puppet.manifest_file = manifest_file
+        puppet.module_path = 'modules'
+      end
     end
 
     yield(config) if block_given?
