@@ -28,4 +28,6 @@ Vagrant::Config.run do |config|
   end
 
   define_standard_vm config, :monitoringserver, '10.8.0.98'
+
+  define_standard_vm config, :filterserver, '10.8.0.99'
 end

@@ -27,6 +27,7 @@ are:
 
 * webserver (see _Website development_ below)
 * monitoringserver
+* filterserver
 
 Development environment
 -----------------------

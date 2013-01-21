@@ -1,0 +1,32 @@
+# Default
+server {
+   listen       [::]:80;
+   listen       [::]:443 ssl;
+   ssl_certificate sites-available/easylist-downloads.adblockplus.org_sslcert.pem;
+   ssl_certificate_key sites-available/easylist-downloads.adblockplus.org_sslcert.key;
+   location / {
+       rewrite (.*) $scheme://adblockplus.org$1 permanent;
+   }
+}
+# easylist-downloads.adblockplus.org
+server {
+    listen       [::]:80;
+    server_name  easylist-downloads.adblockplus.org;
+    location / {
+        rewrite (.*) https://easylist-downloads.adblockplus.org$1 permanent;
+    }
+}
+server {
+    listen       [::]:443 ssl;
+    server_name  easylist-downloads.adblockplus.org;
+    ssl_certificate sites-available/easylist-downloads.adblockplus.org_sslcert.pem;
+    ssl_certificate_key sites-available/easylist-downloads.adblockplus.org_sslcert.key;
+    include "sites-available/inc.easylist-downloads";
+    include "sites-available/inc.easylist-downloads-txt";
+}
+server {
+    listen       [::]:80;
+    server_name  easylist-msie.adblockplus.org;
+    include "sites-available/inc.easylist-downloads";
+    include "sites-available/inc.easylist-downloads-tpl";
+}

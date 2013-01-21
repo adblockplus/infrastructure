@@ -1,0 +1,10 @@
+/var/log/nginx/access_log_easylist_downloads {
+	daily
+	rotate 30
+	compress
+	missingok
+	nodateext
+	postrotate
+		/usr/bin/killall -HUP nginx
+	endscript
+}
