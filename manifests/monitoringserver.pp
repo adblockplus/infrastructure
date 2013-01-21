@@ -10,10 +10,10 @@ node default {
   }
 
   nagios_host {'localhost': use => 'generic-host'}
-  nagios_host {'10.8.0.97': use => 'generic-host'}
+  nagios_host {'www.adblockplus.org': use => 'generic-host'}
 
   nagios_hostgroup {'all': members => '*'}
-  nagios_hostgroup {'http-servers': members => 'localhost, 10.8.0.97'}
+  nagios_hostgroup {'http-servers': members => 'localhost, www.adblockplus.org'}
 
   nagios_service {'current-load':
     use => 'generic-service',
