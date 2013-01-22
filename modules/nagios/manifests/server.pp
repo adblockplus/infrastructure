@@ -24,28 +24,28 @@ class nagios::server($htpasswd_source) {
   
   Nagios_host <| |> {
     target => '/etc/nagios3/conf.d/hosts.cfg',
-    notify => [Service['nagios3'], File['/etc/nagios3/conf.d/hosts.cfg']]
+    notify => [File['/etc/nagios3/conf.d/hosts.cfg'], Service['nagios3']]
   }
 
   Nagios_hostgroup <| |> {
     target => '/etc/nagios3/conf.d/hostgroups.cfg',
-    notify => [Service['nagios3'], File['/etc/nagios3/conf.d/hosts.cfg']]
+    notify => [File['/etc/nagios3/conf.d/hostgroups.cfg'], Service['nagios3']]
   }
 
   Nagios_service <| |> {
     target => '/etc/nagios3/conf.d/services.cfg',
-    notify => [Service['nagios3'], File['/etc/nagios3/conf.d/hosts.cfg']]
-  }
-
-  service {'nagios3':
-    ensure => running,
-    enable => true,
-    require => Package['nagios3']
+    notify => [File['/etc/nagios3/conf.d/services.cfg'], Service['nagios3']]
   }
 
   file {['/etc/nagios3/conf.d/hosts.cfg',
          '/etc/nagios3/conf.d/hostgroups.cfg',
          '/etc/nagios3/conf.d/services.cfg']:
     mode => 644
+  }
+
+  service {'nagios3':
+    ensure => running,
+    enable => true,
+    require => Package['nagios3']
   }
 }
