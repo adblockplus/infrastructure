@@ -1,4 +1,4 @@
-class nagios::server($htpasswd_source) {
+class nagios::server($htpasswd_source, $admins) {
   package {['nagios3', 'nagios3-doc', 'nagios-nrpe-plugin']:
     ensure => present
   }
@@ -8,6 +8,13 @@ class nagios::server($htpasswd_source) {
     owner => root,
     group => root,
     source => $htpasswd_source
+  }
+
+  file {'/etc/nagios3/cgi.cfg':
+    mode => 644,
+    owner => root,
+    group => root,
+    content => template('nagios/cgi.cfg.erb'),
   }
 
   file {['/etc/nagios3/conf.d/extinfo_nagios2.cfg',

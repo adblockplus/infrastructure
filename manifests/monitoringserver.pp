@@ -6,7 +6,8 @@ node 'server4' {
   }
   
   class {'nagios::server':
-    htpasswd_source => 'puppet:///modules/private/nagios-htpasswd'
+    htpasswd_source => 'puppet:///modules/private/nagios-htpasswd',
+    admins => ['fhd']
   }
 
   nagios_host {'localhost': use => 'generic-host'}
