@@ -13,10 +13,10 @@ node default {
 
   user {'rsync':
     ensure => present,
-	gid => users,
+    gid => users,
     comment => 'Filter list mirror user',
     home => '/home/rsync',
-	managehome => true
+    managehome => true
   }
 
   file {'/var/www':
@@ -102,7 +102,7 @@ node default {
 
   file {'/home/rsync/.ssh':
     ensure => directory,
-	require => User['rsync'],
+    require => User['rsync'],
     owner => rsync,
     group => users,
     mode => 0600;
@@ -160,7 +160,7 @@ node default {
 				Package['python-geoip']
                ],
     command => 'xz -cd /var/log/nginx/access_log_easylist_downloads.1.xz | python -m sitescripts.logs.bin.extractSubscriptionStats',
-	environment => 'PYTHONPATH=/opt/sitescripts',
+    environment => 'PYTHONPATH=/opt/sitescripts',
     user => rsync,
     hour => 1,
     minute => 25
