@@ -173,7 +173,7 @@ node default {
     user => root,
     hour => 3,
     minute => 15,
-	monthday => 3
+    monthday => 3
   }
 
 }
