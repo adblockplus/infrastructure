@@ -24,7 +24,7 @@ class filterserver {
     group => root,
     mode => 0644
   }
-  
+
   file {'/var/www/easylist':
     ensure => directory,
     require => [
@@ -65,7 +65,13 @@ class filterserver {
 
   file {'/etc/nginx/sites-available/default':
     ensure => file,
-    require => Package['nginx'],
+    require => [
+                File['/etc/nginx/sites-available/inc.easylist-downloads'],
+                File['/etc/nginx/sites-available/inc.easylist-downloads-txt'],
+                File['/etc/nginx/sites-available/inc.easylist-downloads-tpl'],
+                File['/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.key'],
+                File['/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.pem'],
+               ],
     owner => root,
     group => root,
     mode => 0644,
