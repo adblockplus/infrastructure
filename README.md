@@ -19,16 +19,6 @@ manually. We provide stub versions of all those files in
 _modules/private-stub_, so just linking or copying that to
 _modules/private_ will make everything work locally.
 
-Types of nodes
---------------
-
-We have one manifest for each type of node we manage, right now these
-are:
-
-* webserver (see _Website development_ below)
-* monitoringserver
-* filterserver
-
 Development environment
 -----------------------
 
@@ -50,13 +40,13 @@ below.
 For each manifest (i.e. each type of server), we have a preconfigured
 Vagrant VM.
 
-To start the _webserver_ VM:
+To start the _server0_ VM:
 
-    vagrant up webserver
+    vagrant up server0
 
 After you've made changes to Puppet manifests, you can update it like this:
 
-	vagrant provision webserver
+	vagrant provision server0
 
 Website development
 -------------------
@@ -64,7 +54,7 @@ Website development
 ### Requirements
 
 * A clone of the _anwiki_ repository, next to this directory.
-* The running _webserver_ VM.
+* The running _server0_ VM.
 
 ### Set up anwiki
 
