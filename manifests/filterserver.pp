@@ -157,7 +157,7 @@ node default {
     ensure => present,
     require => [
                 User['rsync'],
-				Package['python-geoip']
+		Package['python-geoip']
                ],
     command => 'xz -cd /var/log/nginx/access_log_easylist_downloads.1.xz | python -m sitescripts.logs.bin.extractSubscriptionStats',
     environment => 'PYTHONPATH=/opt/sitescripts',
