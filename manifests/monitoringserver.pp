@@ -1,4 +1,4 @@
-node default {
+node 'server4' {
   include base
 
   class {'nagios::client':

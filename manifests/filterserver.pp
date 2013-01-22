@@ -1,4 +1,4 @@
-node default {
+node 'server3' {
   include base
 
   class {'filterserver':}
