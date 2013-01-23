@@ -1,5 +1,3 @@
 node 'server3' {
-  include base
-
-  class {'filterserver':}
+  include base, filterserver
 }
