@@ -21,9 +21,10 @@ _modules/private_ will make everything work locally.
 Development environment
 -----------------------
 
-Any work we do on our systems or infrastructure components should be
-done in a local test environment. Thanks to Puppet, we can easily set
-up local VMs that mirror our production environments.
+As with our other projects, all changes to our infrastructure should
+be made in a local development environment, and reviewed before
+deployment. Thanks to Puppet, we can easily set up local VMs that
+mirror our production environment.
 
 The most convenient way to do this is to use Vagrant, as described
 below.
@@ -36,8 +37,8 @@ below.
 
 ### Start a VM
 
-For each manifest (i.e. each type of server), we have a preconfigured
-Vagrant VM.
+For each production server, we have a Vagrant VM with the same host
+name.
 
 To start the _server0_ VM:
 
@@ -46,6 +47,9 @@ To start the _server0_ VM:
 After you've made changes to Puppet manifests, you can update it like this:
 
 	vagrant provision server0
+
+You can omit the VM name if you want to boot or provision all
+VMs. This might take a while and eat quite a bit of RAM though.
 
 Adding a server
 ---------------
