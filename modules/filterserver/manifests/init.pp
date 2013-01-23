@@ -134,7 +134,19 @@ class filterserver {
     owner => rsync,
     group => users,
     mode => 0400,
-    source => 'puppet:///modules/private/rsync_id_rsa'
+    source => 'puppet:///modules/private/rsync@easylist-downloads.adblockplus.org'
+  }
+
+  file {'/home/rsync/.ssh/id_rsa.pub':
+    ensure => file,
+    require => [
+                 File['/home/rsync/.ssh'],
+                 User['rsync']
+               ],
+    owner => rsync,
+    group => users,
+    mode => 0400,
+    source => 'puppet:///modules/private/rsync@easylist-downloads.adblockplus.org.pub'
   }
 
   file {'/opt/cron_geoipdb_update.sh':
