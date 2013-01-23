@@ -42,7 +42,7 @@ name.
 
 To start the _server0_ VM:
 
-    vagrant up server0
+	vagrant up server0
 
 After you've made changes to Puppet manifests, you can update it like this:
 
@@ -78,7 +78,7 @@ _monitoring.adblockplus.org_.
 2. Add your user name/password to
 _modules/private-stub/files/nagios-htpasswd_, e.g.:
     
-    htpasswd modules/private-stub/files/nagios-htpasswd fhd
+	htpasswd modules/private-stub/files/nagios-htpasswd fhd
 
 3. Reprovision
 
@@ -134,11 +134,11 @@ now_.
 
 SSH to the server:
 
-    vagrant ssh server0
+	vagrant ssh server0
 
 Then execute the following:
 
-    sudo deploy-anwiki
+	sudo deploy-anwiki
 
 If you have a clone of anwiki (see _Requirements_), this will deploy
 it on the virtual machine. If not, it will clone anwiki from the
