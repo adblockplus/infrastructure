@@ -13,10 +13,11 @@ node 'server4' {
   nagios_host {'localhost': use => 'generic-host'}
   nagios_host {'www.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_3.adblockplus.org': use => 'generic-host'}
+  nagios_host {'server_4.adblockplus.org': use => 'generic-host'}
 
   nagios_hostgroup {'all': members => '*'}
   nagios_hostgroup {'http-servers': members => 'localhost, www.adblockplus.org'}
-  nagios_hostgroup {'filter-servers': members => 'server_3.adblockplus.org'}
+  nagios_hostgroup {'filter-servers': members => 'server_3.adblockplus.org, server_4.adblockplus.org'}
 
   nagios_service {'current-load':
     use => 'generic-service',
