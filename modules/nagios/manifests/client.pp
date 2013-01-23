@@ -1,4 +1,4 @@
-class nagios::client($server_ip) {
+class nagios::client($server_address) {
   package {'nagios-nrpe-server': ensure => present}
 
   file {'/etc/nagios/nrpe.cfg':
