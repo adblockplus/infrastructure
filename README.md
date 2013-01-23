@@ -48,6 +48,41 @@ After you've made changes to Puppet manifests, you can update it like this:
 
 	vagrant provision server0
 
+Adding a server
+---------------
+
+1. Add entries in _Vagrantfile_ and _manifests/vagrant.pp_
+
+2. Add the host name to one of the manifests imported by
+_manifests/site.pp_
+
+3. Make sure the server uses the _nagios::client_ class and add a
+_nagios\_host_ to _manifests/monitoringserver.pp_
+
+Monitoring
+----------
+
+Monitoring is fully functional in the development environment:
+[http://10.8.0.98/nagios3/](http://10.8.0.98/nagios3/)
+
+The monitoring service of our production environment runs on
+_monitoring.adblockplus.org_.
+
+### Add a user
+
+1. Add your desired user name to _admins_ in _monitoringserver.pp_
+
+2. Add your user name/password to
+_modules/private-stub/files/nagios-htpasswd_, e.g.:
+    
+    htpasswd modules/private-stub/files/nagios-htpasswd fhd
+
+3. Reprovision
+
+Bear in mind that someone will have to add your user name/password to
+the production htpasswd file if you need access to
+_monitoring.adblockplus.org_.
+
 Website development
 -------------------
 
