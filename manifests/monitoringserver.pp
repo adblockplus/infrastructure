@@ -2,7 +2,7 @@ node 'server4' {
   include base
 
   class {'nagios::client':
-    server_ip => 'localhost'
+    server_address => 'localhost'
   }
   
   class {'nagios::server':
