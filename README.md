@@ -134,7 +134,7 @@ now_.
 
 SSH to the server:
 
-    vagrant ssh
+    vagrant ssh server0
 
 Then execute the following:
 
