@@ -1,9 +1,8 @@
 Adblock Plus infrastructure
 ===========================
 
-The new Adblock Plus infrastructure uses
-[Puppet](http://puppetlabs.com/) to set up and configure our nodes,
-and to have realistic test environments for infrastructure components.
+The Adblock Plus infrastructure uses [Puppet](http://puppetlabs.com/)
+to set up servers, and to have a realistic development environment.
 
 Our Puppet manifests are only tested with Ubuntu 12.04 right now.
 
