@@ -6,6 +6,7 @@ node 'server4' {
   }
   
   class {'nagios::server':
+    vhost => 'monitoring.adblockplus.org',
     htpasswd_source => 'puppet:///modules/private/nagios-htpasswd',
     admins => ['fhd']
   }
