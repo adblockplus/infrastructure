@@ -20,6 +20,7 @@ class nagios::client($server_address) {
     mode => 755,
     owner => root,
     group => root,
-    source => 'puppet:///modules/nagios/check_bandwidth'
+    source => 'puppet:///modules/nagios/check_bandwidth',
+    require => Package['nagios-nrpe-server']
   }
 }
