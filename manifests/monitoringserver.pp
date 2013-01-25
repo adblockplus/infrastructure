@@ -61,4 +61,11 @@ node 'server4' {
     service_description => 'HTTP',
     check_command => 'check_http'
   }
+
+  nagios_service {'bandwidth':
+    use => 'generic-service',
+    hostgroup_name => 'all',
+    service_description => 'Bandwidth',
+    check_command => 'check_nrpe_1arg!check_bandwidth'
+  }
 }

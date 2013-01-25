@@ -1,0 +1,26 @@
+#!/bin/bash
+
+warn=$1
+crit=$2
+
+i=$(vnstat -tr)
+
+rx_line=$(echo $i | grep -o "rx [[:digit:]]*\.[[:digit:]]* kbit/s")
+tx_line=$(echo $i | grep -o "tx [[:digit:]]*\.[[:digit:]]* kbit/s")
+
+status="$rx_line $tx_line"
+
+rx=$(echo $rx_line | awk '{ print $2 }' | awk -F\. '{ print $1 }')
+tx=$(echo $tx_line | awk '{ print $2 }' | awk -F\. '{ print $1 }')
+
+if (( warn <= rx )) || (( warn <= tx )); then
+  echo "WARNING - $status"
+  exit 1
+fi
+
+if (( crit <= rx )) || (( crit <= tx )); then
+  echo "CRITICAL - $status"
+  exit 2
+fi
+
+echo "OK - $status"
