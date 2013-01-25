@@ -58,7 +58,7 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     notify => Service['nagios3']
   }
 
-  file {'/etc/nagios3/nagios3.cfg':
+  file {'/etc/nagios3/nagios.cfg':
     mode => 644,
     owner => root,
     group => root,
