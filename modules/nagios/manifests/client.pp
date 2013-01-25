@@ -1,5 +1,5 @@
 class nagios::client($server_address) {
-  package {'nagios-nrpe-server': ensure => present}
+  package {['nagios-nrpe-server', 'vnstat']: ensure => present}
 
   file {'/etc/nagios/nrpe.cfg':
     mode => 644,
@@ -13,5 +13,13 @@ class nagios::client($server_address) {
     ensure => running,
     enable => true,
     subscribe => File['/etc/nagios/nrpe.cfg']
+  }
+
+  file {'/usr/lib/nagios/plugins/check_bandwidth':
+    ensure => present,
+    mode => 755,
+    owner => root,
+    group => root,
+    source => 'puppet:///modules/nagios/check_bandwidth'
   }
 }
