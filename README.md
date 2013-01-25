@@ -1,9 +1,8 @@
 Adblock Plus infrastructure
 ===========================
 
-The new Adblock Plus infrastructure uses
-[Puppet](http://puppetlabs.com/) to set up and configure our nodes,
-and to have realistic test environments for infrastructure components.
+The Adblock Plus infrastructure uses [Puppet](http://puppetlabs.com/)
+to set up servers, and to have a realistic development environment.
 
 Our Puppet manifests are only tested with Ubuntu 12.04 right now.
 
@@ -22,9 +21,10 @@ _modules/private_ will make everything work locally.
 Development environment
 -----------------------
 
-Any work we do on our systems or infrastructure components should be
-done in a local test environment. Thanks to Puppet, we can easily set
-up local VMs that mirror our production environments.
+As with our other projects, all changes to our infrastructure should
+be made in a local development environment, and reviewed before
+deployment. Thanks to Puppet, we can easily set up local VMs that
+mirror our production environment.
 
 The most convenient way to do this is to use Vagrant, as described
 below.
@@ -37,16 +37,54 @@ below.
 
 ### Start a VM
 
-For each manifest (i.e. each type of server), we have a preconfigured
-Vagrant VM.
+For each production server, we have a Vagrant VM with the same host
+name.
 
 To start the _server0_ VM:
 
-    vagrant up server0
+	vagrant up server0
 
 After you've made changes to Puppet manifests, you can update it like this:
 
 	vagrant provision server0
+
+You can omit the VM name if you want to boot or provision all
+VMs. This might take a while and eat quite a bit of RAM though.
+
+Adding a server
+---------------
+
+1. Add entries in _Vagrantfile_ and _manifests/vagrant.pp_
+
+2. Add the host name to one of the manifests imported by
+_manifests/site.pp_
+
+3. Make sure the server uses the _nagios::client_ class and add a
+_nagios\_host_ to _manifests/monitoringserver.pp_
+
+Monitoring
+----------
+
+Monitoring is fully functional in the development environment:
+[http://10.8.0.98/nagios3/](http://10.8.0.98/nagios3/)
+
+The monitoring service of our production environment runs on
+_monitoring.adblockplus.org_.
+
+### Add a user
+
+1. Add your desired user name to _admins_ in _monitoringserver.pp_
+
+2. Add your user name/password to
+_modules/private-stub/files/nagios-htpasswd_, e.g.:
+    
+	htpasswd modules/private-stub/files/nagios-htpasswd fhd
+
+3. Reprovision
+
+Bear in mind that someone will have to add your user name/password to
+the production htpasswd file if you need access to
+_monitoring.adblockplus.org_.
 
 Website development
 -------------------
@@ -96,11 +134,11 @@ now_.
 
 SSH to the server:
 
-    vagrant ssh
+	vagrant ssh server0
 
 Then execute the following:
 
-    sudo deploy-anwiki
+	sudo deploy-anwiki
 
 If you have a clone of anwiki (see _Requirements_), this will deploy
 it on the virtual machine. If not, it will clone anwiki from the
