@@ -1,7 +1,8 @@
 class filterserver {
   
   class {'nginx':
-    service_subscribe => File['/etc/nginx/sites-available/default']
+    worker_processes => 4,
+	worker_connections => 4000
   }
 
   class {'sitescripts':
@@ -18,11 +19,14 @@ class filterserver {
     managehome => true
   }
 
-  file {'/var/www':
-    ensure => directory,
+  File {
     owner => root,
     group => root,
-    mode => 0644
+    mode => 0644,
+  }
+
+  file {'/var/www':
+    ensure => directory
   }
 
   file {'/var/www/easylist':
@@ -31,77 +35,53 @@ class filterserver {
                  File['/var/www'],
                  User['rsync']
                ],
-    owner => rsync,
-    group => root,
-    mode => 0644
+    owner => rsync
   }
   
   file {'/etc/nginx/sites-available/inc.easylist-downloads':
     ensure => file,
-    require => Package['nginx'],
-    owner => root,
-    group => root,
-    mode => 0644,
+    require => Anchor['nginx::begin'],
+	before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/filterserver/inc.easylist-downloads'
   }
 
   file {'/etc/nginx/sites-available/inc.easylist-downloads-txt':
     ensure => file,
-    require => Package['nginx'],
-    owner => root,
-    group => root,
-    mode => 0644,
+    require => Anchor['nginx::begin'],
+	before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/filterserver/inc.easylist-downloads-txt'
   }
 
   file {'/etc/nginx/sites-available/inc.easylist-downloads-tpl':
     ensure => file,
-    require => Package['nginx'],
-    owner => root,
-    group => root,
-    mode => 0644,
+    require => Anchor['nginx::begin'],
+	before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/filterserver/inc.easylist-downloads-tpl'
-  }
-
-  file {'/etc/nginx/sites-available/default':
-    ensure => file,
-    require => [
-                File['/etc/nginx/sites-available/inc.easylist-downloads'],
-                File['/etc/nginx/sites-available/inc.easylist-downloads-txt'],
-                File['/etc/nginx/sites-available/inc.easylist-downloads-tpl'],
-                File['/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.key'],
-                File['/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.pem'],
-               ],
-    owner => root,
-    group => root,
-    mode => 0644,
-    source => 'puppet:///modules/filterserver/easylist-downloads.adblockplus.org'
   }
 
   file {'/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.key':
     ensure => file,
-    require => Package['nginx'],
-    owner => root,
-    group => root,
-    mode => 0644,
+    require => Anchor['nginx::begin'],
+	before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/private/easylist-downloads.adblockplus.org_sslcert.key'
   }  
   
   file {'/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.pem':
     ensure => file,
-    require => Package['nginx'],
-    owner => root,
-    group => root,
+    require => Anchor['nginx::begin'],
+	before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     mode => 0400,
     source => 'puppet:///modules/private/easylist-downloads.adblockplus.org_sslcert.pem'
   }  
 
+  nginx::hostconfig{'easylist-downloads.adblockplus.org':
+    source => 'puppet:///modules/filterserver/easylist-downloads.adblockplus.org',
+	enabled => true
+  }
+
   file {'/etc/logrotate.d/nginx_easylist-downloads.adblockplus.org':
     ensure => file,
-    require => File['/etc/nginx/sites-available/default'],
-    owner => root,
-    group => root,
-    mode => 0644,
+    require => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/filterserver/logrotate'
   }  
 
@@ -139,8 +119,6 @@ class filterserver {
 
   file {'/opt/cron_geoipdb_update.sh':
     ensure => file,
-    owner => root,
-    group => root,
     mode => 0750,
     source => 'puppet:///modules/filterserver/cron_geoipdb_update.sh'
   }
