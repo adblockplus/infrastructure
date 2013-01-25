@@ -2,18 +2,23 @@ node 'server4' {
   include base
 
   class {'nagios::client':
-    server_ip => 'localhost'
+    server_address => 'localhost'
   }
   
   class {'nagios::server':
-    htpasswd_source => 'puppet:///modules/private/nagios-htpasswd'
+    vhost => 'monitoring.adblockplus.org',
+    htpasswd_source => 'puppet:///modules/private/nagios-htpasswd',
+    admins => ['fhd']
   }
 
   nagios_host {'localhost': use => 'generic-host'}
   nagios_host {'www.adblockplus.org': use => 'generic-host'}
+  nagios_host {'server_3.adblockplus.org': use => 'generic-host'}
+  nagios_host {'server_5.adblockplus.org': use => 'generic-host'}
 
   nagios_hostgroup {'all': members => '*'}
   nagios_hostgroup {'http-servers': members => 'localhost, www.adblockplus.org'}
+  nagios_hostgroup {'filter-servers': members => 'server_3.adblockplus.org, server_5.adblockplus.org'}
 
   nagios_service {'current-load':
     use => 'generic-service',

@@ -1,5 +1,7 @@
-node 'server3' {
-  include base
+node 'server3', 'server5' {
+  include base, filterserver
 
-  class {'filterserver':}
+  class {'nagios::client':
+    server_address => 'monitoring.adblockplus.org'
+  }
 }
