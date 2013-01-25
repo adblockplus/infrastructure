@@ -3,12 +3,26 @@ server {
   server_name '<%= vhost %>';
  
   expires 31d;
- 
+
   root /usr/share/nagios3/htdocs;       
   index index.php index.html;
  
   auth_basic "Nagios Restricted Access";
   auth_basic_user_file /etc/nagios3/htpasswd.users;
+
+  location /pnp4nagios {
+    alias /usr/share/pnp4nagios/html;
+  }   
+
+  location ~ ^(/pnp4nagios.*\.php)(.*)$ {
+    root /usr/share/pnp4nagios/html;
+    include /etc/nginx/fastcgi_params;
+    fastcgi_split_path_info ^(.+\.php)(.*)$;
+    fastcgi_param PATH_INFO $fastcgi_path_info;
+
+    fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+    fastcgi_pass unix:/tmp/php-fastcgi.sock;
+  }
         
   location /stylesheets {
     alias /etc/nagios3/stylesheets;
@@ -27,7 +41,7 @@ server {
                               
     fastcgi_pass unix:/var/run/fcgiwrap.socket;
   }
- 
+
   location ~ \.php$ {
     include /etc/nginx/fastcgi_params;
     fastcgi_pass unix:/tmp/php-fastcgi.sock;

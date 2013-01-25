@@ -1,7 +1,8 @@
 class nagios::server($vhost, $htpasswd_source, $admins) {
   include nginx, 'spawn-fcgi'
 
-  package {['nagios3', 'nagios3-doc', 'nagios-nrpe-plugin', 'php5-cgi', 'fcgiwrap']:
+  package {['nagios3', 'nagios3-doc', 'nagios-nrpe-plugin', 'php5-cgi',
+            'fcgiwrap', 'pnp4nagios']:
     ensure => present
   }
 
@@ -33,7 +34,7 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
   service {'nagios3':
     ensure => running,
     enable => true,
-    require => Package['nagios3']
+    require => [Package['nagios3'], Package['pnp4nagios']]
   }
 
   service {'apache2':
@@ -54,6 +55,23 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     owner => root,
     group => root,
     content => template('nagios/cgi.cfg.erb'),
+    notify => Service['nagios3']
+  }
+
+  file {'/etc/nagios3/nagios3.cfg':
+    mode => 644,
+    owner => root,
+    group => root,
+    source => 'puppet:///modules/nagios/nagios.cfg',
+    notify => Service['nagios3']
+  }
+  
+  file {'/etc/nagios3/commands.cfg':
+    mode => 644,
+    owner => root,
+    group => root,
+    source => 'puppet:///modules/nagios/commands.cfg',
+    notify => Service['nagios3']
   }
 
   file {['/etc/nagios3/conf.d/extinfo_nagios2.cfg',
