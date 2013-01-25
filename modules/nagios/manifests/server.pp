@@ -10,7 +10,7 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     require => Package['nginx']
   }
 
-  file {'/etc/nginx/sites-available/${vhost}':
+  file {"/etc/nginx/sites-available/${vhost}":
     mode => 644,
     owner => root,
     group => root,
@@ -19,9 +19,9 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     notify => Service['nginx']
   }
 
-  file {'/etc/nginx/sites-enabled/${vhost}':
+  file {"/etc/nginx/sites-enabled/${vhost}":
     ensure => link,
-    target => '/etc/nginx/sites-available/${vhost}',
+    target => "/etc/nginx/sites-available/${vhost}",
     notify => Service['nginx']
   }
 
