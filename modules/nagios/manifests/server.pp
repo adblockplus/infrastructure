@@ -68,7 +68,8 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     notify => Service['nagios3']
   }
 
-  file {['/etc/nagios3/conf.d/extinfo_nagios2.cfg',
+  file {['/etc/nagios3/conf.d/contacts_nagios2.cfg',
+         '/etc/nagios3/conf.d/extinfo_nagios2.cfg',
          '/etc/nagios3/conf.d/hosts_nagios2.cfg',
          '/etc/nagios3/conf.d/hostgroups_nagios2.cfg',
          '/etc/nagios3/conf.d/localhost_nagios2.cfg',
@@ -76,8 +77,19 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     ensure => absent
   }
 
-  resources {['nagios_host', 'nagios_hostgroup', 'nagios_service']:
+  resources {['nagios_contact', 'nagios_contactgroup', 'nagios_host',
+              'nagios_hostgroup', 'nagios_service']:
     purge => true
+  }
+
+  Nagios_contact <| |> {
+    target => '/etc/nagios3/conf.d/contacts.cfg',
+    notify => [File['/etc/nagios3/conf.d/contacts.cfg'], Service['nagios3']]
+  }
+
+  Nagios_contactgroup <| |> {
+    target => '/etc/nagios3/conf.d/contactgroups.cfg',
+    notify => [File['/etc/nagios3/conf.d/contactgroups.cfg'], Service['nagios3']]
   }
   
   Nagios_host <| |> {
@@ -95,7 +107,9 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     notify => [File['/etc/nagios3/conf.d/services.cfg'], Service['nagios3']]
   }
 
-  file {['/etc/nagios3/conf.d/hosts.cfg',
+  file {['/etc/nagios3/conf.d/contacts.cfg',
+         '/etc/nagios3/conf.d/contactgroups.cfg',
+         '/etc/nagios3/conf.d/hosts.cfg',
          '/etc/nagios3/conf.d/hostgroups.cfg',
          '/etc/nagios3/conf.d/services.cfg']:
     require => Package['nagios3'],
