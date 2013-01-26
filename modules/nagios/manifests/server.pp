@@ -1,4 +1,10 @@
 class nagios::server($vhost, $htpasswd_source, $admins) {
+  File {
+    owner  => 'root',
+    group  => 'root',
+    mode   => 0644
+  }
+
   include nginx, 'spawn-fcgi'
 
   package {['nagios3', 'nagios3-doc', 'nagios-nrpe-plugin', 'php5-cgi',
@@ -7,14 +13,11 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
   }
 
   file {'/etc/nginx/sites-enabled/default':
-    ensure => 'absent',
+    ensure => absent,
     require => Package['nginx']
   }
 
   file {"/etc/nginx/sites-available/${vhost}":
-    mode => 644,
-    owner => root,
-    group => root,
     content => template('nagios/site.erb'),
     require => Package['nginx'],
     notify => Service['nginx']
@@ -44,34 +47,22 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
   }
 
   file {'/etc/nagios3/htpasswd.users':
-    mode => 644,
-    owner => root,
-    group => root,
     source => $htpasswd_source
   }
 
   file {'/etc/nagios3/cgi.cfg':
-    mode => 644,
-    owner => root,
-    group => root,
     content => template('nagios/cgi.cfg.erb'),
     require => Package['nagios3'],
     notify => Service['nagios3']
   }
 
   file {'/etc/nagios3/nagios.cfg':
-    mode => 644,
-    owner => root,
-    group => root,
     source => 'puppet:///modules/nagios/nagios.cfg',
     require => Package['nagios3'],
     notify => Service['nagios3']
   }
   
   file {'/etc/nagios3/commands.cfg':
-    mode => 644,
-    owner => root,
-    group => root,
     source => 'puppet:///modules/nagios/commands.cfg',
     require => Package['nagios3'],
     notify => Service['nagios3']
@@ -107,7 +98,6 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
   file {['/etc/nagios3/conf.d/hosts.cfg',
          '/etc/nagios3/conf.d/hostgroups.cfg',
          '/etc/nagios3/conf.d/services.cfg']:
-    mode => 644
     require => Package['nagios3'],
     notify => Service['nagios3']
   }
