@@ -55,6 +55,7 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     owner => root,
     group => root,
     content => template('nagios/cgi.cfg.erb'),
+    require => Package['nagios3'],
     notify => Service['nagios3']
   }
 
@@ -63,6 +64,7 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     owner => root,
     group => root,
     source => 'puppet:///modules/nagios/nagios.cfg',
+    require => Package['nagios3'],
     notify => Service['nagios3']
   }
   
@@ -71,6 +73,7 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     owner => root,
     group => root,
     source => 'puppet:///modules/nagios/commands.cfg',
+    require => Package['nagios3'],
     notify => Service['nagios3']
   }
 
@@ -105,5 +108,7 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
          '/etc/nagios3/conf.d/hostgroups.cfg',
          '/etc/nagios3/conf.d/services.cfg']:
     mode => 644
+    require => Package['nagios3'],
+    notify => Service['nagios3']
   }
 }
