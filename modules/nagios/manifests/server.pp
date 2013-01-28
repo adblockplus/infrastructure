@@ -79,8 +79,22 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     notify => Service['nagios3']
   }
 
+  file {'/etc/nagios3/conf.d/generic-host.cfg':
+    source => 'puppet:///modules/nagios/generic-host.cfg',
+    require => Package['nagios3'],
+    notify => Service['nagios3']
+  }
+
+  file {'/etc/nagios3/conf.d/generic-service.cfg':
+    source => 'puppet:///modules/nagios/generic-service.cfg',
+    require => Package['nagios3'],
+    notify => Service['nagios3']
+  }
+
   file {['/etc/nagios3/conf.d/contacts_nagios2.cfg',
          '/etc/nagios3/conf.d/extinfo_nagios2.cfg',
+         '/etc/nagios3/conf.d/generic-host_nagios2.cfg',
+         '/etc/nagios3/conf.d/generic-service_nagios2.cfg',
          '/etc/nagios3/conf.d/hosts_nagios2.cfg',
          '/etc/nagios3/conf.d/hostgroups_nagios2.cfg',
          '/etc/nagios3/conf.d/localhost_nagios2.cfg',
