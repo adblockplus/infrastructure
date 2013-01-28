@@ -4,7 +4,7 @@ node 'server4' {
   class {'nagios::client':
     server_address => 'localhost'
   }
-  
+
   class {'nagios::server':
     vhost => 'monitoring.adblockplus.org',
     htpasswd_source => 'puppet:///modules/private/nagios-htpasswd',
@@ -38,9 +38,20 @@ node 'server4' {
       email => 'felix@adblockplus.org'
     }
 
+    nagios_contact {'wladimir':
+      alias => 'Wladimir Palant',
+      service_notification_period => '24x7',
+      host_notification_period => '24x7',
+      service_notification_options => 'w,u,c,r',
+      host_notification_options => 'd,r',
+      service_notification_commands => 'notify-service-by-email',
+      host_notification_commands => 'notify-host-by-email',
+      email => 'trev@adblockplus.org'
+    }
+
     nagios_contactgroup {'admins':
       alias => 'Nagios Administrators',
-      members => 'felix'
+      members => 'felix,wladimir'
     }
   }
 
@@ -66,7 +77,7 @@ node 'server4' {
     service_description => 'Disk Space',
     check_command => 'check_nrpe_1arg!check_disk'
   }
-  
+
   nagios_service {'total-processes':
     use => 'generic-service',
     hostgroup_name => 'all',
