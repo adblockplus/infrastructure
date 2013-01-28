@@ -31,12 +31,14 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
 
   file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
     ensure => file,
+    require => Package['nginx'],
     source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
   }
 
   file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
     ensure => file,
     mode => 0400,
+    require => Package['nginx'],
     source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
   }
 
