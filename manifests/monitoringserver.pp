@@ -11,7 +11,7 @@ node 'server4' {
     admins => ['fhd']
   }
 
-  if $developmentenvironment {
+  if $::environment == 'development' {
     nagios_contact {'root':
       service_notification_period => '24x7',
       host_notification_period => '24x7',
