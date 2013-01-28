@@ -71,7 +71,7 @@ Monitoring is fully functional in the development environment:
 The monitoring service of our production environment runs on
 _monitoring.adblockplus.org_.
 
-### Add a user
+### Add a user for the web interface
 
 1. Add your desired user name to _admins_ in _monitoringserver.pp_
 
@@ -85,6 +85,15 @@ _modules/private-stub/files/nagios-htpasswd_, e.g.:
 Bear in mind that someone will have to add your user name/password to
 the production htpasswd file if you need access to
 _monitoring.adblockplus.org_.
+
+### Add a contact (to receive alerts)
+
+Add a _nagios\_contact_ similar to the existing ones in
+_monitoringserver.pp_, and add it to the _admins_ host group.
+
+There are two sets of contacts, those for the development environment
+and those for the production environment, you probably want the
+latter.
 
 Website development
 -------------------
