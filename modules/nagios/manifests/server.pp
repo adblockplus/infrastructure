@@ -29,11 +29,22 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     notify => Service['nginx']
   }
 
+  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
+    ensure => file,
+    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
+  }
+
+  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
+    ensure => file,
+    mode => 0400,
+    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
+  }
+
   spawn-fcgi::php-pool {'global':
     ensure => present,
     socket => '/tmp/php-fastcgi.sock'
   }
-  
+
   service {'nagios3':
     ensure => running,
     enable => true,
@@ -61,7 +72,7 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     require => Package['nagios3'],
     notify => Service['nagios3']
   }
-  
+
   file {'/etc/nagios3/commands.cfg':
     source => 'puppet:///modules/nagios/commands.cfg',
     require => Package['nagios3'],
@@ -91,7 +102,7 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     target => '/etc/nagios3/conf.d/contactgroups.cfg',
     notify => [File['/etc/nagios3/conf.d/contactgroups.cfg'], Service['nagios3']]
   }
-  
+
   Nagios_host <| |> {
     target => '/etc/nagios3/conf.d/hosts.cfg',
     notify => [File['/etc/nagios3/conf.d/hosts.cfg'], Service['nagios3']]

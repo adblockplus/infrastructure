@@ -1,18 +1,30 @@
 server {
-  listen 80;
+  listen [::]:80;
   server_name '<%= vhost %>';
- 
+
+  location / {
+    rewrite (.*) https://<%= vhost %>$1 permanent;
+  }
+}
+
+server {
+  listen [::]:443 ssl;
+  ssl_certificate sites-available/adblockplus.org_sslcert.pem;
+  ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
+
+  server_name '<%= vhost %>';
+
   expires 31d;
 
-  root /usr/share/nagios3/htdocs;       
+  root /usr/share/nagios3/htdocs;
   index index.php index.html;
- 
+
   auth_basic "Nagios Restricted Access";
   auth_basic_user_file /etc/nagios3/htpasswd.users;
 
   location /pnp4nagios {
     alias /usr/share/pnp4nagios/html;
-  }   
+  }
 
   location ~ ^(/pnp4nagios.*\.php)(.*)$ {
     root /usr/share/pnp4nagios/html;
@@ -23,22 +35,22 @@ server {
     fastcgi_param SCRIPT_FILENAME $document_root/index.php;
     fastcgi_pass unix:/tmp/php-fastcgi.sock;
   }
-        
+
   location /stylesheets {
     alias /etc/nagios3/stylesheets;
   }
- 
+
   location ~ \.cgi$ {
     root /usr/lib/cgi-bin/nagios3;
- 
+
     rewrite ^/cgi-bin/nagios3/(.*)$ /$1;
-        
+
     include /etc/nginx/fastcgi_params;
-                
+
     fastcgi_param AUTH_USER $remote_user;
     fastcgi_param REMOTE_USER $remote_user;
-    fastcgi_param SCRIPT_FILENAME /usr/lib/cgi-bin/nagios3$fastcgi_script_name; 
-                              
+    fastcgi_param SCRIPT_FILENAME /usr/lib/cgi-bin/nagios3$fastcgi_script_name;
+
     fastcgi_pass unix:/var/run/fcgiwrap.socket;
   }
 
