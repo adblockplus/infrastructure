@@ -7,7 +7,8 @@ def define_standard_vm(config, host_name, ip)
 
     manifest_files = ['vagrant.pp', 'site.pp']
     manifest_files.each do |manifest_file|
-      config.vm.provision :puppet do |puppet|
+      facts = {'developmentenvironment' => true}
+      config.vm.provision :puppet, :facter => facts do |puppet|
         puppet.manifests_path = 'manifests'
         puppet.manifest_file = manifest_file
         puppet.module_path = 'modules'
