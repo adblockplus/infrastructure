@@ -18,14 +18,16 @@ status="$rx_line $tx_line"
 rx=$(echo $rx_line | awk '{ print $2 }' | awk -F\. '{ print $1 }')
 tx=$(echo $tx_line | awk '{ print $2 }' | awk -F\. '{ print $1 }')
 
+perfdata="rx=${rx};${warn};${crit} tx=${tx};${warn};${crit}"
+
 if (( warn <= rx )) || (( warn <= tx )); then
-  echo "WARNING - $status"
+  echo "WARNING - $status|$perfdata"
   exit 1
 fi
 
 if (( crit <= rx )) || (( crit <= tx )); then
-  echo "CRITICAL - $status"
+  echo "CRITICAL - $status|$perfdata"
   exit 2
 fi
 
-echo "OK - $status"
+echo "OK - $status|$perfdata"
