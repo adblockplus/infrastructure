@@ -13,7 +13,6 @@ class filterserver {
 
   user {'rsync':
     ensure => present,
-    gid => users,
     comment => 'Filter list mirror user',
     home => '/home/rsync',
     managehome => true
@@ -89,7 +88,6 @@ class filterserver {
     ensure => directory,
     require => User['rsync'],
     owner => rsync,
-    group => users,
     mode => 0600;
   }
 
@@ -100,7 +98,6 @@ class filterserver {
                  User['rsync']
                ],
     owner => rsync,
-    group => users,
     mode => 0444,
     source => 'puppet:///modules/filterserver/known_hosts'
   }
@@ -112,7 +109,6 @@ class filterserver {
                  User['rsync']
                ],
     owner => rsync,
-    group => users,
     mode => 0400,
     source => 'puppet:///modules/private/rsync@easylist-downloads.adblockplus.org'
   }
@@ -124,7 +120,6 @@ class filterserver {
                  User['rsync']
                ],
     owner => rsync,
-    group => users,
     mode => 0400,
     source => 'puppet:///modules/private/rsync@easylist-downloads.adblockplus.org.pub'
   }
