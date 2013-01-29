@@ -1,5 +1,5 @@
 node 'server4' {
-  include base
+  include base, ssh
 
   class {'nagios::client':
     server_address => 'localhost'

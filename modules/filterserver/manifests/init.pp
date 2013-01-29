@@ -1,4 +1,32 @@
 class filterserver {
+  user {'subscriptionstat':
+    ensure => present,
+    home => '/home/subscriptionstat',
+    managehome => true
+  }
+
+  file {'/home/subscriptionstat/.ssh':
+    ensure => directory,
+    owner => subscriptionstat,
+    mode => 0600,
+    require => User['subscriptionstat']
+  }
+
+  file {'/home/subscriptionstat/.ssh/authorized_keys':
+    ensure => present,
+    owner => subscriptionstat,
+    mode => 0400,
+    source => 'puppet:///modules/private/adblock@adblockplus.org.pub'
+  }
+
+  class {'ssh':
+    custom_configuration => 'Match User subscriptionstat
+        AllowTcpForwarding no
+        X11Forwarding no
+        AllowAgentForwarding no
+        GatewayPorts no
+        ForceCommand cat /var/www/easylist/subscriptionStats.ini'
+  }
   
   class {'nginx':
     worker_processes => 4,
