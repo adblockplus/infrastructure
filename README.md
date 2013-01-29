@@ -66,7 +66,7 @@ Monitoring
 ----------
 
 Monitoring is fully functional in the development environment:
-[http://10.8.0.98/nagios3/](http://10.8.0.98/nagios3/)
+[https://10.8.0.98/nagios3/](https://10.8.0.98/nagios3/)
 
 The monitoring service of our production environment runs on
 _monitoring.adblockplus.org_.
