@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ $# != 2 ]]; then
+    echo "Usage: `basename $0` WARN CRIT"
+    exit 0
+fi
+
 warn=$1
 crit=$2
 
