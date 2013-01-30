@@ -177,7 +177,7 @@ class filterserver {
                 User['rsync'],
 		Package['python-geoip']
                ],
-    command => 'gz -cd /var/log/nginx/access_log_easylist_downloads.1.gz | python -m sitescripts.logs.bin.extractSubscriptionStats',
+    command => 'gzip -cd /var/log/nginx/access_log_easylist_downloads.1.gz | python -m sitescripts.logs.bin.extractSubscriptionStats',
     environment => 'PYTHONPATH=/opt/sitescripts',
     user => rsync,
     hour => 1,
