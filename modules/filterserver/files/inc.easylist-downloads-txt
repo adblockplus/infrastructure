@@ -32,5 +32,5 @@ location ~ \.txt$
   rewrite ^/easyprivacy\+cedrics\.txt /easyprivacy+easylist.txt permanent;
   rewrite ^/abpvn\+easylist\.txt$ /easylist.txt permanent;
 
-  add_header X-Alternative-Locations "https://ares2.org/easylist$request_uri;q=1.2,https://easylist-downloads2.adblockplus.org$request_uri;q=0.5,https://adblock.maltekraus.de/easylist$request_uri;q=0.3";
+  add_header X-Alternative-Locations "https://ares2.org/easylist$request_uri;q=0.9";
 }
