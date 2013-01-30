@@ -16,7 +16,7 @@ class filterserver {
     ensure => present,
     owner => subscriptionstat,
     mode => 0400,
-    source => 'puppet:///modules/private/adblock@adblockplus.org.pub'
+    source => 'puppet:///modules/private/subscriptionstat-authorized_keys'
   }
 
   class {'ssh':
