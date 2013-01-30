@@ -54,6 +54,12 @@ VMs. This might take a while and eat quite a bit of RAM though.
 Adding a server
 ---------------
 
+To set up a new server, you should first add it to the development
+environment and test the setup, then set up a corresponding production
+server.
+
+### Development environment
+
 1. Add entries in _Vagrantfile_ and _manifests/vagrant.pp_
 
 2. Add the host name to one of the manifests imported by
@@ -61,6 +67,71 @@ _manifests/site.pp_
 
 3. Make sure the server uses the _nagios::client_ class and add a
 _nagios\_host_ to _manifests/monitoringserver.pp_
+
+### Production environment
+
+1. Install Ubuntu Server 12.04 LTS
+2. Perform an update
+
+    apt-get update
+	apt-get upgrade
+
+3. Install Puppet
+
+    apt-get install puppet
+
+Now you can either set it up as an agent or as a master. You'll
+probably want an agent, unless this is the very first server.
+
+#### Puppet agent
+
+1. Tell the agent where to find the master
+
+    # cat >> /etc/puppet/puppet.conf << EOF
+    [agent]
+    server = puppetmaster.adblockplus.org
+    EOF
+
+2. Attempt an initial provisioning
+
+    # puppet agent --test
+
+3. Sign the new client certificate on the master
+
+    # puppet cert list
+	# puppet cert sign CLIENT_CERT
+
+4. Back on the agent, the initial provisioning should now work
+
+    # puppet agent --test
+
+#### Puppet master
+
+1. Configure the master, and make its agent point to itself
+
+    # cat >> /etc/puppet/puppet.conf << EOF
+    certname = puppetmaster.adblockplus.org
+
+    [agent]
+    server = puppetmaster.adblockplus.org
+    EOF
+
+2. Install the required packages
+
+    # apt-get install puppetmaster mercurial
+
+3. Clone the infrastructure repository
+
+	# hg clone ssh://hg@adblockplus.org/infrastructure /etc/puppet/infrastructure
+	# rmdir /etc/puppet/{modules,manifests,templates}
+    # ln -s /etc/puppet/infrastructure/manifests /etc/puppet/manifests
+    # ln -s /etc/puppet/infrastructure/modules /etc/puppet/modules
+
+4. Make sure to put the private files in place (see above)
+
+5. Provision the master itself
+
+    # puppet agent --test
 
 Monitoring
 ----------
