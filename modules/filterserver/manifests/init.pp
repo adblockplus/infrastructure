@@ -27,7 +27,7 @@ class filterserver {
         GatewayPorts no
         ForceCommand cat /var/www/easylist/subscriptionStats.ini'
   }
-  
+
   class {'nginx':
     worker_processes => 4,
     worker_connections => 4000
@@ -36,7 +36,7 @@ class filterserver {
   class {'sitescripts':
     sitescriptsini_source => 'puppet:///modules/filterserver/sitescripts.ini'
   }
-  
+
   package {'python-geoip':}
 
   user {'rsync':
@@ -64,7 +64,7 @@ class filterserver {
                ],
     owner => rsync
   }
-  
+
   file {'/etc/nginx/sites-available/inc.easylist-downloads':
     ensure => file,
     require => Anchor['nginx::begin'],
@@ -91,15 +91,15 @@ class filterserver {
     require => Anchor['nginx::begin'],
     before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/private/easylist-downloads.adblockplus.org_sslcert.key'
-  }  
-  
+  }
+
   file {'/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.pem':
     ensure => file,
     require => Anchor['nginx::begin'],
     before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     mode => 0400,
     source => 'puppet:///modules/private/easylist-downloads.adblockplus.org_sslcert.pem'
-  }  
+  }
 
   nginx::hostconfig{'easylist-downloads.adblockplus.org':
     source => 'puppet:///modules/filterserver/easylist-downloads.adblockplus.org',
@@ -110,7 +110,7 @@ class filterserver {
     ensure => file,
     require => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/filterserver/logrotate'
-  }  
+  }
 
   file {'/home/rsync/.ssh':
     ensure => directory,
@@ -177,13 +177,13 @@ class filterserver {
                 User['rsync'],
 		Package['python-geoip']
                ],
-    command => 'xz -cd /var/log/nginx/access_log_easylist_downloads.1.xz | python -m sitescripts.logs.bin.extractSubscriptionStats',
+    command => 'gz -cd /var/log/nginx/access_log_easylist_downloads.1.gz | python -m sitescripts.logs.bin.extractSubscriptionStats',
     environment => 'PYTHONPATH=/opt/sitescripts',
     user => rsync,
     hour => 1,
     minute => 25
   }
-  
+
   cron {'geoipdb_update':
     ensure => present,
     require => File['/opt/cron_geoipdb_update.sh'],
