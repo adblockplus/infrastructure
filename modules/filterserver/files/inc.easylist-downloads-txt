@@ -4,16 +4,6 @@ location ~ \.txt$
   charset utf-8;
   gzip_static on;
 
-  error_page 403 /403.html;
-  if ($http_user_agent ~ \bMSIE\s)
-  {
-    return 403;
-  }
-#  if ($http_user_agent ~ \bSafari/534\.3\sSE\s2\.X\sMetaSr\s1\.0\b)
-#  {
-#    return 403;
-#  }
-
   rewrite ^/adblock_rick752\.txt$ /easylist.txt permanent;
   rewrite ^/ares\+easylist\.txt$ /easylistgermany+easylist.txt permanent;
   rewrite ^/easylist-element\.txt$ /easylist.txt permanent;
