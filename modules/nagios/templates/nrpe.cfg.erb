@@ -13,6 +13,6 @@ command[check_load]=/usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
 command[check_disk]=/usr/lib/nagios/plugins/check_disk -w 3 -c 1
 command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 150 -c 200 
 command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
-command[check_bandwidth]=/usr/lib/nagios/plugins/check_bandwidth 50000 80000
+command[check_bandwidth]=/usr/lib/nagios/plugins/check_bandwidth 50000000 80000000
 include=/etc/nagios/nrpe_local.cfg
 include_dir=/etc/nagios/nrpe.d/
