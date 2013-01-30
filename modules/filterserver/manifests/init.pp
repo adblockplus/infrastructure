@@ -25,7 +25,7 @@ class filterserver {
         X11Forwarding no
         AllowAgentForwarding no
         GatewayPorts no
-        ForceCommand cat /var/www/easylist/subscriptionStats.ini'
+        ForceCommand cat /var/www/subscriptionStats.ini'
   }
 
   class {'nginx':
