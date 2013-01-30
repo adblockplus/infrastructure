@@ -1,20 +1,20 @@
-        access_log  /var/log/nginx/access_log_easylist_downloads  main;
-        keepalive_timeout 0;
+access_log  /var/log/nginx/access_log_easylist_downloads  main;
+keepalive_timeout 0;
 
-        location / {
-            rewrite .* https://easylist.adblockplus.org/ redirect;
-            root   /var/www/easylist;
-        }
+location / {
+  rewrite .* https://easylist.adblockplus.org/ redirect;
+  root   /var/www/easylist;
+}
 
-        location /COPYING {
-            charset utf-8;
-            gzip_static on;
-            default_type text/plain;
-        }
+location /COPYING {
+  charset utf-8;
+  gzip_static on;
+  default_type text/plain;
+}
 
-        # redirect server error pages to the static page /50x.html
-        #
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   html;
-        }
+# redirect server error pages to the static page /50x.html
+#
+error_page   500 502 503 504  /50x.html;
+location = /50x.html {
+  root   html;
+}

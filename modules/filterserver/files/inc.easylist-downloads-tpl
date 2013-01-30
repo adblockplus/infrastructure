@@ -1,7 +1,7 @@
-        location ~ \.tpl$ {
-            root  /var/www/easylist;
-            charset utf-8;
-            expires +5d;
-            default_type text/plain;
-            gzip_static on;
-        }
+location ~ \.tpl$ {
+  root  /var/www/easylist;
+  charset utf-8;
+  expires +5d;
+  default_type text/plain;
+  gzip_static on;
+}
