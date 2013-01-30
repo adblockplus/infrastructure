@@ -44,7 +44,8 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
 
   spawn-fcgi::php-pool {'global':
     ensure => present,
-    socket => '/tmp/php-fastcgi.sock'
+    socket => '/tmp/php-fastcgi.sock',
+    children => '3'
   }
 
   service {'nagios3':
