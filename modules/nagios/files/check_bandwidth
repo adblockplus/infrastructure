@@ -1,33 +1,48 @@
-#!/bin/bash
+#!/usr/bin/env python
 
-if [[ $# != 2 ]]; then
-    echo "Usage: `basename $0` WARN CRIT"
-    exit 0
-fi
+import re, subprocess, sys
 
-warn=$1
-crit=$2
+def extract_data(type, vnstat_output):
+  match = re.search(r"%s\s*([\d\.]*) (.bit/s)" % type, vnstat_output)
+  if not match:
+    print "Unable to extract values from '%s'" % vnstat_output
+    sys.exit(1)
 
-i=$(vnstat -tr)
+  value = float(match.group(1))
+  unit = match.group(2)
+  return (value, unit)
 
-rx_line=$(echo $i | grep -o "rx [[:digit:]]*\.[[:digit:]]* kbit/s")
-tx_line=$(echo $i | grep -o "tx [[:digit:]]*\.[[:digit:]]* kbit/s")
+def calculate_bits(value, unit):
+  if unit == "Mbit/s":
+    value *= 1000000
+  elif unit == "kbit/s":
+    value *= 1000
+  return int(value)
 
-status="$rx_line $tx_line"
+if __name__ == "__main__":
+  if len(sys.argv) != 3:
+    print "Usage: `basename $0` WARN CRIT"
+    sys.exit(0)
 
-rx=$(echo $rx_line | awk '{ print $2 }' | awk -F\. '{ print $1 }')
-tx=$(echo $tx_line | awk '{ print $2 }' | awk -F\. '{ print $1 }')
+  (warn, crit) = sys.argv[1:3]
 
-perfdata="rx=${rx};${warn};${crit} tx=${tx};${warn};${crit}"
+  vnstat_output = subprocess.check_output(["vnstat", "-tr"])
+  (rx, rx_unit) = extract_data("rx", vnstat_output)
+  (tx, tx_unit) = extract_data("tx", vnstat_output)
+  status = "rx %s %s tx %s %s" % (rx, rx_unit, tx, tx_unit)
 
-if (( warn <= rx )) || (( warn <= tx )); then
-  echo "WARNING - $status|$perfdata"
-  exit 1
-fi
+  rx = calculate_bits(rx, rx_unit)
+  tx = calculate_bits(tx, tx_unit)
+  perfdata = "rx=%s;%s;%s tx=%s;%s;%s" % (rx, warn, crit, tx, warn, crit)
 
-if (( crit <= rx )) || (( crit <= tx )); then
-  echo "CRITICAL - $status|$perfdata"
-  exit 2
-fi
+  output = "%s|%s" % (status, perfdata)
 
-echo "OK - $status|$perfdata"
+  if warn <= rx or warn <= tx:
+    print "WARNING - " + output
+    sys.exit(1)
+
+  if crit <= rx or crit <= tx:
+    print "CRITICAL - " + output
+    sys.exit(2)
+
+  print "OK - " + output
