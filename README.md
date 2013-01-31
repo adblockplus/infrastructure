@@ -157,15 +157,6 @@ Bear in mind that someone will have to add your user name/password to
 the production htpasswd file if you need access to
 _monitoring.adblockplus.org_.
 
-### Add a contact (to receive alerts)
-
-Add a _nagios\_contact_ similar to the existing ones in
-_monitoringserver.pp_, and add it to the _admins_ host group.
-
-There are two sets of contacts, those for the development environment
-and those for the production environment, you probably want the
-latter.
-
 Website development
 -------------------
 
