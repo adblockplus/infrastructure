@@ -2,7 +2,7 @@ node 'server4' {
   include base, ssh
 
   class {'nagios::client':
-    server_address => 'localhost'
+    server_address => 'monitoring.adblockplus.org'
   }
 
   class {'nagios::server':
