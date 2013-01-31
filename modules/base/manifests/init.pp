@@ -5,5 +5,5 @@ class base {
     always_apt_update => true
   }
 
-  package {['mercurial', 'emacs']: ensure => present}
+  package {['mercurial', 'emacs', 'postfix']: ensure => present}
 }
