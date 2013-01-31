@@ -47,7 +47,7 @@ node 'server4' {
   nagios_command {'check_easylist_http':
     target => '/etc/nagios-plugins/config/easylist_http.cfg',
     notify => File['/etc/nagios-plugins/config/easylist_http.cfg'],
-    command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -u https://easylist-downloads.adblockplus.org/easylist.txt'
+    command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -u https://easylist-downloads.adblockplus.org/easylist.txt -e "HTTP/1.1 200 OK"'
   }
 
   file {'/etc/nagios-plugins/config/easylist_http.cfg':
