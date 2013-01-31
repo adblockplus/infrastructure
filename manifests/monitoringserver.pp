@@ -44,13 +44,26 @@ node 'server4' {
     }
   }
 
+  nagios_command {'check_easylist_http':
+    target => '/etc/nagios-plugins/config/easylist_http.cfg',
+    notify => File['/etc/nagios-plugins/config/easylist_http.cfg'],
+    command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -u https://easylist-downloads.adblockplus.org/easylist.txt'
+  }
+
+  file {'/etc/nagios-plugins/config/easylist_http.cfg':
+    owner => root,
+    group => root,
+    mode => 0644,
+    require => Package['nagios3']
+  }
+
   nagios_host {'www.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_3.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_4.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_5.adblockplus.org': use => 'generic-host'}
 
   nagios_hostgroup {'all': members => '*'}
-  nagios_hostgroup {'http-servers': members => 'www.adblockplus.org, server_3.adblockplus.org, server_4.adblockplus.org, server_5.adblockplus.org'}
+  nagios_hostgroup {'http-servers': members => 'www.adblockplus.org, server_4.adblockplus.org'}
   nagios_hostgroup {'filter-servers': members => 'server_3.adblockplus.org, server_5.adblockplus.org'}
 
   nagios_service {'current-load':
@@ -93,6 +106,13 @@ node 'server4' {
     hostgroup_name => 'http-servers',
     service_description => 'HTTP',
     check_command => 'check_http'
+  }
+
+  nagios_service {'easylist-http':
+    use => 'generic-service',
+    hostgroup_name => 'filter-servers',
+    service_description => 'HTTP',
+    check_command => 'check_easylist_http'
   }
 
   nagios_service {'bandwidth':
