@@ -27,31 +27,20 @@ node 'server4' {
       members => 'root'
     }
   } else {
-    nagios_contact {'felix':
-      alias => 'Felix H. Dahlke',
+    nagios_contact {'abp-admins':
+      alias => 'Adblock Plus Administartors',
       service_notification_period => '24x7',
       host_notification_period => '24x7',
       service_notification_options => 'w,u,c,r',
       host_notification_options => 'd,r',
       service_notification_commands => 'notify-service-by-email',
       host_notification_commands => 'notify-host-by-email',
-      email => 'felix@adblockplus.org'
-    }
-
-    nagios_contact {'wladimir':
-      alias => 'Wladimir Palant',
-      service_notification_period => '24x7',
-      host_notification_period => '24x7',
-      service_notification_options => 'w,u,c,r',
-      host_notification_options => 'd,r',
-      service_notification_commands => 'notify-service-by-email',
-      host_notification_commands => 'notify-host-by-email',
-      email => 'trev@adblockplus.org'
+      email => 'admins@adblockplus.org'
     }
 
     nagios_contactgroup {'admins':
       alias => 'Nagios Administrators',
-      members => 'felix,wladimir'
+      members => 'abp-admins'
     }
   }
 
