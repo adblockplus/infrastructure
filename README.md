@@ -137,7 +137,7 @@ Monitoring
 ----------
 
 Monitoring is fully functional in the development environment:
-[https://10.8.0.98/nagios3/](https://10.8.0.98/nagios3/)
+[https://10.8.0.98/](https://10.8.0.98/)
 
 The monitoring service of our production environment runs on
 _monitoring.adblockplus.org_.
@@ -146,7 +146,7 @@ _monitoring.adblockplus.org_.
 
 1. Add your user name/password to
 _modules/private-stub/files/nagios-htpasswd_:
-    
+
 	htpasswd modules/private-stub/files/nagios-htpasswd NAME
 
 2. Reprovision
