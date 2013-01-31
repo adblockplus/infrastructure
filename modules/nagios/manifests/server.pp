@@ -120,6 +120,11 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     notify => [File['/etc/nagios3/conf.d/contactgroups.cfg'], Service['nagios3']]
   }
 
+  Nagios_command <| |> {
+    target => '/etc/nagios3/conf.d/commands.cfg',
+    notify => [File['/etc/nagios3/conf.d/commands.cfg'], Service['nagios3']],
+  }
+
   Nagios_host <| |> {
     target => '/etc/nagios3/conf.d/hosts.cfg',
     notify => [File['/etc/nagios3/conf.d/hosts.cfg'], Service['nagios3']]
@@ -137,6 +142,7 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
 
   file {['/etc/nagios3/conf.d/contacts.cfg',
          '/etc/nagios3/conf.d/contactgroups.cfg',
+         '/etc/nagios3/conf.d/commands.cfg',
          '/etc/nagios3/conf.d/hosts.cfg',
          '/etc/nagios3/conf.d/hostgroups.cfg',
          '/etc/nagios3/conf.d/services.cfg']:
