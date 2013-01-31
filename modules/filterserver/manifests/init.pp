@@ -72,35 +72,35 @@ class filterserver {
 
   file {'/etc/nginx/sites-available/inc.easylist-downloads':
     ensure => file,
-    require => Anchor['nginx::begin'],
+    require => Anchor['nginx::end'],
     before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/filterserver/inc.easylist-downloads'
   }
 
   file {'/etc/nginx/sites-available/inc.easylist-downloads-txt':
     ensure => file,
-    require => Anchor['nginx::begin'],
+    require => Anchor['nginx::end'],
     before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/filterserver/inc.easylist-downloads-txt'
   }
 
   file {'/etc/nginx/sites-available/inc.easylist-downloads-tpl':
     ensure => file,
-    require => Anchor['nginx::begin'],
+    require => Anchor['nginx::end'],
     before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/filterserver/inc.easylist-downloads-tpl'
   }
 
   file {'/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.key':
     ensure => file,
-    require => Anchor['nginx::begin'],
+    require => Anchor['nginx::end'],
     before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     source => 'puppet:///modules/private/easylist-downloads.adblockplus.org_sslcert.key'
   }
 
   file {'/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.pem':
     ensure => file,
-    require => Anchor['nginx::begin'],
+    require => Anchor['nginx::end'],
     before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
     mode => 0400,
     source => 'puppet:///modules/private/easylist-downloads.adblockplus.org_sslcert.pem'

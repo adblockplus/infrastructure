@@ -57,13 +57,13 @@ class nginx (
     require => File['/etc/nginx/nginx.conf']
   }
 
-  anchor{'nginx::begin':
-    before => Package['nginx'],
-    notify => Service['nginx'],
+  anchor {'nginx::begin':
+    before => Package['nginx']
   }
 
   anchor {'nginx::end':
-    require => Service['nginx'],
+    require => Package['nginx'],
+    notify => Service['nginx']
   }
 
 }
