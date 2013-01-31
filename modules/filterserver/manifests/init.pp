@@ -65,6 +65,11 @@ class filterserver {
     owner => rsync
   }
 
+  file {'/var/www/subscriptionStats.ini':
+    ensure => present,
+    owner => rsync
+  }
+
   file {'/etc/nginx/sites-available/inc.easylist-downloads':
     ensure => file,
     require => Anchor['nginx::begin'],
