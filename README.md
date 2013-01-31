@@ -144,14 +144,12 @@ _monitoring.adblockplus.org_.
 
 ### Add a user for the web interface
 
-1. Add your desired user name to _admins_ in _monitoringserver.pp_
-
-2. Add your user name/password to
-_modules/private-stub/files/nagios-htpasswd_, e.g.:
+1. Add your user name/password to
+_modules/private-stub/files/nagios-htpasswd_:
     
-	htpasswd modules/private-stub/files/nagios-htpasswd fhd
+	htpasswd modules/private-stub/files/nagios-htpasswd NAME
 
-3. Reprovision
+2. Reprovision
 
 Bear in mind that someone will have to add your user name/password to
 the production htpasswd file if you need access to
