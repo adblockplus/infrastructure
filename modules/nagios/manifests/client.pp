@@ -6,9 +6,10 @@ class nagios::client($server_address) {
     owner => root,
     group => root,
     content => template('nagios/nrpe.cfg.erb'),
-    require => Package['nagios-nrpe-server']
+    require => Package['nagios-nrpe-server'],
+    notify => Service['nagios-nrpe-server']
   }
-  
+
   service {'nagios-nrpe-server':
     ensure => running,
     enable => true,
