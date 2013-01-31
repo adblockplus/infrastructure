@@ -96,7 +96,7 @@ probably want an agent, unless this is the very first server.
 
     # puppet agent --test
 
-3. Sign the new client certificate on the master
+3. On the master: Sign the new client certificate
 
     # puppet cert list
 	# puppet cert sign CLIENT_CERT
