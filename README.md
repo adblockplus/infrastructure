@@ -92,16 +92,20 @@ probably want an agent, unless this is the very first server.
     server = puppetmaster.adblockplus.org
     EOF
 
-2. Attempt an initial provisioning
+2. Attempt an initial provisioning, this will fail
 
     # puppet agent --test
 
-3. On the master: Sign the new client certificate
+3. On the master: List the certificates to get the name of the new
+   agent's certificate
 
     # puppet cert list
-	# puppet cert sign CLIENT_CERT
 
-4. Back on the agent, the initial provisioning should now work
+4. Still on the master: Sign the certificate, e.g. for serverx:
+
+    # puppet cert sign serverx
+
+5. Back on the agent: Attempt another provisioning, it should work now
 
     # puppet agent --test
 
