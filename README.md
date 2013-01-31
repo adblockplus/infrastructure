@@ -139,21 +139,12 @@ Monitoring
 Monitoring is fully functional in the development environment:
 [https://10.8.0.98/](https://10.8.0.98/)
 
+User name and password are both _nagiosadmin_.
+
 The monitoring service of our production environment runs on
-_monitoring.adblockplus.org_.
-
-### Add a user for the web interface
-
-1. Add your user name/password to
-_modules/private-stub/files/nagios-htpasswd_:
-
-	htpasswd modules/private-stub/files/nagios-htpasswd NAME
-
-2. Reprovision
-
-Bear in mind that someone will have to add your user name/password to
-the production htpasswd file if you need access to
-_monitoring.adblockplus.org_.
+_monitoring.adblockplus.org_. Add yourself to _files/nagios-htpasswd_
+in the _private_ module used on the server, or have someone add you if
+you don't have access.
 
 Website development
 -------------------
