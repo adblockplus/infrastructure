@@ -45,16 +45,7 @@ node 'server4' {
   }
 
   nagios_command {'check_easylist_http':
-    target => '/etc/nagios-plugins/config/easylist_http.cfg',
-    notify => File['/etc/nagios-plugins/config/easylist_http.cfg'],
     command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H easylist-downloads.adblockplus.org -u /easylist.txt -k "Accept-Encoding: gzip,deflate" -e "HTTP/1.1 200 OK"'
-  }
-
-  file {'/etc/nagios-plugins/config/easylist_http.cfg':
-    owner => root,
-    group => root,
-    mode => 0644,
-    require => Package['nagios3']
   }
 
   nagios_host {'www.adblockplus.org': use => 'generic-host'}
