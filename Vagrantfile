@@ -5,7 +5,7 @@ def define_standard_vm(config, host_name, ip)
     config.vm.host_name = host_name
     config.vm.network :hostonly, ip
 
-    manifest_files = ['vagrant.pp', 'site.pp']
+    manifest_files = ['vagrant.pp', 'nodes.pp']
     manifest_files.each do |manifest_file|
       config.vm.provision :puppet do |puppet|
         puppet.options = ['--environment=development']
