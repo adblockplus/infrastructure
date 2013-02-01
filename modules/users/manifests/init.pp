@@ -7,6 +7,7 @@ class users {
   ) {
     user {$user_name:
       home => "/home/${user_name}",
+      shell => "/bin/bash",
       managehome => true,
       password => $password,
       groups => $sudo ? {
