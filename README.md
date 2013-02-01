@@ -137,6 +137,21 @@ probably want an agent, unless this is the very first server.
 
     # puppet agent --test
 
+Updating a production server
+----------------------------
+
+Puppet agent has to be rerun on the servers whenever their configuration is
+changed. The _kick.py_ script automates and simplifies that task, e.g. the
+following will provision all servers:
+
+    kick.py -u serveradmin all
+
+Here _serveradmin_ is your user account on the servers, it will be used to
+run Puppet on the servers via SSH (sudo privilege required). You can list any
+host groups defined in _manifests/monitoringserver.pp_ or individual servers.
+You can also use _-v_ flag to see verbose Puppet output or _-t_ flag to do a
+dry run without changing anything.
+
 Monitoring
 ----------
 
