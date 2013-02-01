@@ -30,6 +30,14 @@ class users {
     }
   }
 
+  user {'root':
+    password => '*'
+  }
+  
+  file {'/root/.ssh/authorized_keys':
+    ensure => absent
+  }
+  
   file {'/etc/sudoers.d/puppet':
     ensure => present,
     owner => root,
