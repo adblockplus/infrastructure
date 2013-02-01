@@ -1,5 +1,15 @@
 class base {
   stage {'pre': before => Stage['main']}
+
+  user {'root':
+    stage => 'pre',
+    password => '*'
+  }
+
+  file {'/root/.ssh/authorized_keys':
+    ensure => absent
+  }
+
   class {'apt':
     stage => 'pre',
     always_apt_update => true

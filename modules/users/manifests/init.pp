@@ -37,12 +37,4 @@ class users {
     mode => 0440,
     source => 'puppet:///modules/users/sudoers-puppet'
   }
-
-  user {'root':
-    password => '*'
-  }
-
-  file {'/root/.ssh/authorized_keys':
-    ensure => absent
-  }
 }
