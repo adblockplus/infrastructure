@@ -1,5 +1,5 @@
 node 'server4' {
-  include base, ssh
+  include base, ssh, puppetmaster
 
   class {'nagios::client':
     server_address => 'monitoring.adblockplus.org'
