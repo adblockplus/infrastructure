@@ -5,7 +5,7 @@ class base {
     always_apt_update => true
   }
 
-  package {['mercurial', 'emacs', 'postfix']: ensure => present}
+  package {['mercurial', 'vim', 'emacs', 'postfix']: ensure => present}
 
   file {'/etc/timezone':
     ensure => file,
