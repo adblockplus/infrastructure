@@ -117,6 +117,11 @@ class filterserver {
     source => 'puppet:///modules/filterserver/logrotate'
   }
 
+  exec {'ensure_logrotate_status':
+    command => '/etc/cron.daily/logrotate',
+    require => File['/etc/logrotate.d/nginx_easylist-downloads.adblockplus.org']
+  }
+
   file {'/home/rsync/.ssh':
     ensure => directory,
     require => User['rsync'],
