@@ -4,6 +4,7 @@ def define_standard_vm(config, host_name, ip)
     config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
     config.vm.host_name = host_name
     config.vm.network :hostonly, ip
+    config.vm.customize ["modifyvm", :id, "--cpus", 1]
 
     manifest_files = ['vagrant.pp', 'nodes.pp']
     manifest_files.each do |manifest_file|
