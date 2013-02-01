@@ -22,4 +22,13 @@ class users {
       content => $authorized_keys
     }
   }
+
+  file {'/etc/sudoers.d/puppet':
+    ensure => present,
+    owner => root,
+    group => root,
+    mode => 0440,
+    source => 'puppet:///modules/users/sudoers-puppet'
+  }
 }
+
