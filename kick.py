@@ -125,7 +125,7 @@ def updateMaster(user):
 
 def updateClient(user, host, mode):
   print 'Provisioning %s...' % host
-  remoteCommand = 'puppet agent%s' %mode
+  remoteCommand = 'sudo puppet agent%s' %mode
   os.system('ssh -l %s %s "%s"' % (user, host, remoteCommand))
 
 if __name__ == "__main__":
