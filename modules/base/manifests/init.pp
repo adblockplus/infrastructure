@@ -1,21 +1,16 @@
 class base {
   stage {'pre': before => Stage['main']}
 
-  user {'root':
-    stage => 'pre',
-    password => '*'
-  }
-
-  file {'/root/.ssh/authorized_keys':
-    ensure => absent
-  }
-
   class {'apt':
     stage => 'pre',
     always_apt_update => true
   }
 
-  include users, private::users
+  class {'users':
+    stage => 'pre',
+  }
+
+  include private::users
 
   package {['mercurial', 'vim', 'emacs', 'postfix']: ensure => present}
 
