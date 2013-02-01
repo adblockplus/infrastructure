@@ -142,7 +142,7 @@ Updating a production server
 
 Puppet agent has to be rerun on the servers whenever their configuration is
 changed. The _kick.py_ script automates and simplifies that task, e.g. the
-following will provision all servers:
+following will provision all servers (requires Puppet and PyYAML):
 
     kick.py -u serveradmin all
 
