@@ -5,6 +5,7 @@ node default {
       "${hostname}" => '127.0.0.1',
       'www.adblockplus.org' => '10.8.0.97',
       'monitoring.adblockplus.org' => '10.8.0.98',
+      'server_1.adblockplus.org' => '10.8.0.105',
       'server_3.adblockplus.org' => '10.8.0.99',
       'server_4.adblockplus.org' => '10.8.0.98',
       'server_5.adblockplus.org' => '10.8.0.100',

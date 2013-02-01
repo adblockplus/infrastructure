@@ -35,6 +35,7 @@ Vagrant::Config.run do |config|
     end
   end
 
+  define_standard_vm config, 'server1', '10.8.0.105'
   define_standard_vm config, 'server3', '10.8.0.99'
   define_standard_vm config, 'server4', '10.8.0.98'
   define_standard_vm config, 'server5', '10.8.0.100'

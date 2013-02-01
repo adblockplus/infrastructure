@@ -1,4 +1,4 @@
-node 'server3', 'server5', 'server6', 'server7', 'server8', 'server9' {
+node 'server1', 'server3', 'server5', 'server6', 'server7', 'server8', 'server9' {
   include base, filterserver
 
   class {'nagios::client':
