@@ -8,6 +8,7 @@ class users {
     user {$user_name:
       home => "/home/${user_name}",
       managehome => true,
+      password => $password,
       groups => $sudo ? {
         true => 'sudo',
         default => undef
