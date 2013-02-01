@@ -21,6 +21,4 @@ location ~ \.txt$
   rewrite ^/corset\+easylist\.txt$ /easylist.txt permanent;
   rewrite ^/easyprivacy\+cedrics\.txt /easyprivacy+easylist.txt permanent;
   rewrite ^/abpvn\+easylist\.txt$ /easylist.txt permanent;
-
-  add_header X-Alternative-Locations "https://ares2.org/easylist$request_uri;q=0.9";
 }
