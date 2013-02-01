@@ -6,6 +6,11 @@ def define_standard_vm(config, host_name, ip)
     config.vm.network :hostonly, ip
     config.vm.customize ["modifyvm", :id, "--cpus", 1]
 
+    config.vm.provision :shell, :inline => '
+if ! test -f /usr/bin/puppet; then
+  sudo apt-get update && sudo apt-get install -y puppet
+fi'
+
     manifest_files = ['vagrant.pp', 'nodes.pp']
     manifest_files.each do |manifest_file|
       config.vm.provision :puppet do |puppet|
