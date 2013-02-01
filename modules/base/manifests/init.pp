@@ -5,6 +5,8 @@ class base {
     always_apt_update => true
   }
 
+  include private::users
+
   package {['mercurial', 'vim', 'emacs', 'postfix']: ensure => present}
 
   file {'/etc/timezone':
