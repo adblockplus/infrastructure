@@ -12,7 +12,7 @@ class base {
 
   include private::users
 
-  package {['mercurial', 'vim', 'emacs', 'postfix']: ensure => present}
+  package {['puppet', 'mercurial', 'vim', 'emacs', 'postfix']: ensure => present}
 
   file {'/etc/timezone':
     ensure => file,
