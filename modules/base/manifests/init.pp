@@ -5,7 +5,7 @@ class base {
     always_apt_update => true
   }
 
-  include private::users
+  include users, private::users
 
   package {['mercurial', 'vim', 'emacs', 'postfix']: ensure => present}
 
