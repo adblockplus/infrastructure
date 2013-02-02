@@ -122,6 +122,17 @@ class filterserver {
     require => File['/etc/logrotate.d/nginx_easylist-downloads.adblockplus.org']
   }
 
+  cron {'logrotate':
+    ensure => present,
+    require => [
+                 Exec['ensure_logrotate_status']
+               ],
+    command => '/usr/sbin/logrotate /etc/logrotate.conf',
+    user => root,
+    hour => '0',
+    minute => '0'
+  }
+
   file {'/home/rsync/.ssh':
     ensure => directory,
     require => User['rsync'],
