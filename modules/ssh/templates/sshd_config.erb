@@ -60,11 +60,14 @@ ChallengeResponseAuthentication no
 #GSSAPIAuthentication no
 #GSSAPICleanupCredentials yes
 
-X11Forwarding yes
+AllowAgentForwarding no
+AllowTcpForwarding no
+X11Forwarding no
 X11DisplayOffset 10
 PrintMotd no
 PrintLastLog yes
 TCPKeepAlive yes
+PermitUserEnvironment yes
 #UseLogin no
 
 #MaxStartups 10:30:60
