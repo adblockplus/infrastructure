@@ -51,6 +51,19 @@ After you've made changes to Puppet manifests, you can update it like this:
 You can omit the VM name if you want to boot or provision all
 VMs. This might take a while and eat quite a bit of RAM though.
 
+### SSH to the server
+
+You can use vagrant to connect as the vagrant user:
+
+    vagrant ssh server5
+
+If you want to test "real" SSH access you can use the test user account defined
+in _private-stub_:
+
+    ssh -i modules/private/files/id_rsa test@10.8.0.100
+
+The default password for this user (required for the _sudo_ command) is "test".
+
 Adding a server
 ---------------
 
