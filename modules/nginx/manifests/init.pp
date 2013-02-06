@@ -15,7 +15,8 @@ class nginx (
 
   file {'/etc/nginx/nginx.conf':
     content => template('nginx/nginx.conf.erb'),
-    require => Package['nginx']
+    require => Package['nginx'],
+    notify => Service['nginx']
   }
 
   file {'/etc/nginx/sites-available/default':
@@ -56,14 +57,4 @@ class nginx (
     hasstatus => true,
     require => File['/etc/nginx/nginx.conf']
   }
-
-  anchor {'nginx::begin':
-    before => Package['nginx']
-  }
-
-  anchor {'nginx::end':
-    require => Package['nginx'],
-    notify => Service['nginx']
-  }
-
 }
