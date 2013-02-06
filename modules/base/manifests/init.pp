@@ -10,9 +10,9 @@ class base {
     stage => 'pre',
   }
 
-  include private::users
+  include private::users, postfix
 
-  package {['mercurial', 'vim', 'emacs', 'postfix']: ensure => present}
+  package {['mercurial', 'vim', 'emacs']: ensure => present}
 
   file {'/etc/timezone':
     ensure => file,
