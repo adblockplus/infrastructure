@@ -53,7 +53,7 @@ class nginx (
   service {'nginx':
     ensure => running,
     enable => true,
-    hasrestart => true,
+    restart => '/etc/init.d/nginx reload',
     hasstatus => true,
     require => File['/etc/nginx/nginx.conf']
   }
