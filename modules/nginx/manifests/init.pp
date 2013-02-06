@@ -14,7 +14,7 @@ class nginx (
   }
 
   file {'/etc/nginx/nginx.conf':
-	content => template('nginx/nginx.conf.erb'),
+    content => template('nginx/nginx.conf.erb'),
     require => Package['nginx']
   }
 
@@ -26,7 +26,7 @@ class nginx (
 #  file {'/etc/nginx/sites-enabled/default':
 #    ensure => absent,
 #  }
-  
+
   define hostconfig ($file = $title, $source, $enabled = false) {
     file {"/etc/nginx/sites-available/${file}":
       ensure  => file,
@@ -34,21 +34,21 @@ class nginx (
       require => Package['nginx'],
       notify => Service['nginx'],
     }
-	if $enabled == true {
+    if $enabled == true {
       file {"/etc/nginx/sites-enabled/${file}":
         ensure  => link,
-		require => File["/etc/nginx/sites-available/${file}"],
+        require => File["/etc/nginx/sites-available/${file}"],
         target => "/etc/nginx/sites-available/${file}",
         notify => Service['nginx']
       }
     }
   }
-	
+
 #  file {'/etc/logrotate.d/nginx':
 #    source => 'nginx/logrotate',
 #    require => File['/etc/nginx/nginx.conf']
 #  }
-  
+
   service {'nginx':
     ensure => running,
     enable => true,

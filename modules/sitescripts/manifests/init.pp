@@ -13,6 +13,6 @@ class sitescripts (
     command => "hg clone https://hg.adblockplus.org/sitescripts /opt/sitescripts",
     path    => [ "/usr/bin/", "/bin/" ],
     require => Package['mercurial'],
-	onlyif => "test ! -d /opt/sitescripts"
+    onlyif => "test ! -d /opt/sitescripts"
   }
 }
