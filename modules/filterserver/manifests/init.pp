@@ -29,7 +29,7 @@ class filterserver {
   }
 
   class {'nginx':
-    worker_processes => 4,
+    worker_processes => 2,
     worker_connections => 4000
   }
 
