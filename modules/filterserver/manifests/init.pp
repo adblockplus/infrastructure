@@ -196,7 +196,7 @@ class filterserver {
     ensure => present,
     require => [
                 User['rsync'],
-		Package['python-geoip']
+                Package['python-geoip']
                ],
     command => 'gzip -cd /var/log/nginx/access_log_easylist_downloads.1.gz | python -m sitescripts.logs.bin.extractSubscriptionStats',
     environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
