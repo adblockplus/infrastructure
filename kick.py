@@ -10,16 +10,16 @@ import yaml
 
 def usage():
   print >>sys.stderr, '''
-Usage: %s -u <user> [-v|-t] [<host>|<group>] ...
+Usage: %s -u <user> [-t|-q] [<host>|<group>] ...
 
 Runs provisioning on the given hosts or groups of hosts.
 
 Options:
   -u <user>       User name to use with the SSH command (needs access to puppet
                   master and all hosts)
-  -v              Verbose mode, will print complete Puppet output to console
-  -t              Dry-run mode, will produce the same output as verbose mode but
-                  not change host configuration
+  -t              Dry-run mode, will produce the usual output but not change
+                  host configuration
+  -q              Quiet mode, suppress Puppet output to console
 ''' % sys.argv[0]
 
 def parseOptions(args):
@@ -31,16 +31,16 @@ def parseOptions(args):
     sys.exit(1)
 
   user = None
-  mode = ''
+  mode = ' --test'
   for option, value in options:
-    if option in ('-v', '-t') and mode != '':
-      print >>sys.stderr, 'Only one mode flag can be specified, either -v or -t'
+    if option in ('-t', '-q') and mode != '':
+      print >>sys.stderr, 'Only one mode flag can be specified, either -t or -q'
       usage()
       sys.exit(1)
     if option == '-u':
       user = value
-    elif option == '-v':
-      mode = ' --test'
+    elif option == '-q':
+      mode = ''
     elif option == '-t':
       mode = ' --test --noop'
 
