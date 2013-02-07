@@ -1,5 +1,6 @@
 class base {
   stage {'pre': before => Stage['main']}
+  stage {'post': require => Stage['main']}
 
   class {'apt':
     stage => 'pre',
@@ -20,5 +21,9 @@ class base {
     group => root,
     mode => 0644,
     source => 'puppet:///modules/base/timezone'
+  }
+
+  class {'logrotate':
+    stage => 'post'
   }
 }
