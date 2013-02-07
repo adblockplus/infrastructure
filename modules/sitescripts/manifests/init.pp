@@ -11,7 +11,7 @@ class sitescripts (
 
   exec { "fetch_sitescripts":
     command => "hg clone https://hg.adblockplus.org/sitescripts /opt/sitescripts",
-    path    => [ "/usr/bin/", "/bin/" ],
+    path => ["/usr/bin/", "/bin/"],
     require => Package['mercurial'],
     onlyif => "test ! -d /opt/sitescripts"
   }
