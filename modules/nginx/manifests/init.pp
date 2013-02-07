@@ -45,10 +45,10 @@ class nginx (
     }
   }
 
-#  file {'/etc/logrotate.d/nginx':
-#    source => 'nginx/logrotate',
-#    require => File['/etc/nginx/nginx.conf']
-#  }
+  file {'/etc/logrotate.d/nginx':
+    source => 'puppet:///modules/nginx/logrotate',
+    require => Package['nginx']
+  }
 
   service {'nginx':
     ensure => running,

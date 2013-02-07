@@ -1,10 +1,11 @@
-/srv/log/access.log /srv/log/error.log {
-	daily
-	rotate 30
-	compress
-	missingok
-	nodateext
-	postrotate
-		/usr/bin/killall -HUP nginx
-	endscript
+/var/log/nginx/access.log /var/log/nginx/error.log {
+  daily
+  rotate 30
+  compress
+  missingok
+  nodateext
+  sharedscripts
+  postrotate
+    [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
+  endscript
 }

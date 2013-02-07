@@ -1,10 +1,11 @@
 /var/log/nginx/access_log_easylist_downloads {
-	daily
-	rotate 30
-	compress
-	missingok
-	nodateext
-	postrotate
-		/usr/bin/killall -HUP nginx
-	endscript
+  daily
+  rotate 30
+  compress
+  missingok
+  nodateext
+  sharedscripts
+  postrotate
+    [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
+  endscript
 }
