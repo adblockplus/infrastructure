@@ -2,7 +2,7 @@ def define_standard_vm(config, host_name, ip)
   config.vm.define host_name do |config|
     config.vm.box = 'precise64'
     config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
-    config.vm.host_name = host_name
+    config.vm.host_name = "#{host_name}.adblockplus.org"
     config.vm.network :hostonly, ip
     config.vm.customize ["modifyvm", :id, "--cpus", 1]
 
