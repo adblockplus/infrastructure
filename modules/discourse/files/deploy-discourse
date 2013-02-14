@@ -1,0 +1,25 @@
+#!/bin/bash
+
+scm_url="https://hg.adblockplus.org/discourse"
+tmp_dir="/tmp/discourse-$$"
+config_dir="/etc/discourse"
+app_dir="/opt/discourse"
+
+hg clone "$scm_url" "$tmp_dir"
+ln -s "$config_dir/database.yml" "$tmp_dir/config/database.yml"
+ln -s "$config_dir/redis.yml" "$tmp_dir/config/redis.yml"
+pushd "$tmp_dir"
+bundle install
+rake assets:precompile
+popd
+
+# TODO: Stop Thin
+
+[[ -d $app_dir ]] && rm -rf "$app_dir"
+mv "$tmp_dir" "$app_dir"
+
+pushd "$app_dir"
+rake db:migrate RAILS_ENV="production"
+popd
+
+# TODO: Start Thin
