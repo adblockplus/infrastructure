@@ -3,6 +3,8 @@ production:
   database: discourse
   pool: 5
   timeout: 5000
+  host_names:
+    - "localhost"
   host: localhost
   username: discourse
   password: vagrant
