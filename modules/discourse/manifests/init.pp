@@ -62,6 +62,7 @@ class discourse {
   exec {'/usr/local/bin/deploy-discourse':
     subscribe => File['/usr/local/bin/deploy-discourse'],
     refreshonly => true,
+    timeout => 0,
     require => [Package['bundler', 'postgresql-contrib', $gem_dependencies],
                 File['/etc/discourse/database.yml', '/etc/discourse/redis.yml']]
   }
