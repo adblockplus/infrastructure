@@ -32,8 +32,8 @@ class discourse {
     provider => gem
   }
 
-  $gem_dependencies = ['git', 'build-essential', 'libxml2-dev', 'libxslt-dev',
-                       'libpq-dev']
+  $gem_dependencies = ['git', 'build-essential', 'ruby1.9.1-dev', 'libxml2-dev',
+                       'libxslt-dev', 'libpq-dev']
   package {$gem_dependencies: ensure => present}
 
   file {'/etc/discourse': ensure => directory}
