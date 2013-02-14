@@ -1,4 +1,6 @@
 2ad7ae372ae8d2d30ce672c2382da171a4a079f5 modules/apt
+7005ec47f8a7068659a0908160e9e3a801ff2c92 modules/firewall
 6033992168fe1448295cbd67fafa17494509d096 modules/mysql
+aea207c0ea91e46e7a68dcf8ebe7e9c42c13dc97 modules/postgresql
 96cb4bd8d241bc0206d64756fbef776acd4c7fe7 modules/spawn-fcgi
 b65d82051553e861d2b9496d4018d24d273beef5 modules/stdlib
