@@ -10,7 +10,7 @@ ln -s "$config_dir/database.yml" "$tmp_dir/config/database.yml"
 ln -s "$config_dir/redis.yml" "$tmp_dir/config/redis.yml"
 pushd "$tmp_dir"
 bundle install
-rake assets:precompile
+rake assets:precompile RAILS+ENV="production"
 popd
 
 # TODO: Stop Thin
