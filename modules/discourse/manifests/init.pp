@@ -32,7 +32,7 @@ class discourse {
     provider => gem
   }
 
-  $gem_dependencies = ['build-essential', 'libxml2-dev', 'libxslt-dev',
+  $gem_dependencies = ['git', 'build-essential', 'libxml2-dev', 'libxslt-dev',
                        'libpq-dev']
   package {$gem_dependencies: ensure => present}
 
