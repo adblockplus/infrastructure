@@ -1,0 +1,20 @@
+#!/bin/bash
+
+app_dir="/opt/discourse"
+
+sudo bundle install --gemfile=$app_dir/Gemfile
+
+pushd $app_dir
+
+export GEM_HOME=~discourse/.gems
+bundle install
+
+rake assets:precompile RAILS_ENV="production"
+
+[[ -f /etc/init.d/spawn-fcgi ]] && sudo /etc/init.d/spawn-fcgi stop
+
+rake db:migrate RAILS_ENV="production"
+
+[[ -f /etc/init.d/spawn-fcgi ]] && sudo /etc/init.d/spawn-fcgi start
+
+popd
