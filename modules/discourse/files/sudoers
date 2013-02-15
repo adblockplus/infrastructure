@@ -1,0 +1,4 @@
+Cmnd_Alias SPAWN_FCGI = /etc/init.d/spawn-fcgi start, /etc/init.d/spawn-fcgi stop, /etc/init.d/spawn-fcgi restart
+Cmnd_Alias BUNDLE_INSTALL = /usr/local/bin/bundle install --gemfile=/opt/discourse/Gemfile
+
+discourse ALL=(ALL) NOPASSWD: SPAWN_FCGI, BUNDLE_INSTALL
