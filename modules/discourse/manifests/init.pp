@@ -93,7 +93,7 @@ class discourse {
   }
 
   exec {'fetch-discourse':
-    command => "hg clone https://hg.adblockplus.org/discourse /opt/discourse && echo gem \\'fcgi\\' >> /opt/discourse/Gemfile",
+    command => "hg clone https://hg.adblockplus.org/discourse /opt/discourse",
     path => ["/usr/bin/", "/bin/"],
     user => discourse,
     group => www-data,
