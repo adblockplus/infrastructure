@@ -1,16 +1,53 @@
-#!/bin/bash
+#!/usr/bin/env python
 
-app_dir="/opt/discourse"
+import sys, os, pwd, subprocess
 
-cd $app_dir
+app_dir = '/opt/discourse'
+secret = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
 
-export GEM_HOME=~discourse/.gems
-bundle install
+# HOME environment variable isn't reliable when called via sudo
+home_dir = os.path.expanduser('~' + pwd.getpwuid(os.getuid()).pw_name)
 
-$GEM_HOME/bin/rake assets:precompile RAILS_ENV="production"
+env = dict(os.environ)
+env['GEM_HOME'] = os.path.join(home_dir, '.gems')
 
-[[ -f /etc/init.d/spawn-fcgi ]] && sudo /etc/init.d/spawn-fcgi stop
+def preprocessFiles():
+  gemfile_path = os.path.join(app_dir, 'Gemfile')
+  handle = open(gemfile_path, 'rb')
+  if "gem 'fcgi'" not in map(str.strip, handle.readlines()):
+    handle.close()
+    handle = open(gemfile_path, 'ab')
+    print >>handle, "gem 'fcgi'"
+    print >>sys.stderr, 'Added fcgi gem to Gemfile'
+  handle.close()
 
-$GEM_HOME/bin/rake db:migrate RAILS_ENV="production"
+  secret_path = os.path.join(app_dir, 'config', 'initializers', 'secret_token.rb')
+  handle = open(secret_path, 'rb')
+  if handle.read().find('SET_SECRET_HERE') >= 0:
+    handle.close()
+    handle = open(secret_path, 'wb')
+    print >>handle, 'Discourse::Application.config.secret_token = "%s"' % secret
+    print >>sys.stderr, 'Defined our secret in config/initializers/secret_token.rb'
+  handle.close()
 
-[[ -f /etc/init.d/spawn-fcgi ]] && sudo /etc/init.d/spawn-fcgi start
+def callRailsCommand(command):
+  subprocess.call(command, env=env, cwd=app_dir)
+
+def runInitCommands():
+  rake_path = os.path.join(env['GEM_HOME'], 'bin', 'rake')
+  spawn_path = '/etc/init.d/spawn-fcgi'
+
+  callRailsCommand(['bundle', 'install'])
+  callRailsCommand([rake_path, 'assets:precompile', 'RAILS_ENV=production'])
+
+  if os.path.exists(spawn_path):
+    subprocess.call(['sudo', spawn_path, 'stop'])
+
+  callRailsCommand([rake_path, 'db:migrate', 'RAILS_ENV=production'])
+
+  if os.path.exists(spawn_path):
+    subprocess.call(['sudo', spawn_path, 'start'])
+
+if __name__ == '__main__':
+  preprocessFiles()
+  runInitCommands()
