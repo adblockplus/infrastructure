@@ -7,4 +7,4 @@ production:
   username: discourse
   password: vagrant
   host_names:
-    - "localhost"
+    - "intraforum.adblockplus.org"
