@@ -116,6 +116,41 @@ class discourse {
                 File['/opt/discourse/config/redis.yml']]
   }
 
+  discourse::sitesetting {'title':
+    ensure => present,
+    type => 1,
+    value => 'Adblock Plus internal discussions',
+    require => Exec['/usr/local/bin/init-discourse']
+  }
+
+  discourse::sitesetting {'notification_email':
+    ensure => present,
+    type => 1,
+    value => 'donotreply@adblockplus.org',
+    require => Exec['/usr/local/bin/init-discourse']
+  }
+
+  discourse::sitesetting {'must_approve_users':
+    ensure => present,
+    type => 5,
+    value => 't',
+    require => Exec['/usr/local/bin/init-discourse']
+  }
+
+  discourse::sitesetting {'email_domains_blacklist':
+    ensure => present,
+    type => 1,
+    value => '',
+    require => Exec['/usr/local/bin/init-discourse']
+  }
+
+  discourse::sitesetting {'use_ssl':
+    ensure => present,
+    type => 5,
+    value => 't',
+    require => Exec['/usr/local/bin/init-discourse']
+  }
+
   class {'spawn-fcgi':}
 
   spawn-fcgi::pool {'discourse-fastcgi':
