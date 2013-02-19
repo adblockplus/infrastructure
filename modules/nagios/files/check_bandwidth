@@ -40,12 +40,12 @@ if __name__ == "__main__":
 
   output = "%s|%s" % (status, perfdata)
 
-  if warn <= rx or warn <= tx:
-    print "WARNING - " + output
-    sys.exit(1)
-
-  if crit <= rx or crit <= tx:
+  if rx >= crit or tx >= crit:
     print "CRITICAL - " + output
     sys.exit(2)
+
+  if rx >= warn or tx >= warn:
+    print "WARNING - " + output
+    sys.exit(1)
 
   print "OK - " + output
