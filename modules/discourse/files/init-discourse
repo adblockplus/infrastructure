@@ -3,7 +3,7 @@
 import sys, os, pwd, subprocess
 
 app_dir = '/opt/discourse'
-secret = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
+secret = os.environ.get('DISCOURSE_SECRET', None)
 
 # HOME environment variable isn't reliable when called via sudo
 home_dir = os.path.expanduser('~' + pwd.getpwuid(os.getuid()).pw_name)
@@ -24,10 +24,13 @@ def preprocessFiles():
   secret_path = os.path.join(app_dir, 'config', 'initializers', 'secret_token.rb')
   handle = open(secret_path, 'rb')
   if handle.read().find('SET_SECRET_HERE') >= 0:
-    handle.close()
-    handle = open(secret_path, 'wb')
-    print >>handle, 'Discourse::Application.config.secret_token = "%s"' % secret
-    print >>sys.stderr, 'Defined our secret in config/initializers/secret_token.rb'
+    if secret != None:
+      handle.close()
+      handle = open(secret_path, 'wb')
+      print >>handle, 'Discourse::Application.config.secret_token = "%s"' % secret
+      print >>sys.stderr, 'Defined our secret in config/initializers/secret_token.rb'
+    else:
+      print >>sys.stderr, 'Skipping defining secret in config/initializers/secret_token.rb, please set DISCOURSE_SECRET environment variable'
   handle.close()
 
 def callRailsCommand(command):
