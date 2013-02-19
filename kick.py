@@ -30,13 +30,14 @@ def parseOptions(args):
     usage()
     sys.exit(1)
 
+  if set(('-t', '-q')).issubset(options):
+    print >>sys.stderr, 'Only one mode flag can be specified, either -t or -q'
+    usage()
+    sys.exit(1)
+
   user = None
   mode = ' --test'
   for option, value in options:
-    if option in ('-t', '-q') and mode != '':
-      print >>sys.stderr, 'Only one mode flag can be specified, either -t or -q'
-      usage()
-      sys.exit(1)
     if option == '-u':
       user = value
     elif option == '-q':
