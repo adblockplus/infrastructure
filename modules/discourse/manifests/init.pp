@@ -1,4 +1,4 @@
-class discourse {
+class discourse inherits private::discourse {
   include postgresql::server
 
   postgresql::database {'discourse':}
@@ -95,6 +95,7 @@ class discourse {
   exec {'fetch-discourse':
     command => "hg clone https://hg.adblockplus.org/discourse /opt/discourse",
     path => ["/usr/bin/", "/bin/"],
+    environment => ["DISCOURSE_SECRET=${secret}"],
     user => discourse,
     group => www-data,
     require => [Package['mercurial'], File['/opt/discourse']],
@@ -148,6 +149,11 @@ class discourse {
     ensure => present,
     type => 5,
     value => 't',
+    require => Exec['/usr/local/bin/init-discourse']
+  }
+
+  discourse::admin {$admins:
+    ensure => present,
     require => Exec['/usr/local/bin/init-discourse']
   }
 
