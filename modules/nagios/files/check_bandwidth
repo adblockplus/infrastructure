@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import re, subprocess, sys
+import os, re, subprocess, sys
 
 def extract_data(type, vnstat_output):
   match = re.search(r"%s\s*([\d\.]*) (.bit/s)" % type, vnstat_output)
@@ -21,7 +21,8 @@ def calculate_bits(value, unit):
 
 if __name__ == "__main__":
   if len(sys.argv) != 3:
-    print "Usage: `basename $0` WARN CRIT"
+    script_name = os.path.basename(sys.argv[0])
+    print "Usage: %s WARN CRIT" % script_name
     sys.exit(0)
 
   (warn, crit) = sys.argv[1:3]
