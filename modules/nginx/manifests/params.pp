@@ -7,6 +7,7 @@ class nginx::params {
   $keepalive_timeout = 15
   $tcp_nodelay = on
   $gzip = on
+  $ssl_session_cache = on
 
   $user = $::operatingsystem ? {
     /(?i-mx:debian|ubuntu)/ => 'www-data',
