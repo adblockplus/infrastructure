@@ -1,6 +1,7 @@
 class nginx (
     $worker_processes = $nginx::params::worker_processes,
-    $worker_connections = $nginx::params::worker_connections
+    $worker_connections = $nginx::params::worker_connections,
+    $ssl_session_cache =  $nginx::params::ssl_session_cache
   ) inherits nginx::params {
 
   package {'nginx':
