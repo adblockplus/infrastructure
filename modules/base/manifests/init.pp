@@ -23,6 +23,11 @@ class base {
     source => 'puppet:///modules/base/timezone'
   }
 
+  file {'/etc/localtime':
+    ensure => link,
+    target => '/usr/share/zoneinfo/UTC'
+  }
+
   class {'logrotate':
     stage => 'post'
   }
