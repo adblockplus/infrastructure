@@ -48,7 +48,6 @@ node 'server4' {
     command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H easylist-downloads.adblockplus.org -u /easylist.txt -k "Accept-Encoding: gzip,deflate" -e "HTTP/1.1 200 OK"'
   }
 
-  nagios_host {'www.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_1.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_3.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_4.adblockplus.org': use => 'generic-host'}
@@ -59,7 +58,7 @@ node 'server4' {
   nagios_host {'server_9.adblockplus.org': use => 'generic-host'}
 
   nagios_hostgroup {'all': members => '*'}
-  nagios_hostgroup {'http-servers': members => 'www.adblockplus.org, server_4.adblockplus.org'}
+  nagios_hostgroup {'http-servers': members => 'server_4.adblockplus.org'}
   nagios_hostgroup {'filter-servers': members => 'server_1.adblockplus.org, server_3.adblockplus.org, server_5.adblockplus.org, server_6.adblockplus.org, server_7.adblockplus.org, server_8.adblockplus.org, server_9.adblockplus.org'}
 
   nagios_service {'current-load':

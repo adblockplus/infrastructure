@@ -14,7 +14,6 @@ node default {
   $hosts = [
     {host => 'localhost', ip => '127.0.0.1'},
     {host => $hostname, ip => '127.0.0.1'},
-    {host => 'www.adblockplus.org', ip => '10.8.0.97'},
     {host => 'monitoring.adblockplus.org', ip => '10.8.0.98'},
     {host => 'server_1.adblockplus.org', ip => '10.8.0.105'},
     {host => 'server_3.adblockplus.org', ip => '10.8.0.99'},

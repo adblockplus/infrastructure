@@ -40,13 +40,13 @@ below.
 For each production server, we have a Vagrant VM with the same host
 name.
 
-To start the _server0_ VM:
+To start the _server1_ VM:
 
-	vagrant up server0
+	vagrant up server1
 
 After you've made changes to Puppet manifests, you can update it like this:
 
-	vagrant provision server0
+	vagrant provision server1
 
 You can omit the VM name if you want to boot or provision all
 VMs. This might take a while and eat quite a bit of RAM though.
@@ -177,61 +177,3 @@ The monitoring service of our production environment runs on
 _monitoring.adblockplus.org_. Add yourself to _files/nagios-htpasswd_
 in the _private_ module used on the server, or have someone add you if
 you don't have access.
-
-Website development
--------------------
-
-### Requirements
-
-* A clone of the _anwiki_ repository, next to this directory.
-* The running _server0_ VM.
-
-### Set up anwiki
-
-1. Go to [http://10.8.0.97](http://10.8.0.97).
-
-2. Click on the green _Begin installation_ button.
-
-3. Enter _http://10.8.0.97/_ as _Root URL_ and empty the _Cookies
-domain_ field.
-
-4. Click on _Edit MySQL Connection_ and enter _anwiki_ as _user_ and
-_database_, _vagrant_ as password. You'll have to repeat this step for
-each plugin.
-
-5. Press all the green buttons until you're asked to create an account. Do so.
-
-6. Click on _Don't ping_, ignore the error message on the next page
-and proceed to the website.
-
-7. Go to
-[http://10.8.0.97/en/_include/menu](http://10.8.0.97/en/_include/menu).
-
-8. Click on _Delete_ and then on _Delete the page in ALL languages_.
-
-9. Click on _Manage_ in the lower right area, then on _Edit
-configuration_.
-
-10. Click on _Edit location_, set _Home_ to _en_ and check _Friendly
-URLs_, then click on _Save settings_.
-
-11. Click on _Manage_ again, then _Import contents_.
-
-12. Chose an export file from the production website. Then _Upload
-now_.
-
-13. Click on _all_ and _Import now_.
-
-### Update anwiki
-
-SSH to the server:
-
-	vagrant ssh server0
-
-Then execute the following:
-
-	sudo deploy-anwiki
-
-If you have a clone of anwiki (see _Requirements_), this will deploy
-it on the virtual machine. If not, it will clone anwiki from the
-official repository.

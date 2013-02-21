@@ -23,18 +23,9 @@ fi'
 
     yield(config) if block_given?
   end
-
 end
 
 Vagrant::Config.run do |config|
-  define_standard_vm config, 'server0', '10.8.0.97' do |config|
-    local_anwiki_repository = '../anwiki'
-    if File.directory?(local_anwiki_repository)
-      config.vm.share_folder('local_anwiki_repository',
-        '/mnt/local_anwiki_repository', local_anwiki_repository)
-    end
-  end
-
   define_standard_vm config, 'server1', '10.8.0.105'
   define_standard_vm config, 'server3', '10.8.0.99'
   define_standard_vm config, 'server4', '10.8.0.98'
