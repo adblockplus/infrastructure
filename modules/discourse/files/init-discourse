@@ -4,12 +4,14 @@ import sys, os, pwd, subprocess
 
 app_dir = '/opt/discourse'
 secret = os.environ.get('DISCOURSE_SECRET', None)
+airbrake_key = os.environ.get('AIRBRAKE_KEY', None)
 
 # HOME environment variable isn't reliable when called via sudo
 home_dir = os.path.expanduser('~' + pwd.getpwuid(os.getuid()).pw_name)
 
 env = dict(os.environ)
 env['GEM_HOME'] = os.path.join(home_dir, '.gems')
+env['RAILS_ENV'] = 'production'
 
 def preprocessFiles():
   gemfile_path = os.path.join(app_dir, 'Gemfile')
@@ -36,17 +38,34 @@ def preprocessFiles():
 def callRailsCommand(command):
   subprocess.call(command, env=env, cwd=app_dir)
 
+def initAirBrake():
+  if airbrake_key == None:
+    return
+
+  path = os.path.join(app_dir, 'config', 'initializers', 'airbrake.rb')
+  if os.path.exists(path):
+    handle = open(path, 'rb')
+    data = handle.read()
+    handle.close()
+
+    if data.find(airbrake_key) >= 0:
+      return
+    else:
+      os.remove(path)
+  callRailsCommand([os.path.join(app_dir, 'script', 'rails'), 'generate', 'airbrake', '--api-key', airbrake_key])
+
 def runInitCommands():
   rake_path = os.path.join(env['GEM_HOME'], 'bin', 'rake')
   spawn_path = '/etc/init.d/spawn-fcgi'
 
   callRailsCommand(['bundle', 'install'])
-  callRailsCommand([rake_path, 'assets:precompile', 'RAILS_ENV=production'])
+  initAirBrake()
+  callRailsCommand([rake_path, 'assets:precompile'])
 
   if os.path.exists(spawn_path):
     subprocess.call(['sudo', spawn_path, 'stop'])
 
-  callRailsCommand([rake_path, 'db:migrate', 'RAILS_ENV=production'])
+  callRailsCommand([rake_path, 'db:migrate'])
 
   if os.path.exists(spawn_path):
     subprocess.call(['sudo', spawn_path, 'start'])
