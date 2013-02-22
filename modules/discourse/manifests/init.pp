@@ -168,6 +168,20 @@ class discourse inherits private::discourse {
     require => File['/opt/discourse/discourse.fcgi'],
   }
 
+  Discourse::Customservice <| |> {
+    user => 'discourse',
+    workdir => '/opt/discourse',
+    env => ['GEM_HOME=~discourse/.gems', 'RAILS_ENV=production']
+  }
+
+  discourse::customservice {'sidekiq':
+    command => 'bundle exec sidekiq'
+  }
+
+  discourse::customservice {'clockwork':
+    command => 'bundle exec clockwork config/clock.rb'
+  }
+
   class {'nginx':
     worker_processes => 1,
     worker_connections => 500
