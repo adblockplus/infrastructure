@@ -1,9 +1,11 @@
 #!/usr/bin/ruby
 
+require 'etc'
+
 Dir.chdir(File.dirname(__FILE__))
 ENV['RAILS_ENV'] ||= 'production'
-ENV['GEM_HOME'] = File.expand_path('~discourse/.gems')
-ENV['GEM_PATH'] = File.expand_path('~discourse/.gems') + ':/var/lib/gems/1.9.1'
+ENV['GEM_HOME'] = "#{Etc.getpwuid.dir}/.gems"
+ENV['GEM_PATH'] = "#{ENV['GEM_HOME']}:/var/lib/gems/1.9.1"
 
 require 'fcgi'
 require_relative 'config/environment'
