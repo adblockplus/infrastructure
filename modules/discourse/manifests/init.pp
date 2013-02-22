@@ -95,7 +95,6 @@ class discourse inherits private::discourse {
   exec {'fetch-discourse':
     command => "hg clone https://hg.adblockplus.org/discourse /opt/discourse",
     path => ["/usr/bin/", "/bin/"],
-    environment => ["DISCOURSE_SECRET=${secret}"],
     user => discourse,
     group => www-data,
     require => [Package['mercurial'], File['/opt/discourse']],
@@ -105,6 +104,7 @@ class discourse inherits private::discourse {
   exec {'/usr/local/bin/init-discourse':
     subscribe => File['/usr/local/bin/init-discourse'],
     refreshonly => true,
+    environment => ["DISCOURSE_SECRET=${secret}", "AIRBRAKE_KEY=${airbrake_key}"],
     user => discourse,
     group => www-data,
     timeout => 0,
