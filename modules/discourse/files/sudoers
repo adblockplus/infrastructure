@@ -1,3 +1,3 @@
-Cmnd_Alias SPAWN_FCGI = /etc/init.d/spawn-fcgi start, /etc/init.d/spawn-fcgi stop, /etc/init.d/spawn-fcgi restart
+Cmnd_Alias DISCOURSE = /etc/init.d/discourse-thin start, /etc/init.d/discourse-thin stop, /etc/init.d/discourse-thin restart
 
-discourse ALL=(ALL) NOPASSWD: SPAWN_FCGI
+discourse ALL=(ALL) NOPASSWD: DISCOURSE
