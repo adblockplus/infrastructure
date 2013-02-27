@@ -33,7 +33,7 @@ class discourse inherits private::discourse {
   }
 
   $gem_dependencies = ['git', 'build-essential', 'ruby1.9.1-dev', 'libxml2-dev',
-                       'libxslt-dev', 'libpq-dev', 'libfcgi-dev']
+                       'libxslt-dev', 'libpq-dev']
   package {$gem_dependencies: ensure => present}
 
   file {'/opt/discourse':
@@ -41,14 +41,6 @@ class discourse inherits private::discourse {
     mode => 755,
     owner => discourse,
     group => www-data
-  }
-
-  file {'/opt/discourse/discourse.fcgi':
-    mode => 755,
-    owner => discourse,
-    group => www-data,
-    source => 'puppet:///modules/discourse/discourse.fcgi',
-    require => Exec['fetch-discourse']
   }
 
   file {'/opt/discourse/config/database.yml':
@@ -112,7 +104,6 @@ class discourse inherits private::discourse {
     require => [Package['bundler', 'postgresql-contrib', $gem_dependencies],
                 User['discourse'], File['/etc/sudoers.d/discourse'],
                 Exec['fetch-discourse'],
-                File['/opt/discourse/discourse.fcgi'],
                 File['/opt/discourse/config/database.yml'],
                 File['/opt/discourse/config/redis.yml']]
   }
@@ -156,23 +147,15 @@ class discourse inherits private::discourse {
     require => Exec['/usr/local/bin/init-discourse']
   }
 
-  class {'spawn-fcgi':}
-
-  spawn-fcgi::pool {'discourse-fastcgi':
-    ensure => 'present',
-    user => 'discourse',
-    group => 'www-data',
-    mode => 0664,
-    fcgi_app => '/opt/discourse/discourse.fcgi',
-    socket => '/tmp/discourse-fastcgi.sock',
-    require => File['/opt/discourse/discourse.fcgi'],
-  }
-
   Discourse::Customservice <| |> {
     user => 'discourse',
     workdir => '/opt/discourse',
     env => ['GEM_HOME=~discourse/.gems', 'RAILS_ENV=production'],
     require => Exec['/usr/local/bin/init-discourse']
+  }
+
+  discourse::customservice {'discourse-thin':
+    command => 'bundle exec thin -S /tmp/discourse-thin.sock start'
   }
 
   discourse::customservice {'sidekiq':

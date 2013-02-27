@@ -14,15 +14,6 @@ env['GEM_HOME'] = os.path.join(home_dir, '.gems')
 env['RAILS_ENV'] = 'production'
 
 def preprocessFiles():
-  gemfile_path = os.path.join(app_dir, 'Gemfile')
-  handle = open(gemfile_path, 'rb')
-  if "gem 'fcgi'" not in map(str.strip, handle.readlines()):
-    handle.close()
-    handle = open(gemfile_path, 'ab')
-    print >>handle, "gem 'fcgi'"
-    print >>sys.stderr, 'Added fcgi gem to Gemfile'
-  handle.close()
-
   secret_path = os.path.join(app_dir, 'config', 'initializers', 'secret_token.rb')
   handle = open(secret_path, 'rb')
   if handle.read().find('SET_SECRET_HERE') >= 0:
@@ -56,19 +47,19 @@ def initAirBrake():
 
 def runInitCommands():
   rake_path = os.path.join(env['GEM_HOME'], 'bin', 'rake')
-  spawn_path = '/etc/init.d/spawn-fcgi'
+  service_path = '/etc/init.d/discourse-thin'
 
   callRailsCommand(['bundle', 'install'])
   initAirBrake()
   callRailsCommand([rake_path, 'assets:precompile'])
 
-  if os.path.exists(spawn_path):
-    subprocess.call(['sudo', spawn_path, 'stop'])
+  if os.path.exists(service_path):
+    subprocess.call(['sudo', service_path, 'stop'])
 
   callRailsCommand([rake_path, 'db:migrate'])
 
-  if os.path.exists(spawn_path):
-    subprocess.call(['sudo', spawn_path, 'start'])
+  if os.path.exists(service_path):
+    subprocess.call(['sudo', service_path, 'start'])
 
 if __name__ == '__main__':
   preprocessFiles()
