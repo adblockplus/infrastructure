@@ -142,6 +142,24 @@ class discourse inherits private::discourse {
     value => 't'
   }
 
+  discourse::sitesetting {'company_full_name':
+    ensure => present,
+    type => 1,
+    value => 'Eyeo GmbH'
+  }
+
+  discourse::sitesetting {'company_short_name':
+    ensure => present,
+    type => 1,
+    value => 'Eyeo'
+  }
+
+  discourse::sitesetting {'company_domain':
+    ensure => present,
+    type => 1,
+    value => 'eyeo.com'
+  }
+
   Discourse::Postactiontype <| |> {
     require => Exec['/usr/local/bin/init-discourse']
   }
