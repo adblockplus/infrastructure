@@ -142,6 +142,64 @@ class discourse inherits private::discourse {
     value => 't'
   }
 
+  Discourse::Postactiontype <| |> {
+    require => Exec['/usr/local/bin/init-discourse']
+  }
+
+  discourse::postactiontype {'bookmark':
+    ensure => present,
+    id => 1,
+    position => 1
+  }
+
+  discourse::postactiontype {'like':
+    ensure => present,
+    id => 2,
+    position => 2,
+    icon => 'heart'
+  }
+
+  discourse::postactiontype {'off_topic':
+    ensure => present,
+    id => 3,
+    position => 3,
+    is_flag => true
+  }
+
+  discourse::postactiontype {'inappropriate':
+    ensure => present,
+    id => 4,
+    position => 4,
+    is_flag => true
+  }
+
+  discourse::postactiontype {'vote':
+    ensure => present,
+    position => 0,
+    id => 5
+  }
+
+  discourse::postactiontype {'custom_flag':
+    ensure => present,
+    id => 6,
+    position => 7,
+    is_flag => true
+  }
+
+  discourse::postactiontype {'illegal':
+    ensure => present,
+    id => 7,
+    position => 5,
+    is_flag => true
+  }
+
+  discourse::postactiontype {'spam':
+    ensure => present,
+    id => 8,
+    position => 6,
+    is_flag => true
+  }
+
   discourse::admin {$admins:
     ensure => present,
     require => Exec['/usr/local/bin/init-discourse']
