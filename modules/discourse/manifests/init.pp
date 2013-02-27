@@ -171,7 +171,8 @@ class discourse inherits private::discourse {
   Discourse::Customservice <| |> {
     user => 'discourse',
     workdir => '/opt/discourse',
-    env => ['GEM_HOME=~discourse/.gems', 'RAILS_ENV=production']
+    env => ['GEM_HOME=~discourse/.gems', 'RAILS_ENV=production'],
+    require => Exec['/usr/local/bin/init-discourse']
   }
 
   discourse::customservice {'sidekiq':
