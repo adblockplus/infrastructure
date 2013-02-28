@@ -4,7 +4,7 @@ class discourse inherits private::discourse {
   postgresql::database {'discourse':}
 
   postgresql::role {'discourse':
-    password_hash => 'vagrant',
+    password_hash => $database_password,
     db => 'discourse',
     login => true,
     superuser => true
@@ -47,7 +47,8 @@ class discourse inherits private::discourse {
     mode => 600,
     owner => discourse,
     group => www-data,
-    source => 'puppet:///modules/discourse/database.yml',
+    content => template('discourse/database.yml.erb'),
+    notify => Service['discourse-thin'],
     require => Exec['fetch-discourse']
   }
 
@@ -56,6 +57,7 @@ class discourse inherits private::discourse {
     owner => discourse,
     group => www-data,
     source => 'puppet:///modules/discourse/redis.yml',
+    notify => Service['discourse-thin'],
     require => Exec['fetch-discourse']
   }
 
