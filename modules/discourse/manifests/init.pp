@@ -7,7 +7,8 @@ class discourse inherits private::discourse {
     password_hash => $database_password,
     db => 'discourse',
     login => true,
-    superuser => true
+    superuser => true,
+    require => Postgresql::Database['discourse']
   }
 
   package {['postgresql-contrib', 'redis-server', 'ruby1.9.1']:
@@ -107,7 +108,8 @@ class discourse inherits private::discourse {
                 User['discourse'], File['/etc/sudoers.d/discourse'],
                 Exec['fetch-discourse'],
                 File['/opt/discourse/config/database.yml'],
-                File['/opt/discourse/config/redis.yml']]
+                File['/opt/discourse/config/redis.yml'],
+                Postgresql::Role['discourse']]
   }
 
   Discourse::Sitesetting <| |> {
