@@ -160,6 +160,12 @@ class discourse inherits private::discourse {
     value => 'eyeo.com'
   }
 
+  discourse::sitesetting {'secret_token':
+    ensure => present,
+    type => 1,
+    value => $cookie_secret
+  }
+
   Discourse::Postactiontype <| |> {
     require => Exec['/usr/local/bin/init-discourse']
   }
