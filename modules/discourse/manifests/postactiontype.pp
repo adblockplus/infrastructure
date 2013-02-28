@@ -36,15 +36,13 @@ define discourse::postactiontype(
 
       postgresql_psql {"WITH upd AS ($update_sql) INSERT INTO post_action_types ($columns) $values WHERE NOT EXISTS (SELECT * FROM upd)":
         db => 'discourse',
-        psql_user => 'discourse',
-        unless => 'SELECT false'
+        psql_user => 'discourse'
       }
     }
     absent: {
       postgresql_psql {"DELETE FROM post_action_types WHERE id = $escaped_id":
         db => 'discourse',
-        psql_user => 'discourse',
-        unless => 'SELECT false'
+        psql_user => 'discourse'
       }
     }
   }

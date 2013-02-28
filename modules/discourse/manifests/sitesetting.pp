@@ -21,15 +21,13 @@ define discourse::sitesetting(
 
       postgresql_psql {"WITH upd AS ($update_sql) INSERT INTO site_settings ($columns) $values WHERE NOT EXISTS (SELECT * FROM upd)":
         db => 'discourse',
-        psql_user => 'discourse',
-        unless => 'SELECT false'
+        psql_user => 'discourse'
       }
     }
     absent: {
       postgresql_psql {"DELETE FROM site_settings WHERE name = '$escaped_setting'":
         db => 'discourse',
-        psql_user => 'discourse',
-        unless => 'SELECT false'
+        psql_user => 'discourse'
       }
     }
   }
