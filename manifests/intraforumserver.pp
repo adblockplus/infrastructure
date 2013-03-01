@@ -2,6 +2,6 @@ node 'server10' {
   include base, ssh, discourse
 
   class {'nagios::client':
-    server_address => 'intraforum.adblockplus.org'
+    server_address => 'monitoring.adblockplus.org'
   }
 }
