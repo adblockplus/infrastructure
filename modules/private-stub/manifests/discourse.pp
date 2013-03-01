@@ -11,6 +11,6 @@ class private::discourse {
   # AirBrake API key
   $airbrake_key = '0123456789abcdef0123456789abcdef'
 
-  # Secret key for the secret_token site setting, generated via rake secret
-  $cookie_secret = '1475f0c65f1753966844cd520cbc85f95c2a71e22ae2ddde34df0a78a2c63a70f9b241686c2dba5562126a5f3c840ec4f8f7e1a6fc64af2c4ccfdd85de5d3b4e'
+  # Shared password used to access the website
+  $access_password = 'discourse'
 }
