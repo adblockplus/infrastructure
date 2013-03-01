@@ -55,12 +55,12 @@ VMs. This might take a while and eat quite a bit of RAM though.
 
 You can use vagrant to connect as the vagrant user:
 
-    vagrant ssh server5
+	vagrant ssh server5
 
 If you want to test "real" SSH access you can use the test user account defined
 in _private-stub_:
 
-    ssh -i modules/private/files/id_rsa test@10.8.0.100
+	ssh -i modules/private/files/id_rsa test@10.8.0.100
 
 The default password for this user (required for the _sudo_ command) is "test".
 
@@ -86,12 +86,12 @@ _nagios\_host_ to _manifests/monitoringserver.pp_
 1. Install Ubuntu Server 12.04 LTS
 2. Perform an update
 
-    apt-get update
+	apt-get update
 	apt-get upgrade
 
 3. Install Puppet
 
-    apt-get install puppet
+	apt-get install puppet
 
 Now you can either set it up as an agent or as a master. You'll
 probably want an agent, unless this is the very first server.
@@ -100,55 +100,55 @@ probably want an agent, unless this is the very first server.
 
 1. Tell the agent where to find the master
 
-    # cat >> /etc/puppet/puppet.conf << EOF
-    [agent]
-    server = puppetmaster.adblockplus.org
-    EOF
+	cat >> /etc/puppet/puppet.conf << EOF
+	[agent]
+	server = puppetmaster.adblockplus.org
+	EOF
 
 2. Attempt an initial provisioning, this will fail
 
-    # puppet agent --test
+	puppet agent --test
 
 3. On the master: List the certificates to get the name of the new
    agent's certificate
 
-    # puppet cert list
+	puppet cert list
 
 4. Still on the master: Sign the certificate, e.g. for serverx:
 
-    # puppet cert sign serverx
+	puppet cert sign serverx
 
 5. Back on the agent: Attempt another provisioning, it should work now
 
-    # puppet agent --test
+	puppet agent --test
 
 #### Puppet master
 
 1. Configure the master, and make its agent point to itself
 
-    # cat >> /etc/puppet/puppet.conf << EOF
-    certname = puppetmaster.adblockplus.org
+	cat >> /etc/puppet/puppet.conf << EOF
+	certname = puppetmaster.adblockplus.org
 
-    [agent]
-    server = puppetmaster.adblockplus.org
-    EOF
+	[agent]
+	server = puppetmaster.adblockplus.org
+	EOF
 
 2. Install the required packages
 
-    # apt-get install puppetmaster mercurial
+	apt-get install puppetmaster mercurial
 
 3. Clone the infrastructure repository
 
-	# hg clone ssh://hg@adblockplus.org/infrastructure /etc/puppet/infrastructure
-	# rmdir /etc/puppet/{modules,manifests,templates}
-    # ln -s /etc/puppet/infrastructure/manifests /etc/puppet/manifests
-    # ln -s /etc/puppet/infrastructure/modules /etc/puppet/modules
+	hg clone ssh://hg@adblockplus.org/infrastructure /etc/puppet/infrastructure
+	rmdir /etc/puppet/{modules,manifests,templates}
+	ln -s /etc/puppet/infrastructure/manifests /etc/puppet/manifests
+	ln -s /etc/puppet/infrastructure/modules /etc/puppet/modules
 
 4. Make sure to put the private files in place (see above)
 
 5. Provision the master itself
 
-    # puppet agent --test
+	puppet agent --test
 
 Updating a production server
 ----------------------------
@@ -157,7 +157,7 @@ Puppet agent has to be rerun on the servers whenever their configuration is
 changed. The _kick.py_ script automates and simplifies that task, e.g. the
 following will provision all servers (requires Puppet and PyYAML):
 
-    kick.py -u serveradmin all
+	kick.py -u serveradmin all
 
 Here _serveradmin_ is your user account on the servers, it will be used to
 run Puppet on the servers via SSH (sudo privilege required). You can list any
