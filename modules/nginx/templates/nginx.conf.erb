@@ -43,6 +43,8 @@ http {
   ssl_session_cache shared:SSL:1m;
   <% end %>
 
+  types_hash_max_size 2048;
+
   include /etc/nginx/conf.d/*.conf;
   include /etc/nginx/sites-enabled/*;
 }
