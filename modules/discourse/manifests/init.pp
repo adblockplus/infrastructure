@@ -164,10 +164,16 @@ class discourse inherits private::discourse {
     value => 'eyeo.com'
   }
 
-  discourse::sitesetting {'secret_token':
+  discourse::sitesetting {'restrict_access':
+    ensure => present,
+    type => 5,
+    value => 't'
+  }
+
+  discourse::sitesetting {'access_password':
     ensure => present,
     type => 1,
-    value => $cookie_secret
+    value => $access_password
   }
 
   Discourse::Postactiontype <| |> {
