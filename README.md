@@ -93,45 +93,47 @@ _nagios\_host_ to _manifests/monitoringserver.pp_
 
 	apt-get install puppet
 
-Now you can either set it up as an agent or as a master. You'll
-probably want an agent, unless this is the very first server.
+4. Enable pluginsync (Add the following to the _main_ section in    
+   _/etc/puppet/puppet.conf_)
+
+	pluginsync=true
+
+5. Configure the master address (Add the following to the bottom of
+	_/etc/puppet/puppet.conf_)
+	
+	[agent]
+	server = puppetmaster.adblockplus.org
+
+Now you can either set it up as a pure agent or as a master. The
+master provides the configuration, agents fetch it from the master and
+apply it locally. The master is also an agent, fetching configuration
+from itself.
 
 #### Puppet agent
 
-1. Tell the agent where to find the master
-
-	cat >> /etc/puppet/puppet.conf << EOF
-	[agent]
-	server = puppetmaster.adblockplus.org
-	EOF
-
-2. Attempt an initial provisioning, this will fail
+1. Attempt an initial provisioning, this will fail
 
 	puppet agent --test
 
-3. On the master: List the certificates to get the name of the new
+2. On the master: List the certificates to get the name of the new
    agent's certificate
 
 	puppet cert list
 
-4. Still on the master: Sign the certificate, e.g. for serverx:
+3. Still on the master: Sign the certificate, e.g. for serverx:
 
 	puppet cert sign serverx
 
-5. Back on the agent: Attempt another provisioning, it should work now
+4. Back on the agent: Attempt another provisioning, it should work now
 
 	puppet agent --test
 
 #### Puppet master
 
-1. Configure the master, and make its agent point to itself
+1. Configure the certificate name (Add the following to the _master_
+   section in _/etc/puppet/puppet.conf_)
 
-	cat >> /etc/puppet/puppet.conf << EOF
 	certname = puppetmaster.adblockplus.org
-
-	[agent]
-	server = puppetmaster.adblockplus.org
-	EOF
 
 2. Install the required packages
 
