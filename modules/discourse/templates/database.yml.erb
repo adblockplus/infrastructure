@@ -1,0 +1,10 @@
+production:
+  adapter: postgresql
+  database: discourse
+  pool: 5
+  timeout: 5000
+  host: localhost
+  username: discourse
+  password: <%= database_password %>
+  host_names:
+    - "intraforum.adblockplus.org"

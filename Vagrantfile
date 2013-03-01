@@ -3,7 +3,7 @@ def define_standard_vm(config, host_name, ip)
     config.vm.box = 'precise64'
     config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
     config.vm.host_name = "#{host_name}.adblockplus.org"
-    config.vm.network :hostonly, ip
+    config.vm.network :hostonly, ip, { nic_type: 'Am79C970A' }
     config.vm.customize ["modifyvm", :id, "--cpus", 1]
 
     config.vm.provision :shell, :inline => '
@@ -34,4 +34,7 @@ Vagrant::Config.run do |config|
   define_standard_vm config, 'server7', '10.8.0.102'
   define_standard_vm config, 'server8', '10.8.0.103'
   define_standard_vm config, 'server9', '10.8.0.104'
+  define_standard_vm config, 'server10', '10.8.0.105' do |config|
+    config.vm.customize ["modifyvm", :id, "--memory", 1024]
+  end
 end
