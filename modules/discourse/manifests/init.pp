@@ -131,7 +131,7 @@ class discourse inherits private::discourse {
   discourse::sitesetting {'must_approve_users':
     ensure => present,
     type => 5,
-    value => 't'
+    value => 'f'
   }
 
   discourse::sitesetting {'email_domains_blacklist':
