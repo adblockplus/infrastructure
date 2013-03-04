@@ -176,6 +176,30 @@ class discourse inherits private::discourse {
     value => $access_password
   }
 
+  discourse::sitesetting {'enable_facebook_logins':
+    ensure => present,
+    type => 5,
+    value => 'f'
+  }
+
+  discourse::sitesetting {'enable_twitter_logins':
+    ensure => present,
+    type => 5,
+    value => 'f'
+  }
+
+  discourse::sitesetting {'enable_github_logins':
+    ensure => present,
+    type => 5,
+    value => 'f'
+  }
+
+  discourse::sitesetting {'enable_yahoo_logins':
+    ensure => present,
+    type => 5,
+    value => 'f'
+  }
+
   Discourse::Postactiontype <| |> {
     require => Exec['/usr/local/bin/init-discourse']
   }
