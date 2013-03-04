@@ -1,6 +1,0 @@
-location ~ \.tpl$ {
-  root  /var/www/easylist;
-  charset utf-8;
-  default_type text/plain;
-  gzip_static on;
-}

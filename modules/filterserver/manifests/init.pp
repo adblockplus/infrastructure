@@ -79,17 +79,11 @@ class filterserver {
   }
 
   file {'/etc/nginx/sites-available/inc.easylist-downloads-txt':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
-    source => 'puppet:///modules/filterserver/inc.easylist-downloads-txt'
+    ensure => absent
   }
 
   file {'/etc/nginx/sites-available/inc.easylist-downloads-tpl':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
-    source => 'puppet:///modules/filterserver/inc.easylist-downloads-tpl'
+    ensure => absent
   }
 
   file {'/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.key':

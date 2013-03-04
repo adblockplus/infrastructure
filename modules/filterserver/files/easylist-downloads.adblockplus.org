@@ -22,11 +22,9 @@ server {
   ssl_certificate sites-available/easylist-downloads.adblockplus.org_sslcert.pem;
   ssl_certificate_key sites-available/easylist-downloads.adblockplus.org_sslcert.key;
   include "sites-available/inc.easylist-downloads";
-  include "sites-available/inc.easylist-downloads-txt";
 }
 server {
   listen       [::]:80;
   server_name  easylist-msie.adblockplus.org;
   include "sites-available/inc.easylist-downloads";
-  include "sites-available/inc.easylist-downloads-tpl";
 }

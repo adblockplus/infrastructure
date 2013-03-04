@@ -1,12 +1,18 @@
 access_log  /var/log/nginx/access_log_easylist_downloads  main;
 keepalive_timeout 0;
+root   /var/www/easylist;
 
 location / {
   rewrite .* https://easylist.adblockplus.org/ redirect;
-  root   /var/www/easylist;
 }
 
 location /COPYING {
+  charset utf-8;
+  gzip_static on;
+  default_type text/plain;
+}
+
+location ~ \.(txt|tpl)$ {
   charset utf-8;
   gzip_static on;
   default_type text/plain;
