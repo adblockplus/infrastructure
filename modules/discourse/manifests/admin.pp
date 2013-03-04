@@ -11,7 +11,7 @@ define discourse::admin(
     }
     present: {
       # Only confirmed accounts should be made admins
-      postgresql_psql {"UPDATE users SET admin = true WHERE email = '$escaped_email' AND EXISTS (SELECT * FROM email_tokens WHERE email_tokens.user_id = users.id AND email_tokens.email = users.email AND email_tokens.confirmed)":
+      postgresql_psql {"UPDATE users SET admin = true WHERE email = '$escaped_email'":
         db => 'discourse',
         psql_user => 'discourse'
       }
