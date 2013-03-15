@@ -233,7 +233,7 @@ class discourse inherits private::discourse {
 
   discourse::postactiontype {'vote':
     ensure => present,
-    position => 0,
+    position => 5,
     id => 5
   }
 
@@ -244,16 +244,9 @@ class discourse inherits private::discourse {
     is_flag => true
   }
 
-  discourse::postactiontype {'illegal':
-    ensure => present,
-    id => 7,
-    position => 5,
-    is_flag => true
-  }
-
   discourse::postactiontype {'spam':
     ensure => present,
-    id => 8,
+    id => 7,
     position => 6,
     is_flag => true
   }
