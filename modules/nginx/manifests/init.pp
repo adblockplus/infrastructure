@@ -14,7 +14,7 @@ class nginx (
   }
 
   # Ensures that nginx is not installed from the Ubuntu sources
-  package {'nginx-full':
+  package {'nginx-common':
     ensure => purged,
     before => Package['nginx']
   }
