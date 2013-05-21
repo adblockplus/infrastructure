@@ -52,6 +52,7 @@ class downloadserver {
     path => ["/usr/bin/", "/bin/"],
     require => Package['mercurial'],
     user => hg,
+    timeout => 0,
     onlyif => "test ! -d /var/www/downloads"
   }
 
