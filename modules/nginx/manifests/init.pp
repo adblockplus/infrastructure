@@ -4,8 +4,18 @@ class nginx (
     $ssl_session_cache =  $nginx::params::ssl_session_cache
   ) inherits nginx::params {
 
+  include apt
+
+  apt::source {'nginx':
+    location => "http://nginx.org/packages/ubuntu",
+    repos => "nginx",
+    key => "A524C53E",
+    key_source => "http://sysoev.ru/pgp.txt"
+  }
+
   package {'nginx':
-    ensure => present
+    ensure => '1.4.1-1~precise',
+    require => Apt::Source['nginx']
   }
 
   File {
@@ -18,6 +28,16 @@ class nginx (
     content => template('nginx/nginx.conf.erb'),
     require => Package['nginx'],
     notify => Service['nginx']
+  }
+
+  file {'/etc/nginx/sites-available':
+    ensure => directory,
+    require => Package['nginx']
+  }
+
+  file {'/etc/nginx/sites-enabled':
+    ensure => directory,
+    require => Package['nginx']
   }
 
   file {'/etc/nginx/sites-available/default':
