@@ -2,14 +2,15 @@ class base {
   stage {'pre': before => Stage['main']}
   stage {'post': require => Stage['main']}
 
-  class {'apt':
-    stage => 'pre',
-    always_apt_update => true
-  }
-
   class {'users':
     stage => 'pre',
   }
+
+  class {'apt':
+    always_apt_update => true
+  }
+
+  Exec['apt_update'] -> Package <| |>
 
   include private::users, postfix
 

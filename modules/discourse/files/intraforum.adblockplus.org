@@ -3,6 +3,7 @@ upstream discourse {
 }
 
 server {
+  listen       80;
   listen       [::]:80;
   server_name  intraforum.adblockplus.org;
   location / {
