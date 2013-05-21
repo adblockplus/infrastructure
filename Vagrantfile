@@ -37,4 +37,6 @@ Vagrant::Config.run do |config|
   define_standard_vm config, 'server10', '10.8.0.105' do |config|
     config.vm.customize ["modifyvm", :id, "--memory", 1024]
   end
+  define_standard_vm config, 'server11', '10.8.0.106'
+  define_standard_vm config, 'server12', '10.8.0.107'
 end

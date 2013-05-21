@@ -76,7 +76,7 @@ server.
 1. Add entries in _Vagrantfile_ and _manifests/vagrant.pp_
 
 2. Add the host name to one of the manifests imported by
-_manifests/site.pp_
+_manifests/nodes.pp_
 
 3. Make sure the server uses the _nagios::client_ class and add a
 _nagios\_host_ to _manifests/monitoringserver.pp_
@@ -93,14 +93,14 @@ _nagios\_host_ to _manifests/monitoringserver.pp_
 
 	apt-get install puppet
 
-4. Enable pluginsync (Add the following to the _main_ section in    
+4. Enable pluginsync (Add the following to the _main_ section in
    _/etc/puppet/puppet.conf_)
 
 	pluginsync=true
 
 5. Configure the master address (Add the following to the bottom of
 	_/etc/puppet/puppet.conf_)
-	
+
 	[agent]
 	server = puppetmaster.adblockplus.org
 
