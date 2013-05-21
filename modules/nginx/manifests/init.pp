@@ -13,6 +13,12 @@ class nginx (
     key_source => "http://sysoev.ru/pgp.txt"
   }
 
+  # Ensures that nginx is not installed from the Ubuntu sources
+  package {'nginx-full':
+    ensure => purged,
+    before => Package['nginx']
+  }
+
   package {'nginx':
     ensure => '1.4.1-1~precise',
     require => Apt::Source['nginx']
