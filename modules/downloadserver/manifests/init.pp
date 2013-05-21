@@ -61,10 +61,6 @@ class downloadserver {
     mode => 0644,
   }
 
-  file {'/etc/nginx/sites-available':
-    ensure => directory,
-  }
-
   file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
     ensure => file,
     notify => Service['nginx'],
