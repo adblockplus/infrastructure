@@ -1,0 +1,27 @@
+# downloads.adblockplus.org
+server {
+  listen       80;
+  listen       [::]:80;
+  server_name  downloads.adblockplus.org;
+  location / {
+    rewrite (.*) https://downloads.adblockplus.org$1 permanent;
+  }
+}
+server {
+  listen       443 ssl;
+  listen       [::]:443 ssl;
+  server_name  downloads.adblockplus.org;
+  ssl_certificate sites-available/adblockplus.org_sslcert.pem;
+  ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
+
+  # redirect server error pages to the static page /50x.html
+  #
+  error_page   500 502 503 504  /50x.html;
+  location = /50x.html {
+    root   html;
+  }
+
+  access_log  /var/log/nginx/access_log_downloads  main;
+  keepalive_timeout 0;
+  root   /var/www/downloads;
+}
