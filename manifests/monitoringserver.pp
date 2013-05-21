@@ -56,7 +56,9 @@ node 'server4' {
   nagios_host {'server_7.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_8.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_9.adblockplus.org': use => 'generic-host'}
-  nagios_host {'server_10.adblockplus.org': use => 'generic-host'}  
+  nagios_host {'server_10.adblockplus.org': use => 'generic-host'}
+  nagios_host {'server_11.adblockplus.org': use => 'generic-host'}
+  nagios_host {'server_12.adblockplus.org': use => 'generic-host'}
 
   nagios_hostgroup {'all': members => '*'}
   nagios_hostgroup {'http-servers': members => 'server_4.adblockplus.org, server_10.adblockplus.org'}
