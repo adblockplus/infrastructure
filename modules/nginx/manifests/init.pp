@@ -9,8 +9,8 @@ class nginx (
   apt::source {'nginx':
     location => "http://nginx.org/packages/ubuntu",
     repos => "nginx",
-    key => "A524C53E",
-    key_source => "http://sysoev.ru/pgp.txt"
+    key => "ABF5BD827BD9BF62",
+    key_source => "http://nginx.org/keys/nginx_signing.key"
   }
 
   # Ensures that nginx is not installed from the Ubuntu sources
