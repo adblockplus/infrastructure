@@ -104,6 +104,10 @@ def getValidHosts():
   return processNode(monitoringConfig)
 
 def resolveHostList(hosts, validHosts, validGroups):
+  if not validHosts:
+    print "Warning: No valid hosts found, not validating"
+    return hosts
+
   result = set()
   for param in hosts:
     if param in validGroups:
