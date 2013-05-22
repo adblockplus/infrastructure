@@ -1,15 +1,15 @@
 # downloads.adblockplus.org
 server {
-  listen       80;
-  listen       [::]:80;
+  listen       80 default_server;
+  listen       [::]:80 default_server;
   server_name  downloads.adblockplus.org;
   location / {
     rewrite (.*) https://downloads.adblockplus.org$1 permanent;
   }
 }
 server {
-  listen       443 ssl;
-  listen       [::]:443 ssl;
+  listen       443 ssl default_server;
+  listen       [::]:443 ssl default_server;
   server_name  downloads.adblockplus.org;
   ssl_certificate sites-available/adblockplus.org_sslcert.pem;
   ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
