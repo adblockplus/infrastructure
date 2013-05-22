@@ -101,7 +101,7 @@ def getValidHosts():
     print >>sys.stderr, "Failed to parse monitoring configuration"
     return [[], []]
   # Extract hosts and groups from monitoring config
-  return processNode(readMonitoringConfig())
+  return processNode(monitoringConfig)
 
 def resolveHostList(hosts, validHosts, validGroups):
   result = set()
