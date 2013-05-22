@@ -96,6 +96,10 @@ def getValidHosts():
       processNode(child, hosts, groups)
     return hosts, groups
 
+  monitoringConfig = readMonitoringConfig()
+  if not monitoringConfig:
+    print >>sys.stderr, "Failed to parse monitoring configuration"
+    return [[], []]
   # Extract hosts and groups from monitoring config
   return processNode(readMonitoringConfig())
 
