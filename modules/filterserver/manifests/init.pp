@@ -72,10 +72,7 @@ class filterserver {
   }
 
   file {'/etc/nginx/sites-available/inc.easylist-downloads':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
-    source => 'puppet:///modules/filterserver/inc.easylist-downloads'
+    ensure => absent,
   }
 
   file {'/etc/nginx/sites-available/inc.easylist-downloads-txt':
