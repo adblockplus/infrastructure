@@ -11,6 +11,7 @@ server {
   }
 }
 server {
+  listen       443 ssl;
   listen       [::]:443 ssl;
   server_name  intraforum.adblockplus.org;
   ssl_certificate sites-available/adblockplus.org_sslcert.pem;
