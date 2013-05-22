@@ -51,7 +51,7 @@ server {
 
     fastcgi_param AUTH_USER $remote_user;
     fastcgi_param REMOTE_USER $remote_user;
-    fastcgi_param SCRIPT_FILENAME /usr/lib/cgi-bin/nagios3$fastcgi_script_name;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 
     fastcgi_pass unix:/var/run/fcgiwrap.socket;
   }
