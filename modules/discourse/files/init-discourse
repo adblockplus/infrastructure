@@ -13,6 +13,9 @@ env = dict(os.environ)
 env['GEM_HOME'] = os.path.join(home_dir, '.gems')
 env['RAILS_ENV'] = 'production'
 
+# See http://meta.discourse.org/t/tuning-ruby-and-rails-for-discourse/4126
+env['RUBY_GC_MALLOC_LIMIT'] = '90000000'
+
 def preprocessFiles():
   secret_path = os.path.join(app_dir, 'config', 'initializers', 'secret_token.rb')
   handle = open(secret_path, 'rb')
