@@ -28,6 +28,8 @@ node default {
     {host => 'server_11.adblockplus.org', ip => '10.8.0.106'},
     {host => 'server_12.adblockplus.org', ip => '10.8.0.107'},
     {host => 'server_13.adblockplus.org', ip => '10.8.0.108'},
+    {host => 'server_14.adblockplus.org', ip => '10.8.0.109'},
+    {host => 'server_15.adblockplus.org', ip => '10.8.0.110'},
   ]
 
   hostentry { $hosts: }
