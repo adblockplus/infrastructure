@@ -128,6 +128,12 @@ class discourse inherits private::discourse {
     value => 'donotreply@adblockplus.org'
   }
 
+  discourse::sitesetting {'contact_email':
+    ensure => present,
+    type => 1,
+    value => 'admins@adblockplus.org'
+  }
+
   discourse::sitesetting {'must_approve_users':
     ensure => present,
     type => 5,
@@ -138,6 +144,12 @@ class discourse inherits private::discourse {
     ensure => present,
     type => 1,
     value => ''
+  }
+
+  discourse::sitesetting {'email_domains_whitelist':
+    ensure => present,
+    type => 1,
+    value => 'adblockplus.org|eyeo.com'
   }
 
   discourse::sitesetting {'use_ssl':
@@ -174,6 +186,18 @@ class discourse inherits private::discourse {
     ensure => present,
     type => 1,
     value => $access_password
+  }
+
+  discourse::sitesetting {'enable_local_logins':
+    ensure => present,
+    type => 5,
+    value => 'f'
+  }
+
+  discourse::sitesetting {'enable_local_account_create':
+    ensure => present,
+    type => 5,
+    value => 'f'
   }
 
   discourse::sitesetting {'enable_facebook_logins':
