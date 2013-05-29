@@ -40,4 +40,6 @@ Vagrant::Config.run do |config|
   define_standard_vm config, 'server11', '10.8.0.106'
   define_standard_vm config, 'server12', '10.8.0.107'
   define_standard_vm config, 'server13', '10.8.0.108'
+  define_standard_vm config, 'server14', '10.8.0.109'
+  define_standard_vm config, 'server15', '10.8.0.110'
 end
