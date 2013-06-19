@@ -96,4 +96,49 @@ class downloadserver {
     user => hg,
     minute => '*/10'
   }
+
+  user {'rsync':
+    ensure => present,
+    home => '/home/rsync',
+    managehome => true
+  }
+
+  file {'/home/rsync/.ssh':
+    ensure => directory,
+    require => User['rsync'],
+    owner => rsync,
+    mode => 0600;
+  }
+
+  file {'/home/rsync/.ssh/known_hosts':
+    ensure => file,
+    owner => rsync,
+    mode => 0444,
+    source => 'puppet:///modules/downloadserver/known_hosts'
+  }
+
+  file {'/home/rsync/.ssh/id_rsa':
+    ensure => file,
+    owner => rsync,
+    mode => 0400,
+    source => 'puppet:///modules/private/rsync@downloads.adblockplus.org'
+  }
+
+  file {'/home/rsync/.ssh/id_rsa.pub':
+    ensure => file,
+    owner => rsync,
+    mode => 0400,
+    source => 'puppet:///modules/private/rsync@downloads.adblockplus.org.pub'
+  }
+
+  cron {'mirror-devbuilds':
+    ensure => present,
+    require => [File['/home/rsync/.ssh/known_hosts'],
+                File['/home/rsync/.ssh/id_rsa'],
+                Exec['fetch_downloads']]
+    command => 'rsync -e ssh -ltprz rsync@adblockplus.org:. /var/www/downloads/devbuilds',
+    user => rsync,
+    hour => '*',
+    minute => '4-54/10'
+  }
 }
