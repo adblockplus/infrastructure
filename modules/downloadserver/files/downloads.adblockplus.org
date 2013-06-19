@@ -28,4 +28,8 @@ server {
   access_log  /var/log/nginx/access_log_downloads  main;
   keepalive_timeout 0;
   root   /var/www/downloads;
+
+  location /devbuilds {
+    alias /var/www/devbuilds;
+  }
 }
