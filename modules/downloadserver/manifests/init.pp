@@ -97,6 +97,11 @@ class downloadserver {
     minute => '*/10'
   }
 
+  file {'/var/www/devbuilds':
+    ensure => directory,
+    owner => rsync
+  }
+
   user {'rsync':
     ensure => present,
     home => '/home/rsync',
@@ -135,8 +140,8 @@ class downloadserver {
     ensure => present,
     require => [File['/home/rsync/.ssh/known_hosts'],
                 File['/home/rsync/.ssh/id_rsa'],
-                Exec['fetch_downloads']]
-    command => 'rsync -e ssh -ltprz rsync@adblockplus.org:. /var/www/downloads/devbuilds',
+                File['/var/www/devbuilds']],
+    command => 'rsync -e ssh -ltprz devbuilds@adblockplus.org:. /var/www/devbuilds',
     user => rsync,
     hour => '*',
     minute => '4-54/10'
