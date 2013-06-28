@@ -2,22 +2,13 @@
 
 import os, re, subprocess, sys
 
-def extract_data(type, vnstat_output):
-  match = re.search(r"%s\s*([\d\.]*) (.bit/s)" % type, vnstat_output)
-  if not match:
-    print "Unable to extract values from '%s'" % vnstat_output
-    sys.exit(1)
-
-  value = float(match.group(1))
-  unit = match.group(2)
-  return (value, unit)
-
-def calculate_bits(value, unit):
-  if unit == "Mbit/s":
-    value *= 1000000
-  elif unit == "kbit/s":
-    value *= 1000
-  return int(value)
+def format_bandwidth(bits):
+  if bits >= 1000000:
+    return "%.2f Mbit/s" % (bits / 1000000)
+  elif bits >= 1000:
+    return "%.2f kbit/s" % (bits / 1000)
+  else:
+    return "%.2f bit/s" % bits
 
 if __name__ == "__main__":
   if len(sys.argv) != 3:
@@ -29,14 +20,13 @@ if __name__ == "__main__":
   warn = int(sys.argv[1])
   crit = int(sys.argv[2])
 
-  vnstat_output = subprocess.check_output(["vnstat", "-tr"])
-  (rx, rx_unit) = extract_data("rx", vnstat_output)
-  (tx, tx_unit) = extract_data("tx", vnstat_output)
-  status = "rx %s %s tx %s %s" % (rx, rx_unit, tx, tx_unit)
+  process_output = subprocess.check_output(["bwm-ng", "-I", "eth0", "-t", "5000", "-c", "1", "-o", "csv"])
+  data = process_output.splitlines()[0].split(";")
+  tx = float(data[2]) * 8
+  rx = float(data[3]) * 8
+  status = "rx %s tx %s" % (format_bandwidth(rx), format_bandwidth(tx))
 
-  rx = calculate_bits(rx, rx_unit)
-  tx = calculate_bits(tx, tx_unit)
-  perfdata = "rx=%s;%s;%s tx=%s;%s;%s" % (rx, warn, crit, tx, warn, crit)
+  perfdata = "rx=%i;%i;%i tx=%i;%i;%i" % (rx, warn, crit, tx, warn, crit)
 
   output = "%s|%s" % (status, perfdata)
 
