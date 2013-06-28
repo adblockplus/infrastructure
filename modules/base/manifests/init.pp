@@ -21,12 +21,14 @@ class base {
     owner => root,
     group => root,
     mode => 0644,
-    content => 'UTC'
+    content => 'UTC',
+    notify => Service['cron']
   }
 
   file {'/etc/localtime':
     ensure => link,
-    target => '/usr/share/zoneinfo/UTC'
+    target => '/usr/share/zoneinfo/UTC',
+    notify => Service['cron']
   }
 
   class {'logrotate':
