@@ -1,5 +1,5 @@
 class nagios::client($server_address) {
-  package {['nagios-nrpe-server', 'vnstat']: ensure => present}
+  package {['nagios-nrpe-server', 'bwm-ng']: ensure => present}
 
   file {'/etc/nagios/nrpe.cfg':
     mode => 644,
