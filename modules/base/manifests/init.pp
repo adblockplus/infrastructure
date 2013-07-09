@@ -31,6 +31,11 @@ class base {
     notify => Service['cron']
   }
 
+  service {'cron':
+    ensure => running,
+    enable => true,
+  }
+
   class {'logrotate':
     stage => 'post'
   }
