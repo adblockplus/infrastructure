@@ -162,7 +162,7 @@ class filterserver {
                  File['/home/rsync/.ssh/id_rsa'],
                  User['rsync']
                ],
-    command => 'rsync -e ssh -ltprz rsync@adblockplus.org:. /var/www/easylist/',
+    command => 'rsync -e ssh -ltprz rsync@ssh.adblockplus.org:. /var/www/easylist/',
     user => rsync,
     hour => '*',
     minute => '2-52/10'
