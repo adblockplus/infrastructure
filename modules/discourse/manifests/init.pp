@@ -140,6 +140,12 @@ class discourse inherits private::discourse {
     value => 'f'
   }
 
+  discourse::sitesetting {'login_required':
+    ensure => present,
+    type => 5,
+    value => 't'
+  }
+
   discourse::sitesetting {'email_domains_blacklist':
     ensure => present,
     type => 1,
@@ -176,18 +182,6 @@ class discourse inherits private::discourse {
     value => 'eyeo.com'
   }
 
-  discourse::sitesetting {'restrict_access':
-    ensure => present,
-    type => 5,
-    value => 't'
-  }
-
-  discourse::sitesetting {'access_password':
-    ensure => present,
-    type => 1,
-    value => $access_password
-  }
-
   discourse::sitesetting {'enable_local_logins':
     ensure => present,
     type => 5,
@@ -219,6 +213,12 @@ class discourse inherits private::discourse {
   }
 
   discourse::sitesetting {'enable_yahoo_logins':
+    ensure => present,
+    type => 5,
+    value => 'f'
+  }
+
+  discourse::sitesetting {'enforce_global_nicknames':
     ensure => present,
     type => 5,
     value => 'f'
