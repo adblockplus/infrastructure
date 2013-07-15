@@ -10,7 +10,4 @@ class private::discourse {
 
   # AirBrake API key
   $airbrake_key = '0123456789abcdef0123456789abcdef'
-
-  # Shared password used to access the website
-  $access_password = 'discourse'
 }
