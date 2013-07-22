@@ -16,6 +16,8 @@ node default {
     {host => $hostname, ip => '127.0.0.1'},
     {host => 'monitoring.adblockplus.org', ip => '10.8.0.98'},
     {host => 'intraforum.adblockplus.org', ip => '10.8.0.105'},
+    {host => 'downloads.adblockplus.org', ip => '10.8.0.108'},
+    {host => 'notification.adblockplus.org', ip => '10.8.0.112'},
     {host => 'server_1.adblockplus.org', ip => '10.8.0.105'},
     {host => 'server_3.adblockplus.org', ip => '10.8.0.99'},
     {host => 'server_4.adblockplus.org', ip => '10.8.0.98'},
@@ -30,6 +32,7 @@ node default {
     {host => 'server_13.adblockplus.org', ip => '10.8.0.108'},
     {host => 'server_14.adblockplus.org', ip => '10.8.0.109'},
     {host => 'server_15.adblockplus.org', ip => '10.8.0.110'},
+    {host => 'server_17.adblockplus.org', ip => '10.8.0.112'},
   ]
 
   hostentry { $hosts: }
