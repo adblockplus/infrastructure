@@ -1,0 +1,31 @@
+# notification.adblockplus.org
+server {
+  listen       80 default_server;
+  listen       [::]:80 default_server;
+  server_name  notification.adblockplus.org;
+  location / {
+    rewrite (.*) https://notification.adblockplus.org$1 permanent;
+  }
+}
+server {
+  listen       443 ssl default_server;
+  listen       [::]:443 ssl default_server;
+  server_name  notification.adblockplus.org;
+  ssl_certificate sites-available/adblockplus.org_sslcert.pem;
+  ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
+
+  # redirect server error pages to the static page /50x.html
+  #
+  error_page   500 502 503 504  /50x.html;
+  location = /50x.html {
+    root   html;
+  }
+
+  location /.hg {
+    internal;
+  }
+
+  access_log  /var/log/nginx/access_log_notification  main;
+  keepalive_timeout 0;
+  root   /var/www/notification;
+}
