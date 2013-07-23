@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "notifications": [
     {
       "id": 1,
@@ -16,13 +16,13 @@
         },
         {
           "extension": "adblockpluschrome",
-          "extensionMinVersion": "1.5.0.963",
-          "extensionMaxVersion": "1.5.0.963"
+          "extensionMinVersion": "1.5.0.964",
+          "extensionMaxVersion": "1.5.0.964"
         },
         {
           "extension": "adblockplusopera",
-          "extensionMinVersion": "1.5.0.963",
-          "extensionMaxVersion": "1.5.0.963"
+          "extensionMinVersion": "1.5.0.964",
+          "extensionMaxVersion": "1.5.0.964"
         }
       ]
     }
