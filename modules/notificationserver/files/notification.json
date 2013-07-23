@@ -5,7 +5,7 @@
       "id": 1,
       "severity": "information",
       "message": {
-        "en": "Thank you for using Adblock Plus development builds! <strong>This is a one-time test</strong>, we are testing the new notification feature. It can be used to notify about issues without releasing a new Adblock Plus version. And since we are at it, do you know <a>why some string always appear in English while others are properly translated<a>?"
+        "en": "Thank you for using Adblock Plus development builds! <strong>This is a one-time test</strong>, we are testing the new notification feature. It can be used to notify about issues without releasing a new Adblock Plus version. And since we are at it, do you know <a>why some string always appear in English while others are properly translated</a>?"
       },
       "links": ["knownIssues_untranslated"],
       "targets": [
