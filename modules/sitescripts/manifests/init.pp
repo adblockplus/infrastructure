@@ -15,4 +15,11 @@ class sitescripts (
     require => Package['mercurial'],
     onlyif => "test ! -d /opt/sitescripts"
   }
+
+  cron {"update_sitescripts":
+    ensure => present,
+    command => "hg pull -q -u -R /opt/sitescripts",
+    user => root,
+    require => Exec["fetch_sitescripts"],
+  }
 }
