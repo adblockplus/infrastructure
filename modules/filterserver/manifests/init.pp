@@ -171,8 +171,9 @@ class filterserver {
   cron {'mirrorstats':
     ensure => present,
     require => [
-                User['rsync'],
-                Package['python-geoip']
+                 User['rsync'],
+                 Package['python-geoip'],
+                 Exec["fetch_sitescripts"]
                ],
     command => 'gzip -cd /var/log/nginx/access_log_easylist_downloads.1.gz | python -m sitescripts.logs.bin.extractSubscriptionStats',
     environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],

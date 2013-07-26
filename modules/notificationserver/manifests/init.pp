@@ -5,6 +5,10 @@ class notificationserver {
     ssl_session_cache => off,
   }
 
+  class {'sitescripts':
+    sitescriptsini_source => 'puppet:///modules/notificationserver/sitescripts.ini'
+  }
+
   file {'/var/www':
     ensure => directory,
     owner => nginx,
@@ -19,12 +23,23 @@ class notificationserver {
     require => Package['nginx']
   }
 
-  file {'/var/www/notification/notification.json':
-    ensure => file,
-    owner => nginx,
-    mode => 644,
-    require => Package['nginx'],
-    source => 'puppet:///modules/notificationserver/notification.json'
+  exec { "fetch_notifications":
+    command => "hg clone --noupdate https://hg.adblockplus.org/notifications /opt/notifications && chown -R nginx /opt/notifications",
+    path => ["/usr/bin/", "/bin/"],
+    require => Package['mercurial'],
+    onlyif => "test ! -d /opt/notifications"
+  }
+
+  cron {"update_notifications":
+    ensure => present,
+    command => "python -m sitescripts.management.bin.generateNotifications",
+    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
+    user => nginx,
+    minute => '*/10',
+    require => [
+      Exec["fetch_notifications"],
+      Exec["fetch_sitescripts"]
+    ],
   }
 
   File {
