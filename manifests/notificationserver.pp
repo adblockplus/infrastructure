@@ -1,4 +1,4 @@
-node 'server17' {
+node 'server17', 'server18' {
   include base, notificationserver
 
   class {'nagios::client':
