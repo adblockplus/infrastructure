@@ -38,10 +38,13 @@ http {
   gzip_types text/plain text/xhtml text/css application/x-javascript text/xml application/atom+xml application/rss+xml;
   <% end %>
 
-  ssl_ciphers RC4:ALL:-LOW:-EXPORT:!aNULL:!aECDH:!MD5;
+  ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA256 EECDH+aRSA+RC4 EDH+aRSA EECDH RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
   ssl_prefer_server_ciphers on;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
   <% if ssl_session_cache == 'on' %>
   ssl_session_cache shared:SSL:1m;
+  <% else %>
+  ssl_session_cache off;
   <% end %>
 
   types_hash_max_size 2048;
