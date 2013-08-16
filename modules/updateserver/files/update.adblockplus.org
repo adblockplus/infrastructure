@@ -19,10 +19,6 @@ server {
     root html;
   }
 
-  location /.hg {
-    internal;
-  }
-
   access_log /var/log/nginx/access_log_update main;
   keepalive_timeout 0;
   root /var/www/update;
