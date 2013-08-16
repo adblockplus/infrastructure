@@ -7,32 +7,29 @@ class updateserver {
 
   File {
     owner => root,
-    group => root,
-    mode => 0644,
+    group => root
   }
 
   file {'/var/www':
     ensure => directory,
-    owner => nginx,
     mode => 0755,
     require => Package['nginx']
   }
 
   file {'/var/www/update':
     ensure => directory,
-    owner => nginx,
     mode => 0755
   }
 
   file {'/var/www/update/adblockplusie':
     ensure => directory,
-    owner => nginx,
     mode => 0755
   }
 
   file {'/var/www/update/adblockplusie/update.json':
     ensure => file,
-    source => 'puppet:///modules/updateserver/adblockplusie/update.json'
+    source => 'puppet:///modules/updateserver/adblockplusie/update.json',
+    mode => 0644
   }
 
   file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
