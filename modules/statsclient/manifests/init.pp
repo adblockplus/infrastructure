@@ -42,6 +42,8 @@ class statsclient (
 
   package {'python-simplejson':}
 
+  package {'python-jinja2':}
+
   file {'/var/www/stats.json':
     ensure => present,
     owner => stats,
