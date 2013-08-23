@@ -1,44 +1,17 @@
 class filterserver {
-  user {'subscriptionstat':
-    ensure => present,
-    home => '/home/subscriptionstat',
-    managehome => true
-  }
-
-  file {'/home/subscriptionstat/.ssh':
-    ensure => directory,
-    owner => subscriptionstat,
-    mode => 0600,
-    require => User['subscriptionstat']
-  }
-
-  file {'/home/subscriptionstat/.ssh/authorized_keys':
-    ensure => present,
-    owner => subscriptionstat,
-    mode => 0400,
-    source => 'puppet:///modules/private/subscriptionstat-authorized_keys'
-  }
-
-  class {'ssh':
-    custom_configuration => 'Match User subscriptionstat
-        AllowTcpForwarding no
-        X11Forwarding no
-        AllowAgentForwarding no
-        GatewayPorts no
-        ForceCommand cat /var/www/subscriptionStats.ini'
-  }
-
   class {'nginx':
     worker_processes => 2,
     worker_connections => 4000,
     ssl_session_cache => off,
   }
 
-  class {'sitescripts':
-    sitescriptsini_source => 'puppet:///modules/filterserver/sitescripts.ini'
+  class {'statsclient':
+    log_path => '/var/log/nginx/access_log_easylist_downloads.1.gz',
   }
 
-  package {'python-geoip':}
+  user {'subscriptionstat':
+    ensure => absent,
+  }
 
   user {'rsync':
     ensure => present,
@@ -63,11 +36,6 @@ class filterserver {
                  File['/var/www'],
                  User['rsync']
                ],
-    owner => rsync
-  }
-
-  file {'/var/www/subscriptionStats.ini':
-    ensure => present,
     owner => rsync
   }
 
@@ -149,12 +117,6 @@ class filterserver {
     source => 'puppet:///modules/private/rsync@easylist-downloads.adblockplus.org.pub'
   }
 
-  file {'/opt/cron_geoipdb_update.sh':
-    ensure => file,
-    mode => 0750,
-    source => 'puppet:///modules/filterserver/cron_geoipdb_update.sh'
-  }
-
   cron {'mirror':
     ensure => present,
     require => [
@@ -167,29 +129,4 @@ class filterserver {
     hour => '*',
     minute => '2-52/10'
   }
-
-  cron {'mirrorstats':
-    ensure => present,
-    require => [
-                 User['rsync'],
-                 Package['python-geoip'],
-                 Exec["fetch_sitescripts"]
-               ],
-    command => 'gzip -cd /var/log/nginx/access_log_easylist_downloads.1.gz | python -m sitescripts.logs.bin.extractSubscriptionStats',
-    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
-    user => rsync,
-    hour => 1,
-    minute => 25
-  }
-
-  cron {'geoipdb_update':
-    ensure => present,
-    require => File['/opt/cron_geoipdb_update.sh'],
-    command => '/opt/cron_geoipdb_update.sh',
-    user => root,
-    hour => 3,
-    minute => 15,
-    monthday => 3
-  }
-
 }
