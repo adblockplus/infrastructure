@@ -19,6 +19,13 @@ class statsmaster {
     source => 'puppet:///modules/private/stats@stats.adblockplus.org',
   }
 
+  file {'/home/stats/.ssh/known_hosts':
+    ensure => present,
+    owner => stats,
+    mode => 0400,
+    source => 'puppet:///modules/statsmaster/known_hosts',
+  }
+
   package {'python-simplejson':}
 
   package {'python-jinja2':}
