@@ -1,37 +1,12 @@
 class downloadserver {
-  user {'stats':
-    ensure => present,
-    home => '/home/stats',
-    managehome => true
-  }
-
-  file {'/home/stats/.ssh':
-    ensure => directory,
-    owner => stats,
-    mode => 0600,
-    require => User['stats']
-  }
-
-  file {'/home/stats/.ssh/authorized_keys':
-    ensure => present,
-    owner => stats,
-    mode => 0400,
-    source => 'puppet:///modules/private/subscriptionstat-authorized_keys'
-  }
-
-  class {'ssh':
-    custom_configuration => 'Match User stats
-        AllowTcpForwarding no
-        X11Forwarding no
-        AllowAgentForwarding no
-        GatewayPorts no
-        ForceCommand cat /var/www/stats.ini'
-  }
-
   class {'nginx':
     worker_processes => 2,
     worker_connections => 4000,
     ssl_session_cache => off,
+  }
+
+  class {'statsclient':
+    log_path => '/var/log/nginx/access_log_downloads.1.gz',
   }
 
   user {'hg':

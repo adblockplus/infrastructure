@@ -2,12 +2,21 @@ class sitescripts (
     $sitescriptsini_source = undef
   ){
 
-  file {'/etc/sitescripts.ini':
+  concat {'/etc/sitescripts.ini':
     mode => 644,
     owner => root,
     group => root,
-    source => $sitescriptsini_source
   }
+
+  define configfragment($source = $title)
+  {
+    concat::fragment {$source:
+      target => '/etc/sitescripts.ini',
+      source => $source
+    }
+  }
+
+  configfragment {$sitescriptsini_source: }
 
   exec { "fetch_sitescripts":
     command => "hg clone https://hg.adblockplus.org/sitescripts /opt/sitescripts",
