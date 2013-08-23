@@ -21,8 +21,8 @@ server {
     root   html;
   }
 
-  location /static {
-    root /opt/sitescripts/sitescripts/stats;
+  location /.hg {
+    internal;
   }
 
   access_log  /var/log/nginx/access_log_notification  main;

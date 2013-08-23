@@ -23,6 +23,10 @@ server {
   keepalive_timeout 0;
   root /var/www/stats;
 
+  location /static {
+    root /opt/sitescripts/sitescripts/stats;
+  }
+
   location /download
   {
     auth_basic "Stats Restricted Access";
