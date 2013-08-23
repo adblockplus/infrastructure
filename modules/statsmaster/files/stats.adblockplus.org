@@ -1,0 +1,43 @@
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  server_name stats.adblockplus.org;
+  location / {
+    rewrite (.*) https://stats.adblockplus.org$1 permanent;
+  }
+}
+
+server {
+  listen 443 ssl default_server;
+  listen [::]:443 ssl default_server;
+  server_name stats.adblockplus.org;
+  ssl_certificate sites-available/adblockplus.org_sslcert.pem;
+  ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
+
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+    root html;
+  }
+
+  access_log /var/log/nginx/access_log_stats main;
+  keepalive_timeout 0;
+  root /var/www/stats;
+
+  location /download
+  {
+    auth_basic "Stats Restricted Access";
+    auth_basic_user_file /var/www/htpasswd;
+  }
+
+  location /update
+  {
+    auth_basic "Stats Restricted Access";
+    auth_basic_user_file /var/www/htpasswd;
+  }
+
+  location /notification
+  {
+    auth_basic "Stats Restricted Access";
+    auth_basic_user_file /var/www/htpasswd;
+  }
+}
