@@ -97,19 +97,18 @@ class statsmaster {
     source => 'puppet:///modules/statsmaster/logrotate'
   }
 
-#  TODO: Activate once old stats have been reprocessed
-#  cron {'updatestats':
-#    ensure => present,
-#    require => [
-#                 User['stats'],
-#                 Package['python-simplejson'],
-#                 Package['python-jinja2'],
-#                 Exec["fetch_sitescripts"]
-#               ],
-#    command => "python -m sitescripts.stats.bin.datamerger && python -m sitescripts.stats.bin.pagegenerator",
-#    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
-#    user => stats,
-#    hour => 3,
-#    minute => 0,
-#  }
+  cron {'updatestats':
+    ensure => present,
+    require => [
+                 User['stats'],
+                 Package['python-simplejson'],
+                 Package['python-jinja2'],
+                 Exec["fetch_sitescripts"]
+               ],
+    command => "python -m sitescripts.stats.bin.datamerger && python -m sitescripts.stats.bin.pagegenerator",
+    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
+    user => stats,
+    hour => 12,
+    minute => 0,
+  }
 }
