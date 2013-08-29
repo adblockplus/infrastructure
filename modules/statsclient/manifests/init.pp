@@ -38,11 +38,7 @@ class statsclient (
     sitescriptsini_source => $sitescriptsini_source,
   }
 
-  package {'python-geoip':}
-
-  package {'python-simplejson':}
-
-  package {'python-jinja2':}
+  package {'pypy':}
 
   file {'/var/www/stats.json':
     ensure => present,
@@ -61,10 +57,10 @@ class statsclient (
     ensure => present,
     require => [
                  User['stats'],
-                 Package['python-geoip'],
+                 Package['pypy'],
                  Exec["fetch_sitescripts"]
                ],
-    command => "gzip -cd ${log_path} | python -m sitescripts.stats.bin.logprocessor",
+    command => "gzip -cd ${log_path} | pypy -m sitescripts.stats.bin.logprocessor",
     environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
     user => stats,
     hour => 0,

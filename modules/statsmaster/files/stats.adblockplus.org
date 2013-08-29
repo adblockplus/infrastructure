@@ -27,20 +27,17 @@ server {
     root /opt/sitescripts/sitescripts/stats;
   }
 
-  location /download
-  {
+  location /download {
     auth_basic "Stats Restricted Access";
     auth_basic_user_file /var/www/htpasswd;
   }
 
-  location /update
-  {
+  location /update {
     auth_basic "Stats Restricted Access";
     auth_basic_user_file /var/www/htpasswd;
   }
 
-  location /notification
-  {
+  location /notification {
     auth_basic "Stats Restricted Access";
     auth_basic_user_file /var/www/htpasswd;
   }
