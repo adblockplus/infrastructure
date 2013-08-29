@@ -26,9 +26,7 @@ class statsmaster {
     source => 'puppet:///modules/statsmaster/known_hosts',
   }
 
-  package {'python-simplejson':}
-
-  package {'python-jinja2':}
+  package {['python-simplejson', 'python-jinja2']:}
 
   class {'sitescripts':
     sitescriptsini_source => 'puppet:///modules/statsmaster/sitescripts.ini',
