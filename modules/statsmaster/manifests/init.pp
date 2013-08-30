@@ -106,7 +106,7 @@ class statsmaster {
     command => "python -m sitescripts.stats.bin.datamerger && python -m sitescripts.stats.bin.pagegenerator",
     environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
     user => stats,
-    hour => 12,
-    minute => 0,
+    hour => 4,
+    minute => 30,
   }
 }
