@@ -125,6 +125,7 @@ class filterserver {
                  User['rsync']
                ],
     command => 'rsync -e ssh -ltprz rsync@ssh.adblockplus.org:. /var/www/easylist/',
+    environment => ['MAILTO=admins@adblockplus.org,root'],
     user => rsync,
     hour => '*',
     minute => '2-52/10'

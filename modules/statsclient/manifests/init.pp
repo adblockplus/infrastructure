@@ -61,7 +61,7 @@ class statsclient (
                  Exec["fetch_sitescripts"]
                ],
     command => "gzip -cd ${log_path} | pypy -m sitescripts.stats.bin.logprocessor",
-    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ['MAILTO=admins@adblockplus.org,root', 'PYTHONPATH=/opt/sitescripts'],
     user => stats,
     hour => 0,
     minute => 25,
@@ -71,6 +71,7 @@ class statsclient (
     ensure => present,
     require => File['/opt/cron_geoipdb_update.sh'],
     command => '/opt/cron_geoipdb_update.sh',
+    environment => ['MAILTO=admins@adblockplus.org,root'],
     user => root,
     hour => 3,
     minute => 15,

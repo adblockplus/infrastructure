@@ -9,6 +9,7 @@ class logrotate {
     ensure => present,
     require => Exec['ensure_logrotate_status'],
     command => '/usr/sbin/logrotate /etc/logrotate.conf',
+    environment => ['MAILTO=admins@adblockplus.org,root'],
     user => root,
     hour => '0',
     minute => '0'
