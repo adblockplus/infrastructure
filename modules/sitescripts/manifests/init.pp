@@ -28,6 +28,7 @@ class sitescripts (
   cron {"update_sitescripts":
     ensure => present,
     command => "hg pull -q -u -R /opt/sitescripts",
+    environment => ['MAILTO=admins@adblockplus.org,root'],
     user => root,
     require => Exec["fetch_sitescripts"],
   }

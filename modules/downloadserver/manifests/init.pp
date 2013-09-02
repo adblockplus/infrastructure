@@ -68,6 +68,7 @@ class downloadserver {
   cron {'mirror':
     ensure => present,
     command => 'hg pull -q -u -R /var/www/downloads/',
+    environment => ['MAILTO=admins@adblockplus.org,root'],
     user => hg,
     minute => '*/10'
   }
@@ -117,6 +118,7 @@ class downloadserver {
                 File['/home/rsync/.ssh/id_rsa'],
                 File['/var/www/devbuilds']],
     command => 'rsync -e ssh -ltprz devbuilds@ssh.adblockplus.org:. /var/www/devbuilds',
+    environment => ['MAILTO=admins@adblockplus.org,root'],
     user => rsync,
     hour => '*',
     minute => '4-54/10'
