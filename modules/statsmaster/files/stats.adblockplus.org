@@ -41,4 +41,10 @@ server {
     auth_basic "Stats Restricted Access";
     auth_basic_user_file /var/www/htpasswd;
   }
+
+  locatio /raw {
+    root /var/www/statsdata;
+    auth_basic "Stats Restricted Access";
+    auth_basic_user_file /var/www/htpasswd;
+  }
 }
