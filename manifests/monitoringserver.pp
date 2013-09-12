@@ -127,6 +127,7 @@ node 'server4' {
     use => 'generic-service',
     hostgroup_name => 'all',
     service_description => 'Bandwidth',
-    check_command => 'check_nrpe_1arg!check_bandwidth'
+    check_command => 'check_nrpe_1arg!check_bandwidth',
+    first_notification_delay => '15'
   }
 }
