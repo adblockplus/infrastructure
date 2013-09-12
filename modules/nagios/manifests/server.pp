@@ -57,11 +57,13 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
   service {'apache2':
     ensure => stopped,
     enable => false,
+    require => Package['nagios3'],
     before => Service['nagios3']
   }
 
   file {'/etc/nagios3/htpasswd.users':
-    source => $htpasswd_source
+    source => $htpasswd_source,
+    require => Package['nagios3']
   }
 
   file {'/etc/nagios3/cgi.cfg':
