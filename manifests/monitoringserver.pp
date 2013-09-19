@@ -48,6 +48,10 @@ node 'server4' {
     command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H easylist-downloads.adblockplus.org -u /easylist.txt -k "Accept-Encoding: gzip,deflate" -e "HTTP/1.1 200 OK"'
   }
 
+  nagios_command {'check_notification_http':
+    command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H notification.adblockplus.org -u /notification.json -k "Accept-Encoding: gzip,deflate" -e "HTTP/1.1 200 OK"'
+  }
+
   nagios_host {'server_1.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_3.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_4.adblockplus.org': use => 'generic-host'}
@@ -69,9 +73,12 @@ node 'server4' {
   nagios_host {'server_20.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_21.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_22.adblockplus.org': use => 'generic-host'}
+  nagios_host {'notification1.adblockplus.org': use => 'generic-host'}
+  nagios_host {'notification2.adblockplus.org': use => 'generic-host'}
 
   nagios_hostgroup {'all': members => '*'}
-  nagios_hostgroup {'http-servers': members => 'server_4.adblockplus.org, server_10.adblockplus.org, server_13.adblockplus.org, server_16.adblockplus.org, server_17.adblockplus.org, server_18.adblockplus.org, server_19.adblockplus.org, server_20.adblockplus.org, server_21.adblockplus.org, server_22.adblockplus.org'}
+  nagios_hostgroup {'http-servers': members => 'server_4.adblockplus.org, server_10.adblockplus.org, server_13.adblockplus.org, server_16.adblockplus.org, server_19.adblockplus.org, server_20.adblockplus.org, server_21.adblockplus.org, server_22.adblockplus.org'}
+  nagios_hostgroup {'notification-servers': members => 'server_17.adblockplus.org, server_18.adblockplus.org, notification1.dblockplus.org, notification2.dblockplus.org'}
   nagios_hostgroup {'filter-servers': members => 'server_1.adblockplus.org, server_3.adblockplus.org, server_5.adblockplus.org, server_6.adblockplus.org, server_7.adblockplus.org, server_8.adblockplus.org, server_9.adblockplus.org, server_11.adblockplus.org, server_12.adblockplus.org, server_14.adblockplus.org, server_15.adblockplus.org, server_19.adblockplus.org, server_20.adblockplus.org'}
 
   nagios_service {'current-load':
@@ -121,6 +128,13 @@ node 'server4' {
     hostgroup_name => 'filter-servers',
     service_description => 'HTTP',
     check_command => 'check_easylist_http'
+  }
+
+  nagios_service {'notification-http':
+    use => 'generic-service',
+    hostgroup_name => 'notification-servers',
+    service_description => 'HTTP',
+    check_command => 'check_notification_http'
   }
 
   nagios_service {'bandwidth':

@@ -48,4 +48,6 @@ Vagrant::Config.run do |config|
   define_standard_vm config, 'server20', '10.8.0.115'
   define_standard_vm config, 'server21', '10.8.0.116'
   define_standard_vm config, 'server22', '10.8.0.117'
+  define_standard_vm config, 'notification1', '10.8.0.118'
+  define_standard_vm config, 'notification2', '10.8.0.119'
 end
