@@ -42,6 +42,7 @@ node default {
     {host => 'server_22.adblockplus.org', ip => '10.8.0.117'},
     {host => 'notification1.adblockplus.org', ip => '10.8.0.118'},
     {host => 'notification2.adblockplus.org', ip => '10.8.0.119'},
+    {host => 'filter1.adblockplus.org', ip => '10.8.0.120'},
   ]
 
   hostentry { $hosts: }
