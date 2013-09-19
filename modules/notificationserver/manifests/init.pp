@@ -27,7 +27,10 @@ class notificationserver {
   exec { "fetch_notifications":
     command => "hg clone --noupdate https://hg.adblockplus.org/notifications /opt/notifications && chown -R nginx /opt/notifications",
     path => ["/usr/bin/", "/bin/"],
-    require => Package['mercurial'],
+    require => [
+      Package['mercurial'],
+      Package['nginx'],
+    ],
     onlyif => "test ! -d /opt/notifications"
   }
 
