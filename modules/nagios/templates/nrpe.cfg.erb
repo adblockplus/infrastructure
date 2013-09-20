@@ -4,15 +4,17 @@ server_port=5666
 nrpe_user=nagios
 nrpe_group=nagios
 allowed_hosts=<%= server_address %>
- 
+
 dont_blame_nrpe=0
 debug=0
 command_timeout=60
 connection_timeout=300
 command[check_load]=/usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
 command[check_disk]=/usr/lib/nagios/plugins/check_disk -w 3 -c 1
-command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 150 -c 200 
+command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 150 -c 200
 command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
 command[check_bandwidth]=/usr/lib/nagios/plugins/check_bandwidth 60000000 70000000
+command[check_connections]=/usr/lib/nagios/plugins/check_connections
+command[check_memory]=/usr/lib/nagios/plugins/check_memory
 include=/etc/nagios/nrpe_local.cfg
 include_dir=/etc/nagios/nrpe.d/
