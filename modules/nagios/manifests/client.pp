@@ -24,4 +24,22 @@ class nagios::client($server_address) {
     source => 'puppet:///modules/nagios/check_bandwidth',
     require => Package['nagios-nrpe-server']
   }
+
+  file {'/usr/lib/nagios/plugins/check_connections':
+    ensure => present,
+    mode => 755,
+    owner => root,
+    group => root,
+    source => 'puppet:///modules/nagios/check_connections',
+    require => Package['nagios-nrpe-server']
+  }
+
+  file {'/usr/lib/nagios/plugins/check_memory':
+    ensure => present,
+    mode => 755,
+    owner => root,
+    group => root,
+    source => 'puppet:///modules/nagios/check_memory',
+    require => Package['nagios-nrpe-server']
+  }
 }

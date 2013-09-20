@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+
+import subprocess
+
+if __name__ == "__main__":
+  process_output = subprocess.check_output(["netstat", "-nt"])
+
+  established = 0
+  opening = 0
+  closing = 0
+  for line in process_output.splitlines():
+    data = line.split()
+    if len(data) < 6:
+      continue
+
+    status = data[5]
+    if status == "ESTABLISHED":
+      established += 1
+    elif status == "SYN_RECV":
+      opening += 1
+    elif status in ("FIN_WAIT1", "FIN_WAIT2", "CLOSE_WAIT", "LAST_ACK", "CLOSING"):
+      closing += 1
+
+  status = "established %i opening %i closing %i" % (established, opening, closing)
+
+  perfdata = "established=%i opening=%i closing=%i" % (established, opening, closing)
+
+  output = "%s|%s" % (status, perfdata)
+
+  print "OK - " + output

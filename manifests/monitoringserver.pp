@@ -145,4 +145,18 @@ node 'server4' {
     check_command => 'check_nrpe_1arg!check_bandwidth',
     first_notification_delay => '15'
   }
+
+  nagios_service {'connections':
+    use => 'generic-service',
+    hostgroup_name => 'all',
+    service_description => 'Connections',
+    check_command => 'check_nrpe_1arg!check_connections',
+  }
+
+  nagios_service {'memory':
+    use => 'generic-service',
+    hostgroup_name => 'all',
+    service_description => 'Memory',
+    check_command => 'check_nrpe_1arg!check_memory',
+  }
 }
