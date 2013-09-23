@@ -124,7 +124,7 @@ class filterserver {
                  File['/home/rsync/.ssh/id_rsa'],
                  User['rsync']
                ],
-    command => 'rsync -e ssh -ltprz rsync@ssh.adblockplus.org:. /var/www/easylist/',
+    command => 'rsync -e ssh -ltprz --delete rsync@ssh.adblockplus.org:. /var/www/easylist/',
     environment => ['MAILTO=admins@adblockplus.org,root'],
     user => rsync,
     hour => '*',
