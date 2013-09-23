@@ -117,7 +117,7 @@ class downloadserver {
     require => [File['/home/rsync/.ssh/known_hosts'],
                 File['/home/rsync/.ssh/id_rsa'],
                 File['/var/www/devbuilds']],
-    command => 'rsync -e ssh -ltprz devbuilds@ssh.adblockplus.org:. /var/www/devbuilds',
+    command => 'rsync -e ssh -ltprz --delete devbuilds@ssh.adblockplus.org:. /var/www/devbuilds',
     environment => ['MAILTO=admins@adblockplus.org,root'],
     user => rsync,
     hour => '*',
