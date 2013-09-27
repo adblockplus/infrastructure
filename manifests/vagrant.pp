@@ -40,6 +40,12 @@ node default {
     {host => 'notification1.adblockplus.org', ip => '10.8.0.118'},
     {host => 'notification2.adblockplus.org', ip => '10.8.0.119'},
     {host => 'filter1.adblockplus.org', ip => '10.8.0.120'},
+    {host => 'filter2.adblockplus.org', ip => '10.8.0.121'},
+    {host => 'filter3.adblockplus.org', ip => '10.8.0.122'},
+    {host => 'filter4.adblockplus.org', ip => '10.8.0.123'},
+    {host => 'filter5.adblockplus.org', ip => '10.8.0.124'},
+    {host => 'filter6.adblockplus.org', ip => '10.8.0.125'},
+    {host => 'download1.adblockplus.org', ip => '10.8.0.126'},
   ]
 
   hostentry { $hosts: }

@@ -48,4 +48,10 @@ Vagrant::Config.run do |config|
   define_standard_vm config, 'notification1', '10.8.0.118'
   define_standard_vm config, 'notification2', '10.8.0.119'
   define_standard_vm config, 'filter1', '10.8.0.120'
+  define_standard_vm config, 'filter2', '10.8.0.121'
+  define_standard_vm config, 'filter3', '10.8.0.122'
+  define_standard_vm config, 'filter4', '10.8.0.123'
+  define_standard_vm config, 'filter5', '10.8.0.124'
+  define_standard_vm config, 'filter6', '10.8.0.125'
+  define_standard_vm config, 'download1', '10.8.0.126'
 end
