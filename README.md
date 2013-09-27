@@ -84,21 +84,16 @@ _nagios\_host_ to _manifests/monitoringserver.pp_
 ### Production environment
 
 1. Install Ubuntu Server 12.04 LTS
-2. Perform an update
+2. Perform an update and install Puppet
 
-	apt-get update
-	apt-get upgrade
+	apt-get -y update && apt-get -y upgrade && apt-get -y install puppet
 
-3. Install Puppet
-
-	apt-get install puppet
-
-4. Enable pluginsync (Add the following to the _main_ section in
+3. Enable pluginsync (Add the following to the _main_ section in
    _/etc/puppet/puppet.conf_)
 
 	pluginsync=true
 
-5. Configure the master address (Add the following to the bottom of
+4. Configure the master address (Add the following to the bottom of
 	_/etc/puppet/puppet.conf_)
 
 	[agent]
