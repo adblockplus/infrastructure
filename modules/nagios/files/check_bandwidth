@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-import os, re, subprocess, sys
+import os, re, subprocess, sys, socket, struct, fcntl
+
+INTERVAL = 5
 
 def format_bandwidth(bits):
   if bits >= 1000000:
@@ -9,6 +11,18 @@ def format_bandwidth(bits):
     return "%.2f kbit/s" % (bits / 1000)
   else:
     return "%.2f bit/s" % bits
+
+def getmacaddress():
+  # We are calling SIOCGIFHWADDR (0x8927 according to man ioctl_list) here. See
+  # man netdevice for the request structure: it has to start with 16 bytes
+  # containing the interface name, the OS will write 8 bytes after that (2 bytes
+  # family name and 6 bytes actual MAC address).
+  s = socket.socket()
+  return fcntl.ioctl(s.fileno(), 0x8927, struct.pack("24s", "eth0"))[18:24]
+
+def readtime(time):
+  hour, minute, second = time.split(":")
+  return int(hour) * 3600 + int(minute) * 60 + float(second)
 
 if __name__ == "__main__":
   if len(sys.argv) != 3:
@@ -20,21 +34,108 @@ if __name__ == "__main__":
   warn = int(sys.argv[1])
   crit = int(sys.argv[2])
 
-  process_output = subprocess.check_output(["bwm-ng", "-I", "eth0", "-t", "5000", "-c", "1", "-o", "csv"])
-  data = process_output.splitlines()[0].split(";")
-  tx = float(data[2]) * 8
-  rx = float(data[3]) * 8
-  status = "rx %s tx %s" % (format_bandwidth(rx), format_bandwidth(tx))
+  process = subprocess.Popen(["tcpdump", "-q", "-n", "-s", "64", "-w", "-"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  starttime = None
+  mac = getmacaddress()
 
-  perfdata = "rx=%i;%i;%i tx=%i;%i;%i" % (rx, warn, crit, tx, warn, crit)
+  total = {"rx": 0, "tx": 0}
+  http = {"rx": 0, "tx": 0}
+  https = {"rx": 0, "tx": 0}
+  ssh = {"rx": 0, "tx": 0}
+  dns = {"rx": 0, "tx": 0}
+  other = {"rx": 0, "tx": 0}
+  other_detailed = {}
 
-  output = "%s|%s" % (status, perfdata)
+  # See http://wiki.wireshark.org/Development/LibpcapFileFormat for libpcap format description
+  magic_number, _, _, _, _, _, _ = struct.unpack("IHHiIII", process.stdout.read(24))
+  if magic_number != 0xa1b2c3d4:
+    raise Exception("Unexpected format")
+  while True:
+    sec, usec, incl_len, orig_len = struct.unpack("IIII", process.stdout.read(16))
 
-  if rx >= crit or tx >= crit:
+    # Convert bytes to bits and normalize to seconds
+    length = float(orig_len * 8) / INTERVAL
+
+    time = sec + float(usec) / 1000000
+    if starttime == None:
+      starttime = time
+    if time - starttime > INTERVAL:
+      break
+
+    def add_other(description):
+      other[direction] += length
+      other_detailed[description] = other_detailed.get(description, 0) + length
+
+    payload = process.stdout.read(incl_len)
+
+    # Unpack Ethernet frame, http://en.wikipedia.org/wiki/Ethernet_frame#Structure
+    destination, source, protocol = struct.unpack("!6s6sH", payload[:14])
+    payload = payload[14:]
+    direction = "rx" if destination == mac else "tx"
+    total[direction] += length
+
+    # Check Level 3 protocol
+    if protocol == 0x0800:     # IPv4, http://en.wikipedia.org/wiki/Internet_Protocol_version_4#Header
+      ihl = ord(payload[0]) & 0xF
+      protocol = ord(payload[9])
+      payload = payload[ihl * 4:]
+    elif protocol == 0x86DD:   # IPv6, http://en.wikipedia.org/wiki/IPv6_packet#Fixed_header
+      protocol = ord(payload[6])
+      payload = payload[40:]
+    else:
+      add_other("L3 0x%04X" % protocol)
+      continue
+
+    # Check Level 4 protocol
+    if protocol in (0x06, 0x11):    # TCP, UDP
+      # The lower port number should be the real port, the other one will be
+      # the ephemeral port.
+      source_port, destination_port = struct.unpack('!HH', payload[:4])
+      protocol = "TCP" if protocol == 0x06 else "UDP"
+      port = min(source_port, destination_port)
+    else:
+      add_other("L4 0x%02X" % protocol)
+      continue
+
+    if protocol == "TCP" and port == 80:
+      http[direction] += length
+    elif protocol == "TCP" and port == 443:
+      https[direction] += length
+    elif protocol == "TCP" and port == 22:
+      ssh[direction] += length
+    elif port == 53:
+      dns[direction] += length
+    else:
+      add_other("Port %i" % port)
+      continue
+
+  status = []
+  perfdata = []
+  def add_status(id, values):
+    rx = values["rx"]
+    tx = values["tx"]
+    status.append("%srx %s %stx %s" % (id, format_bandwidth(rx), id, format_bandwidth(tx)))
+    if id == "":
+      perfdata.append("rx=%i;%i;%i tx=%i;%i;%i" % (rx, warn, crit, tx, warn, crit))
+    else:
+      perfdata.append("%srx=%i %stx=%i" % (id, rx, id, tx))
+
+  add_status("", total)
+  add_status("http_", http)
+  add_status("https_", https)
+  add_status("ssh_", ssh)
+  add_status("dns_", dns)
+  add_status("other_", other)
+  for key in sorted(other_detailed.iterkeys(), key=lambda k: other_detailed[k], reverse=True):
+    status.append("%s %s" % (key, format_bandwidth(float(other_detailed[key]) / INTERVAL)))
+
+  output = "%s|%s" % (", ".join(status), " ".join(perfdata))
+
+  if total["rx"] >= crit or total["tx"] >= crit:
     print "CRITICAL - " + output
     sys.exit(2)
 
-  if rx >= warn or tx >= warn:
+  if total["rx"] >= warn or total["tx"] >= warn:
     print "WARNING - " + output
     sys.exit(1)
 
