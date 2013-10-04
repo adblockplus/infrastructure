@@ -34,7 +34,7 @@ if __name__ == "__main__":
   warn = int(sys.argv[1])
   crit = int(sys.argv[2])
 
-  process = subprocess.Popen(["tcpdump", "-q", "-n", "-s", "64", "-w", "-"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  process = subprocess.Popen(["sudo", "tcpdump", "-q", "-n", "-s", "64", "-w", "-"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   starttime = None
   mac = getmacaddress()
 

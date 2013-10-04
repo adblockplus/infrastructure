@@ -1,0 +1,1 @@
+nagios ALL=(root) NOPASSWD:/usr/sbin/tcpdump -q -n -s 64 -w -
