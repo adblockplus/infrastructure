@@ -44,6 +44,10 @@ node 'server4' {
     }
   }
 
+  nagios_command {'check_nrpe_timeout':
+    command_line => '/usr/lib/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$ -t $ARG2$'
+  }
+
   nagios_command {'check_easylist_http':
     command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H easylist-downloads.adblockplus.org -u /easylist.txt -k "Accept-Encoding: gzip,deflate" -e "HTTP/1.1 200 OK"'
   }
@@ -139,7 +143,7 @@ node 'server4' {
     use => 'generic-service',
     hostgroup_name => 'all',
     service_description => 'Bandwidth',
-    check_command => 'check_nrpe_1arg!check_bandwidth',
+    check_command => 'check_nrpe_timeout!check_bandwidth!20',
     first_notification_delay => '15'
   }
 
