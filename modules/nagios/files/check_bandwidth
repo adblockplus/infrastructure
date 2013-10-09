@@ -20,10 +20,6 @@ def getmacaddress():
   s = socket.socket()
   return fcntl.ioctl(s.fileno(), 0x8927, struct.pack("24s", "eth0"))[18:24]
 
-def readtime(time):
-  hour, minute, second = time.split(":")
-  return int(hour) * 3600 + int(minute) * 60 + float(second)
-
 if __name__ == "__main__":
   if len(sys.argv) != 3:
     script_name = os.path.basename(sys.argv[0])
@@ -34,8 +30,9 @@ if __name__ == "__main__":
   warn = int(sys.argv[1])
   crit = int(sys.argv[2])
 
-  process = subprocess.Popen(["sudo", "tcpdump", "-q", "-n", "-s", "64", "-w", "-"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-  starttime = None
+  process = subprocess.Popen(
+    ["sudo", "tcpdump", "-q", "-s", "64", "-G", str(INTERVAL), "-W", "1", "-w", "-"],
+    stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   mac = getmacaddress()
 
   total = {"rx": 0, "tx": 0}
@@ -51,16 +48,13 @@ if __name__ == "__main__":
   if magic_number != 0xa1b2c3d4:
     raise Exception("Unexpected format")
   while True:
-    sec, usec, incl_len, orig_len = struct.unpack("IIII", process.stdout.read(16))
+    header = process.stdout.read(16)
+    if header == "":
+      break;
+    _, _, incl_len, orig_len = struct.unpack("IIII", header)
 
     # Convert bytes to bits and normalize to seconds
     length = float(orig_len * 8) / INTERVAL
-
-    time = sec + float(usec) / 1000000
-    if starttime == None:
-      starttime = time
-    if time - starttime > INTERVAL:
-      break
 
     def add_other(description):
       other[direction] += length
