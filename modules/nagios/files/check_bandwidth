@@ -13,12 +13,12 @@ def format_bandwidth(bits):
     return "%.2f bit/s" % bits
 
 def getmacaddress():
-  # We are calling SIOCGIFHWADDR (0x8927 according to man ioctl_list) here. See
-  # man netdevice for the request structure: it has to start with 16 bytes
+  # See man netdevice for the request structure: it has to start with 16 bytes
   # containing the interface name, the OS will write 8 bytes after that (2 bytes
   # family name and 6 bytes actual MAC address).
   s = socket.socket()
-  return fcntl.ioctl(s.fileno(), 0x8927, struct.pack("24s", "eth0"))[18:24]
+  SIOCGIFHWADDR = 0x8927   # see man ioctl_list
+  return fcntl.ioctl(s.fileno(), SIOCGIFHWADDR, struct.pack("24s", "eth0"))[18:24]
 
 if __name__ == "__main__":
   if len(sys.argv) != 3:
@@ -44,29 +44,32 @@ if __name__ == "__main__":
   other_detailed = {}
 
   # See http://wiki.wireshark.org/Development/LibpcapFileFormat for libpcap format description
-  magic_number, _, _, _, _, _, _ = struct.unpack("IHHiIII", process.stdout.read(24))
+  global_header = process.stdout.read(24)
+  magic_number, _, _, _, _, _, _ = struct.unpack("IHHiIII", global_header)
   if magic_number != 0xa1b2c3d4:
     raise Exception("Unexpected format")
   while True:
-    header = process.stdout.read(16)
-    if header == "":
+    record_header = process.stdout.read(16)
+    if record_header == "":
       break;
-    _, _, incl_len, orig_len = struct.unpack("IIII", header)
+    _, _, incl_len, orig_len = struct.unpack("IIII", record_header)
 
     # Convert bytes to bits and normalize to seconds
-    length = float(orig_len * 8) / INTERVAL
+    bps = float(orig_len * 8) / INTERVAL
 
     def add_other(description):
-      other[direction] += length
-      other_detailed[description] = other_detailed.get(description, 0) + length
+      other[direction] += bps
+      other_detailed[description] = other_detailed.get(description, 0) + bps
 
     payload = process.stdout.read(incl_len)
 
     # Unpack Ethernet frame, http://en.wikipedia.org/wiki/Ethernet_frame#Structure
+    # Note that tcpdump doesn't capture the preamble, start of frame delimiter
+    # and the interframe gap, these are handled internally by the network card.
     destination, source, protocol = struct.unpack("!6s6sH", payload[:14])
     payload = payload[14:]
     direction = "rx" if destination == mac else "tx"
-    total[direction] += length
+    total[direction] += bps
 
     # Check Level 3 protocol
     if protocol == 0x0800:     # IPv4, http://en.wikipedia.org/wiki/Internet_Protocol_version_4#Header
@@ -82,23 +85,24 @@ if __name__ == "__main__":
 
     # Check Level 4 protocol
     if protocol in (0x06, 0x11):    # TCP, UDP
-      # The lower port number should be the real port, the other one will be
-      # the ephemeral port.
       source_port, destination_port = struct.unpack('!HH', payload[:4])
       protocol = "TCP" if protocol == 0x06 else "UDP"
+
+      # The lower port number should be the real port, the other one will be
+      # the ephemeral port.
       port = min(source_port, destination_port)
     else:
       add_other("L4 0x%02X" % protocol)
       continue
 
     if protocol == "TCP" and port == 80:
-      http[direction] += length
+      http[direction] += bps
     elif protocol == "TCP" and port == 443:
-      https[direction] += length
+      https[direction] += bps
     elif protocol == "TCP" and port == 22:
-      ssh[direction] += length
+      ssh[direction] += bps
     elif port == 53:
-      dns[direction] += length
+      dns[direction] += bps
     else:
       add_other("Port %i" % port)
       continue
