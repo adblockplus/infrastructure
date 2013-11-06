@@ -40,13 +40,13 @@ below.
 For each production server, we have a Vagrant VM with the same host
 name.
 
-To start the _server1_ VM:
+To start the _filter1_ VM:
 
-	vagrant up server1
+	vagrant up filter1
 
 After you've made changes to Puppet manifests, you can update it like this:
 
-	vagrant provision server1
+	vagrant provision filter1
 
 You can omit the VM name if you want to boot or provision all
 VMs. This might take a while and eat quite a bit of RAM though.

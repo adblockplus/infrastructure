@@ -1,4 +1,4 @@
-node 'server13', 'download1' {
+node 'download1' {
   include base, downloadserver
 
   class {'nagios::client':
