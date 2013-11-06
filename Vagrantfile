@@ -26,23 +26,17 @@ fi'
 end
 
 Vagrant::Config.run do |config|
-  define_standard_vm config, 'server1', '10.8.0.97'
-  define_standard_vm config, 'server3', '10.8.0.98'
   define_standard_vm config, 'server4', '10.8.0.99'
   define_standard_vm config, 'server5', '10.8.0.100'
   define_standard_vm config, 'server6', '10.8.0.101'
   define_standard_vm config, 'server7', '10.8.0.102'
-  define_standard_vm config, 'server8', '10.8.0.103'
-  define_standard_vm config, 'server9', '10.8.0.104'
   define_standard_vm config, 'server10', '10.8.0.105' do |config|
     config.vm.customize ["modifyvm", :id, "--memory", 1024]
   end
   define_standard_vm config, 'server11', '10.8.0.106'
   define_standard_vm config, 'server12', '10.8.0.107'
-  define_standard_vm config, 'server13', '10.8.0.108'
   define_standard_vm config, 'server15', '10.8.0.110'
   define_standard_vm config, 'server19', '10.8.0.114'
-  define_standard_vm config, 'server20', '10.8.0.115'
   define_standard_vm config, 'server21', '10.8.0.116'
   define_standard_vm config, 'server22', '10.8.0.117'
   define_standard_vm config, 'notification1', '10.8.0.118'
