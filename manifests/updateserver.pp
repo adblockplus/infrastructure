@@ -1,4 +1,4 @@
-node 'server21' {
+node 'server21', 'update1' {
   include base, updateserver
 
   class {'nagios::client':

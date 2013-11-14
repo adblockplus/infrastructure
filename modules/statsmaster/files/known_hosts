@@ -15,3 +15,4 @@ filter5.adblockplus.org,85.10.195.245,2a01:4f8:a0:60c9::2 ecdsa-sha2-nistp256 AA
 filter6.adblockplus.org,78.46.51.36,2a01:4f8:101:102a::2 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGNxtrQdTBMDibW4490rnbIj6bxfkY8y4I2im7924F4CMNVykqhnnanhcX/z55ckC0pI1OtiXnWV3XlT6xljM5Y=
 notification1.adblockplus.org,178.63.96.74,2a01:4f8:121:4346::2 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBM2aLuW+sHmSlpcxXJJmUtg9rKeHyRdVRRNuHLT4HJCcy6mEKfIqCyX8cxJO6fBsfMd0vTGFPHMknV9rcvq2wY4=
 notification2.adblockplus.org,78.46.70.139,2a01:4f8:120:51c8::2 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOa+Yn3QO63wxN93v1+VS0SjhbcPqZxgt6JYOStkI+AzM3RSfaxN5A7tdcWN5rGmc9ffn8+RBcE+247+HtjH87M=
+update1.adblockplus.org,88.198.37.130,2a01:4f8:a0:2088::2 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNQ4C/hghKhYSQHiz3cquPVbbMP5tycwHChe5gbY03jVR9dynO6Ldb5MWL02r83zFisPqM6lvtnjuGA65dzVJYE=
