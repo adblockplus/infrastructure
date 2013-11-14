@@ -48,5 +48,6 @@ Vagrant::Config.run do |config|
   define_standard_vm config, 'filter5', '10.8.0.124'
   define_standard_vm config, 'filter6', '10.8.0.125'
   define_standard_vm config, 'download1', '10.8.0.126'
+  define_standard_vm config, 'filtermaster1', '10.8.0.127'
   define_standard_vm config, 'update1', '10.8.0.128'
 end

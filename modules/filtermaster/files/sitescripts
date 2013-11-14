@@ -1,0 +1,16 @@
+[DEFAULT]
+root=/home/rsync/subscription
+
+[subscriptionDownloads]
+easylist_repository=%(root)s/easylist
+easylistgermany_repository=%(root)s/easylistgermany
+easylistitaly_repository=%(root)s/easylistitaly
+easylistcombinations_repository=%(root)s/easylistcombinations
+malwaredomains_repository=%(root)s/malwaredomains
+ruadlist_repository=%(root)s/ruadlist
+listefr_repository=%(root)s/listefr
+exceptions_repository=%(root)s/exceptionrules
+easylistdutch_repository=%(root)s/easylistdutch
+facebookfilters_repository=%(root)s/facebookfilters
+antiadblockfilters_repository=%(root)s/antiadblockfilters
+outdir=/home/rsync/generated

@@ -40,6 +40,7 @@ node default {
     {host => 'filter5.adblockplus.org', ip => '10.8.0.124'},
     {host => 'filter6.adblockplus.org', ip => '10.8.0.125'},
     {host => 'download1.adblockplus.org', ip => '10.8.0.126'},
+    {host => 'filtermaster1.adblockplus.org', ip => '10.8.0.127'},
     {host => 'update1.adblockplus.org', ip => '10.8.0.128'},
   ]
 
