@@ -74,6 +74,7 @@ node 'server4' {
   nagios_host {'filter4.adblockplus.org': use => 'generic-host'}
   nagios_host {'filter5.adblockplus.org': use => 'generic-host'}
   nagios_host {'filter6.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filtermaster1.adblockplus.org': use => 'generic-host'}
   nagios_host {'notification1.adblockplus.org': use => 'generic-host'}
   nagios_host {'notification2.adblockplus.org': use => 'generic-host'}
   nagios_host {'update1.adblockplus.org': use => 'generic-host'}
