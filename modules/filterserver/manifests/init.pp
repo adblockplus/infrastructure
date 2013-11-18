@@ -84,7 +84,7 @@ class filterserver {
     mode => 0600;
   }
 
-  concat {'/home/rsync/.ssh/known_hosts':    
+  concat {'/home/rsync/.ssh/known_hosts':
     owner => rsync,
     mode => 0444,
   }
@@ -95,7 +95,7 @@ class filterserver {
      content => 'filtermaster.adblockplus.org ',
      order => 1,
   }
- 
+
    concat::fragment {'filtermaster_hostkey':
      target => '/home/rsync/.ssh/known_hosts',
      source => 'puppet:///modules/private/filtermaster.adblockplus.org_ssh.pub',
@@ -131,7 +131,7 @@ class filterserver {
                  File['/home/rsync/.ssh/id_rsa'],
                  User['rsync']
                ],
-    command => 'rsync -e ssh -ltprz --delete rsync@filtermaster1.adblockplus.org:. /var/www/easylist/',
+    command => 'rsync -e ssh -ltprz --delete rsync@filtermaster.adblockplus.org:. /var/www/easylist/',
     environment => ['MAILTO=admins@adblockplus.org,root'],
     user => rsync,
     hour => '*',
