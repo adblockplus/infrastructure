@@ -66,7 +66,6 @@ node 'server4' {
   nagios_host {'server_15.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_16.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_19.adblockplus.org': use => 'generic-host'}
-  nagios_host {'server_21.adblockplus.org': use => 'generic-host'}
   nagios_host {'server_22.adblockplus.org': use => 'generic-host'}
   nagios_host {'download1.adblockplus.org': use => 'generic-host'}
   nagios_host {'filter1.adblockplus.org': use => 'generic-host'}
@@ -80,7 +79,7 @@ node 'server4' {
   nagios_host {'update1.adblockplus.org': use => 'generic-host'}
 
   nagios_hostgroup {'all': members => '*'}
-  nagios_hostgroup {'http-servers': members => 'server_4.adblockplus.org, server_10.adblockplus.org, server_16.adblockplus.org, server_21.adblockplus.org, server_22.adblockplus.org, download1.adblockplus.org, update1.adblockplus.org'}
+  nagios_hostgroup {'http-servers': members => 'server_4.adblockplus.org, server_10.adblockplus.org, server_16.adblockplus.org, server_22.adblockplus.org, download1.adblockplus.org, update1.adblockplus.org'}
   nagios_hostgroup {'notification-servers': members => 'notification1.adblockplus.org, notification2.adblockplus.org'}
   nagios_hostgroup {'filter-servers': members => 'server_5.adblockplus.org, server_6.adblockplus.org, server_7.adblockplus.org, server_11.adblockplus.org, server_12.adblockplus.org, server_15.adblockplus.org, server_19.adblockplus.org, filter1.adblockplus.org, filter2.adblockplus.org, filter3.adblockplus.org, filter4.adblockplus.org, filter5.adblockplus.org, filter6.adblockplus.org'}
 
