@@ -49,16 +49,17 @@ class filtermaster {
     source => 'puppet:///modules/private/rsync@easylist-downloads.adblockplus.org.pub'
   }
 
-  file {'/etc/ssh/ssh_host_rsa_key':
+  file {'/etc/ssh/ssh_host_ecdsa_key':
     require => Package['openssh-server'],
     notify => Service['ssh'],
     ensure => file,
     owner => root,
     group => root,
+    mode => 600,
     source => 'puppet:///modules/private/filtermaster.adblockplus.org_ssh.key'
   }
 
-  file {'/etc/ssh/ssh_host_rsa_key.pub':
+  file {'/etc/ssh/ssh_host_ecdsa_key.pub':
     require => Package['openssh-server'],
     notify => Service['ssh'],
     ensure => file,
