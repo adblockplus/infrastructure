@@ -128,7 +128,7 @@ class filterserver {
     ensure => present,
     require => [
                  File['/home/rsync/.ssh/known_hosts'],
-                 File['/home/rsync/.ssh/id_ecdsa'],
+                 File['/home/rsync/.ssh/id_rsa'],
                  User['rsync']
                ],
     command => 'rsync -e "ssh -o CheckHostIP=no" -ltprz --delete rsync@filtermaster.adblockplus.org:. /var/www/easylist/',
