@@ -12,5 +12,6 @@ listefr_repository=%(root)s/listefr
 exceptions_repository=%(root)s/exceptionrules
 easylistdutch_repository=%(root)s/easylistdutch
 facebookfilters_repository=%(root)s/facebookfilters
+youtubefilters_repository=%(root)s/youtubefilters
 antiadblockfilters_repository=%(root)s/antiadblockfilters
 outdir=/home/rsync/generated

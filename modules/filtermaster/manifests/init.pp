@@ -95,6 +95,7 @@ class filtermaster {
                   'exceptionrules',
                   'easylistdutch',
                   'facebookfilters',
+                  'youtubefilters',
                   'antiadblockfilters'
      ]:
   }
