@@ -2,16 +2,20 @@ class filtermaster {
   Cron {
     environment => ['MAILTO=admin@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
   }
-  
+
   class {'ssh':
-    custom_configuration => 'Match User rsync
-    AllowTcpForwarding no
-    X11Forwarding no
-    AllowAgentForwarding no
-    GatewayPorts no
-    ForceCommand rsync --server --sender -vltprz --delete-excluded . /home/rsync/generated/data/'
+    custom_configuration => '
+    MaxSessions 50
+    MaxStartups 50
+
+    Match User rsync
+      AllowTcpForwarding no
+      X11Forwarding no
+      AllowAgentForwarding no
+      GatewayPorts no
+      ForceCommand rsync --server --sender -vltprz --delete-excluded . /home/rsync/generated/data/'
   }
-  
+
   user {'rsync':
     ensure => present,
     comment => 'Filter list mirror user',
@@ -25,7 +29,7 @@ class filtermaster {
     mode => 0700,
     source => 'puppet:///modules/filtermaster/update_repos.sh'
   }
-   
+
   file {'/home/rsync/subscription':
     ensure => directory,
     owner => rsync
@@ -35,7 +39,7 @@ class filtermaster {
     ensure => directory,
     owner => rsync
   }
-   
+
   file {'/home/rsync/.ssh':
     ensure => directory,
     owner => rsync,
@@ -70,7 +74,7 @@ class filtermaster {
 
   package {['p7zip-full']:}
 
-  define repo_download() { 
+  define repo_download() {
     exec {"fetch_${title}":
       command => "hg clone https://hg.adblockplus.org/${title} /home/rsync/subscription/${title}",
       path => ["/usr/bin/", "/bin/"],
@@ -80,7 +84,7 @@ class filtermaster {
       onlyif => "test ! -d /home/rsync/subscription/${title}"
     }
   }
- 
+
   repo_download {['easylist',
                   'easylistgermany',
                   'easylistitaly',
@@ -93,7 +97,7 @@ class filtermaster {
                   'facebookfilters',
                   'antiadblockfilters'
      ]:
-  }  
+  }
 
   cron {'update_subscription':
     ensure => present,
@@ -102,7 +106,7 @@ class filtermaster {
     require => User['rsync'],
     minute => '*/10'
   }
-     
+
   cron {'update_malware':
     ensure => present,
     command => "python -m sitescripts.subscriptions.bin.updateMalwareDomainsList",
@@ -111,7 +115,7 @@ class filtermaster {
     hour => '*/6',
     minute => 15
   }
-  
+
   cron {'update_repos':
     ensure => present,
     command => "/home/rsync/update_repos.sh",
@@ -126,4 +130,4 @@ class filtermaster {
   class {'sitescripts':
     sitescriptsini_source => 'puppet:///modules/filtermaster/sitescripts'
   }
-} 
+}
