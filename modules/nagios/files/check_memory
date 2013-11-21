@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-import re
+import re, argparse
 
 def format_memory(bytes):
-  if bytes >= 1024*1024:
+  if bytes >= 1024 * 1024:
     return "%i MB" % (bytes / (1024 * 1024))
   elif bytes >= 1024:
     return "%i kB" % (bytes / 1024)
@@ -11,6 +11,13 @@ def format_memory(bytes):
     return "%i bytes"
 
 if __name__ == "__main__":
+  parser = argparse.ArgumentParser(description="Determine the amount of available memory")
+  parser.add_argument("--physical-warn", dest="memwarn", type=int, default=-1, help="Warning threshold for available physical memory (in percent)")
+  parser.add_argument("--physical-critical", dest="memcrit", type=int, default=-1, help="Critical threshold for available physical memory (in percent)")
+  parser.add_argument("--swap-warn", dest="swapwarn", type=int, default=-1, help="Warning threshold for available swap memory (in percent)")
+  parser.add_argument("--swap-critical", dest="swapcrit", type=int, default=-1, help="Critical threshold for available swap memory (in percent)")
+  args = parser.parse_args()
+
   memtotal = None
   memfree = None
   swaptotal = None
@@ -48,8 +55,16 @@ if __name__ == "__main__":
     swappercentage, format_memory(swapfree), format_memory(swaptotal)
   )
 
-  perfdata = "memory=%i swap=%i" % (mempercentage, swappercentage)
+  perfdata = "memory=%i;%i;%i swap=%i;%i;%i" % (
+    mempercentage, args.memwarn, args.memcrit,
+    swappercentage, args.swapwarn, args.swapcrit
+  )
 
   output = "%s|%s" % (status, perfdata)
 
-  print "OK - " + output
+  if mempercentage <= args.memcrit or swappercentage <= args.swapcrit:
+    print "CRITICAL - " + output
+  elif mempercentage <= args.memwarn or swappercentage <= args.swapwarn:
+    print "WARNING - " + output
+  else:
+    print "OK - " + output
