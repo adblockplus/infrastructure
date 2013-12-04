@@ -1,0 +1,24 @@
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  server_name '<%= vhost %>';
+
+  location / {
+    rewrite (.*) https://<%= vhost %>$1 permanent;
+  }
+}
+
+server {
+  listen 443 ssl default_server;
+  listen [::]:443 ssl default_server;
+  ssl_certificate sites-available/adblockplus.org_sslcert.pem;
+  ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
+
+  server_name '<%= vhost %>';
+
+  expires 1d;
+
+  root /var/www/<%= vhost %>;
+  index index;
+  default_type text/html;
+}

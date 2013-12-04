@@ -51,16 +51,22 @@ class nginx (
     require => Package['nginx']
   }
 
-#  file {'/etc/nginx/sites-enabled/default':
-#    ensure => absent,
-#  }
-
-  define hostconfig ($file = $title, $source, $enabled = false) {
-    file {"/etc/nginx/sites-available/${file}":
-      ensure  => file,
-      source => $source,
-      require => Package['nginx'],
-      notify => Service['nginx'],
+  define hostconfig ($file = $title, $source = undef, $content = undef, $enabled = false) {
+    if $content != undef {
+      file {"/etc/nginx/sites-available/${file}":
+        ensure  => file,
+        content => $content,
+        require => Package['nginx'],
+        notify => Service['nginx'],
+      }
+    }
+    else {
+      file {"/etc/nginx/sites-available/${file}":
+        ensure  => file,
+        source => $source,
+        require => Package['nginx'],
+        notify => Service['nginx'],
+      }
     }
     if $enabled == true {
       file {"/etc/nginx/sites-enabled/${file}":
