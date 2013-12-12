@@ -1,14 +1,17 @@
-server {
+server
+{
   listen 80 default_server;
   listen [::]:80 default_server;
   server_name '<%= vhost %>';
 
-  location / {
+  location /
+  {
     rewrite (.*) https://<%= vhost %>$1 permanent;
   }
 }
 
-server {
+server
+{
   listen 443 ssl default_server;
   listen [::]:443 ssl default_server;
   ssl_certificate sites-available/adblockplus.org_sslcert.pem;
@@ -21,4 +24,63 @@ server {
   root /var/www/<%= vhost %>;
   index index;
   default_type text/html;
+
+  # Match Accept-Language header against available languages
+
+  set $preferredLang "";
+  if ($http_accept_language ~ ^(\w\w)-(\w\w)\b)
+  {
+    set $preferrredLang $1_$2;
+  }
+  if (!-f $document_root/$preferredLang/index)
+  {
+    set $preferredLang "";
+  }
+
+  set $temp "$preferredLang|$http_accept_language";
+  if ($temp ~ ^\|(\w\w)\b)
+  {
+    set $preferredLang $1;
+  }
+  if (!-f $document_root/$preferredLang/index)
+  {
+    set $preferredLang "";
+  }
+
+  if ($preferredLang = "")
+  {
+    set $preferredLang "en";
+  }
+
+  # Always redirect server root
+
+  rewrite ^/$ /$preferredLang/ last;
+
+  # Don't do anything if requested file exists
+
+  if (-f $request_filename)
+  {
+    break;
+  }
+  if (-d $request_filename)
+  {
+    break;
+  }
+
+  # Redirect canonical URLs to language-specific versions
+
+  set $canonical $uri;
+  if ($canonical ~ ^(.*?)\?)
+  {
+
+  }
+
+  if (-f $document_root/$preferredLang$canonical)
+  {
+    rewrite ^ /$preferredLang$canonical last;
+  }
+  if (-f $document_root/en$canonical)
+  {
+    rewrite ^ /en$canonical last;
+  }
 }
