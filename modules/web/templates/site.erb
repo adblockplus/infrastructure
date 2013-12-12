@@ -72,7 +72,7 @@ server
   set $canonical $uri;
   if ($canonical ~ ^(.*?)\?)
   {
-
+    set $canonical $1;
   }
 
   if (-f $document_root/$preferredLang$canonical)
