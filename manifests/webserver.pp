@@ -5,4 +5,8 @@ node 'web1' {
     vhost => 'eyeo.com',
     repository => 'web.eyeo.com',
   }
+
+  class {'nagios::client':
+    server_address => 'monitoring.adblockplus.org'
+  }
 }
