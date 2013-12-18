@@ -1,4 +1,4 @@
-class web::server($vhost, $repository) {
+class web::server($vhost, $repository, $multiplexer_locations = undef) {
   File {
     owner  => 'root',
     group  => 'root',
@@ -34,6 +34,25 @@ class web::server($vhost, $repository) {
 
   class {'sitescripts':
     sitescriptsini_source => 'puppet:///modules/web/sitescripts',
+  }
+
+  if $multiplexer_locations != undef {
+    include spawn-fcgi
+    package {['python-flup', 'python-mysqldb']:}
+
+    spawn-fcgi::pool {"multiplexer":
+      ensure => present,
+      fcgi_app => '/opt/sitescripts/multiplexer.fcgi',
+      socket => '/tmp/multiplexer-fastcgi.sock',
+      mode => '0666',
+      user => 'nginx',
+      children => 1,
+      require => [
+        Exec["fetch_sitescripts"],
+        Package["python-flup"],
+        Package["python-mysqldb"],
+      ],
+    }
   }
 
   user {'www':

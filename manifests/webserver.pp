@@ -4,6 +4,12 @@ node 'web1' {
   class {'web::server':
     vhost => 'eyeo.com',
     repository => 'web.eyeo.com',
+    multiplexer_locations => ['/formmail'],
+  }
+
+  concat::fragment {'formmail_template':
+    target => '/etc/sitescripts.ini',
+    content => "[DEFAULT]\nmailer=/usr/sbin/sendmail\n[formmail]\ntemplate=formmail/template/eyeo.mail\n",
   }
 
   class {'nagios::client':
