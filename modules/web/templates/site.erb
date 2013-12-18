@@ -83,4 +83,14 @@ server
   {
     rewrite ^ /en$canonical last;
   }
+
+  <% if @multiplexer_locations %>
+    <% @multiplexer_locations.each do |location| %>
+    location <%= location %>
+    {
+      fastcgi_pass unix:/tmp/multiplexer-fastcgi.sock;
+      include /etc/nginx/fastcgi_params;
+    }
+    <% end %>
+  <% end %>
 }
