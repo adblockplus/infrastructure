@@ -4,4 +4,6 @@ node 'server5', 'server6', 'server7', 'server11', 'server12', 'server15', 'serve
   class {'nagios::client':
     server_address => 'monitoring.adblockplus.org'
   }
+
+  class {'statsclient': }
 }

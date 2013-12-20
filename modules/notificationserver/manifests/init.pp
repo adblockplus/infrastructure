@@ -5,9 +5,8 @@ class notificationserver {
     ssl_session_cache => off,
   }
 
-  class {'statsclient':
-    log_path => '/var/log/nginx/access_log_notification.1.gz',
-    custom_sitescriptsini_source => 'puppet:///modules/notificationserver/sitescripts.ini'
+  class {'sitescripts':
+    sitescriptsini_source => 'puppet:///modules/notificationserver/sitescripts.ini'
   }
 
   file {'/var/www':

@@ -4,4 +4,6 @@ node 'notification1', 'notification2' {
   class {'nagios::client':
     server_address => 'monitoring.adblockplus.org'
   }
+
+  class {'statsclient': }
 }

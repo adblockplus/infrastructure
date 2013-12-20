@@ -1,4 +1,4 @@
-node 'server22', 'stats1' {
+node 'stats1' {
   include base, statsmaster
 
   class {'nagios::client':

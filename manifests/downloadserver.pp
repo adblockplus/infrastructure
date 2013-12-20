@@ -4,4 +4,6 @@ node 'download1' {
   class {'nagios::client':
     server_address => 'monitoring.adblockplus.org'
   }
+
+  class {'statsclient': }
 }

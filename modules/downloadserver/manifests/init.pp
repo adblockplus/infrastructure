@@ -5,10 +5,6 @@ class downloadserver {
     ssl_session_cache => off,
   }
 
-  class {'statsclient':
-    log_path => '/var/log/nginx/access_log_downloads.1.gz',
-  }
-
   user {'hg':
     ensure => present,
     comment => 'Mercurial client user',

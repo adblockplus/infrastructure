@@ -29,7 +29,6 @@ node default {
     {host => 'server_12.adblockplus.org', ip => '10.8.0.107'},
     {host => 'server_15.adblockplus.org', ip => '10.8.0.110'},
     {host => 'server_19.adblockplus.org', ip => '10.8.0.114'},
-    {host => 'server_22.adblockplus.org', ip => '10.8.0.117'},
     {host => 'notification1.adblockplus.org', ip => '10.8.0.118'},
     {host => 'notification2.adblockplus.org', ip => '10.8.0.119'},
     {host => 'filter1.adblockplus.org', ip => '10.8.0.120'},
