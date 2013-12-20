@@ -42,6 +42,7 @@ node default {
     {host => 'filtermaster1.adblockplus.org', ip => '10.8.0.127'},
     {host => 'update1.adblockplus.org', ip => '10.8.0.128'},
     {host => 'web1.adblockplus.org', ip => '10.8.0.129'},
+    {host => 'stats1.adblockplus.org', ip => '10.8.0.130'},
   ]
 
   hostentry { $hosts: }
