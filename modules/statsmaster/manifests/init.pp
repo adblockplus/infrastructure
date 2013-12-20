@@ -61,6 +61,13 @@ class statsmaster {
     owner => stats,
   }
 
+  file {'/var/www/statsdata/usercounts.html':
+    ensure => file,
+    mode => 0444,
+    source => 'puppet:///modules/statsmaster/usercounts.html',
+    owner => stats,
+  }
+
   file {'/var/www/htpasswd':
     ensure => file,
     mode => 0444,
