@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>User counter</title>
+  <style type="text/css">
+    form
+    {
+      display: inline;
+    }
+
+    .spacer
+    {
+      margin: 0 10px;
+    }
+
+    table
+    {
+      border-collapse: collapse;
+    }
+
+    td, th
+    {
+      padding: 5px;
+      border: 1px solid black;
+    }
+
+    td
+    {
+      text-align: right;
+    }
+  </style>
+  <script type="text/javascript">
+    const MILLIS_IN_DAY = 24 * 60 * 60 * 1000;
+
+    function zeroPad(number, digits)
+    {
+      var result = number.toString(10);
+      while (result.length < digits)
+        result = "0" + result;
+      return result;
+    }
+
+    function formatDate(date)
+    {
+      return zeroPad(date.getFullYear(), 4) + "-" + zeroPad(date.getMonth() + 1, 2) + "-" + zeroPad(date.getDate(), 2);
+    }
+
+    var curMonth = null;
+    var curMonthFilters = null;
+    var curMonthNotifications = null;
+
+    function checkStats(data, fromDate, offset, callback)
+    {
+      var date = new Date(fromDate.getTime() + offset * MILLIS_IN_DAY);
+
+      function doDownload(url, descr, callback)
+      {
+        var request = new XMLHttpRequest();
+        request.open("GET", url);
+        request.addEventListener("load", function()
+        {
+          if (request.status != 200)
+            alert("Failed to download " + descr + ", got response " + request.status);
+          else
+            callback(JSON.parse(request.responseText));
+        }, false);
+        request.addEventListener("error", function()
+        {
+          alert("Failed to download " + descr);
+        }, false);
+        request.send(null);
+      }
+
+      function doCheckStats(source, type)
+      {
+        if (!(date.getDate() in source.day))
+          return;
+
+        var intervals = source.day[date.getDate()].previousDownload;
+        for (var interval in intervals)
+        {
+          if (!intervals.hasOwnProperty(interval))
+            continue;
+
+          var days;
+          if (/^\d+ day/.test(interval))
+            days = parseInt(interval, 10);
+          else if (/^\d+ month/.test(interval))
+            days = 31;
+          else
+            continue;
+
+          // Most requests claiming that last download was long ago are bots or broken installations
+          if (days > 30)
+            continue;
+
+          var hits = intervals[interval].hits;
+          for (var i = Math.max(offset, 0); i < data.length; i++)
+          {
+            if (i - offset < 30 && i - offset + days >= 30)
+              data[i]["30day " + type] += hits;
+            if (i - offset < 7 && i - offset + days >= 7)
+              data[i]["7day " + type] += hits;
+          }
+        }
+      }
+
+      var month = zeroPad(date.getFullYear(), 4) + zeroPad(date.getMonth() + 1, 2);
+      if (month != curMonth)
+      {
+        doDownload("/raw/subscription/" + month + "/exceptionrules.txt.json", "acceptable ads data for month " + month, function(json)
+        {
+          curMonthFilters = json;
+          doDownload("/raw/notification/" + month + "/notification.json.json", "notification data for month " + month, function(json)
+          {
+            curMonthNotifications = json;
+            curMonth = month;
+            doCheckStats(curMonthFilters, "acceptable");
+            doCheckStats(curMonthNotifications, "total");
+            callback();
+          });
+        });
+      }
+      else
+      {
+        doCheckStats(curMonthFilters, "acceptable");
+        doCheckStats(curMonthNotifications, "total");
+        callback();
+      }
+    }
+
+    function showResults(fromDate, data)
+    {
+      function createCell(row, text)
+      {
+        var cell = document.createElement("td");
+        cell.appendChild(document.createTextNode(text));
+        row.appendChild(cell);
+      }
+
+      var resultBody = document.getElementById("resultBody");
+      while (resultBody.lastChild)
+        resultBody.removeChild(resultBody.lastChild);
+
+      for (var i = 0; i < data.length; i++)
+      {
+        var date = new Date(fromDate.getTime() + i * MILLIS_IN_DAY);
+
+        var row = document.createElement("tr");
+        createCell(row, date.toLocaleDateString());
+        createCell(row, data[i]["7day total"].toLocaleString());
+        createCell(row, data[i]["7day acceptable"].toLocaleString());
+        createCell(row, (100 - data[i]["7day acceptable"] / data[i]["7day total"] * 100).toFixed(2) + "%");
+        createCell(row, data[i]["30day total"].toLocaleString());
+        createCell(row, data[i]["30day acceptable"].toLocaleString());
+        createCell(row, (100 - data[i]["30day acceptable"] / data[i]["30day total"] * 100).toFixed(2) + "%");
+        resultBody.appendChild(row);
+      }
+
+      document.getElementById("result").removeAttribute("hidden");
+      document.getElementById("wait").setAttribute("hidden", "hidden");
+    }
+
+    function calculate()
+    {
+      document.getElementById("result").setAttribute("hidden", "hidden");
+      document.getElementById("wait").removeAttribute("hidden");
+
+      var fromDate = document.getElementById("from").value.replace(/^\s+/, "").replace(/\s+$/, "");
+      var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(fromDate);
+      if (!match)
+      {
+        alert("Wrong start date format.");
+        document.getElementById("from").focus();
+        return;
+      }
+      fromDate = new Date(parseInt(match[1], 10), parseInt(match[2], 10) - 1, parseInt(match[3], 10), 12);
+
+      var toDate = document.getElementById("to").value.replace(/^\s+/, "").replace(/\s+$/, "");
+      var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(toDate);
+      if (!match)
+      {
+        alert("Wrong end date format.");
+        document.getElementById("to").focus();
+        return;
+      }
+      toDate = new Date(parseInt(match[1], 10), parseInt(match[2], 10) - 1, parseInt(match[3], 10), 12);
+
+      if (fromDate > toDate)
+      {
+        var tmp = fromDate;
+        fromDate = toDate;
+        toDate = tmp;
+      }
+
+      var data = [];
+      for (var d = fromDate; formatDate(d) <= formatDate(toDate); d = new Date(d.getTime() + MILLIS_IN_DAY))
+        data.push({"7day total": 0, "7day acceptable": 0, "30day total": 0, "30day acceptable": 0});
+
+      var offset = -30;
+      var callback = function()
+      {
+        offset++;
+        if (offset >= data.length)
+        {
+          showResults(fromDate, data);
+          return;
+        }
+        checkStats(data, fromDate, offset, callback);
+      };
+      callback();
+    }
+
+    window.onload = function()
+    {
+      document.getElementById("from").value = formatDate(new Date(Date.now() - 7 * MILLIS_IN_DAY));
+      document.getElementById("to").value = formatDate(new Date(Date.now() - MILLIS_IN_DAY));
+    }
+  </script>
+</head>
+<body>
+  <p>
+    Please enter the date range that you need user statistics for:
+  </p>
+  <p>
+    <form action="javascript://" onsubmit="calculate();">
+      Start date (yyyy-mm-dd format): <input id="from" type="text">
+      <span class="spacer"></span>
+      End date (yyyy-mm-dd format): <input id="to" type="text">
+      <span class="spacer"></span>
+      <button type="submit">Calculate</button>
+    </form>
+  </p>
+  <p id="wait" hidden>
+    Please wait, data is being fetched...
+  </p>
+  <table id="result" hidden>
+    <tr>
+      <th rowspan="2">Date</th>
+      <th colspan="3">7-day active users</th>
+      <th colspan="3">30-day active users</th>
+    </tr>
+    <tr>
+      <th>Total</th>
+      <th>Acceptable ads</th>
+      <th>Opt-out rate</th>
+      <th>Total</th>
+      <th>Acceptable ads</th>
+      <th>Opt-out rate</th>
+    </tr>
+    <tbody id="resultBody">
+    </tbody>
+  </table>
+</body>
+</html>
