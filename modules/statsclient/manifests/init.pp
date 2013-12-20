@@ -27,4 +27,9 @@ class statsclient {
         GatewayPorts no
         ForceCommand (echo $SSH_ORIGINAL_COMMAND | grep -qv /) && cat "/var/log/nginx/$SSH_ORIGINAL_COMMAND"',
   }
+
+  cron {'mirrorstats':
+    ensure => absent,
+    user => stats,
+  }
 }
