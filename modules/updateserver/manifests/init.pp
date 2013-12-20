@@ -5,10 +5,6 @@ class updateserver {
     ssl_session_cache => off,
   }
 
-  class {'statsclient':
-    log_path => '/var/log/nginx/access_log_update.1.gz',
-  }
-
   File {
     owner => root,
     group => root

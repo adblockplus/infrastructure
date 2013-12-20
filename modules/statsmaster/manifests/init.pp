@@ -26,7 +26,7 @@ class statsmaster {
     source => 'puppet:///modules/statsmaster/known_hosts',
   }
 
-  package {['python-simplejson', 'python-jinja2']:}
+  package {['pypy', 'python-jinja2']:}
 
   class {'sitescripts':
     sitescriptsini_source => 'puppet:///modules/statsmaster/sitescripts.ini',
@@ -105,15 +105,32 @@ class statsmaster {
   cron {'updatestats':
     ensure => present,
     require => [
-                 User['stats'],
-                 Package['python-simplejson'],
+                 Package['pypy'],
                  Package['python-jinja2'],
                  Exec["fetch_sitescripts"]
                ],
-    command => "python -m sitescripts.stats.bin.datamerger && python -m sitescripts.stats.bin.pagegenerator",
+    command => "pypy -m sitescripts.stats.bin.logprocessor && python -m sitescripts.stats.bin.pagegenerator",
     environment => ['MAILTO=admins@adblockplus.org,root', 'PYTHONPATH=/opt/sitescripts'],
     user => stats,
-    hour => 4,
+    hour => 1,
     minute => 30,
+  }
+
+  file {'/opt/cron_geoipdb_update.sh':
+    ensure => file,
+    owner => root,
+    mode => 0750,
+    source => 'puppet:///modules/statsmaster/cron_geoipdb_update.sh',
+  }
+
+  cron {'geoipdb_update':
+    ensure => present,
+    require => File['/opt/cron_geoipdb_update.sh'],
+    command => '/opt/cron_geoipdb_update.sh',
+    environment => ['MAILTO=admins@adblockplus.org,root'],
+    user => root,
+    hour => 3,
+    minute => 15,
+    monthday => 3,
   }
 }

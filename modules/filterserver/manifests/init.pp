@@ -5,10 +5,6 @@ class filterserver {
     ssl_session_cache => off,
   }
 
-  class {'statsclient':
-    log_path => '/var/log/nginx/access_log_easylist_downloads.1.gz',
-  }
-
   user {'subscriptionstat':
     ensure => absent,
   }

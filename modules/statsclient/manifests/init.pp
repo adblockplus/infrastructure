@@ -1,10 +1,4 @@
-class statsclient (
-    $log_path,
-    $custom_sitescriptsini_source = [],
-  ) {
-
-  $sitescriptsini_source = flatten(['puppet:///modules/statsclient/sitescripts.ini', $custom_sitescriptsini_source])
-
+class statsclient {
   user {'stats':
     ensure => present,
     home => '/home/stats',
@@ -31,50 +25,6 @@ class statsclient (
         X11Forwarding no
         AllowAgentForwarding no
         GatewayPorts no
-        ForceCommand cat /var/www/stats.json',
-  }
-
-  class {'sitescripts':
-    sitescriptsini_source => $sitescriptsini_source,
-  }
-
-  package {'pypy':}
-
-  file {'/var/www/stats.json':
-    ensure => present,
-    owner => stats,
-    mode => 644,
-  }
-
-  file {'/opt/cron_geoipdb_update.sh':
-    ensure => file,
-    owner => root,
-    mode => 0750,
-    source => 'puppet:///modules/statsclient/cron_geoipdb_update.sh',
-  }
-
-  cron {'mirrorstats':
-    ensure => present,
-    require => [
-                 User['stats'],
-                 Package['pypy'],
-                 Exec["fetch_sitescripts"]
-               ],
-    command => "gzip -cd ${log_path} | pypy -m sitescripts.stats.bin.logprocessor",
-    environment => ['MAILTO=admins@adblockplus.org,root', 'PYTHONPATH=/opt/sitescripts'],
-    user => stats,
-    hour => 0,
-    minute => 25,
-  }
-
-  cron {'geoipdb_update':
-    ensure => present,
-    require => File['/opt/cron_geoipdb_update.sh'],
-    command => '/opt/cron_geoipdb_update.sh',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
-    user => root,
-    hour => 3,
-    minute => 15,
-    monthday => 3,
+        ForceCommand (echo $SSH_ORIGINAL_COMMAND | grep -qv /) && cat "/var/log/nginx/$SSH_ORIGINAL_COMMAND"',
   }
 }
