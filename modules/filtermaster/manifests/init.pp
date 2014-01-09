@@ -1,6 +1,6 @@
 class filtermaster {
   Cron {
-    environment => ['MAILTO=admin@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
   }
 
   class {'ssh':

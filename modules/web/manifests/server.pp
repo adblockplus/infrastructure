@@ -6,7 +6,7 @@ class web::server($vhost, $repository, $multiplexer_locations = undef) {
   }
 
   Cron {
-    environment => ['MAILTO=admin@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
   }
 
   include nginx
