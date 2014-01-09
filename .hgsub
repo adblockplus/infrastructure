@@ -1,7 +1,0 @@
-modules/apt = ../infrastructure-puppetlabs-apt
-modules/mysql = ../infrastructure-puppetlabs-mysql
-modules/stdlib = ../infrastructure-puppetlabs-stdlib
-modules/spawn-fcgi = ../infrastructure-puppet-spawn-fcgi
-modules/firewall = ../infrastructure-puppetlabs-firewall
-modules/postgresql = ../infrastructure-puppet-postgresql
-modules/concat = ../infrastructure-puppet-concat
