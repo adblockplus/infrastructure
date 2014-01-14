@@ -3,13 +3,24 @@ node 'web1' {
 
   class {'web::server':
     vhost => 'eyeo.com',
+    is_default => true,
+    aliases => ['www.eyeo.com', 'eyeo.de', 'www.eyeo.de'],
+    custom_config => '
+      rewrite ^(/de)?/index\.html$ / permanent;
+      rewrite ^(/de)?/job\.html$ /jobs permanent;
+    ',
     repository => 'web.eyeo.com',
     multiplexer_locations => ['/formmail'],
   }
 
   concat::fragment {'formmail_template':
     target => '/etc/sitescripts.ini',
-    content => "[DEFAULT]\nmailer=/usr/sbin/sendmail\n[formmail]\ntemplate=formmail/template/eyeo.mail\n",
+    content => '
+      [DEFAULT]
+      mailer=/usr/sbin/sendmail
+      [formmail]
+      template=formmail/template/eyeo.mail
+    ',
   }
 
   class {'nagios::client':
