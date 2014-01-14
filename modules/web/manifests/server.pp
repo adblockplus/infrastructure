@@ -1,4 +1,10 @@
-class web::server($vhost, $repository, $multiplexer_locations = undef) {
+class web::server(
+    $vhost,
+    $repository,
+    $is_default = false,
+    $aliases = undef,
+    $custom_config = undef,
+    $multiplexer_locations = undef) {
   File {
     owner  => 'root',
     group  => 'root',

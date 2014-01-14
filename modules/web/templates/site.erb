@@ -1,7 +1,13 @@
 server
 {
-  listen 80 default_server;
-  listen [::]:80 default_server;
+  <% if is_default %>
+    listen 80 default_server;
+    listen [::]:80 default_server;
+  <% else %>
+    listen 80;
+    listen [::]:80;
+  <% end %>
+
   server_name '<%= vhost %>';
 
   location /
@@ -12,18 +18,28 @@ server
 
 server
 {
-  listen 443 ssl default_server;
-  listen [::]:443 ssl default_server;
-  ssl_certificate sites-available/adblockplus.org_sslcert.pem;
-  ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
+  <% if is_default %>
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+  <% else %>
+    listen 443 ssl;
+    listen [::]:443 ssl;
+  <% end %>
 
   server_name '<%= vhost %>';
+
+  ssl_certificate sites-available/adblockplus.org_sslcert.pem;
+  ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
 
   expires 1d;
 
   root /var/www/<%= vhost %>;
   index index;
   default_type text/html;
+
+  <% if custom_config %>
+    <%= custom_config %>
+  <% end %>
 
   # Match Accept-Language header against available languages
 
@@ -94,3 +110,25 @@ server
     <% end %>
   <% end %>
 }
+
+<% if @aliases %>
+  <% @aliases.each do |vhost_alias| %>
+    server
+    {
+      listen 80;
+      listen [::]:80;
+      listen 443 ssl;
+      listen [::]:443 ssl;
+
+      server_name '<%= vhost_alias %>';
+
+      ssl_certificate sites-available/adblockplus.org_sslcert.pem;
+      ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
+
+      location /
+      {
+        rewrite .* https://<%= vhost %>/ redirect;
+      }
+    }
+  <% end %>
+<% end %>
