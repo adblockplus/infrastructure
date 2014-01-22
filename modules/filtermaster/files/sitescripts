@@ -5,6 +5,7 @@ root=/home/rsync/subscription
 easylist_repository=%(root)s/easylist
 easylistgermany_repository=%(root)s/easylistgermany
 easylistitaly_repository=%(root)s/easylistitaly
+easylistchina_repository=%(root)s/easylistchina
 easylistcombinations_repository=%(root)s/easylistcombinations
 malwaredomains_repository=%(root)s/malwaredomains
 ruadlist_repository=%(root)s/ruadlist
