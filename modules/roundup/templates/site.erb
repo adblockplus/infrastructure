@@ -1,0 +1,7 @@
+server {
+  server_name <%= @domain %>;
+
+  location / {
+    proxy_pass http://localhost:8088/<%= @tracker_name %>/;
+  }
+}

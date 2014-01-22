@@ -50,4 +50,5 @@ Vagrant::Config.run do |config|
   define_standard_vm config, 'update1', '10.8.0.128'
   define_standard_vm config, 'web1', '10.8.0.129'
   define_standard_vm config, 'stats1', '10.8.0.130'
+  define_standard_vm config, 'issues1', '10.8.0.131'
 end
