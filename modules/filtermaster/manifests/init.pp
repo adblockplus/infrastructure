@@ -88,6 +88,7 @@ class filtermaster {
   repo_download {['easylist',
                   'easylistgermany',
                   'easylistitaly',
+                  'easylistchina',
                   'easylistcombinations',
                   'malwaredomains',
                   'ruadlist',
