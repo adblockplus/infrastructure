@@ -1,19 +1,23 @@
-class notificationserver {
-  class {'nginx':
-    worker_processes => 2,
-    worker_connections => 4000,
-    ssl_session_cache => off,
+class notificationserver($is_default = false) {
+  if !defined(Class['nginx']) {
+    class {'nginx':
+      worker_processes => 2,
+      worker_connections => 4000,
+      ssl_session_cache => off,
+    }
+  }
+
+  if !defined(File['/var/www']) {
+    file {'/var/www':
+      ensure => directory,
+      owner => nginx,
+      mode => 0755,
+      require => Package['nginx']
+    }
   }
 
   class {'sitescripts':
     sitescriptsini_source => 'puppet:///modules/notificationserver/sitescripts.ini'
-  }
-
-  file {'/var/www':
-    ensure => directory,
-    owner => nginx,
-    mode => 0755,
-    require => Package['nginx']
   }
 
   file {'/var/www/notification':
@@ -68,7 +72,7 @@ class notificationserver {
   }
 
   nginx::hostconfig{'notification.adblockplus.org':
-    source => 'puppet:///modules/notificationserver/notification.adblockplus.org',
+    content => template('notificationserver/notification.adblockplus.org.erb'),
     enabled => true
   }
 
