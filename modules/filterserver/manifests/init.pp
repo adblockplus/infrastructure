@@ -1,8 +1,19 @@
-class filterserver {
-  class {'nginx':
-    worker_processes => 2,
-    worker_connections => 4000,
-    ssl_session_cache => off,
+class filterserver($is_default = false) {
+  if !defined(Class['nginx']) {
+    class {'nginx':
+      worker_processes => 2,
+      worker_connections => 4000,
+      ssl_session_cache => off,
+    }
+  }
+
+  if !defined(File['/var/www']) {
+    file {'/var/www':
+      ensure => directory,
+      owner => nginx,
+      mode => 0755,
+      require => Package['nginx']
+    }
   }
 
   user {'subscriptionstat':
@@ -22,16 +33,8 @@ class filterserver {
     mode => 0644,
   }
 
-  file {'/var/www':
-    ensure => directory
-  }
-
   file {'/var/www/easylist':
     ensure => directory,
-    require => [
-                 File['/var/www'],
-                 User['rsync']
-               ],
     owner => rsync
   }
 
@@ -63,7 +66,7 @@ class filterserver {
   }
 
   nginx::hostconfig{'easylist-downloads.adblockplus.org':
-    source => 'puppet:///modules/filterserver/easylist-downloads.adblockplus.org',
+    content => template('filterserver/easylist-downloads.adblockplus.org.erb'),
     enabled => true
   }
 
@@ -85,17 +88,16 @@ class filterserver {
     mode => 0444,
   }
 
-
   concat::fragment {'filtermaster_hostname':
-     target => '/home/rsync/.ssh/known_hosts',
-     content => 'filtermaster.adblockplus.org ',
-     order => 1,
+    target => '/home/rsync/.ssh/known_hosts',
+    content => 'filtermaster.adblockplus.org ',
+    order => 1,
   }
 
-   concat::fragment {'filtermaster_hostkey':
-     target => '/home/rsync/.ssh/known_hosts',
-     source => 'puppet:///modules/private/filtermaster.adblockplus.org_ssh.pub',
-     order => 2,
+  concat::fragment {'filtermaster_hostkey':
+    target => '/home/rsync/.ssh/known_hosts',
+    source => 'puppet:///modules/private/filtermaster.adblockplus.org_ssh.pub',
+    order => 2,
   }
 
   file {'/home/rsync/.ssh/id_rsa':

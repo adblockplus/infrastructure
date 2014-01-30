@@ -1,8 +1,15 @@
 server {
-  listen 80 default_server;
-  listen [::]:80 default_server;
-  listen 443 ssl default_server;
-  listen [::]:443 ssl default_server;
+  <% if is_default %>
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+  <% else %>
+    listen 80;
+    listen [::]:80;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+  <% end %>
 
   server_name easylist-downloads.adblockplus.org easylist-msie.adblockplus.org;
   access_log /var/log/nginx/access_log_easylist_downloads  main;

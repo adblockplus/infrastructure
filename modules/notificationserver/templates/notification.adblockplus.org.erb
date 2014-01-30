@@ -1,15 +1,27 @@
 # notification.adblockplus.org
 server {
-  listen       80 default_server;
-  listen       [::]:80 default_server;
+  <% if is_default %>
+    listen 80 default_server;
+    listen [::]:80 default_server;
+  <% else %>
+    listen 80;
+    listen [::]:80;
+  <% end %>
+
   server_name  notification.adblockplus.org;
   location / {
     rewrite (.*) https://notification.adblockplus.org$1 permanent;
   }
 }
 server {
-  listen       443 ssl default_server;
-  listen       [::]:443 ssl default_server;
+  <% if is_default %>
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+  <% else %>
+    listen 443 ssl;
+    listen [::]:443 ssl;
+  <% end %>
+
   server_name  notification.adblockplus.org;
   ssl_certificate sites-available/adblockplus.org_sslcert.pem;
   ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
