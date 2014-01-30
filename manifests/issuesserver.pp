@@ -5,4 +5,8 @@ node 'issues1' {
     tracker_name => 'adblockplus',
     domain => 'issues.adblockplus.org'
   }
+
+  class {'nagios::client':
+    server_address => 'monitoring.adblockplus.org'
+  }
 }
