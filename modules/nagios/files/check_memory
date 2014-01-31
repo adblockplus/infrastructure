@@ -18,10 +18,7 @@ if __name__ == "__main__":
   parser.add_argument("--swap-critical", dest="swapcrit", type=int, default=-1, help="Critical threshold for available swap memory (in percent)")
   args = parser.parse_args()
 
-  memtotal = None
-  memfree = None
-  swaptotal = None
-  swapfree = None
+  meminfo = {}
   with open("/proc/meminfo", "r") as file:
     for line in file:
       label, value = line.split(None, 1)
@@ -37,15 +34,12 @@ if __name__ == "__main__":
             value *= 1024
       else:
         value = int(value)
+      meminfo[label] = value
 
-      if label == "memtotal":
-        memtotal = value
-      elif label == "memfree":
-        memfree = value
-      elif label == "swaptotal":
-        swaptotal = value
-      elif label == "swapfree":
-        swapfree = value
+  memtotal = meminfo.get("memtotal", 0)
+  memfree = meminfo.get("memfree", 0) + meminfo.get("buffers", 0) + meminfo.get("cached", 0)
+  swaptotal = meminfo.get("swaptotal", 0)
+  swapfree = meminfo.get("swapfree", 0) + meminfo.get("swapcached", 0)
 
   mempercentage = round(float(memfree) / memtotal * 100)
   swappercentage = round(float(swapfree) / swaptotal * 100)
