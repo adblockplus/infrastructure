@@ -15,12 +15,10 @@ node 'web1' {
 
   concat::fragment {'formmail_template':
     target => '/etc/sitescripts.ini',
-    content => '
-      [DEFAULT]
-      mailer=/usr/sbin/sendmail
-      [formmail]
-      template=formmail/template/eyeo.mail
-    ',
+    content => '[DEFAULT]
+mailer=/usr/sbin/sendmail
+[formmail]
+template=formmail/template/eyeo.mail',
   }
 
   class {'nagios::client':
