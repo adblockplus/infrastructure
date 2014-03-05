@@ -1,0 +1,29 @@
+server {
+  server_name <%= @domain %>;
+  <% if is_default %>
+    listen 80 default_server;
+    listen [::]:80 default_server;
+  <% else %>
+    listen 80;
+    listen [::]:80;
+  <% end %>
+
+  location /
+  {
+    set $path_info $request_uri;
+    if ($path_info ~ "(.*?)\?")
+    {
+      set $path_info $1;
+    }
+
+    fastcgi_pass unix:/tmp/trac-fastcgi.sock;
+    include /etc/nginx/fastcgi_params;
+    fastcgi_param SCRIPT_NAME "";
+    fastcgi_param PATH_INFO $path_info;
+  }
+
+  location /chrome/
+  {
+    alias /home/trac/htdocs/htdocs/;
+  }
+}

@@ -20,7 +20,7 @@ class nginx (
   }
 
   package {'nginx':
-    ensure => '1.4.5-1~precise',
+    ensure => '1.4.6-1~precise',
     require => Apt::Source['nginx']
   }
 

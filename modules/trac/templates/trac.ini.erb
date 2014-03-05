@@ -1,0 +1,288 @@
+# -*- coding: utf-8 -*-
+
+[attachment]
+max_size = 10262144
+max_zip_size = 12097152
+render_unsafe_content = false
+
+[browser]
+color_scale = True
+downloadable_paths = /trunk, /branches/*, /tags/*
+hide_properties = svk:merge
+intermediate_color =
+intermediate_point =
+newest_color = (255, 136, 136)
+oldest_color = (136, 136, 255)
+oneliner_properties = trac:summary
+render_unsafe_content = false
+wiki_properties = trac:description
+
+[changeset]
+max_diff_bytes = 10000000
+max_diff_files = 0
+wiki_format_messages = true
+
+[header_logo]
+alt = Adblock Plus Issue Tracker
+height = 80
+link = /
+src = adblockplus_logo.png
+width = 80
+
+[inherit]
+htdocs_dir =
+plugins_dir =
+templates_dir =
+
+[logging]
+log_file = trac.log
+# log_format = <inherited>
+log_level = DEBUG
+log_type = file
+
+[milestone]
+stats_provider = DefaultTicketGroupStatsProvider
+
+[mimeviewer]
+max_preview_size = 262144
+mime_map = text/x-dylan:dylan, text/x-idl:ice, text/x-ada:ads:adb
+mime_map_patterns = text/plain:README|INSTALL|COPYING.*
+tab_width = 8
+treat_as_binary = application/octet-stream, application/pdf, application/postscript, application/msword,application/rtf,
+
+[notification]
+admit_domains =
+always_notify_owner = false
+always_notify_reporter = false
+always_notify_updater = false
+ambiguous_char_width = single
+batch_subject_template = $prefix Batch modify: $tickets_descr
+email_sender = SendmailEmailSender
+ignore_domains =
+mime_encoding = none
+sendmail_path = /usr/sbin/sendmail
+smtp_always_bcc =
+smtp_always_cc =
+smtp_default_domain =
+smtp_enabled = true
+smtp_from = noreply@adblockplus.org
+smtp_from_author = false
+smtp_from_name = Adblock Plus Issue Tracker
+smtp_password =
+smtp_port = 25
+smtp_replyto =
+smtp_server = localhost
+smtp_subject_prefix = __default__
+smtp_user =
+ticket_subject_template = $prefix #$ticket.id: $summary
+use_public_cc = false
+use_short_addr = false
+use_tls = false
+
+[project]
+admin = admins@adblockplus.org
+admin_trac_url = .
+descr = Adblock Plus Issue Tracker
+footer = Visit the Trac open source project at<br /><a href="http://trac.edgewall.org/">http://trac.edgewall.org/</a>
+icon = common/trac.ico
+name = Adblock Plus Issue Tracker
+url = http://issues.adblockplus.org/
+
+[query]
+default_anonymous_query = status!=closed&cc~=$USER
+default_query = status!=closed&owner=$USER
+items_per_page = 100
+ticketlink_query = ?status=!closed
+
+[report]
+items_per_page = 100
+items_per_page_rss = 0
+
+[revisionlog]
+default_log_limit = 100
+graph_colors = ['#cc0', '#0c0', '#0cc', '#00c', '#c0c', '#c00']
+
+[roadmap]
+stats_provider = DefaultTicketGroupStatsProvider
+
+[search]
+# default_disabled_filters = <inherited>
+min_query_length = 3
+
+[sqlite]
+# extensions = <inherited>
+
+[ticket]
+default_cc =
+default_component =
+default_description =
+default_keywords =
+default_milestone =
+default_owner =
+default_priority =
+default_resolution = fixed
+default_severity =
+default_summary =
+default_type =
+default_version =
+max_comment_size = 262144
+max_description_size = 262144
+preserve_newlines = default
+restrict_owner = false
+workflow = ConfigurableTicketWorkflow
+
+[ticket-workflow]
+accept = new,assigned,accepted,reopened -> accepted
+accept.permissions = TICKET_MODIFY
+leave = * -> *
+leave.default = 1
+leave.operations = leave_status
+reassign = new,assigned,accepted,reopened -> assigned
+reassign.operations = set_owner
+reassign.permissions = TICKET_MODIFY
+reopen = closed -> reopened
+reopen.operations = del_resolution
+reopen.permissions = TICKET_CREATE
+resolve = new,assigned,accepted,reopened -> closed
+resolve.operations = set_resolution
+resolve.permissions = TICKET_MODIFY
+
+[timeline]
+abbreviated_messages = True
+changeset_collapse_events = false
+changeset_long_messages = false
+changeset_show_files = 0
+default_daysback = 30
+max_daysback = 90
+newticket_formatter = oneliner
+ticket_show_details = true
+
+[trac]
+auth_cookie_lifetime = 0
+auth_cookie_path =
+authz_file =
+authz_module_name =
+auto_preview_timeout = 2.0
+auto_reload = False
+backup_dir = db
+base_url = http://issues.adblockplus.org/
+check_auth_ip = false
+database = mysql://trac:vagrant@localhost:3306/trac
+debug_sql = False
+default_charset = utf-8
+default_dateinfo_format = relative
+default_handler = QueryModule
+genshi_cache_size = 128
+htdocs_location =
+ignore_auth_case = false
+jquery_location =
+jquery_ui_location =
+jquery_ui_theme_location =
+mainnav = tickets, newticket, timeline, roadmap, browser, search
+metanav = login, logout, register, prefs, help, about
+mysqldump_path = mysqldump
+never_obfuscate_mailto = false
+permission_policies = BlackMagicTicketTweaks, DefaultPermissionPolicy, LegacyAttachmentPolicy
+permission_store = DefaultPermissionStore
+pg_dump_path = pg_dump
+repository_dir =
+repository_sync_per_request = (default)
+repository_type = svn
+resizable_textareas = true
+secure_cookies = False
+show_email_addresses = false
+show_ip_addresses = false
+timeout = 20
+use_base_url_for_redirect = False
+permission_policies = SensitiveTicketsPolicy, DefaultPermissionPolicy, LegacyAttachmentPolicy
+
+[versioncontrol]
+allowed_repository_dir_prefixes =
+
+[wiki]
+ignore_missing_pages = false
+max_size = 262144
+render_unsafe_content = false
+safe_schemes = cvs, file, ftp, git, irc, http, https, news, sftp, smb, ssh, svn, svn+ssh
+split_page_names = false
+
+[components]
+blackmagic.* = enabled
+sensitivetickets.* = enabled
+acct_mgr.admin.* = enabled
+acct_mgr.api.* = enabled
+acct_mgr.db.sessionstore = enabled
+acct_mgr.htfile.* = disabled
+acct_mgr.http.* = disabled
+acct_mgr.notification.* = enabled
+acct_mgr.pwhash.htdigesthashmethod = enabled
+acct_mgr.pwhash.htpasswdhashmethod = disabled
+acct_mgr.register.* = enabled
+acct_mgr.svnserve.svnservepasswordstore = disabled
+acct_mgr.web_ui.* = enabled
+acct_mgr.register.* = enabled
+acct_mgr.notification.accountchangelistener = enabled
+acct_mgr.pwhash.htdigesthashmethod = enabled
+acct_mgr.web_ui.accountmodule = enabled
+acct_mgr.web_ui.resetpwstore = enabled
+acct_mgr.guard.accountguard = enabled
+acct_mgr.notification.AccountChangeListener = enabled
+tickettemplate.* = enabled
+autocompleteusers.* = enabled
+trac.about.AboutModule = disabled
+trac.admin.web_ui.BasicsAdminPanel = disabled
+trac.admin.web_ui.LoggingAdminPanel = disabled
+trac.admin.web_ui.PluginAdminPanel = disabled
+mastertickets.* = enabled
+
+[tickettemplate]
+field_list = summary, description, reporter, owner, priority, cc, milestone, component, version, type
+enable_custom = false
+
+[mainnav]
+tickets.label = View Issues
+tickets.href = /query
+newticket.label = New Issue
+wiki = false
+
+[account-manager]
+hash_method = HtDigestHashMethod
+db_htdigest_realm = TracDB
+password_store = SessionStore
+reset_password = true
+login_attempt_max_count = 2
+user_lock_time = 15
+user_lock_max_time = 0
+user_lock_time_progression = 2
+username_regexp = .
+verify_email = true
+
+[blackmagic]
+permissions = TICKET_SET_PRIORITY, TICKET_CREATE_CC, TICKET_EDIT_KEYWORDS,TICKET_SET_OWNER, TICKET_SET_MILESTONE, TICKET_DEPENDENCY
+tweaks = id, priority, cc, keywords, owner, sensitive, milestone, blocking,blockedby
+id.label = Issue
+priority.permission = TICKET_SET_PRIORITY
+priority.ondenial = hide
+blocking.permission = TICKET_DEPENDENCY
+blocking.ondenial = hide
+blockedby.permission = TICKET_DEPENDENCY
+blockedby.ondenial = hide
+priority.permission = TICKET_SET_PRIORITY
+cc.permission = TICKET_CREATE_CC
+cc.ondenial = hide
+keywords.permission = TICKET_EDIT_KEYWORDS
+keywords.ondenial = hide
+owner.permission = TICKET_SET_OWNER
+owner.ondenial = hide
+sensitive.label = Confidential
+Milestone.permission = TICKET_SET_MILESTONE
+Milestone.ondenial = hide
+
+[ticket-custom]
+verified_working = checkbox
+verified_working.label = Verified working
+verified_working.value = 0
+blocking = text
+blocking.label = Blocking
+blockedby = text
+blockedby.label = Blocked By

@@ -1,9 +1,9 @@
 node 'issues1' {
   include base
 
-  class {'roundup':
-    tracker_name => 'adblockplus',
-    domain => 'issues.adblockplus.org'
+  class {'trac':
+    domain => 'issues.adblockplus.org',
+    is_default => true,
   }
 
   class {'nagios::client':
