@@ -73,6 +73,18 @@ node 'server4' {
   nagios_host {'filter4.adblockplus.org': use => 'generic-host'}
   nagios_host {'filter5.adblockplus.org': use => 'generic-host'}
   nagios_host {'filter6.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter7.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter8.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter9.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter10.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter11.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter12.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter13.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter14.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter15.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter16.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter17.adblockplus.org': use => 'generic-host'}
+  nagios_host {'filter18.adblockplus.org': use => 'generic-host'}
   nagios_host {'filtermaster1.adblockplus.org': use => 'generic-host'}
   nagios_host {'notification1.adblockplus.org': use => 'generic-host'}
   nagios_host {'notification2.adblockplus.org': use => 'generic-host'}
@@ -84,7 +96,7 @@ node 'server4' {
 
   nagios_hostgroup {'all': members => '*'}
   nagios_hostgroup {'http-servers': members => 'server_4.adblockplus.org, server_10.adblockplus.org, server_16.adblockplus.org, download1.adblockplus.org, update1.adblockplus.org, web1.adblockplus.org, stats1.adblockplus.org, issues1.adblockplus.org, codereview1.adblockplus.org'}
-  nagios_hostgroup {'filter-servers': members => 'server_5.adblockplus.org, server_6.adblockplus.org, server_7.adblockplus.org, server_11.adblockplus.org, server_12.adblockplus.org, server_15.adblockplus.org, server_19.adblockplus.org, filter1.adblockplus.org, filter2.adblockplus.org, filter3.adblockplus.org, filter4.adblockplus.org, filter5.adblockplus.org, filter6.adblockplus.org, notification1.adblockplus.org, notification2.adblockplus.org'}
+  nagios_hostgroup {'filter-servers': members => 'server_5.adblockplus.org, server_6.adblockplus.org, server_7.adblockplus.org, server_11.adblockplus.org, server_12.adblockplus.org, server_15.adblockplus.org, server_19.adblockplus.org, filter1.adblockplus.org, filter2.adblockplus.org, filter3.adblockplus.org, filter4.adblockplus.org, filter5.adblockplus.org, filter6.adblockplus.org, filter7.adblockplus.org, filter8.adblockplus.org, filter9.adblockplus.org, filter10.adblockplus.org, filter11.adblockplus.org, filter12.adblockplus.org, filter13.adblockplus.org, filter14.adblockplus.org, filter15.adblockplus.org, filter16.adblockplus.org, filter17.adblockplus.org, filter18.adblockplus.org, notification1.adblockplus.org, notification2.adblockplus.org'}
 
   nagios_service {'current-load':
     use => 'generic-service',

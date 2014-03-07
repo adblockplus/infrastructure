@@ -44,6 +44,18 @@ node default {
     {host => 'stats1.adblockplus.org', ip => '10.8.0.130'},
     {host => 'issues1.adblockplus.org', ip => '10.8.0.131'},
     {host => 'codereview1.adblockplus.org', ip => '10.8.0.132'},
+    {host => 'filter7.adblockplus.org', ip => '10.8.0.133'},
+    {host => 'filter8.adblockplus.org', ip => '10.8.0.134'},
+    {host => 'filter9.adblockplus.org', ip => '10.8.0.135'},
+    {host => 'filter10.adblockplus.org', ip => '10.8.0.136'},
+    {host => 'filter11.adblockplus.org', ip => '10.8.0.137'},
+    {host => 'filter12.adblockplus.org', ip => '10.8.0.138'},
+    {host => 'filter13.adblockplus.org', ip => '10.8.0.139'},
+    {host => 'filter14.adblockplus.org', ip => '10.8.0.140'},
+    {host => 'filter15.adblockplus.org', ip => '10.8.0.141'},
+    {host => 'filter16.adblockplus.org', ip => '10.8.0.142'},
+    {host => 'filter17.adblockplus.org', ip => '10.8.0.143'},
+    {host => 'filter18.adblockplus.org', ip => '10.8.0.144'},
   ]
 
   hostentry { $hosts: }
