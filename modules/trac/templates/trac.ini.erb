@@ -167,7 +167,7 @@ auto_reload = False
 backup_dir = db
 base_url = http://issues.adblockplus.org/
 check_auth_ip = false
-database = mysql://trac:vagrant@localhost:3306/trac
+database = mysql://trac:<%= @database_password %>@localhost:3306/trac
 debug_sql = False
 default_charset = utf-8
 default_dateinfo_format = relative
