@@ -86,11 +86,11 @@ descr = Adblock Plus Issue Tracker
 footer = Visit the Trac open source project at<br /><a href="http://trac.edgewall.org/">http://trac.edgewall.org/</a>
 icon = common/trac.ico
 name = Adblock Plus Issue Tracker
-url = http://issues.adblockplus.org/
+url = https://issues.adblockplus.org/
 
 [query]
-default_anonymous_query = status!=closed&cc~=$USER
-default_query = status!=closed&owner=$USER
+default_anonymous_query = status!=closed
+default_query = status!=closed
 items_per_page = 100
 ticketlink_query = ?status=!closed
 
@@ -140,12 +140,13 @@ leave.operations = leave_status
 reassign = new,assigned,accepted,reopened -> assigned
 reassign.operations = set_owner
 reassign.permissions = TICKET_MODIFY
-reopen = closed -> reopened
+reopen = closed,reviewing -> reopened
 reopen.operations = del_resolution
 reopen.permissions = TICKET_CREATE
-resolve = new,assigned,accepted,reopened -> closed
+resolve = new,assigned,accepted,reopened,reviewing -> closed
 resolve.operations = set_resolution
 resolve.permissions = TICKET_MODIFY
+codereview = new,assigned,reopened -> reviewing
 
 [timeline]
 abbreviated_messages = True
@@ -165,7 +166,7 @@ authz_module_name =
 auto_preview_timeout = 2.0
 auto_reload = False
 backup_dir = db
-base_url = http://issues.adblockplus.org/
+base_url = https://issues.adblockplus.org/
 check_auth_ip = false
 database = mysql://trac:<%= @database_password %>@localhost:3306/trac
 debug_sql = False
@@ -200,7 +201,7 @@ permission_policies = SensitiveTicketsPolicy, DefaultPermissionPolicy, LegacyAtt
 allowed_repository_dir_prefixes =
 
 [wiki]
-ignore_missing_pages = false
+ignore_missing_pages = true
 max_size = 262144
 render_unsafe_content = false
 safe_schemes = cvs, file, ftp, git, irc, http, https, news, sftp, smb, ssh, svn, svn+ssh
