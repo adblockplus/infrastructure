@@ -1,5 +1,6 @@
 server {
   server_name <%= @domain %>;
+
   <% if is_default %>
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -7,6 +8,27 @@ server {
     listen 80;
     listen [::]:80;
   <% end %>
+
+  location / {
+    rewrite (.*) https://$host$1 permanent;
+  }
+}
+
+server {
+  server_name <%= @domain %>;
+
+  <% if is_default %>
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+  <% else %>
+    listen 443 ssl;
+    listen [::]:443 ssl;
+  <% end %>
+
+  ssl_certificate adblockplus.org_sslcert.pem;
+  ssl_certificate_key adblockplus.org_sslcert.key;
+
+  add_header Strict-Transport-Security max-age=31536000;
 
   location /
   {
