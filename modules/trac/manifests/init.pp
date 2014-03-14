@@ -109,6 +109,12 @@ class trac(
     unless => "python -c 'import mastertickets'",
   }
 
+  exec { 'install_NeverNotifyUpdater':
+    command => "pip install svn+http://trac-hacks.org/svn/nevernotifyupdaterplugin/1.0/",
+    require => Package['subversion', 'python-pip'],
+    unless => "python -c 'import nevernotifyupdaterplugin'",
+  }
+
   file {"/home/trac/environment/conf/trac.ini":
     ensure => present,
     content => template('trac/trac.ini.erb'),
@@ -133,6 +139,7 @@ class trac(
       Exec['install_AccountManager'],
       Exec['install_AutocompleteUsers'],
       Exec['install_TicketTemplate'],
+      Exec['install_NeverNotifyUpdater'],
       Exec['install_MasterTickets']]
   }
 
