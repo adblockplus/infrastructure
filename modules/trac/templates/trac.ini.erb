@@ -52,8 +52,8 @@ treat_as_binary = application/octet-stream, application/pdf, application/postscr
 
 [notification]
 admit_domains =
-always_notify_owner = false
-always_notify_reporter = false
+always_notify_owner = true
+always_notify_reporter = true
 always_notify_updater = false
 ambiguous_char_width = single
 batch_subject_template = $prefix Batch modify: $tickets_descr
@@ -114,16 +114,16 @@ min_query_length = 3
 
 [ticket]
 default_cc =
-default_component =
+default_component = Unknown
 default_description =
 default_keywords =
 default_milestone =
 default_owner =
-default_priority =
+default_priority = Unknown
 default_resolution = fixed
 default_severity =
 default_summary =
-default_type =
+default_type = defect
 default_version =
 max_comment_size = 262144
 max_description_size = 262144
@@ -132,18 +132,16 @@ restrict_owner = false
 workflow = ConfigurableTicketWorkflow
 
 [ticket-workflow]
-accept = new,assigned,accepted,reopened -> accepted
-accept.permissions = TICKET_MODIFY
 leave = * -> *
 leave.default = 1
 leave.operations = leave_status
-reassign = new,assigned,accepted,reopened -> assigned
+reassign = new,assigned,reopened -> assigned
 reassign.operations = set_owner
 reassign.permissions = TICKET_MODIFY
 reopen = closed,reviewing -> reopened
 reopen.operations = del_resolution
 reopen.permissions = TICKET_CREATE
-resolve = new,assigned,accepted,reopened,reviewing -> closed
+resolve = new,assigned,reopened,reviewing -> closed
 resolve.operations = set_resolution
 resolve.permissions = TICKET_MODIFY
 codereview = new,assigned,reopened -> reviewing
@@ -235,6 +233,7 @@ trac.admin.web_ui.BasicsAdminPanel = disabled
 trac.admin.web_ui.LoggingAdminPanel = disabled
 trac.admin.web_ui.PluginAdminPanel = disabled
 mastertickets.* = enabled
+nevernotifyupdaterplugin.* = enabled
 
 [tickettemplate]
 field_list = summary, description, reporter, owner, priority, cc, milestone, component, version, type
@@ -260,10 +259,19 @@ verify_email = true
 
 [blackmagic]
 permissions = TICKET_SET_PRIORITY, TICKET_CREATE_CC, TICKET_EDIT_KEYWORDS,TICKET_SET_OWNER, TICKET_SET_MILESTONE, TICKET_DEPENDENCY
-tweaks = id, priority, cc, keywords, owner, sensitive, milestone, blocking,blockedby,summary,type,component,verified_working
+tweaks = id, priority, cc, keywords, owner, sensitive, milestone, blocking,blockedby,summary,type,component,verified_working,ready,review_url,in_progress
 id.label = Issue
 priority.permission = TICKET_SET_PRIORITY
 priority.ondenial = hide
+ready.permission = TICKET_MODIFY
+ready.ondenial = hide
+ready.tip = Check, if the issue contains all required data and shall be implemented.
+review_url.permission = TICKET_MODIFY
+review_url.ondenial = hide
+review_url.tip = URL(s) to the review of your code
+in_progress.permission = TICKET_MODIFY
+in_progress.ondenial = hide
+in_progress.tip = Check, if somebody is currently working on this issue.
 blocking.permission = TICKET_DEPENDENCY
 blocking.ondenial = hide
 blockedby.permission = TICKET_DEPENDENCY
@@ -273,6 +281,7 @@ cc.permission = TICKET_CREATE_CC
 cc.ondenial = hide
 keywords.permission = TICKET_EDIT_KEYWORDS
 keywords.ondenial = hide
+owner.label = Assignee
 owner.permission = TICKET_SET_OWNER
 owner.ondenial = hide
 sensitive.label = Confidential
@@ -294,7 +303,18 @@ blockedby.tip = Does another issue prevent this one from being fixed?
 verified_working = checkbox
 verified_working.label = Verified working
 verified_working.value = 0
+ready = checkbox
+ready.label = Ready
+ready.value = 0
+in_progress = checkbox
+in_progress.label = In progress
+in_progress.value = 0
 blocking = text
 blocking.label = Blocking
 blockedby = text
 blockedby.label = Blocked By
+review_url = textarea
+review_url.rows = 3
+review_url.label = Review URL(s)
+review_url.order = 1
+review_url.format = wiki
