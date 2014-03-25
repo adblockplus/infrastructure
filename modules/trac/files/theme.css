@@ -1,0 +1,5 @@
+label[for^="field-"] > strike,
+[id^="field-"][disabled]
+{
+  display: none;
+}
