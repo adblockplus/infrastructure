@@ -115,6 +115,12 @@ class trac(
     unless => "python -c 'import nevernotifyupdaterplugin'",
   }
 
+  exec { 'install_ThemeEngine':
+    command => "pip install TracThemeEngine",
+    require => Package['python-pip'],
+    unless => "python -c 'import themeengine'",
+  }
+
   file {"/home/trac/environment/conf/trac.ini":
     ensure => present,
     content => template('trac/trac.ini.erb'),
@@ -127,6 +133,13 @@ class trac(
     source => 'puppet:///modules/trac/adblockplus_logo.png',
     owner => trac,
     require => Exec['deploy']
+  }
+
+  file {"/home/trac/environment/htdocs/theme.css":
+    ensure => present,
+    source => 'puppet:///modules/trac/theme.css',
+    owner => trac,
+    require => Exec['trac_env']
   }
 
   exec {"update_env":
