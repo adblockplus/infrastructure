@@ -33,7 +33,7 @@ class hg(
   file { "/home/$user/rhodecode/noninteractive.ini" :
        ensure => file,
        mode => 644,
-       content => template("private-stub/noninteractive.conf.erb"),
+       content => template("private/noninteractive.conf.erb"),
   }
 
   exec { "Install_RhodeCode_$user":
