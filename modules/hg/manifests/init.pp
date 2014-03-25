@@ -2,7 +2,7 @@ class hg(
       $user = "ubuntu",
 ){
 
-  group { $user :
+  group {$user:
         ensure => "present",
         name => $user,
   }
@@ -23,16 +23,17 @@ class hg(
     require => User[$user],
   }
 
-  file { "/home/$user/rhodecode/rhodecode-installer.py":
-       ensure => file,
-       mode => 755,
-       content => template("hg/rhodecode-installer.conf.erb"),
+  exec { "Download_installer":
+       command => "/usr/bin/wget https://rhodecode.com/dl/rhodecode-installer.py",
+       cwd => "/home/$user/rhodecode",
+       creates => "/home/$user/rhodecode/rhodecode-installer.py",
+       require => File["/home/$user/rhodecode"],
   }
 
   file { "/home/$user/rhodecode/noninteractive.ini" :
        ensure => file,
        mode => 644,
-       content => template("private/noninteractive.conf.erb"),
+       content => template("private-stub/noninteractive.conf.erb"),
   }
 
   exec { "Install_RhodeCode_$user":
@@ -41,7 +42,7 @@ class hg(
        provider => "shell",
        cwd => "/home/$user/rhodecode",
        require => [
-                  File["/home/$user/rhodecode/rhodecode-installer.py"], 
+                  Exec["Download_installer"],
                   File["/home/$user/rhodecode/noninteractive.ini"]
                   ],
        timeout => 1200,
