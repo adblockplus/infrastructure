@@ -153,7 +153,8 @@ class trac(
       Exec['install_AutocompleteUsers'],
       Exec['install_TicketTemplate'],
       Exec['install_NeverNotifyUpdater'],
-      Exec['install_MasterTickets']]
+      Exec['install_MasterTickets'],
+      Exec['install_ThemeEngine']]
   }
 
   exec {"deploy":
