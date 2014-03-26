@@ -8,6 +8,9 @@ def define_standard_vm(config, host_name, ip)
     config.vm.network :private_network, ip: ip
     config.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--cpus", 1]
+
+      # Work around https://www.virtualbox.org/ticket/11649
+      vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     end
 
     config.vm.provision :shell, :inline => '
