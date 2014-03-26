@@ -1,10 +1,14 @@
+VAGRANTFILE_API_VERSION = "2"
+
 def define_standard_vm(config, host_name, ip)
   config.vm.define host_name do |config|
     config.vm.box = 'precise64'
     config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
     config.vm.host_name = "#{host_name}.adblockplus.org"
-    config.vm.network :hostonly, ip, { nic_type: '82543GC' }
-    config.vm.customize ["modifyvm", :id, "--cpus", 1]
+    config.vm.network :private_network, ip: ip
+    config.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--cpus", 1]
+    end
 
     config.vm.provision :shell, :inline => '
 if ! test -f /usr/bin/puppet; then
@@ -25,13 +29,15 @@ fi'
   end
 end
 
-Vagrant::Config.run do |config|
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   define_standard_vm config, 'server4', '10.8.0.99'
   define_standard_vm config, 'server5', '10.8.0.100'
   define_standard_vm config, 'server6', '10.8.0.101'
   define_standard_vm config, 'server7', '10.8.0.102'
   define_standard_vm config, 'server10', '10.8.0.105' do |config|
-    config.vm.customize ["modifyvm", :id, "--memory", 1024]
+    config.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", 1024]
+    end
   end
   define_standard_vm config, 'server11', '10.8.0.106'
   define_standard_vm config, 'server12', '10.8.0.107'
