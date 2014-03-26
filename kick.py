@@ -56,15 +56,16 @@ def readMonitoringConfig():
   # Use Puppet's parser to convert monitoringserver.pp into YAML
   manifest = os.path.join(os.path.dirname(__file__), 'manifests', 'monitoringserver.pp')
   parseScript = '''
+    require 'puppet'
     require 'puppet/parser'
     parser = Puppet::Parser::Parser.new(Puppet[:environment])
+    Puppet.settings[:ignoreimport] = true
     parser.file = ARGV[0]
     print ZAML.dump(parser.parse)
   '''
   data, dummy = subprocess.Popen(['ruby', '', manifest],
                   stdin=subprocess.PIPE,
-                  stdout=subprocess.PIPE,
-                  stderr=subprocess.PIPE).communicate(parseScript)
+                  stdout=subprocess.PIPE).communicate(parseScript)
 
   # See http://stackoverflow.com/q/8357650/785541 on parsing Puppet's YAML
   yaml.add_multi_constructor(u"!ruby/object:", lambda loader, suffix, node: loader.construct_yaml_map(node))
