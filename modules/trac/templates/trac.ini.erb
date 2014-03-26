@@ -145,6 +145,7 @@ resolve = new,assigned,reopened,reviewing -> closed
 resolve.operations = set_resolution
 resolve.permissions = TICKET_MODIFY
 codereview = new,assigned,reopened -> reviewing
+codereview.permission = TICKET_MODIFY
 
 [timeline]
 abbreviated_messages = True
@@ -308,6 +309,7 @@ blockedby = text
 blockedby.label = Blocked By
 review_url = textarea
 review_url.rows = 3
+review_url.cols = 68
 review_url.label = Review URL(s)
 review_url.order = 1
 review_url.format = wiki
