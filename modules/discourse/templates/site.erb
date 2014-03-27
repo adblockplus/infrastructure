@@ -1,19 +1,33 @@
 upstream discourse {
-  server unix:///tmp/discourse-thin.sock;
+  server localhost:3000;
 }
 
 server {
-  listen       80;
-  listen       [::]:80;
-  server_name  intraforum.adblockplus.org;
+  server_name <%= @domain %>;
+
+  <% if is_default %>
+    listen 80 default_server;
+    listen [::]:80 default_server;
+  <% else %>
+    listen 80;
+    listen [::]:80;
+  <% end %>
+
   location / {
-    rewrite (.*) https://intraforum.adblockplus.org$1 permanent;
+    rewrite (.*) https://$host$1 permanent;
   }
 }
 server {
-  listen       443 ssl;
-  listen       [::]:443 ssl;
-  server_name  intraforum.adblockplus.org;
+  server_name <%= @domain %>;
+
+  <% if is_default %>
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+  <% else %>
+    listen 443 ssl;
+    listen [::]:443 ssl;
+  <% end %>
+
   ssl_certificate sites-available/adblockplus.org_sslcert.pem;
   ssl_certificate_key sites-available/adblockplus.org_sslcert.key;
 

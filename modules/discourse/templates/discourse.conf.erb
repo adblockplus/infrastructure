@@ -1,0 +1,76 @@
+# connection pool size
+db_pool = 5
+
+# database timeout in milliseconds
+db_timeout = 5000
+
+# socket file used to access db
+db_socket =
+
+# host address for db server
+# This is set to blank so it tries to use sockets first
+db_host = localhost
+
+# port running db server, no need to set it
+db_port =
+
+# database name running discourse
+db_name = discourse
+
+# username accessing database
+db_username = discourse
+
+# password used to access the db
+db_password = <%= @database_password %>
+
+# hostname running the forum
+hostname = <%= @domain %>
+
+# address of smtp server used to send emails
+smtp_address =
+
+# port of smtp server used to send emails
+smtp_port = 25
+
+# domain passed to smtp server
+smtp_domain =
+
+# username for smtp server
+smtp_user_name =
+
+# password for smtp server
+smtp_password =
+
+# smtp authentication mechanism
+smtp_authentication = plain
+
+# enable TLS encryption for smtp connections
+smtp_enable_start_tls = true
+
+# enable MiniProfiler for administrators
+enable_mini_profiler = true
+
+# recommended, cdn used to access assets
+cdn_url =
+
+# comma delimited list of emails that have developer level access
+developer_emails = <% admins.each do |admin| %><%= admin %>, <% end %>
+
+# redis server address
+redis_host = localhost
+
+# redis server port
+redis_port = 6379
+
+# redis database
+redis_db = 0
+
+# redis password
+redis_password =
+
+# enable Cross-origin Resource Sharing (CORS) directly at the application level
+enable_cors = false
+cors_origin = '*'
+
+# enable if you really need to serve assets in prd
+serve_static_assets = false
