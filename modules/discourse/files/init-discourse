@@ -3,34 +3,19 @@
 import sys, os, pwd, subprocess
 
 app_dir = '/opt/discourse'
-secret = os.environ.get('DISCOURSE_SECRET', None)
 airbrake_key = os.environ.get('AIRBRAKE_KEY', None)
 
 # HOME environment variable isn't reliable when called via sudo
 home_dir = os.path.expanduser('~' + pwd.getpwuid(os.getuid()).pw_name)
 
 env = dict(os.environ)
-env['GEM_HOME'] = os.path.join(home_dir, '.gems')
 env['RAILS_ENV'] = 'production'
 
 # See http://meta.discourse.org/t/tuning-ruby-and-rails-for-discourse/4126
 env['RUBY_GC_MALLOC_LIMIT'] = '90000000'
 
-def preprocessFiles():
-  secret_path = os.path.join(app_dir, 'config', 'initializers', 'secret_token.rb')
-  handle = open(secret_path, 'rb')
-  if handle.read().find('SET_SECRET_HERE') >= 0:
-    if secret != None:
-      handle.close()
-      handle = open(secret_path, 'wb')
-      print >>handle, 'Discourse::Application.config.secret_token = "%s"' % secret
-      print >>sys.stderr, 'Defined our secret in config/initializers/secret_token.rb'
-    else:
-      print >>sys.stderr, 'Skipping defining secret in config/initializers/secret_token.rb, please set DISCOURSE_SECRET environment variable'
-  handle.close()
-
 def callRailsCommand(command):
-  subprocess.call(command, env=env, cwd=app_dir)
+  subprocess.check_call(command, env=env, cwd=app_dir)
 
 def initAirBrake():
   if airbrake_key == None:
@@ -38,9 +23,8 @@ def initAirBrake():
 
   path = os.path.join(app_dir, 'config', 'initializers', 'airbrake.rb')
   if os.path.exists(path):
-    handle = open(path, 'rb')
-    data = handle.read()
-    handle.close()
+    with open(path, 'rb') as handle:
+      data = handle.read()
 
     if data.find(airbrake_key) >= 0:
       return
@@ -48,22 +32,27 @@ def initAirBrake():
       os.remove(path)
   callRailsCommand([os.path.join(app_dir, 'script', 'rails'), 'generate', 'airbrake', '--api-key', airbrake_key])
 
+  with open(path, 'rb+') as handle:
+    # Prepend file with require 'airbrake', won't happen by default
+    data = handle.read()
+    handle.seek(0)
+    print >>handle, "require 'airbrake'"
+    handle.write(data)
+
 def runInitCommands():
-  rake_path = os.path.join(env['GEM_HOME'], 'bin', 'rake')
-  service_path = '/etc/init.d/discourse-thin'
+  service_path = '/etc/init.d/discourse'
 
-  callRailsCommand(['bundle', 'install'])
+  callRailsCommand(['bundle', 'install', '--deployment', '--without', 'test', '--without', 'development'])
   initAirBrake()
-  callRailsCommand([rake_path, 'assets:precompile'])
+  callRailsCommand(['bundle', 'exec', 'rake', 'assets:precompile'])
 
   if os.path.exists(service_path):
-    subprocess.call(['sudo', service_path, 'stop'])
+    subprocess.check_call(['sudo', service_path, 'stop'])
 
-  callRailsCommand([rake_path, 'db:migrate'])
+  callRailsCommand(['bundle', 'exec', 'rake', 'db:migrate'])
 
   if os.path.exists(service_path):
-    subprocess.call(['sudo', service_path, 'start'])
+    subprocess.check_call(['sudo', service_path, 'start'])
 
 if __name__ == '__main__':
-  preprocessFiles()
   runInitCommands()
