@@ -1,0 +1,81 @@
+<% include_file = lambda do |url| %>
+  <% content = Puppet::FileServing::Content.indirection.find(url) %>
+  <% if content %>
+    <%= content.content %>
+  <% else %>
+    <% raise StandardError, "Failed to resolve source URL #{url}" %>
+  <% end %>
+<% end %>
+
+<% server_name = lambda do |domain, alt_names| %><%= domain %><% @alt_names.each do |name| %>, <%= name %><% end %><% end %>
+
+<% if global_config %>
+  <%= @global_config %>
+<% end %>
+
+<% if @certificate and @private_key %>
+  server
+  {
+    server_name <% server_name[domain, alt_names] %>;
+
+    <% if is_default %>
+      listen 80 default_server;
+      listen [::]:80 default_server;
+    <% else %>
+      listen 80;
+      listen [::]:80;
+    <% end %>
+
+    location /
+    {
+      rewrite (.*) https://$host$1 permanent;
+    }
+  }
+  server
+  {
+    server_name <% server_name[domain, alt_names] %>;
+
+    <% if is_default %>
+      listen 443 ssl spdy default_server;
+      listen [::]:443 ssl spdy default_server;
+    <% else %>
+      listen 443 ssl spdy;
+      listen [::]:443 ssl spdy;
+    <% end %>
+
+    ssl_certificate <%= certificate %>;
+    ssl_certificate_key <%= private_key %>;
+
+    add_header Strict-Transport-Security max-age=31536000;
+<% else %>
+  server
+  {
+    server_name <% server_name[domain, alt_names] %>;
+
+    <% if is_default %>
+      listen 80 default_server;
+      listen [::]:80 default_server;
+    <% else %>
+      listen 80;
+      listen [::]:80;
+    <% end %>
+<% end %>
+
+access_log /var/log/nginx/<%= log %> main;
+
+# redirect server error pages to the static page /50x.html
+#
+error_page 500 502 503 504 /50x.html;
+location = /50x.html
+{
+  root /usr/share/nginx/html;
+}
+
+<% if @content %>
+  <%= content %>
+<% end %>
+
+<% if @source %>
+  <% include_file[source] %>
+<% end %>
+}

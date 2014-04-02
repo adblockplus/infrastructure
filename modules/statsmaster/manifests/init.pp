@@ -1,4 +1,7 @@
-class statsmaster {
+class statsmaster(
+    $domain,
+    $is_default=false
+  ) {
   user {'stats':
     ensure => present,
     home => '/home/stats',
@@ -74,32 +77,12 @@ class statsmaster {
     source => 'puppet:///modules/private/stats-htpasswd',
   }
 
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['stats.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['stats.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
-  }
-
-  nginx::hostconfig{'stats.adblockplus.org':
-    source => 'puppet:///modules/statsmaster/stats.adblockplus.org',
-    enabled => true
-  }
-
-  file {'/etc/logrotate.d/nginx_stats.adblockplus.org':
-    ensure => file,
-    mode => 0444,
-    require => Nginx::Hostconfig['stats.adblockplus.org'],
-    source => 'puppet:///modules/statsmaster/logrotate'
+  nginx::hostconfig{$domain:
+    source => 'puppet:///modules/statsmaster/site.conf',
+    is_default => $is_default,
+    certificate => 'adblockplus.org_sslcert.pem',
+    private_key => 'adblockplus.org_sslcert.key',
+    log => 'access_log_stats'
   }
 
   cron {'updatestats':

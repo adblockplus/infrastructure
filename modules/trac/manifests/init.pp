@@ -7,29 +7,12 @@ class trac(
 
   include nginx, spawn-fcgi
 
-  file {'/etc/nginx/adblockplus.org_sslcert.key':
-    ensure => file,
-    owner => root,
-    mode => 0644,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig[$domain],
-    require => Package['nginx'],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/adblockplus.org_sslcert.pem':
-    ensure => file,
-    owner => root,
-    mode => 0400,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig[$domain],
-    require => Package['nginx'],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
-  }
-
   nginx::hostconfig {$domain:
-    content => template('trac/site.erb'),
-    enabled => true
+    source => 'puppet:///modules/trac/site.conf',
+    is_default => $is_default,
+    certificate => 'adblockplus.org_sslcert.pem',
+    private_key => 'adblockplus.org_sslcert.key',
+    log => 'access_log_trac'
   }
 
   user {'trac':

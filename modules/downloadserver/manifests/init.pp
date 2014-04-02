@@ -1,4 +1,8 @@
-class downloadserver {
+class downloadserver(
+    $domain,
+    $is_default = false
+  ) {
+
   class {'nginx':
     worker_processes => 2,
     worker_connections => 4000,
@@ -33,32 +37,12 @@ class downloadserver {
     mode => 0644,
   }
 
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['downloads.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['downloads.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
-  }
-
-  nginx::hostconfig{'downloads.adblockplus.org':
-    source => 'puppet:///modules/downloadserver/downloads.adblockplus.org',
-    enabled => true
-  }
-
-  file {'/etc/logrotate.d/nginx_downloads.adblockplus.org':
-    ensure => file,
-    mode => 0444,
-    require => Nginx::Hostconfig['downloads.adblockplus.org'],
-    source => 'puppet:///modules/downloadserver/logrotate'
+  nginx::hostconfig{$domain:
+    source => 'puppet:///modules/downloadserver/site.conf',
+    is_default => $is_default,
+    certificate => 'adblockplus.org_sslcert.pem',
+    private_key => 'adblockplus.org_sslcert.key',
+    log => 'access_log_downloads'
   }
 
   cron {'mirror':
