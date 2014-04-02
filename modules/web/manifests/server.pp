@@ -20,22 +20,12 @@ class web::server(
   package {['python-jinja2', 'python-markdown']:}
 
   nginx::hostconfig {$vhost:
-    content => template('web/site.erb'),
-    enabled => true,
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
-    ensure => file,
-    mode => 0400,
-    require => Nginx::Hostconfig[$vhost],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key',
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
-    ensure => file,
-    mode => 0400,
-    require => Nginx::Hostconfig[$vhost],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem',
+    content => template('web/site.conf.erb'),
+    global_config => template('web/global.conf.erb'),
+    is_default => $is_default,
+    certificate => 'adblockplus.org_sslcert.pem',
+    private_key => 'adblockplus.org_sslcert.key',
+    log => "access_log_$vhost"
   }
 
   class {'sitescripts':

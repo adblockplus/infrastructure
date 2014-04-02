@@ -1,4 +1,7 @@
-class updateserver {
+class updateserver(
+    $domain,
+    $is_default=false
+  ) {
   class {'nginx':
     worker_processes => 2,
     worker_connections => 4000,
@@ -32,31 +35,11 @@ class updateserver {
     mode => 0644
   }
 
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['update.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['update.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
-  }
-
-  nginx::hostconfig{'update.adblockplus.org':
-    source => 'puppet:///modules/updateserver/update.adblockplus.org',
-    enabled => true
-  }
-
-  file {'/etc/logrotate.d/nginx_update.adblockplus.org':
-    ensure => file,
-    mode => 0444,
-    require => Nginx::Hostconfig['update.adblockplus.org'],
-    source => 'puppet:///modules/updateserver/logrotate'
+  nginx::hostconfig{$domain:
+    source => 'puppet:///modules/updateserver/site.conf',
+    is_default => $is_default,
+    certificate => 'adblockplus.org_sslcert.pem',
+    private_key => 'adblockplus.org_sslcert.key',
+    log => 'access_log_update'
   }
 }
