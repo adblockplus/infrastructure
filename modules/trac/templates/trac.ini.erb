@@ -89,10 +89,10 @@ name = Adblock Plus Issue Tracker
 url = https://issues.adblockplus.org/
 
 [query]
-default_anonymous_query = status!=closed
-default_query = status!=closed
+default_anonymous_query = status!=closed&col=id&col=summary&col=component&col=status&col=owner&col=type&col=priority&col=milestone&order=priority
+default_query = status!=closed&col=id&col=summary&col=component&col=status&col=owner&col=type&col=priority&col=milestone&order=priority
 items_per_page = 100
-ticketlink_query = ?status=!closed
+ticketlink_query = ?status=!closed&col=id&col=summary&col=component&col=status&col=owner&col=type&col=priority&col=milestone&order=priority
 
 [report]
 items_per_page = 100
@@ -135,7 +135,7 @@ workflow = ConfigurableTicketWorkflow
 leave = * -> *
 leave.default = 1
 leave.operations = leave_status
-reassign = new,assigned,reopened -> assigned
+reassign = new,assigned,reopened,reviewing -> assigned
 reassign.operations = set_owner
 reassign.permissions = TICKET_MODIFY
 reopen = closed,reviewing -> reopened
