@@ -262,7 +262,7 @@ verify_email = true
 
 [blackmagic]
 permissions = TICKET_SET_PRIORITY, TICKET_CREATE_CC, TICKET_EDIT_KEYWORDS,TICKET_SET_OWNER, TICKET_SET_MILESTONE, TICKET_DEPENDENCY
-tweaks = id, priority, cc, keywords, owner, sensitive, milestone, blocking,blockedby,summary,type,component,verified_working,ready,review_url,in_progress
+tweaks = id, priority, cc, keywords, owner, sensitive, milestone, blocking,blockedby,summary,type,component,verified_working,ready,review_url
 gray_disabled = #cccccc
 id.label = Issue
 priority.permission = TICKET_SET_PRIORITY
@@ -270,8 +270,6 @@ ready.permission = TICKET_MODIFY
 ready.tip = Check, if the issue contains all required data and shall be implemented.
 review_url.permission = TICKET_MODIFY
 review_url.tip = URL(s) to the review of your code
-in_progress.permission = TICKET_MODIFY
-in_progress.tip = Check, if somebody is currently working on this issue.
 blocking.permission = TICKET_DEPENDENCY
 blockedby.permission = TICKET_DEPENDENCY
 priority.permission = TICKET_SET_PRIORITY
@@ -300,9 +298,6 @@ verified_working.value = 0
 ready = checkbox
 ready.label = Ready
 ready.value = 0
-in_progress = checkbox
-in_progress.label = In progress
-in_progress.value = 0
 blocking = text
 blocking.label = Blocking
 blockedby = text
