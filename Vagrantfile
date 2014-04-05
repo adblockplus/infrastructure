@@ -64,5 +64,5 @@ Vagrant::Config.run do |config|
   define_standard_vm config, 'filter16', '10.8.0.142'
   define_standard_vm config, 'filter17', '10.8.0.143'
   define_standard_vm config, 'filter18', '10.8.0.144'
-  define_standard_vm config, 'hg1', '10.8.0.145'
+  define_standard_vm config, 'hgserver', '10.8.0.145'
 end
