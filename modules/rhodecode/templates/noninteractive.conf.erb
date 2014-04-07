@@ -28,11 +28,11 @@ start_upgrade = y
 start_upgrade_installer = y
 
 # after installation/upgrade:
-admin_email = foo@bar.com
-admin_user = foo
-admin_user_password = 123456789
+admin_email = <%= admin_email %>
+admin_user = <%= admin_user %>
+admin_user_password = <%= admin_password %>
 # s for sqlite, p for postgres and m for mysql:
-database_type = s
+database_type = m
 database_host =
 database_port =
 database_user =

@@ -1,6 +1,6 @@
 class rhodecode(
-      $user = "ubuntu",
-){
+      $user,
+) inherits private::rhodecode{
 
   group {$user:
         ensure => "present",
@@ -33,7 +33,7 @@ class rhodecode(
   file { "/home/$user/rhodecode/noninteractive.ini" :
        ensure => file,
        mode => 644,
-       content => template("private/noninteractive.conf.erb"),
+       content => template("rhodecode/noninteractive.conf.erb"),
   }
 
   exec { "Install_RhodeCode_$user":
