@@ -58,8 +58,8 @@ class notificationserver($is_default = false) {
   nginx::hostconfig{'notification.adblockplus.org':
     source => 'puppet:///modules/notificationserver/site.conf',
     is_default => $is_default,
-    certificate => 'easylist-downloads.adblockplus.org_sslcert.pem',
-    private_key => 'easylist-downloads.adblockplus.org_sslcert.key',
+    certificate => 'adblockplus.org_sslcert.pem',
+    private_key => 'adblockplus.org_sslcert.key',
     log => 'access_log_notification'
   }
 }
