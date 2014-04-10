@@ -1,5 +1,7 @@
 class discourse(
     $domain,
+    $certificate,
+    $private_key,
     $is_default = false
   ) inherits private::discourse {
 
@@ -285,8 +287,8 @@ class discourse(
         server localhost:3000;
       }',
     is_default => $is_default,
-    certificate => 'adblockplus.org_sslcert.pem',
-    private_key => 'adblockplus.org_sslcert.key',
+    certificate => $certificate,
+    private_key => $private_key,
     log => 'access_log_intraforum'
   }
 }

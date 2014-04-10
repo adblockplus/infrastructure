@@ -38,24 +38,12 @@ class filterserver($is_default = false) {
     owner => rsync
   }
 
-  file {'/etc/nginx/sites-available/inc.easylist-downloads':
-    ensure => absent,
-  }
-
-  file {'/etc/nginx/sites-available/inc.easylist-downloads-txt':
-    ensure => absent
-  }
-
-  file {'/etc/nginx/sites-available/inc.easylist-downloads-tpl':
-    ensure => absent
-  }
-
   nginx::hostconfig{'easylist-downloads.adblockplus.org':
     alt_names => 'easylist-msie.adblockplus.org',
     source => 'puppet:///modules/filterserver/site.conf',
     is_default => $is_default,
-    certificate => 'adblockplus.org_sslcert.pem',
-    private_key => 'adblockplus.org_sslcert.key',
+    certificate => 'easylist-downloads.adblockplus.org_sslcert.pem',
+    private_key => 'easylist-downloads.adblockplus.org_sslcert.key',
     log => 'access_log_easylist_downloads'
   }
 

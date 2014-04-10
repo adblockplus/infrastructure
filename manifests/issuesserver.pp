@@ -3,6 +3,8 @@ node 'issues1' {
 
   class {'trac':
     domain => 'issues.adblockplus.org',
+    certificate => 'issues.adblockplus.org_sslcert.pem',
+    private_key => 'issues.adblockplus.org_sslcert.key',
     is_default => true,
   }
 

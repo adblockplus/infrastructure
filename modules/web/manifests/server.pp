@@ -1,6 +1,8 @@
 class web::server(
     $vhost,
     $repository,
+    $certificate,
+    $private_key,
     $is_default = false,
     $aliases = undef,
     $custom_config = undef,
@@ -23,8 +25,8 @@ class web::server(
     content => template('web/site.conf.erb'),
     global_config => template('web/global.conf.erb'),
     is_default => $is_default,
-    certificate => 'adblockplus.org_sslcert.pem',
-    private_key => 'adblockplus.org_sslcert.key',
+    certificate => $certificate,
+    private_key => $private_key,
     log => "access_log_$vhost"
   }
 

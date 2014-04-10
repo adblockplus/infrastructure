@@ -9,8 +9,8 @@
 
       server_name '<%= vhost_alias %>';
 
-      ssl_certificate adblockplus.org_sslcert.pem;
-      ssl_certificate_key adblockplus.org_sslcert.key;
+      ssl_certificate <%= certificate %>;
+      ssl_certificate_key <%= private_key %>;
 
       location /
       {
