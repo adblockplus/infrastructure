@@ -1,4 +1,12 @@
-class nagios::server($domain, $is_default=false, $htpasswd_source, $admins) {
+class nagios::server(
+    $domain,
+    $certificate,
+    $private_key,
+    $is_default=false,
+    $htpasswd_source,
+    $admins
+  ) {
+
   File {
     owner  => 'root',
     group  => 'root',
@@ -15,8 +23,8 @@ class nagios::server($domain, $is_default=false, $htpasswd_source, $admins) {
   nginx::hostconfig{$domain:
     source => 'puppet:///modules/nagios/site.conf',
     is_default => $is_default,
-    certificate => 'adblockplus.org_sslcert.pem',
-    private_key => 'adblockplus.org_sslcert.key',
+    certificate => $certificate,
+    private_key => $private_key,
     log => 'access_log_monitoring'
   }
 

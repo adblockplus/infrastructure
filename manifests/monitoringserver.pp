@@ -7,6 +7,8 @@ node 'server4' {
 
   class {'nagios::server':
     domain => 'monitoring.adblockplus.org',
+    certificate => 'monitoring.adblockplus.org_sslcert.pem',
+    private_key => 'monitoring.adblockplus.org_sslcert.key',
     is_default => 'true',
     htpasswd_source => 'puppet:///modules/private/nagios-htpasswd',
     admins => ['*']

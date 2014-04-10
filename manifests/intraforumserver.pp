@@ -3,6 +3,8 @@ node 'server10' {
 
   class {'discourse':
     domain => 'intraforum.adblockplus.org',
+    certificate => 'intraforum.adblockplus.org_sslcert.pem',
+    private_key => 'intraforum.adblockplus.org_sslcert.key',
     is_default => true,
   }
 

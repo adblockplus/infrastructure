@@ -1,5 +1,7 @@
 class updateserver(
     $domain,
+    $certificate,
+    $private_key,
     $is_default=false
   ) {
   class {'nginx':
@@ -38,8 +40,8 @@ class updateserver(
   nginx::hostconfig{$domain:
     source => 'puppet:///modules/updateserver/site.conf',
     is_default => $is_default,
-    certificate => 'adblockplus.org_sslcert.pem',
-    private_key => 'adblockplus.org_sslcert.key',
+    certificate => $certificate,
+    private_key => $private_key,
     log => 'access_log_update'
   }
 }
