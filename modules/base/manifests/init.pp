@@ -14,7 +14,7 @@ class base {
 
   include private::users, postfix
 
-  package {['mercurial', 'vim', 'emacs']: ensure => present}
+  package {['mercurial', 'vim', 'emacs', 'debian-goodies']: ensure => present}
 
   file {'/etc/timezone':
     ensure => file,

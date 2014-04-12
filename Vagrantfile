@@ -3,7 +3,7 @@ VAGRANTFILE_API_VERSION = "2"
 def define_standard_vm(config, host_name, ip)
   config.vm.define host_name do |config|
     config.vm.box = 'precise64'
-    config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
+    config.vm.box_url = 'http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
     config.vm.host_name = "#{host_name}.adblockplus.org"
     config.vm.network :private_network, ip: ip
     config.vm.provider :virtualbox do |vb|
