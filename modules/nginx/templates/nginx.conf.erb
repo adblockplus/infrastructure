@@ -19,7 +19,8 @@ http {
                   '"$http_user_agent" "$http_x_forwarded_for" $scheme '
                   '"$http_accept_language" "$http_host" "$http_x_client_id"';
 
-  access_log  /var/log/nginx/access.log main;
+  access_log /var/log/nginx/access.log main;
+  server_tokens off;
 
   sendfile <%= scope.lookupvar('nginx::params::sendfile')%>;
 
