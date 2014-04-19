@@ -1,4 +1,12 @@
-class downloadserver {
+class downloadserver(
+    $domain,
+    $certificate,
+    $private_key,
+    $is_default = false
+  ) {
+
+  include private::global
+
   class {'nginx':
     worker_processes => 2,
     worker_connections => 4000,
@@ -33,38 +41,18 @@ class downloadserver {
     mode => 0644,
   }
 
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['downloads.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['downloads.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
-  }
-
-  nginx::hostconfig{'downloads.adblockplus.org':
-    source => 'puppet:///modules/downloadserver/downloads.adblockplus.org',
-    enabled => true
-  }
-
-  file {'/etc/logrotate.d/nginx_downloads.adblockplus.org':
-    ensure => file,
-    mode => 0444,
-    require => Nginx::Hostconfig['downloads.adblockplus.org'],
-    source => 'puppet:///modules/downloadserver/logrotate'
+  nginx::hostconfig{$domain:
+    source => 'puppet:///modules/downloadserver/site.conf',
+    is_default => $is_default,
+    certificate => $certificate,
+    private_key => $private_key,
+    log => 'access_log_downloads'
   }
 
   cron {'mirror':
     ensure => present,
     command => 'hg pull -q -u -R /var/www/downloads/',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin,root"],
     user => hg,
     minute => '*/10'
   }
@@ -114,7 +102,7 @@ class downloadserver {
                 File['/home/rsync/.ssh/id_rsa'],
                 File['/var/www/devbuilds']],
     command => 'rsync -e ssh -ltprz --delete devbuilds@ssh.adblockplus.org:. /var/www/devbuilds',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin,root"],
     user => rsync,
     hour => '*',
     minute => '4-54/10'

@@ -1,9 +1,11 @@
 class discourse(
     $domain,
+    $certificate,
+    $private_key,
     $is_default = false
   ) inherits private::discourse {
 
-  include postgresql::server
+  include postgresql::server, private::global
 
   postgresql::database {'discourse':}
 
@@ -145,7 +147,7 @@ class discourse(
   discourse::sitesetting {'contact_email':
     ensure => present,
     type => 1,
-    value => 'admins@adblockplus.org'
+    value => $private::global::admin
   }
 
   discourse::sitesetting {'site_contact_username':
@@ -278,31 +280,15 @@ class discourse(
     worker_connections => 500
   }
 
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['intraforum.adblockplus.org'],
-    require => Package['nginx'],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
-    ensure => file,
-    mode => 0400,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig[$domain],
-    require => Package['nginx'],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
-  }
-
   nginx::hostconfig{$domain:
-    content => template('discourse/site.erb'),
-    enabled => true
-  }
-
-  file {"/etc/logrotate.d/nginx_$domain":
-    ensure => file,
-    require => Nginx::Hostconfig[$domain],
-    source => 'puppet:///modules/discourse/logrotate'
+    source => 'puppet:///modules/discourse/site.conf',
+    global_config => '
+      upstream discourse {
+        server localhost:3000;
+      }',
+    is_default => $is_default,
+    certificate => $certificate,
+    private_key => $private_key,
+    log => 'access_log_intraforum'
   }
 }

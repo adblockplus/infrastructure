@@ -1,4 +1,11 @@
-class statsmaster {
+class statsmaster(
+    $domain,
+    $certificate,
+    $private_key,
+    $is_default=false
+  ) {
+
+  include private::global
   user {'stats':
     ensure => present,
     home => '/home/stats',
@@ -74,32 +81,12 @@ class statsmaster {
     source => 'puppet:///modules/private/stats-htpasswd',
   }
 
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['stats.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['stats.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
-  }
-
-  nginx::hostconfig{'stats.adblockplus.org':
-    source => 'puppet:///modules/statsmaster/stats.adblockplus.org',
-    enabled => true
-  }
-
-  file {'/etc/logrotate.d/nginx_stats.adblockplus.org':
-    ensure => file,
-    mode => 0444,
-    require => Nginx::Hostconfig['stats.adblockplus.org'],
-    source => 'puppet:///modules/statsmaster/logrotate'
+  nginx::hostconfig{$domain:
+    source => 'puppet:///modules/statsmaster/site.conf',
+    is_default => $is_default,
+    certificate => $certificate,
+    private_key => $private_key,
+    log => 'access_log_stats'
   }
 
   cron {'updatestats':
@@ -110,7 +97,7 @@ class statsmaster {
                  Exec["fetch_sitescripts"]
                ],
     command => "pypy -m sitescripts.stats.bin.logprocessor && python -m sitescripts.stats.bin.pagegenerator",
-    environment => ['MAILTO=admins@adblockplus.org,root', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ["MAILTO=$private::global::admin,root", 'PYTHONPATH=/opt/sitescripts'],
     user => stats,
     hour => 1,
     minute => 30,
@@ -127,7 +114,7 @@ class statsmaster {
     ensure => present,
     require => File['/opt/cron_geoipdb_update.sh'],
     command => '/opt/cron_geoipdb_update.sh',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin,root"],
     user => root,
     hour => 3,
     minute => 15,

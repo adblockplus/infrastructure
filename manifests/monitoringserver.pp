@@ -1,12 +1,15 @@
 node 'server4' {
-  include base, ssh, puppetmaster
+  include base, ssh, puppetmaster, private::global
 
   class {'nagios::client':
     server_address => 'monitoring.adblockplus.org'
   }
 
   class {'nagios::server':
-    vhost => 'monitoring.adblockplus.org',
+    domain => 'monitoring.adblockplus.org',
+    certificate => 'monitoring.adblockplus.org_sslcert.pem',
+    private_key => 'monitoring.adblockplus.org_sslcert.key',
+    is_default => 'true',
     htpasswd_source => 'puppet:///modules/private/nagios-htpasswd',
     admins => ['*']
   }
@@ -35,7 +38,7 @@ node 'server4' {
       host_notification_options => 'd,r',
       service_notification_commands => 'notify-service-by-email',
       host_notification_commands => 'notify-host-by-email',
-      email => 'admins@adblockplus.org'
+      email => $private::global::admin
     }
 
     nagios_contactgroup {'admins':

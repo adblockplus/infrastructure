@@ -1,0 +1,8 @@
+data/templates/php-pool.erb.i
+data/templates/init-spawn-fcgi.erb.i
+data/manifests/init.pp.i
+data/templates/pool.erb.i
+data/manifests/php-pool.pp.i
+data/README.i
+data/manifests/pool.pp.i
+data/README.md.i

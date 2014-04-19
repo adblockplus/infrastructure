@@ -1,5 +1,7 @@
 class trac(
     $domain,
+    $certificate,
+    $private_key,
     $is_default = false) inherits private::trac {
   package {['python-mysqldb','python-pip','subversion', 'tofrodos', 'graphviz']:
     ensure => present
@@ -7,29 +9,12 @@ class trac(
 
   include nginx, spawn-fcgi
 
-  file {'/etc/nginx/adblockplus.org_sslcert.key':
-    ensure => file,
-    owner => root,
-    mode => 0644,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig[$domain],
-    require => Package['nginx'],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/adblockplus.org_sslcert.pem':
-    ensure => file,
-    owner => root,
-    mode => 0400,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig[$domain],
-    require => Package['nginx'],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
-  }
-
   nginx::hostconfig {$domain:
-    content => template('trac/site.erb'),
-    enabled => true
+    source => 'puppet:///modules/trac/site.conf',
+    is_default => $is_default,
+    certificate => $certificate,
+    private_key => $private_key,
+    log => 'access_log_trac'
   }
 
   user {'trac':
