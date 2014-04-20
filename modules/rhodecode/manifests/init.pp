@@ -2,7 +2,7 @@ class rhodecode(
       $user,
 ) inherits private::rhodecode{
 
-  group {$user:
+  group { $user:
         ensure => "present",
         name => $user,
   }
@@ -44,6 +44,30 @@ class rhodecode(
        require => [
                   File["/home/$user/rhodecode/noninteractive.ini"],
                   Exec["Download_installer"]
+                  ],
+       timeout => 1200,
+  }
+
+  service { "rhodecode": 
+       ensure => "running",
+       require => Exec["Install_RhodeCode_$user"],
+  }
+
+  file { "/home/$user/rhodecode/data/production.ini.puppet" :
+       ensure => file,
+       mode => 644,
+       content => template("rhodecode/production.ini"),
+       require => Service["rhodecode"],
+  }
+
+  exec { "Serve_Production_RhodeCode_$user":
+       cwd => "/home/$user/rhodecode",
+       command => "system/bin/paster serve data/production.ini.puppet > serve.log 2>&1 &",
+       user => "root",
+       provider => "shell",
+       require => [
+                  Service["rhodecode"],
+                  File["/home/$user/rhodecode/data/production.ini.puppet"],
                   ],
        timeout => 1200,
   }
