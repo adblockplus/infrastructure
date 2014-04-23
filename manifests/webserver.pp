@@ -1,5 +1,5 @@
 node 'web1' {
-  include base
+  include base, statsclient
 
   class {'web::server':
     vhost => 'eyeo.com',

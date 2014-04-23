@@ -4,10 +4,17 @@ class statsmaster(
     $private_key,
     $is_default=false
   ) {
+
+  include statsmaster::downloads, statsmaster::awstats
+
   user {'stats':
     ensure => present,
     home => '/home/stats',
     managehome => true,
+  }
+
+  File {
+    group => root,
   }
 
   file {'/home/stats/.ssh':
@@ -31,52 +38,23 @@ class statsmaster(
     source => 'puppet:///modules/statsmaster/known_hosts',
   }
 
-  package {['pypy', 'python-jinja2']:}
-
-  class {'sitescripts':
-    sitescriptsini_source => 'puppet:///modules/statsmaster/sitescripts.ini',
-  }
-
   class {'nginx':
     worker_processes => 2,
     worker_connections => 4000,
     ssl_session_cache => off,
   }
 
-  File {
-    owner => root,
-    group => root,
-  }
-
   file {'/var/www':
     ensure => directory,
     mode => 0755,
-    require => Package['nginx'],
-  }
-
-  file {'/var/www/stats':
-    ensure => directory,
-    mode => 0755,
-    owner => stats,
-  }
-
-  file {'/var/www/statsdata':
-    ensure => directory,
-    mode => 0755,
-    owner => stats,
-  }
-
-  file {'/var/www/statsdata/usercounts.html':
-    ensure => file,
-    mode => 0444,
-    source => 'puppet:///modules/statsmaster/usercounts.html',
-    owner => stats,
+    owner => root
   }
 
   file {'/var/www/htpasswd':
     ensure => file,
     mode => 0444,
     source => 'puppet:///modules/private/stats-htpasswd',
+    owner => root,
   }
 
   nginx::hostconfig{$domain:
@@ -85,20 +63,6 @@ class statsmaster(
     certificate => $certificate,
     private_key => $private_key,
     log => 'access_log_stats'
-  }
-
-  cron {'updatestats':
-    ensure => present,
-    require => [
-                 Package['pypy'],
-                 Package['python-jinja2'],
-                 Exec["fetch_sitescripts"]
-               ],
-    command => "pypy -m sitescripts.stats.bin.logprocessor && python -m sitescripts.stats.bin.pagegenerator",
-    environment => ['MAILTO=admins@adblockplus.org,root', 'PYTHONPATH=/opt/sitescripts'],
-    user => stats,
-    hour => 1,
-    minute => 30,
   }
 
   file {'/opt/cron_geoipdb_update.sh':
