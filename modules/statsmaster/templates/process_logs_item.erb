@@ -1,0 +1,6 @@
+subprocess.check_output([
+  '/usr/lib/cgi-bin/awstats.pl',
+  '-configdir=/var/www/awstatsconf',
+  '-config=<%= title %>',
+  '-update'
+])

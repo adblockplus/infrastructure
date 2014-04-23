@@ -1,5 +1,5 @@
 node 'server10' {
-  include base, ssh
+  include base, ssh, statsclient
 
   class {'discourse':
     domain => 'intraforum.adblockplus.org',
