@@ -114,7 +114,7 @@ class statsmaster::awstats {
       host => 'ssh.adblockplus.org',
       log => 'access_log_facebook',
     },
-    'youtube.adblockplus.org' => {
+    'youtube.adblockplus.me' => {
       host => 'ssh.adblockplus.org',
       log => 'access_log_youtube',
     },
