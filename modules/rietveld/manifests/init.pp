@@ -81,7 +81,7 @@ class rietveld(
   }
 
   exec {'set_superuser':
-    command => "echo \"from django.db import DEFAULT_DB_ALIAS as database; from django.contrib.auth.models import User; User.objects.db_manager(database).create_superuser('admin', $private::global::admin:mail, '${admin_password}')\" | ./manage.py shell",
+    command => "echo \"from django.db import DEFAULT_DB_ALIAS as database; from django.contrib.auth.models import User; User.objects.db_manager(database).create_superuser('admin', $private::global::admin_mail, '${admin_password}')\" | ./manage.py shell",
     cwd => "${rietveld_home}",
     require => Exec['install_rietveld'],
   }
