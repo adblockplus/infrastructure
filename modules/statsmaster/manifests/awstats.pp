@@ -1,25 +1,7 @@
 class statsmaster::awstats {
   package {['awstats', 'libgeo-ip-perl']:}
 
-  file {'/var/www/awstatsdata':
-    ensure => directory,
-    owner => root,
-    mode => 0755,
-  }
-
-  file {'/var/www/awstatsconf':
-    ensure => directory,
-    owner => root,
-    mode => 0755,
-  }
-
-  file {'/var/www/awstats':
-    ensure => directory,
-    owner => root,
-    mode => 0755,
-  }
-
-  file {'/var/www/awstats/archive':
+  file {['/var/www/awstatsdata', '/var/www/awstatsconf', '/var/www/awstats']:
     ensure => directory,
     owner => root,
     mode => 0755,
@@ -30,12 +12,8 @@ class statsmaster::awstats {
     owner => root,
   }
 
-  concat {'/home/stats/process_logs':
-    owner => stats,
-    mode => 0700,
-  }
-
-  concat {'/home/stats/build_static':
+  concat {['/home/stats/process_logs', '/home/stats/build_static',
+      '/home/stats/anonymize_ips']:
     owner => stats,
     mode => 0700,
   }
@@ -64,6 +42,12 @@ class statsmaster::awstats {
     order => 'aaahead',
   }
 
+  concat::fragment {'anonymize_ips_head':
+    target => '/home/stats/anonymize_ips',
+    content => template('statsmaster/anonymize_ips_head.erb'),
+    order => 'aaahead',
+  }
+
   define siteconfig($host, $log) {
     file {"/var/www/awstatsconf/awstats.$title.conf":
       ensure => present,
@@ -72,7 +56,8 @@ class statsmaster::awstats {
       content => template('statsmaster/awstats.conf'),
     }
 
-    file {["/var/www/awstatsdata/$title", "/var/www/awstats/$title", "/var/www/awstats/archive/$title"]:
+    file {["/var/www/awstatsdata/$title", "/var/www/awstats/$title",
+        "/var/www/awstats/archive/$title"]:
       ensure => directory,
       mode => 0755,
       owner => stats,
@@ -93,6 +78,12 @@ class statsmaster::awstats {
     concat::fragment {"build_static_$title":
       target => '/home/stats/build_static',
       content => template('statsmaster/build_static_item.erb'),
+      order => $title,
+    }
+
+    concat::fragment {"anonymize_ips_$title":
+      target => '/home/stats/anonymize_ips',
+      content => template('statsmaster/anonymize_ips_item.erb'),
       order => $title,
     }
   }
@@ -138,11 +129,8 @@ class statsmaster::awstats {
     ensure => present,
     require => [
       Package['awstats', 'libgeo-ip-perl'],
-      Concat['/home/stats/process_logs'],
-      Concat['/home/stats/build_static'],
-      File['/var/www/awstatsconf'],
-      File['/var/www/awstatsdata'],
-      File['/var/www/awstats'],
+      File['/home/stats/process_logs', '/home/stats/build_static',
+        '/var/www/awstatsconf', '/var/www/awstatsdata', '/var/www/awstats'],
     ],
     command => '/home/stats/process_logs && /home/stats/build_static',
     environment => ['MAILTO=admins@adblockplus.org,root'],
@@ -155,12 +143,10 @@ class statsmaster::awstats {
     ensure => present,
     require => [
       Package['awstats'],
-      Concat['/home/stats/build_static'],
-      File['/var/www/awstatsconf'],
-      File['/var/www/awstatsdata'],
-      File['/var/www/awstats/archive'],
+      File['/home/stats/build_static', '/home/stats/anonymize_ips',
+        '/var/www/awstatsconf', '/var/www/awstatsdata', '/var/www/awstats'],
     ],
-    command => '/home/stats/build_static prevmonth',
+    command => '/home/stats/anonymize_ips prevmonth && /home/stats/build_static prevmonth',
     environment => ['MAILTO=admins@adblockplus.org,root'],
     user => stats,
     monthday => 1,
