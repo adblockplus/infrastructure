@@ -5,13 +5,7 @@ class statsmaster::downloads {
     sitescriptsini_source => 'puppet:///modules/statsmaster/sitescripts.ini',
   }
 
-  file {'/var/www/stats':
-    ensure => directory,
-    mode => 0755,
-    owner => stats,
-  }
-
-  file {'/var/www/statsdata':
+  file {['/var/www/stats', '/var/www/statsdata']:
     ensure => directory,
     mode => 0755,
     owner => stats,
@@ -32,7 +26,8 @@ class statsmaster::downloads {
                  Exec["fetch_sitescripts"]
                ],
     command => "pypy -m sitescripts.stats.bin.logprocessor && python -m sitescripts.stats.bin.pagegenerator",
-    environment => ['MAILTO=admins@adblockplus.org,root', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ['MAILTO=admins@adblockplus.org,root',
+      'PYTHONPATH=/opt/sitescripts'],
     user => stats,
     hour => 1,
     minute => 30,
