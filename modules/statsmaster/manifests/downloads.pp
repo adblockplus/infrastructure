@@ -1,4 +1,7 @@
 class statsmaster::downloads {
+
+  include private::global
+
   package {['pypy', 'python-jinja2']:}
 
   class {'sitescripts':
@@ -32,7 +35,7 @@ class statsmaster::downloads {
                  Exec["fetch_sitescripts"]
                ],
     command => "pypy -m sitescripts.stats.bin.logprocessor && python -m sitescripts.stats.bin.pagegenerator",
-    environment => ['MAILTO=admins@adblockplus.org,root', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ["MAILTO=$private::global::admin_mail,root", 'PYTHONPATH=/opt/sitescripts'],
     user => stats,
     hour => 1,
     minute => 30,

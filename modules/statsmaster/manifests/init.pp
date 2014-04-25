@@ -5,7 +5,7 @@ class statsmaster(
     $is_default=false
   ) {
 
-  include statsmaster::downloads, statsmaster::awstats
+  include statsmaster::downloads, statsmaster::awstats, private::global
 
   user {'stats':
     ensure => present,
@@ -76,7 +76,7 @@ class statsmaster(
     ensure => present,
     require => File['/opt/cron_geoipdb_update.sh'],
     command => '/opt/cron_geoipdb_update.sh',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin_mail,root"],
     user => root,
     hour => 3,
     minute => 15,

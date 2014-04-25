@@ -1,4 +1,7 @@
 class statsmaster::awstats {
+
+  include private::global
+
   package {['awstats', 'libgeo-ip-perl']:}
 
   file {'/var/www/awstatsdata':
@@ -145,7 +148,7 @@ class statsmaster::awstats {
       File['/var/www/awstats'],
     ],
     command => '/home/stats/process_logs && /home/stats/build_static',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin_mail,root"],
     user => stats,
     hour => 4,
     minute => 0,
@@ -161,7 +164,7 @@ class statsmaster::awstats {
       File['/var/www/awstats/archive'],
     ],
     command => '/home/stats/build_static prevmonth',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin_mail,root"],
     user => stats,
     monthday => 1,
     hour => 6,

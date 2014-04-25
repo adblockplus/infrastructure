@@ -2,6 +2,8 @@ class sitescripts (
     $sitescriptsini_source = undef
   ){
 
+  include private::global
+
   concat {'/etc/sitescripts.ini':
     mode => 644,
     owner => root,
@@ -28,7 +30,7 @@ class sitescripts (
   cron {"update_sitescripts":
     ensure => present,
     command => "hg pull -q -u -R /opt/sitescripts",
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin_mail,root"],
     user => root,
     require => Exec["fetch_sitescripts"],
   }

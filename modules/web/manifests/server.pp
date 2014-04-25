@@ -14,10 +14,10 @@ class web::server(
   }
 
   Cron {
-    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ["MAILTO=$private::global::admin_mail", 'PYTHONPATH=/opt/sitescripts'],
   }
 
-  include nginx
+  include nginx, private::global
 
   package {['python-jinja2', 'python-markdown']:}
 

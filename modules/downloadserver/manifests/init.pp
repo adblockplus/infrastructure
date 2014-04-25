@@ -5,6 +5,8 @@ class downloadserver(
     $is_default = false
   ) {
 
+  include private::global
+
   class {'nginx':
     worker_processes => 2,
     worker_connections => 4000,
@@ -50,7 +52,7 @@ class downloadserver(
   cron {'mirror':
     ensure => present,
     command => 'hg pull -q -u -R /var/www/downloads/',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin_mail,root"],
     user => hg,
     minute => '*/10'
   }
@@ -100,7 +102,7 @@ class downloadserver(
                 File['/home/rsync/.ssh/id_rsa'],
                 File['/var/www/devbuilds']],
     command => 'rsync -e ssh -ltprz --delete devbuilds@ssh.adblockplus.org:. /var/www/devbuilds',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin_mail,root"],
     user => rsync,
     hour => '*',
     minute => '4-54/10'

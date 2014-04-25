@@ -1,4 +1,5 @@
 class notificationserver($is_default = false) {
+  include private::global
   if !defined(Class['nginx']) {
     class {'nginx':
       worker_processes => 2,
@@ -40,7 +41,7 @@ class notificationserver($is_default = false) {
   cron {"update_notifications":
     ensure => present,
     command => "python -m sitescripts.management.bin.generateNotifications",
-    environment => ['MAILTO=admins@adblockplus.org,root', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ["MAILTO=$private::global::admin_mail,root", 'PYTHONPATH=/opt/sitescripts'],
     user => nginx,
     minute => '*/10',
     require => [

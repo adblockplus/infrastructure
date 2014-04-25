@@ -1,4 +1,7 @@
 class logrotate {
+
+  include private::global
+
   exec {'ensure_logrotate_status':
     command => '/etc/cron.daily/logrotate',
     path => ["/usr/bin/", "/bin/"],
@@ -9,7 +12,7 @@ class logrotate {
     ensure => present,
     require => Exec['ensure_logrotate_status'],
     command => '/usr/sbin/logrotate /etc/logrotate.conf',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin_mail,root"],
     user => root,
     hour => '0',
     minute => '0'

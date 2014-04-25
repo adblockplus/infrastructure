@@ -80,7 +80,7 @@ use_short_addr = false
 use_tls = false
 
 [project]
-admin = admins@adblockplus.org
+admin = <%= scope.lookupvar('private::global::admin_mail') %>
 admin_trac_url = .
 descr = Adblock Plus Issue Tracker
 footer = Visit the Trac open source project at<br /><a href="http://trac.edgewall.org/">http://trac.edgewall.org/</a>
