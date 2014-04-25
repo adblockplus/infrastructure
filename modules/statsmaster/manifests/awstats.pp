@@ -7,6 +7,12 @@ class statsmaster::awstats {
     mode => 0755,
   }
 
+  file {'/etc/cron.d/awstats':
+    # AWStats package thinks that running AWStats without proper configuration
+    # every 10 minutes is a good idea.
+    ensure => absent,
+  }
+
   concat {'/var/www/awstats/index.html':
     mode => 0644,
     owner => root,
