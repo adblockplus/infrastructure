@@ -5,7 +5,7 @@ class discourse(
     $is_default = false
   ) inherits private::discourse {
 
-  include postgresql::server
+  include postgresql::server, private::global
 
   postgresql::database {'discourse':}
 
@@ -147,7 +147,7 @@ class discourse(
   discourse::sitesetting {'contact_email':
     ensure => present,
     type => 1,
-    value => 'admins@adblockplus.org'
+    value => $private::global::admin
   }
 
   discourse::sitesetting {'site_contact_username':

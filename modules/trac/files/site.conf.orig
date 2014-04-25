@@ -1,0 +1,16 @@
+location /
+{
+  fastcgi_pass unix:/tmp/trac-fastcgi.sock;
+  fastcgi_split_path_info ^()(.*)$;
+  include /etc/nginx/fastcgi_params;
+  fastcgi_param PATH_INFO $fastcgi_path_info;
+<<<<<<< HEAD
+  client_max_body_size 15m;
+=======
+>>>>>>> 212bc5973408e8c44638a904cd537813c4881239
+}
+
+location /chrome/
+{
+  alias /home/trac/htdocs/htdocs/;
+}

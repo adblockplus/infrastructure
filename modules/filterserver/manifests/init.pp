@@ -1,4 +1,7 @@
 class filterserver($is_default = false) {
+  
+  include private::global  
+
   if !defined(Class['nginx']) {
     class {'nginx':
       worker_processes => 2,
@@ -101,7 +104,7 @@ class filterserver($is_default = false) {
                  User['rsync']
                ],
     command => 'rsync -e "ssh -o CheckHostIP=no" -ltprz --delete rsync@filtermaster.adblockplus.org:. /var/www/easylist/',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => ["MAILTO=$private::global::admin,root"],
     user => rsync,
     hour => '*',
     minute => '2-52/10'

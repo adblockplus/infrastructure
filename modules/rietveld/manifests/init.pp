@@ -5,7 +5,8 @@ class rietveld(
     $is_default=false
   ) inherits private::rietveld {
 
-  include nginx
+  include nginx, private::global
+
   $django_home = '/home/rietveld/django-gae2django'
   $rietveld_home = "${django_home}/examples/rietveld"
 
@@ -81,7 +82,7 @@ class rietveld(
   }
 
   exec {'set_superuser':
-    command => "echo \"from django.db import DEFAULT_DB_ALIAS as database; from django.contrib.auth.models import User; User.objects.db_manager(database).create_superuser('admin', 'admins@adblockplus.org', '${admin_password}')\" | ./manage.py shell",
+    command => "echo \"from django.db import DEFAULT_DB_ALIAS as database; from django.contrib.auth.models import User; User.objects.db_manager(database).create_superuser('admin', $private::global::admin, '${admin_password}')\" | ./manage.py shell",
     cwd => "${rietveld_home}",
     require => Exec['install_rietveld'],
   }

@@ -1,6 +1,7 @@
 class filtermaster {
+  include private::global
   Cron {
-    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ["MAILTO=$private::global::admin", 'PYTHONPATH=/opt/sitescripts'],
   }
 
   class {'ssh':
