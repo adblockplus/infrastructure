@@ -7,6 +7,9 @@ class web::server(
     $aliases = undef,
     $custom_config = undef,
     $multiplexer_locations = undef) {
+
+  include private::global
+
   File {
     owner  => 'root',
     group  => 'root',
@@ -14,7 +17,7 @@ class web::server(
   }
 
   Cron {
-    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ["MAILTO=$private::global::admin", 'PYTHONPATH=/opt/sitescripts'],
   }
 
   include nginx
