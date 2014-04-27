@@ -2,6 +2,25 @@ class rhodecode(
       $user,
 ) inherits private::rhodecode{
 
+  class {'nginx':
+    worker_processes => 1,
+    worker_connections => 500
+  }
+
+  nginx::hostconfig{'default_rhodecode':
+    source => 'puppet:///modules/rhodecode/default_rhodecode',
+    enabled => true
+  }
+
+  file {'/etc/nginx/conf.d/default.conf':
+       ensure => absent,
+       require => [
+                   Exec["Install_RhodeCode_$user"],
+                   Package['nginx']
+                  ],
+       notify => Service['nginx'],
+  }
+
   group { $user:
         ensure => "present",
         name => $user,
@@ -50,26 +69,8 @@ class rhodecode(
 
   service { "rhodecode": 
        ensure => "running",
+       enable => true,
        require => Exec["Install_RhodeCode_$user"],
-  }
-
-  file { "/home/$user/rhodecode/data/production.ini.puppet" :
-       ensure => file,
-       mode => 644,
-       content => template("rhodecode/production.ini"),
-       require => Service["rhodecode"],
-  }
-
-  exec { "Serve_Production_RhodeCode_$user":
-       cwd => "/home/$user/rhodecode",
-       command => "system/bin/paster serve data/production.ini.puppet > serve.log 2>&1 &",
-       user => "root",
-       provider => "shell",
-       require => [
-                  Service["rhodecode"],
-                  File["/home/$user/rhodecode/data/production.ini.puppet"],
-                  ],
-       timeout => 1200,
   }
 
 }
