@@ -1,5 +1,7 @@
+include private::global
+
 Cron {
-  environment => 'MAILTO=admins@adblockplus.org'
+  environment => "MAILTO=$private::global::admin_mail"
 }
 
 import 'nodes.pp'
