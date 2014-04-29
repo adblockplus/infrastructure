@@ -135,16 +135,16 @@ workflow = ConfigurableTicketWorkflow
 leave = * -> *
 leave.default = 1
 leave.operations = leave_status
-reassign = new,assigned,reopened,reviewing -> assigned
+reassign = * -> *
 reassign.operations = set_owner
 reassign.permissions = TICKET_MODIFY
 reopen = closed,reviewing -> reopened
 reopen.operations = del_resolution
 reopen.permissions = TICKET_CREATE
-resolve = new,assigned,reopened,reviewing -> closed
+resolve = new,reopened,reviewing -> closed
 resolve.operations = set_resolution
 resolve.permissions = TICKET_MODIFY
-codereview = new,assigned,reopened -> reviewing
+codereview = new,reopened -> reviewing
 codereview.permissions = TICKET_MODIFY
 
 [timeline]
