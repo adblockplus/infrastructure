@@ -71,7 +71,7 @@ class trac(
   }
 
   exec { 'install_AccountManager':
-    command => "pip install svn+http://trac-hacks.org/svn/accountmanagerplugin/tags/acct_mgr-0.4.3/",
+    command => "pip install svn+http://trac-hacks.org/svn/accountmanagerplugin/tags/acct_mgr-0.4.4/",
     require => Package['subversion', 'python-pip'],
     unless => "python -c 'import acct_mgr'",
   }
