@@ -43,9 +43,9 @@ class trac(
   }
 
   exec { 'install_trac':
-    command => "pip install Trac==1.0",
+    command => "pip install Trac==1.0.1",
     require => Package['python-pip'],
-    unless => "python -c 'import trac,sys;sys.exit(0 if trac.__version__ == \"1.0\" else 1)'",
+    unless => "python -c 'import trac,sys;sys.exit(0 if trac.__version__ == \"1.0.1\" else 1)'",
   }
 
   exec { 'trac_env':
