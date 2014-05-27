@@ -113,6 +113,12 @@ class trac(
     require => Exec['trac_env']
   }
 
+  exec { 'install_Tractags':
+    command => "pip install svn+http://trac-hacks.org/svn/tagsplugin/tags/0.7/",
+    require => Package['python-pip'],
+    unless => "python -c 'import tagsplugin'",
+  }
+
   file {"/home/trac/htdocs/htdocs/common/adblockplus_logo.png":
     ensure => present,
     source => 'puppet:///modules/trac/adblockplus_logo.png',
@@ -139,7 +145,8 @@ class trac(
       Exec['install_TicketTemplate'],
       Exec['install_NeverNotifyUpdater'],
       Exec['install_MasterTickets'],
-      Exec['install_ThemeEngine']]
+      Exec['install_ThemeEngine'],
+      Exec['install_Tractags']]
   }
 
   exec {"deploy":
