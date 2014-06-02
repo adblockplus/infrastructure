@@ -102,6 +102,8 @@
               data[i]["30day " + type] += hits;
             if (i - offset < 7 && i - offset + days >= 7)
               data[i]["7day " + type] += hits;
+            if (i - offset < 1 && i - offset + days >= 1)
+              data[i]["1day " + type] += hits;
           }
         }
       }
@@ -149,6 +151,9 @@
 
         var row = document.createElement("tr");
         createCell(row, date.toLocaleDateString());
+        createCell(row, data[i]["1day total"].toLocaleString());
+        createCell(row, data[i]["1day acceptable"].toLocaleString());
+        createCell(row, (100 - data[i]["1day acceptable"] / data[i]["1day total"] * 100).toFixed(2) + "%");
         createCell(row, data[i]["7day total"].toLocaleString());
         createCell(row, data[i]["7day acceptable"].toLocaleString());
         createCell(row, (100 - data[i]["7day acceptable"] / data[i]["7day total"] * 100).toFixed(2) + "%");
@@ -196,7 +201,7 @@
 
       var data = [];
       for (var d = fromDate; formatDate(d) <= formatDate(toDate); d = new Date(d.getTime() + MILLIS_IN_DAY))
-        data.push({"7day total": 0, "7day acceptable": 0, "30day total": 0, "30day acceptable": 0});
+        data.push({"1day total": 0, "1day acceptable": 0, "7day total": 0, "7day acceptable": 0, "30day total": 0, "30day acceptable": 0});
 
       var offset = -30;
       var callback = function()
@@ -238,6 +243,7 @@
   <table id="result" hidden>
     <tr>
       <th rowspan="2">Date</th>
+      <th colspan="3">1-day active users</th>
       <th colspan="3">7-day active users</th>
       <th colspan="3">30-day active users</th>
     </tr>
