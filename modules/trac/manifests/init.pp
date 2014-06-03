@@ -106,6 +106,18 @@ class trac(
     unless => "python -c 'import themeengine'",
   }
 
+  package { 'spambayes':
+	ensure => "installed"
+  }
+
+  exec { 'install_TracSpamFilter':
+    command => "pip install svn+http://svn.edgewall.com/repos/trac/plugins/1.0/spam-filter",
+    require => Package[
+	'spambayes',
+	'python-pip'],
+    unless => "python -c 'import tracspamfilter'",
+  }
+
   file {"/home/trac/environment/conf/trac.ini":
     ensure => present,
     content => template('trac/trac.ini.erb'),
@@ -146,7 +158,8 @@ class trac(
       Exec['install_NeverNotifyUpdater'],
       Exec['install_MasterTickets'],
       Exec['install_ThemeEngine'],
-      Exec['install_Tractags']]
+      Exec['install_Tractags'],
+      Exec['install_TracSpamFilter']]
   }
 
   exec {"deploy":

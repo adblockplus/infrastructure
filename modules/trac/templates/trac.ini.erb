@@ -238,6 +238,19 @@ nevernotifyupdaterplugin.* = enabled
 themeengine.* = enabled
 themeengine.admin.CustomThemeAdminModule = disabled
 tractags.* = enabled
+tracspamfilter.accountadapter.* = enabled
+tracspamfilter.adapters.TicketFilterAdapter = enabled
+tracspamfilter.admin.BayesAdminPageProvider = enabled
+tracspamfilter.admin.SpamFilterAdminPageProvider = enabled
+tracspamfilter.admin.StatisticsAdminPageProvider = enabled
+tracspamfilter.filters.bayes.* = enabled
+tracspamfilter.filters.ip_regex.* = enabled
+tracspamfilter.filters.ip_throttle.* = enabled
+tracspamfilter.filters.regex.* = enabled
+tracspamfilter.filters.registration.* = enabled
+tracspamfilter.filters.trapfield.* = enabled
+tracspamfilter.filtersystem.* = enabled
+
 
 [tickettemplate]
 field_list = summary, description, reporter, owner, priority, cc, milestone, component, version, type
@@ -260,6 +273,7 @@ user_lock_max_time = 0
 user_lock_time_progression = 2
 username_regexp = .
 verify_email = true
+register_check = BasicCheck, EmailCheck, RegExpCheck, UsernamePermCheck, RegistrationFilterAdapter
 
 [blackmagic]
 permissions = TICKET_SET_PRIORITY, TICKET_CREATE_CC, TICKET_EDIT_KEYWORDS,TICKET_SET_OWNER, TICKET_SET_MILESTONE, TICKET_DEPENDENCY
@@ -312,3 +326,8 @@ review_url.format = wiki
 
 [theme]
 enable_css = true
+
+[spam-filter]
+max_posts_by_ip = 50
+bayes_min_training = 10
+authenticated_karma = 0
