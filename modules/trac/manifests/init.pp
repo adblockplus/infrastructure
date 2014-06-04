@@ -128,7 +128,7 @@ class trac(
   exec { 'install_Tractags':
     command => "pip install svn+http://trac-hacks.org/svn/tagsplugin/tags/0.7/",
     require => Package['python-pip'],
-    unless => "python -c 'import tagsplugin'",
+    unless => "python -c 'import tractags'",
   }
 
   file {"/home/trac/htdocs/htdocs/common/adblockplus_logo.png":
