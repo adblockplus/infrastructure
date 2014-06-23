@@ -1,14 +1,4 @@
-dir = dirtemplate % '<%= title %>'
-if not os.path.exists(dir):
-  os.mkdir(dir, 0755)
-
-subprocess.check_output([
-  '/usr/share/awstats/tools/awstats_buildstaticpages.pl',
-  '-configdir=/var/www/awstatsconf',
-  '-config=<%= title %>',
-  '-dir=%s' % dir
-] + additional_params)
-
-index = os.path.join(dir, 'index.html')
-if not os.path.exists(index):
-  os.symlink(os.path.join(dir, 'awstats.<%= title %>.html'), index)
+build_pages('<%= title %>', dirtemplate % '<%= title %>', 'month')
+if day:
+  dir = os.path.join('/var/www/awstats/daily', '<%= title %>', day)
+  build_pages('<%= title %>', dir, 'day')
