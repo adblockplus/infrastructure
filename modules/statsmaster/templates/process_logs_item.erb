@@ -1,6 +1,2 @@
-subprocess.check_output([
-  '/usr/lib/cgi-bin/awstats.pl',
-  '-configdir=/var/www/awstatsconf',
-  '-config=<%= title %>',
-  '-update'
-])
+process_logs('<%= title %>', 'month')
+process_logs('<%= title %>', 'day')

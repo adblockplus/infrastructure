@@ -1,7 +1,9 @@
 class statsmaster::awstats {
   package {['awstats', 'libgeo-ip-perl']:}
 
-  file {['/var/www/awstatsdata', '/var/www/awstatsconf', '/var/www/awstats']:
+  file {['/var/www/awstatsdata', '/var/www/awstatsdatadaily',
+      '/var/www/awstatsconf', '/var/www/awstats',
+      '/var/www/awstats/archive', '/var/www/awstats/daily']:
     ensure => directory,
     owner => root,
     mode => 0755,
@@ -62,8 +64,9 @@ class statsmaster::awstats {
       content => template('statsmaster/awstats.conf'),
     }
 
-    file {["/var/www/awstatsdata/$title", "/var/www/awstats/$title",
-        "/var/www/awstats/archive/$title"]:
+    file {["/var/www/awstatsdata/$title", "/var/www/awstatsdatadaily/$title",
+        "/var/www/awstats/$title", "/var/www/awstats/archive/$title",
+        "/var/www/awstats/daily/$title"]:
       ensure => directory,
       mode => 0755,
       owner => stats,
@@ -131,12 +134,21 @@ class statsmaster::awstats {
 
   create_resources(statsmaster::awstats::siteconfig, $sites)
 
+  #
+  # IMPORTANT: This will only work correctly if the following bugs are fixed
+  # in your AWStats instance (might require manual patching):
+  #
+  # * https://sourceforge.net/p/awstats/bugs/873/
+  # * https://sourceforge.net/p/awstats/bugs/929/
+  #
+
   cron {'awstats_update':
     ensure => present,
     require => [
       Package['awstats', 'libgeo-ip-perl'],
       File['/home/stats/process_logs', '/home/stats/build_static',
-        '/var/www/awstatsconf', '/var/www/awstatsdata', '/var/www/awstats'],
+        '/var/www/awstatsdata', '/var/www/awstatsdatadaily',
+        '/var/www/awstats', '/var/www/awstatsconf'],
     ],
     command => '/home/stats/process_logs && /home/stats/build_static',
     environment => ['MAILTO=admins@adblockplus.org,root'],
@@ -150,7 +162,8 @@ class statsmaster::awstats {
     require => [
       Package['awstats'],
       File['/home/stats/build_static', '/home/stats/anonymize_ips',
-        '/var/www/awstatsconf', '/var/www/awstatsdata', '/var/www/awstats'],
+        '/var/www/awstatsdata', '/var/www/awstatsdatadaily',
+        '/var/www/awstatsconf', '/var/www/awstats'],
     ],
     command => '/home/stats/anonymize_ips prevmonth && /home/stats/build_static prevmonth',
     environment => ['MAILTO=admins@adblockplus.org,root'],
