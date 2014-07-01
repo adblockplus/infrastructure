@@ -275,7 +275,7 @@ verify_email = true
 
 [blackmagic]
 permissions = TICKET_SET_PRIORITY, TICKET_CREATE_CC, TICKET_EDIT_KEYWORDS,TICKET_SET_OWNER, TICKET_SET_MILESTONE, TICKET_DEPENDENCY
-tweaks = id, priority, cc, keywords, owner, sensitive, milestone, blocking,blockedby,summary,type,component,verified_working,ready,review_url
+tweaks = id, priority, cc, keywords, owner, sensitive, milestone, blocking,blockedby,summary,type,component,verified_working,ready,review_url,platform
 gray_disabled = #cccccc
 id.label = Issue
 priority.permission = TICKET_SET_PRIORITY
@@ -294,6 +294,7 @@ sensitive.label = Confidential
 Milestone.permission = TICKET_SET_MILESTONE
 summary.tip = A one-sentence abstract of what and where the issue is about.
 type.tip = Please select whether you want to report a defect or request a change.
+component.permission = TICKET_MODIFY
 component.tip = Here, you can select, which technical component your issue belongs to. Leave "Unknown" if unsure.
 sensitive.tip = Please check this box, if you want to want to report a security issue that might harm users if revealed publicly before it is fixed.
 verified_working.tip = Please leave this box unchecked until a moderator asks you to confirm a fixed issue actually works.
@@ -303,6 +304,8 @@ cc.tip = Dispatches an Email to the entered user/email adress with changes to th
 priority.tip = Please only set this if you are absolutely sure about it.
 blocking.tip = Does this issue prevent another one from being fixed upfront?
 blockedby.tip = Does another issue prevent this one from being fixed?
+platform.tip = Please select the platform, where the issue belongs to.
+
 
 [ticket-custom]
 verified_working = checkbox
@@ -321,6 +324,10 @@ review_url.cols = 68
 review_url.label = Review URL(s)
 review_url.order = 1
 review_url.format = wiki
+platform = select
+platform.label = Platform
+platform.options = Unknown|Android|Chrome|Internet Explorer|Firefox|Opera|Safari
+platform.value = Unknown
 
 [theme]
 enable_css = true
