@@ -48,6 +48,7 @@
 
     var curMonth = null;
     var curMonthFilters = null;
+    var curMonthAntiadblock = null;
     var curMonthNotifications = null;
 
     function checkStats(data, fromDate, offset, callback)
@@ -114,19 +115,25 @@
         doDownload("/raw/subscription/" + month + "/exceptionrules.txt.json", "acceptable ads data for month " + month, function(json)
         {
           curMonthFilters = json;
-          doDownload("/raw/notification/" + month + "/notification.json.json", "notification data for month " + month, function(json)
+          doDownload("/raw/subscription/" + month + "/antiadblockfilters.txt.json", "anti-adblock data for month " + month, function(json)
           {
-            curMonthNotifications = json;
-            curMonth = month;
-            doCheckStats(curMonthFilters, "acceptable");
-            doCheckStats(curMonthNotifications, "total");
-            callback();
+            curMonthAntiadblock = json;
+            doDownload("/raw/notification/" + month + "/notification.json.json", "notification data for month " + month, function(json)
+            {
+              curMonthNotifications = json;
+              curMonth = month;
+              doCheckStats(curMonthFilters, "acceptable");
+              doCheckStats(curMonthAntiadblock, "antiadblock");
+              doCheckStats(curMonthNotifications, "total");
+              callback();
+            });
           });
         });
       }
       else
       {
         doCheckStats(curMonthFilters, "acceptable");
+        doCheckStats(curMonthAntiadblock, "antiadblock");
         doCheckStats(curMonthNotifications, "total");
         callback();
       }
@@ -152,12 +159,15 @@
         var row = document.createElement("tr");
         createCell(row, date.toLocaleDateString());
         createCell(row, data[i]["1day total"].toLocaleString());
+        createCell(row, data[i]["1day antiadblock"].toLocaleString());
         createCell(row, data[i]["1day acceptable"].toLocaleString());
         createCell(row, (100 - data[i]["1day acceptable"] / data[i]["1day total"] * 100).toFixed(2) + "%");
         createCell(row, data[i]["7day total"].toLocaleString());
+        createCell(row, data[i]["7day antiadblock"].toLocaleString());
         createCell(row, data[i]["7day acceptable"].toLocaleString());
         createCell(row, (100 - data[i]["7day acceptable"] / data[i]["7day total"] * 100).toFixed(2) + "%");
         createCell(row, data[i]["30day total"].toLocaleString());
+        createCell(row, data[i]["30day antiadblock"].toLocaleString());
         createCell(row, data[i]["30day acceptable"].toLocaleString());
         createCell(row, (100 - data[i]["30day acceptable"] / data[i]["30day total"] * 100).toFixed(2) + "%");
         resultBody.appendChild(row);
@@ -201,7 +211,7 @@
 
       var data = [];
       for (var d = fromDate; formatDate(d) <= formatDate(toDate); d = new Date(d.getTime() + MILLIS_IN_DAY))
-        data.push({"1day total": 0, "1day acceptable": 0, "7day total": 0, "7day acceptable": 0, "30day total": 0, "30day acceptable": 0});
+        data.push({"1day total": 0, "1day antiadblock": 0, "1day acceptable": 0, "7day total": 0, "7day antiadblock": 0, "7day acceptable": 0, "30day total": 0, "30day antiadblock": 0, "30day acceptable": 0});
 
       var offset = -30;
       var callback = function()
@@ -243,15 +253,21 @@
   <table id="result" hidden>
     <tr>
       <th rowspan="2">Date</th>
-      <th colspan="3">1-day active users</th>
-      <th colspan="3">7-day active users</th>
-      <th colspan="3">30-day active users</th>
+      <th colspan="4">1-day active users</th>
+      <th colspan="4">7-day active users</th>
+      <th colspan="4">30-day active users</th>
     </tr>
     <tr>
       <th>Total</th>
+      <th>Anti-adblock filters</th>
       <th>Acceptable ads</th>
       <th>Opt-out rate</th>
       <th>Total</th>
+      <th>Anti-adblock filters</th>
+      <th>Acceptable ads</th>
+      <th>Opt-out rate</th>
+      <th>Total</th>
+      <th>Anti-adblock filters</th>
       <th>Acceptable ads</th>
       <th>Opt-out rate</th>
     </tr>
