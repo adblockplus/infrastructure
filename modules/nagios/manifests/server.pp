@@ -90,7 +90,9 @@ class nagios::server(
          '/etc/nagios3/conf.d/hostgroups_nagios2.cfg',
          '/etc/nagios3/conf.d/localhost_nagios2.cfg',
          '/etc/nagios3/conf.d/services_nagios2.cfg']:
-    ensure => absent
+    ensure => absent,
+    require => Package['nagios3'],
+    before => Service['nagios3']
   }
 
   resources {['nagios_contact', 'nagios_contactgroup', 'nagios_host',
