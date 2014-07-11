@@ -165,12 +165,13 @@ dry run without changing anything.
 Monitoring
 ----------
 
-Monitoring is fully functional in the development environment:
-[https://10.8.0.98/](https://10.8.0.98/)
+Monitoring is fully functional in any environment, including development.
+Here, after bootstrapping the `server4` box, one can access the Nagios GUI
+from the host machine via <https://nagiosadmin:nagiosadmin@10.8.0.99/>.
 
-User name and password are both _nagiosadmin_.
+The monitoring service of our production environment, however, is accessible
+via <https://monitoring.adblockplus.org/>.
+Add yourself to _files/nagios-htpasswd_ in the _private_ module used on the
+server, or have someone add you if you don't have access.
 
-The monitoring service of our production environment runs on
-_monitoring.adblockplus.org_. Add yourself to _files/nagios-htpasswd_
-in the _private_ module used on the server, or have someone add you if
-you don't have access.
+
