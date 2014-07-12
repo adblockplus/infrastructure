@@ -31,7 +31,8 @@ class nagios::server(
   spawn-fcgi::php-pool {'global':
     ensure => present,
     socket => '/tmp/php-fastcgi.sock',
-    children => '3'
+    children => '3',
+    require => Package['php5-cgi']
   }
 
   service {'nagios3':
