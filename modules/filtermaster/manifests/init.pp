@@ -3,17 +3,26 @@ class filtermaster {
     environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
   }
 
-  class {'ssh':
-    custom_configuration => '
-    MaxSessions 50
-    MaxStartups 50
+  concat::fragment {'sshd_max_limits':
+    target => 'sshd_config',
+    order => '50',
+    content => '
+      MaxSessions 50
+      MaxStartups 50
+    '
+  }
 
-    Match User rsync
-      AllowTcpForwarding no
-      X11Forwarding no
-      AllowAgentForwarding no
-      GatewayPorts no
-      ForceCommand rsync --server --sender -vltprz --delete-excluded . /home/rsync/generated/data/'
+  concat::fragment {'sshd_user_rsync':
+    target => 'sshd_config',
+    order => '99',
+    content => '
+      Match User rsync
+        AllowTcpForwarding no
+        X11Forwarding no
+        AllowAgentForwarding no
+        GatewayPorts no
+        ForceCommand rsync --server --sender -vltprz --delete-excluded . /home/rsync/generated/data/
+    '
   }
 
   user {'rsync':

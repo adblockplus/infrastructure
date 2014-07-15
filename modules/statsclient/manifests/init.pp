@@ -19,13 +19,17 @@ class statsclient {
     source => 'puppet:///modules/private/stats-authorized_keys',
   }
 
-  class {'ssh':
-    custom_configuration => 'Match User stats
+  concat::fragment {'sshd_user_stats':
+    target => 'sshd_config',
+    order => '99',
+    content => '
+      Match User stats
         AllowTcpForwarding no
         X11Forwarding no
         AllowAgentForwarding no
         GatewayPorts no
-        ForceCommand (echo $SSH_ORIGINAL_COMMAND | grep -qv /) && cat "/var/log/nginx/$SSH_ORIGINAL_COMMAND"',
+        ForceCommand (echo $SSH_ORIGINAL_COMMAND | grep -qv /) && cat "/var/log/nginx/$SSH_ORIGINAL_COMMAND"
+    '
   }
 
   cron {'mirrorstats':

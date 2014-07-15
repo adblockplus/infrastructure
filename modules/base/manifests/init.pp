@@ -12,7 +12,7 @@ class base {
 
   Exec['apt_update'] -> Package <| |>
 
-  include private::users, postfix
+  include private::users, postfix, ssh
 
   package {['mercurial', 'vim', 'emacs', 'debian-goodies']: ensure => present}
 

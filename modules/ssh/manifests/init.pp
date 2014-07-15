@@ -1,13 +1,18 @@
-class ssh ($custom_configuration = '') {
+class ssh {
   package {'openssh-server': ensure => present}
 
-  file {'/etc/ssh/sshd_config':
-    ensure => present,
+  concat {'sshd_config':
+    path => '/etc/ssh/sshd_config',
     owner => root,
     group => root,
     mode => 0644,
-    content => template('ssh/sshd_config.erb'),
     require => Package['openssh-server']
+  }
+
+  concat::fragment {'sshd_config_template':
+    target => 'sshd_config',
+    source => 'puppet:///modules/ssh/sshd_config',
+    order => '01',
   }
 
   service {'ssh':
@@ -15,6 +20,6 @@ class ssh ($custom_configuration = '') {
     enable => true,
     hasstatus => true,
     hasrestart => true,
-    subscribe => File['/etc/ssh/sshd_config']
+    subscribe => Concat['sshd_config']
   }
 }
