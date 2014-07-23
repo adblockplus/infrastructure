@@ -1,8 +1,5 @@
 class rhodecode($user) inherits private::rhodecode {
-  class {'nginx':
-    worker_processes => 1,
-    worker_connections => 500
-  }
+  include nginx
 
   nginx::hostconfig {'default_rhodecode':
     source => 'puppet:///modules/rhodecode/default_rhodecode',
