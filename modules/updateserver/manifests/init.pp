@@ -21,17 +21,44 @@ class updateserver(
     require => Package['nginx']
   }
 
-  file {'/var/www/update':
+  $update_dir = '/var/www/update'
+
+  file {$update_dir:
     ensure => directory,
     mode => 0755
   }
 
-  file {'/var/www/update/adblockplusie':
+  $sitescripts_var_dir = '/var/lib/sitescripts'
+
+  user {'sitescripts':
+    ensure => present,
+    home => $sitescripts_var_dir
+  }
+
+  file {$sitescripts_var_dir:
+    ensure => directory,
+    mode => 0755,
+    owner => 'sitescripts',
+    group => 'sitescripts'
+  }
+
+  $update_manifest_dirs = ["${update_dir}/gecko",
+                           "${update_dir}/adblockplusandroid",
+                           "${update_dir}/adblockplussafari"]
+
+  file {$update_manifest_dirs:
+    ensure => directory,
+    mode => 0755,
+    owner => 'sitescripts',
+    group => 'sitescripts'
+  }
+
+  file {"${update_dir}/adblockplusie":
     ensure => directory,
     mode => 0755
   }
 
-  file {'/var/www/update/adblockplusie/update.json':
+  file {"${update_dir}/adblockplusie/update.json":
     ensure => file,
     source => 'puppet:///modules/updateserver/adblockplusie/update.json',
     mode => 0644
@@ -43,5 +70,64 @@ class updateserver(
     certificate => $certificate,
     private_key => $private_key,
     log => 'access_log_update'
+  }
+
+  class {'sitescripts':
+    sitescriptsini_source => 'puppet:///modules/updateserver/sitescripts'
+  }
+
+  $safari_certificate_path = "${sitescripts_var_dir}/adblockplussafari.pem"
+
+  file {$safari_certificate_path:
+    source => 'puppet:///modules/private/adblockplussafari.pem'
+  }
+
+  $repositories_to_sync = ['downloads', 'adblockplus', 'adblockplusandroid',
+                           'adblockpluschrome', 'elemhidehelper', 'abpwatcher',
+                           'abpcustomization', 'urlfixer']
+
+  define fetch_repository() {
+    $repository_path = "${updateserver::sitescripts_var_dir}/${title}"
+    exec {"fetch_repository_${title}":
+      command => "hg clone -U https://hg.adblockplus.org/${title} ${repository_path}",
+      path => '/usr/local/bin:/usr/bin:/bin',
+      user => 'sitescripts',
+      timeout => 0,
+      onlyif => "test ! -d ${repository_path}",
+      require => [Package['mercurial'], File[$updateserver::sitescripts_var_dir]]
+    }
+  }
+
+  fetch_repository {$repositories_to_sync: }
+
+  $update_update_manifests_script = '/usr/local/bin/update_update_manifests'
+
+  file {$update_update_manifests_script:
+    mode => '0755',
+    content => template('updateserver/update_update_manifests.erb')
+  }
+
+  $update_update_manifests_dependencies = ['python-m2crypto', 'python-jinja2']
+
+  package {$update_update_manifests_dependencies:}
+
+  exec {'update_update_manifests':
+    command => $update_update_manifests_script,
+    user => 'sitescripts',
+    timeout => 0,
+    require => [Exec['fetch_sitescripts'],
+                Fetch_repository[$repositories_to_sync],
+                File[$update_update_manifests_script],
+                File[$update_manifest_dirs], File[$safari_certificate_path],
+                Package[$update_update_manifests_dependencies]]
+  }
+
+  cron {'update_update_manifests':
+    ensure => present,
+    environment => ['MAILTO=admins@adblockplus.org'],
+    command => $update_update_manifests_script,
+    user => 'sitescripts',
+    minute => '*/10',
+    require => Exec['update_update_manifests']
   }
 }

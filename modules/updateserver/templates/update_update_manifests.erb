@@ -1,0 +1,15 @@
+#!/bin/bash
+
+lock_file="<%= sitescripts_var_dir %>/update_update_manifests.lock"
+
+exec 9>"$lock_file"
+flock -n 9 || exit 0
+
+<% repositories_to_sync.each do |repository| %>
+hg pull -q -R "<%= sitescripts_var_dir %>/<%= repository %>"
+<% end %>
+
+export PYTHONPATH=/opt/sitescripts
+python -m sitescripts.extensions.bin.updateUpdateManifests
+
+rm -f "$lock_file"
