@@ -44,6 +44,7 @@ class updateserver(
 
   $update_manifest_dirs = ["${update_dir}/gecko",
                            "${update_dir}/adblockplusandroid",
+                           "${update_dir}/adblockplusie",
                            "${update_dir}/adblockplussafari"]
 
   file {$update_manifest_dirs:
@@ -51,17 +52,6 @@ class updateserver(
     mode => 0755,
     owner => 'sitescripts',
     group => 'sitescripts'
-  }
-
-  file {"${update_dir}/adblockplusie":
-    ensure => directory,
-    mode => 0755
-  }
-
-  file {"${update_dir}/adblockplusie/update.json":
-    ensure => file,
-    source => 'puppet:///modules/updateserver/adblockplusie/update.json',
-    mode => 0644
   }
 
   nginx::hostconfig{$domain:
@@ -83,8 +73,9 @@ class updateserver(
   }
 
   $repositories_to_sync = ['downloads', 'adblockplus', 'adblockplusandroid',
-                           'adblockpluschrome', 'elemhidehelper', 'abpwatcher',
-                           'abpcustomization', 'urlfixer']
+                           'adblockpluschrome', 'adblockplusie',
+                           'elemhidehelper', 'abpwatcher', 'abpcustomization',
+                           'urlfixer']
 
   define fetch_repository() {
     $repository_path = "${updateserver::sitescripts_var_dir}/${title}"
