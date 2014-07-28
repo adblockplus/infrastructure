@@ -258,6 +258,12 @@ class discourse(
     value => 'adblockplus.org,eyeo.com'
   }
 
+  discourse::sitesetting {'max_mentions_per_post':
+    ensure => present,
+    type => 3,
+    value => '50',
+  }
+
   Discourse::Customservice <| |> {
     user => 'discourse',
     workdir => '/opt/discourse',
