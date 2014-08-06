@@ -4,8 +4,6 @@ class nginx (
     $ssl_session_cache =  $nginx::params::ssl_session_cache
   ) inherits nginx::params {
 
-  include apt
-
   apt::source {'nginx':
     location => "http://nginx.org/packages/ubuntu",
     repos => "nginx",
