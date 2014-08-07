@@ -1,0 +1,15 @@
+location <%= @location_base %>/
+{
+  fastcgi_pass unix:/tmp/<%= @name %>-fastcgi.sock;
+  fastcgi_split_path_info ^(<%= @location_base %>)(.*)$;
+  include /etc/nginx/fastcgi_params;
+  fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+  fastcgi_param PATH_INFO $fastcgi_path_info;
+  client_max_body_size 20m;
+}
+
+location <%= @location_base %>/chrome/
+{
+  alias /home/trac/htdocs-<%= @name %>/htdocs/;
+}
+

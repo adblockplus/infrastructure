@@ -2,19 +2,29 @@ class trac(
     $domain,
     $certificate,
     $private_key,
+    $fcgi_config_dir = '/etc/nginx/trac.d',
     $is_default = false) inherits private::trac {
+
   package {['python-mysqldb','python-pip','subversion', 'tofrodos', 'graphviz']:
     ensure => present
   }
 
   include nginx, spawn-fcgi
 
+  file {$fcgi_config_dir:
+    ensure => directory,
+    owner => 'root',
+    mode => 755,
+    require => Package['nginx'],
+  }
+
   nginx::hostconfig {$domain:
-    source => 'puppet:///modules/trac/site.conf',
+    content => "include $fcgi_config_dir/*;",
     is_default => $is_default,
     certificate => $certificate,
     private_key => $private_key,
-    log => 'access_log_trac'
+    log => 'access_log_trac',
+    require => File[$fcgi_config_dir],
   }
 
   user {'trac':
@@ -25,17 +35,7 @@ class trac(
   }
 
   class {'mysql::server':
-    root_password => $database_root_password
-  }
-
-  mysql::db {'trac':
-    user => 'trac',
-    password => $database_password,
-    host => 'localhost',
-    grant => ['all'],
-    charset => 'utf8',
-    collate => 'utf8_bin',
-    require => Class['mysql::server']
+    root_password => $database_root_password,
   }
 
   Exec {
@@ -46,16 +46,6 @@ class trac(
     command => "pip install Trac==1.0.1",
     require => Package['python-pip'],
     unless => "python -c 'import trac,sys;sys.exit(0 if trac.__version__ == \"1.0.1\" else 1)'",
-  }
-
-  exec { 'trac_env':
-    command => "trac-admin /home/trac/environment initenv \"Adblock Plus issue tracker\" mysql://trac:${database_password}@localhost:3306/trac",
-    require => [
-      Exec['install_trac'],
-      Mysql_grant['trac@localhost/trac.*']
-    ],
-    user => trac,
-    unless => "test -d /home/trac/environment"
   }
 
   exec { 'install_BlackMagicTicketTweaks':
@@ -118,72 +108,139 @@ class trac(
     unless => "python -c 'import tracspamfilter'",
   }
 
-  file {"/home/trac/environment/conf/trac.ini":
-    ensure => present,
-    content => template('trac/trac.ini.erb'),
-    owner => trac,
-    require => Exec['trac_env']
-  }
-
   exec { 'install_Tractags':
     command => "pip install svn+http://trac-hacks.org/svn/tagsplugin/tags/0.7/",
     require => Package['python-pip'],
     unless => "python -c 'import tractags'",
   }
 
-  file {"/home/trac/htdocs/htdocs/common/adblockplus_logo.png":
+  exec { 'install_PrivateTickets':
+    command => "pip install svn+http://trac-hacks.org/svn/privateticketsplugin/tags/2.0.2/",
+    require => Package['subversion', 'python-pip'],
+    unless => "python -c 'import privatetickets'",
+  }
+
+  file { '/home/trac/trac.ini':
     ensure => present,
-    source => 'puppet:///modules/trac/adblockplus_logo.png',
-    owner => trac,
-    require => Exec['deploy']
+    source => 'puppet:///modules/trac/trac.ini',
+    owner => 'trac',
+    mode => 644,
   }
 
-  file {"/home/trac/environment/htdocs/theme.css":
-    ensure => present,
-    source => 'puppet:///modules/trac/theme.css',
-    owner => trac,
-    require => Exec['trac_env']
-  }
+  define instance (
+      $config = 'trac/trac.ini.erb',
+      $description = 'Issue Tracker',
+      $location = '/',
+      $logo = 'puppet:///modules/trac/logo.png',
+      $database = 'trac',
+      $permissions = 'puppet:///modules/trac/permissions.csv',
+      $theme = 'puppet:///modules/trac/theme.css') {
 
-  exec {"update_env":
-    command => "trac-admin /home/trac/environment upgrade",
-    user => trac,
-    require => [
-      File['/home/trac/environment/conf/trac.ini'],
-      Exec['install_SensitiveTickets'],
-      Exec['install_BlackMagicTicketTweaks'],
-      Exec['install_AccountManager'],
-      Exec['install_AutocompleteUsers'],
-      Exec['install_TicketTemplate'],
-      Exec['install_NeverNotifyUpdater'],
-      Exec['install_MasterTickets'],
-      Exec['install_ThemeEngine'],
-      Exec['install_Tractags'],
-      Exec['install_TracSpamFilter']]
-  }
+    $database_password = $private::trac::database_password
+    $environment = "environment-$name"
+ 
+    mysql::db {$database:
+      user => 'trac',
+      password => $database_password,
+      host => 'localhost',
+      grant => ['all'],
+      charset => 'utf8',
+      collate => 'utf8_bin',
+      require => Class['mysql::server'],
+    }
 
-  exec {"deploy":
-    command => "trac-admin /home/trac/environment deploy /home/trac/htdocs && fromdos /home/trac/htdocs/cgi-bin/trac.fcgi && chmod 755 /home/trac/htdocs/cgi-bin/trac.fcgi",
-    user => trac,
-    require => [
-      Exec["update_env"],
-      Package["tofrodos"]]
-  }
+    $location_base = regsubst($location, '/+$', '')
 
-  spawn-fcgi::pool {"tracd":
-    ensure => present,
-    fcgi_app => "/home/trac/htdocs/cgi-bin/trac.fcgi",
-    socket => "/tmp/trac-fastcgi.sock",
-    mode => "0666",
-    user => trac,
-    children => 1,
-    require => Exec['deploy'],
-  }
+    file {"${trac::fcgi_config_dir}/${name}.conf":
+      ensure => file,
+      owner => 'root',
+      mode => 644,
+      content => template('trac/fcgi.conf.erb'),
+      require => File[$trac::fcgi_config_dir],
+      notify => Service['nginx'],
+    }
+  
+    exec {"trac_env_${name}":
+      command => shellquote(
+        'trac-admin', "/home/trac/$environment", 'initenv', $description,
+        "mysql://trac:${database_password}@localhost:3306/$database"),
+      logoutput => true,
+      path => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
+      require => [
+        Exec['install_trac'],
+        Mysql_grant["trac@localhost/${database}.*"]],
+      user => trac,
+      unless => "test -d /home/trac/$environment",
+    }
 
-  file {"/home/trac/permissions.csv":
-    ensure => present,
-    owner => trac,
-    source => 'puppet:///modules/trac/permissions.csv'
-  }
+    file {"/home/trac/${environment}/conf/permissions.csv":
+      ensure => present,
+      owner => trac,
+      source => $permissions,
+      require => Exec["trac_env_$name"],
+    }
+  
+    file {"/home/trac/$environment/conf/trac.ini":
+      ensure => present,
+      content => template($config),
+      owner => trac,
+      require => Exec["trac_env_$name"]
+    }
+  
+    file {"/home/trac/$environment/htdocs/theme.css":
+      ensure => present,
+      source => $theme,
+      owner => trac,
+      require => Exec["trac_env_$name"],
+    }
+  
+    exec {"update_env_$name":
+      command => "trac-admin /home/trac/$environment upgrade",
+      user => trac,
+      path => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
+      require => [
+        File["/home/trac/$environment/conf/trac.ini"],
+        Exec['install_SensitiveTickets'],
+        Exec['install_BlackMagicTicketTweaks'],
+        Exec['install_AccountManager'],
+        Exec['install_AutocompleteUsers'],
+        Exec['install_TicketTemplate'],
+        Exec['install_NeverNotifyUpdater'],
+        Exec['install_MasterTickets'],
+        Exec['install_ThemeEngine'],
+        Exec['install_Tractags'],
+        Exec['install_TracSpamFilter'],
+        Exec['install_PrivateTickets']],
+    }
+  
+    exec {"deploy_$name":
+      command => "trac-admin /home/trac/$environment \
+        deploy /home/trac/htdocs-$name \
+        && fromdos /home/trac/htdocs-$name/cgi-bin/trac.fcgi \
+        && chmod 755 /home/trac/htdocs-$name/cgi-bin/trac.fcgi",
+      user => trac,
+      path => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
+      require => [
+        Exec["update_env_$name"],
+        Package["tofrodos"]],
+    }
+  
+    file {"/home/trac/htdocs-$name/htdocs/common/logo.png":
+      ensure => present,
+      source => $logo,
+      owner => trac,
+      require => Exec["deploy_$name"],
+    }
 
+    spawn-fcgi::pool {"tracd_${name}":
+      ensure => present,
+      fcgi_app => "/home/trac/htdocs-$name/cgi-bin/trac.fcgi",
+      socket => "/tmp/${name}-fastcgi.sock",
+      mode => "0666",
+      user => trac,
+      children => 1,
+      require => Exec["deploy_$name"],
+    }
+  }
 }
+
