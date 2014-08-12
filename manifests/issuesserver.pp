@@ -59,43 +59,6 @@ node 'issues1' {
     require => Exec['trac_auth_cookie_view'],
   }
 
-  # This directive is required due to legacy issues, where only one trac
-  # project was configured. Now we want to have more verbose names, e.g.
-  # tracd_issues and tracd_orders, but the spawn-fcgi module doesn't remove
-  # unmentioned former setups. So, in order to avoid conflicts or manual
-  # intervention during rollout, we must keep this statement here and never
-  # re-use the name again. Ugly, but neccessary.
-  spawn-fcgi::pool {"tracd":
-    ensure => absent,
-    require => Exec['tracd_kludge'],
-  }
-
-  # Unfortunately, the spawn-fcgi module is not capable of stopping the
-  # processes of pools that are changed to absent - simply because it removes
-  # the configuration file and the subsequent reload or restart does not
-  # recognize the pool any more. Thus, we have to ensure that the service is
-  # stopped before:
-  exec { 'tracd_kludge':
-    command => 'service spawn-fcgi stop',
-    onlyif => 'service spawn-fcgi status',
-    path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-    notify => Service['spawn-fcgi'],
-  }
-
-  # Pretty similar to the "tracd" pool issue above: The trac-admin initenv
-  # command would fail for environment-issues after creation of the directory
-  # structure, when it comes to the database setup (which already exists),
-  # if we do not handle the existing resources manually..
-  exec { 'trac_env_issues_kludge':
-    command => 'ln -s environment /home/trac/environment-issues',
-    before => Exec['trac_env_issues'],
-    path => "/usr/bin:/bin",
-    user => trac,
-    onlyif => 'test -d /home/trac/environment && \
-      test ! -e /home/trac/environment-issues',
-    require => User['trac'],
-  }
-
   class {'nagios::client':
     server_address => 'monitoring.adblockplus.org'
   }
