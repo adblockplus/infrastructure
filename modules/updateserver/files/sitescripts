@@ -25,4 +25,5 @@ safariUpdateManifestPath=%(web_root)s/adblockplussafari/updates.plist
 safariUpdateManifest=extensions/template/updates.plist
 androidUpdateManifestPath=%(web_root)s/adblockplusandroid/updates.xml
 androidUpdateManifest=extensions/template/androidupdates.xml
+androidNewUpdateManifestPath=%(web_root)s/adblockplusandroid/update.json
 ieUpdateManifestPath=%(web_root)s/adblockplusie/update.json
