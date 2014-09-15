@@ -1,4 +1,5 @@
 VAGRANTFILE_API_VERSION = "2"
+system( "python ensure_dependencies.py" )
 
 def define_standard_vm(config, host_name, ip)
   config.vm.define host_name do |config|
