@@ -1,3 +1,6 @@
+[multiplexer]
+sitescripts.extensions.web.downloads =
+
 [extensions]
 sitescripts_var_root=/var/lib/sitescripts
 adblockplusfirefox_repository=%(sitescripts_var_root)s/adblockplus

@@ -123,7 +123,7 @@ class updateserver(
   }
 
   include spawn-fcgi
-  package {['python-flup', 'python-mysqldb']:}
+  package {'python-flup':}
 
   spawn-fcgi::pool {"multiplexer":
     ensure => present,
@@ -135,7 +135,6 @@ class updateserver(
     require => [
       Exec["fetch_sitescripts"],
       Package["python-flup"],
-      Package["python-mysqldb"],
     ],
   }
 }

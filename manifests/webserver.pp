@@ -19,6 +19,8 @@ node 'web1' {
     target => '/etc/sitescripts.ini',
     content => '[DEFAULT]
 mailer=/usr/sbin/sendmail
+[multiplexer]
+sitescripts.formmail.web.formmail =
 [formmail]
 template=formmail/template/eyeo.mail',
   }

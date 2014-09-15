@@ -36,7 +36,7 @@ class web::server(
 
   if $multiplexer_locations != undef {
     include spawn-fcgi
-    package {['python-flup', 'python-mysqldb']:}
+    package {'python-flup':}
 
     spawn-fcgi::pool {"multiplexer":
       ensure => present,
@@ -48,7 +48,6 @@ class web::server(
       require => [
         Exec["fetch_sitescripts"],
         Package["python-flup"],
-        Package["python-mysqldb"],
       ],
     }
   }
