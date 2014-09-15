@@ -1,0 +1,17 @@
+# VCS-specific root URLs for the repositories
+_root = hg:https://hg.adblockplus.org/ #git:https://github.com/adblockplus/
+# File to update this script from (optional)
+#_self = buildtools/ensure_dependencies.py
+# Check out elemhidehelper repository into extensions/elemhidehelper directory
+# at tag "1.2".
+modules/concat = infrastructure-puppet-concat tip
+modules/postgresql = infrastructure-puppet-postgresql tip
+modules/spawn-fcgi = infrastructure-puppet-spawn-fcgi tip
+modules/apt = infrastructure-puppetlabs-apt tip
+modules/firewall = infrastructure-puppetlabs-firewall tip
+modules/mysql = infrastructure-puppetlabs-mysql tip
+modules/stdlib = infrastructure-puppetlabs-stdlib tip
+
+# Check out buildtools repository into buildtools directory at VCS-specific
+# revision IDs.
+#buildtools = buildtools hg:tip git:tip
