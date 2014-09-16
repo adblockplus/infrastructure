@@ -12,9 +12,9 @@ class base {
 
   Exec['apt_update'] -> Package <| |>
 
-  include private::users, postfix
+  include private::users, postfix, ssh
 
-  package {['mercurial', 'vim', 'emacs']: ensure => present}
+  package {['mercurial', 'vim', 'emacs', 'debian-goodies']: ensure => present}
 
   file {'/etc/timezone':
     ensure => file,

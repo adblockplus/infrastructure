@@ -38,42 +38,13 @@ class filterserver($is_default = false) {
     owner => rsync
   }
 
-  file {'/etc/nginx/sites-available/inc.easylist-downloads':
-    ensure => absent,
-  }
-
-  file {'/etc/nginx/sites-available/inc.easylist-downloads-txt':
-    ensure => absent
-  }
-
-  file {'/etc/nginx/sites-available/inc.easylist-downloads-tpl':
-    ensure => absent
-  }
-
-  file {'/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.key':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
-    source => 'puppet:///modules/private/easylist-downloads.adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/sites-available/easylist-downloads.adblockplus.org_sslcert.pem':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/easylist-downloads.adblockplus.org_sslcert.pem'
-  }
-
   nginx::hostconfig{'easylist-downloads.adblockplus.org':
-    content => template('filterserver/easylist-downloads.adblockplus.org.erb'),
-    enabled => true
-  }
-
-  file {'/etc/logrotate.d/nginx_easylist-downloads.adblockplus.org':
-    ensure => file,
-    require => Nginx::Hostconfig['easylist-downloads.adblockplus.org'],
-    source => 'puppet:///modules/filterserver/logrotate'
+    alt_names => 'easylist-msie.adblockplus.org',
+    source => 'puppet:///modules/filterserver/site.conf',
+    is_default => $is_default,
+    certificate => 'easylist-downloads.adblockplus.org_sslcert.pem',
+    private_key => 'easylist-downloads.adblockplus.org_sslcert.key',
+    log => 'access_log_easylist_downloads'
   }
 
   file {'/home/rsync/.ssh':

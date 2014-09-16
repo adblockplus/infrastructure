@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+
+import subprocess
+import sys
+import os
+import re
+from datetime import datetime, timedelta
+
+if len(sys.argv) > 1:
+  yearmonth = sys.argv[1]
+  if yearmonth == 'prevmonth':
+    now = datetime.now()
+    yearmonth = (now - timedelta(days=now.day)).strftime('%Y%m')
+  year, month = re.search(r'^(\d{4})(\d{2})$', yearmonth).groups()
+  dirtemplate = os.path.join('/var/www/awstats/archive/%s', yearmonth)
+  additional_params = ['-month=%s' % month, '-year=%s' % year]
+  day = None
+else:
+  dirtemplate = '/var/www/awstats/%s'
+  additional_params = []
+
+  yesterday = datetime.now() - timedelta(days=1)
+  day = yesterday.strftime('%Y%m%d')
+  daily_params = ['-day=%i' % yesterday.day,
+    '-month=%i' % yesterday.month,
+    '-year=%i' % yesterday.year]
+
+def build_pages(site, dir, databasebreak):
+  if not os.path.exists(dir):
+    os.mkdir(dir, 0755)
+
+  datadir = {
+    'month': '/var/www/awstatsdata',
+    'day': '/var/www/awstatsdatadaily',
+  }[databasebreak]
+
+  additional = daily_params if databasebreak == 'day' else additional_params
+
+  subprocess.check_output([
+    '/usr/share/awstats/tools/awstats_buildstaticpages.pl',
+    '-configdir=/var/www/awstatsconf',
+    '-config=%s' % site,
+    '-databasebreak=%s' % databasebreak,
+    '-dir=%s' % dir
+  ] + additional, env={'AWSTATSDATA': datadir})
+
+  index = os.path.join(dir, 'index.html')
+  if not os.path.exists(index):
+    os.symlink(os.path.join(dir, 'awstats.%s.html' % site), index)

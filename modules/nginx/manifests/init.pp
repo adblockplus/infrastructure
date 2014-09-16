@@ -4,8 +4,6 @@ class nginx (
     $ssl_session_cache =  $nginx::params::ssl_session_cache
   ) inherits nginx::params {
 
-  include apt
-
   apt::source {'nginx':
     location => "http://nginx.org/packages/ubuntu",
     repos => "nginx",
@@ -20,7 +18,7 @@ class nginx (
   }
 
   package {'nginx':
-    ensure => '1.4.6-1~precise',
+    ensure => '1.6.1-1~precise',
     require => Apt::Source['nginx']
   }
 
@@ -46,35 +44,73 @@ class nginx (
     require => Package['nginx']
   }
 
-  file {'/etc/nginx/sites-available/default':
-    ensure => absent,
-    require => Package['nginx']
-  }
+  define hostconfig (
+      $domain = $title,
+      $alt_names = [],
+      $log,
+      $is_default = false,
+      $source = undef,
+      $content = undef,
+      $global_config = undef,
+      $certificate = undef,
+      $private_key = undef,
+      $enabled = true) {
+    file {"/etc/nginx/sites-available/${domain}":
+      ensure  => file,
+      content => template('nginx/site.erb'),
+      require => Package['nginx'],
+      notify => Service['nginx'],
+    }
 
-  define hostconfig ($file = $title, $source = undef, $content = undef, $enabled = false) {
-    if $content != undef {
-      file {"/etc/nginx/sites-available/${file}":
-        ensure  => file,
-        content => $content,
-        require => Package['nginx'],
-        notify => Service['nginx'],
+    if $certificate and $private_key {
+      if !defined(File["/etc/nginx/${certificate}"]) {
+        file {"/etc/nginx/${certificate}":
+          ensure => file,
+          mode => 0400,
+          notify => Service['nginx'],
+          before => File["/etc/nginx/sites-available/${domain}"],
+          require => Package['nginx'],
+          source => "puppet:///modules/private/${certificate}"
+        }
+      }
+
+      if !defined(File["/etc/nginx/${private_key}"]) {
+        file {"/etc/nginx/${private_key}":
+          ensure => file,
+          mode => 0400,
+          notify => Service['nginx'],
+          before => File["/etc/nginx/sites-available/${domain}"],
+          require => Package['nginx'],
+          source => "puppet:///modules/private/${private_key}"
+        }
+      }
+
+      if !defined(File["/etc/nginx/sites-available/${certificate}"]) {
+        file {"/etc/nginx/sites-available/${certificate}":
+          ensure => absent
+        }
+      }
+
+      if !defined(File["/etc/nginx/sites-available/${private_key}"]) {
+        file {"/etc/nginx/sites-available/${private_key}":
+          ensure => absent
+        }
       }
     }
-    else {
-      file {"/etc/nginx/sites-available/${file}":
-        ensure  => file,
-        source => $source,
-        require => Package['nginx'],
-        notify => Service['nginx'],
-      }
-    }
+
     if $enabled == true {
-      file {"/etc/nginx/sites-enabled/${file}":
+      file {"/etc/nginx/sites-enabled/${domain}":
         ensure  => link,
-        require => File["/etc/nginx/sites-available/${file}"],
-        target => "/etc/nginx/sites-available/${file}",
+        require => File["/etc/nginx/sites-available/${domain}"],
+        target => "/etc/nginx/sites-available/${domain}",
         notify => Service['nginx']
       }
+    }
+
+    file {"/etc/logrotate.d/nginx_$domain":
+      ensure => file,
+      require => File["/etc/nginx/sites-available/${domain}"],
+      content => template('nginx/logrotate.erb')
     }
   }
 

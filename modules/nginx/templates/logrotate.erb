@@ -1,0 +1,11 @@
+/var/log/nginx/<%= log %> {
+  daily
+  rotate 30
+  compress
+  missingok
+  nodateext
+  sharedscripts
+  postrotate
+    [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
+  endscript
+}

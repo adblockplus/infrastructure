@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+import subprocess
+
+def process_logs(site, databasebreak):
+  datadir = {
+    'month': '/var/www/awstatsdata',
+    'day': '/var/www/awstatsdatadaily',
+  }[databasebreak]
+
+  subprocess.check_output([
+    '/usr/lib/cgi-bin/awstats.pl',
+    '-configdir=/var/www/awstatsconf',
+    '-config=%s' % site,
+    '-databasebreak=%s' % databasebreak,
+    '-update'
+  ], env={'AWSTATSDATA': datadir})

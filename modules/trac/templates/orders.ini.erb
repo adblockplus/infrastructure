@@ -1,0 +1,214 @@
+# -*- coding: utf-8 -*-
+
+[inherit]
+file = /home/trac/trac.ini
+
+[header_logo]
+alt = <%= @description %>
+height = 38
+link = /orders
+src = logo.png
+width = 124
+
+[notification]
+smtp_from = noreply@eyeo.com
+smtp_from_name = <%= @description %>
+
+[project]
+descr = <%= @description %>
+name = <%= @description %>
+url = https://issues.adblockplus.org/orders
+
+[ticket-workflow]
+leave = * -> *
+leave.default = 1
+leave.operations = leave_status
+reassign = * -> *
+reassign.operations = set_owner
+reopen = closed -> reopened
+reopen.operations = del_resolution
+reopen.permissions = TICKET_CREATE
+resolve = * -> closed
+resolve.operations = set_resolution
+resolve.permissions = TICKET_ADMIN
+accepted = new,reopened -> accepted
+accepted.permissions = TICKET_ACCEPT
+ordered = problem,accepted -> ordered
+ordered.permissions = TICKET_ADMIN
+received = waiting for payment,problem,ordered -> received
+received.permissions = TICKET_ADMIN
+handedout = problem,received -> handedout
+handedout.permissions = TICKET_ADMIN
+problem = * -> problem
+problem.permissions = TICKET_ADMIN
+waiting for payment = ordered,received,handedout -> waiting for payment
+waiting for payment.permissions = TICKET_ADMIN
+
+[trac]
+auth_cookie_lifetime = 0
+auth_cookie_path = /
+authz_file =
+authz_module_name =
+auto_preview_timeout = 2.0
+auto_reload = False
+backup_dir = db
+base_url = https://issues.adblockplus.org/orders
+check_auth_ip = false
+database = mysql://trac:<%= @database_password %>@localhost:3306/<%= @database %>
+debug_sql = False
+default_charset = utf-8
+default_dateinfo_format = relative
+default_handler = QueryModule
+genshi_cache_size = 128
+htdocs_location =
+ignore_auth_case = false
+jquery_location =
+jquery_ui_location =
+jquery_ui_theme_location =
+mainnav = tickets, newticket, timeline, browser, search
+metanav = login, logout, prefs, help, about
+mysqldump_path = mysqldump
+never_obfuscate_mailto = false
+permission_policies = BlackMagicTicketTweaks, DefaultPermissionPolicy, LegacyAttachmentPolicy
+permission_store = DefaultPermissionStore
+pg_dump_path = pg_dump
+repository_dir =
+repository_sync_per_request =
+repository_type = svn
+resizable_textareas = true
+secure_cookies = False
+show_email_addresses = true
+show_ip_addresses = false
+timeout = 20
+use_base_url_for_redirect = False
+permission_policies = PrivateTicketsPolicy, DefaultPermissionPolicy, LegacyAttachmentPolicy
+
+[components]
+blackmagic.* = enabled
+privatetickets.* = enabled
+acct_mgr.admin.* = enabled
+acct_mgr.api.* = enabled
+acct_mgr.db.sessionstore = enabled
+acct_mgr.htfile.* = disabled
+acct_mgr.http.* = disabled
+acct_mgr.notification.* = enabled
+acct_mgr.pwhash.htdigesthashmethod = enabled
+acct_mgr.pwhash.htpasswdhashmethod = disabled
+acct_mgr.register.* = disabled
+acct_mgr.svnserve.svnservepasswordstore = disabled
+acct_mgr.web_ui.* = enabled
+acct_mgr.notification.accountchangelistener = enabled
+acct_mgr.pwhash.htdigesthashmethod = enabled
+acct_mgr.web_ui.accountmodule = enabled
+acct_mgr.web_ui.resetpwstore = enabled
+acct_mgr.guard.accountguard = enabled
+acct_mgr.notification.AccountChangeListener = enabled
+autocompleteusers.* = enabled
+trac.about.AboutModule = disabled
+trac.admin.web_ui.BasicsAdminPanel = disabled
+trac.admin.web_ui.LoggingAdminPanel = disabled
+trac.admin.web_ui.PluginAdminPanel = disabled
+nevernotifyupdaterplugin.* = enabled
+themeengine.* = enabled
+themeengine.admin.CustomThemeAdminModule = disabled
+tractags.* = enabled
+tickettemplate.* = disabled
+
+[mainnav]
+tickets.label = View orders
+Timeline.label = Order history
+newticket.label = New order request
+roadmap = false
+
+[account-manager]
+hash_method = HtDigestHashMethod
+db_htdigest_realm = TracDB
+password_store = SessionStore
+reset_password = false
+login_attempt_max_count = 2
+user_lock_time = 15
+user_lock_max_time = 0
+user_lock_time_progression = 2
+username_regexp = .
+verify_email = false
+
+[blackmagic]
+permissions = TICKET_ACCEPT,TICKET_MANUAL_PAYMENT_DONE,TICKET_PAYMENT_TYPE,TICKET_ORDER_URL,TICKET_TRACKING_URL,TICKET_MANUAL_PAYMENT_REQUIRED,TICKET_INVOICE_RECEIVED
+tweaks = id,cc,keywords,owner,summary,description,reason,price,product_url,order_url,tracking_url,payment_type,manual_payment_required,amount,manual_payment_done,invoice_received
+gray_disabled = #cccccc
+id.label = Order
+owner.label = Assignee
+owner.tip = Please select an appropriate assignee.
+summary.tip = A one-sentence abstract of your order request.
+cc.tip = Makes the request visible to that user and dispatches an email to the entered user/email adress with changes to the request, every time it was changed.
+description.label = Product specification
+description.tip = Please enter the detailed specifications of the product you want to request.
+reason.tip = Please give a short reasoning why you need the product.
+product_url.tip = URL to the product, if available online.
+price.tip = Please insert the total cost of the whole order including VAT and shipping cost.
+currency.tip = Please insert the currency name or sign of the order's price value.
+amount.tip = How many pieces do you want to request?
+manual_payment_done.permission = TICKET_MANUAL_PAYMENT_DONE
+payment_type.permission = TICKET_PAYMENT_TYPE
+order_url.permission = TICKET_ORDER_URL
+tracking_url.permission = TICKET_TRACKING_URL
+manual_payment_required.permission = TICKET_MANUAL_PAYMENT_REQUIRED
+invoice_received.permission = TICKET_INVOICE_RECEIVED
+
+[ticket-custom]
+manual_payment_required = checkbox
+manual_payment_required.label = Manual payment required
+manual_payment_required.value = 0
+manual_payment_required.order = 9
+manual_payment_done = checkbox
+manual_payment_done.label = Manual payment done
+manual_payment_done.value = 0
+manual_payment_done.order = 10
+reason = textarea
+reason.rows = 5
+reason.cols = 82
+reason.label = Reason
+reason.format = wiki
+reason.order = 1
+price = text
+price.label = Total spendings
+price.format = plain
+price.order = 3
+currency = text
+currency.label = Currency
+currency.format = plain
+currency.order = 4
+product_url = textarea
+product_url.format = wiki
+product_url.label = Product URL
+product_url.order = 2
+product_url.cols = 82
+product_url.rows = 1
+order_url = textarea
+order_url.format = wiki
+order_url.label = Order URL
+order_url.order = 7
+order_url.cols = 82
+order_url.rows = 1
+tracking_url = textarea
+tracking_url.format = wiki
+tracking_url.label = Tracking URL
+tracking_url.order = 8
+tracking_url.cols = 82
+tracking_url.rows = 1
+payment_type = select
+payment_type.label = Payment type
+payment_type.order = 6
+payment_type.options = Please select|Direct Debit|Credit Card|Money transfer|Cash
+payment_type.value = Please select
+invoice_received = checkbox
+invoice_received.label = Invoice received
+invoice_received.order = 11
+invoice_received.value = 0
+amount = text
+amount.label = Amount
+amount.format = plain
+amount.order = 5
+
+[privatetickets]
+group_blacklist = anonymous, authenticated

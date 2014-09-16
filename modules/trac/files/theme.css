@@ -1,0 +1,5 @@
+label[for^="field-"]:not([for="field-review_url"]) > span[style="color:#cccccc"],
+[id^="field-"][disabled]:not([id="field-review_url"])
+{
+  display: none;
+}

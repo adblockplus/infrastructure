@@ -55,31 +55,11 @@ class notificationserver($is_default = false) {
     mode => 0644,
   }
 
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['notification.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['notification.adblockplus.org'],
-    mode => 0400,
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
-  }
-
   nginx::hostconfig{'notification.adblockplus.org':
-    content => template('notificationserver/notification.adblockplus.org.erb'),
-    enabled => true
-  }
-
-  file {'/etc/logrotate.d/nginx_notification.adblockplus.org':
-    ensure => file,
-    mode => 0444,
-    require => Nginx::Hostconfig['notification.adblockplus.org'],
-    source => 'puppet:///modules/notificationserver/logrotate'
+    source => 'puppet:///modules/notificationserver/site.conf',
+    is_default => $is_default,
+    certificate => 'easylist-downloads.adblockplus.org_sslcert.pem',
+    private_key => 'easylist-downloads.adblockplus.org_sslcert.key',
+    log => 'access_log_notification'
   }
 }

@@ -1,8 +1,10 @@
 node 'web1' {
-  include base
+  include base, statsclient
 
   class {'web::server':
     vhost => 'eyeo.com',
+    certificate => 'eyeo.com_sslcert.pem',
+    private_key => 'eyeo.com_sslcert.key',
     is_default => true,
     aliases => ['www.eyeo.com', 'eyeo.de', 'www.eyeo.de'],
     custom_config => '

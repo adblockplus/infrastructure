@@ -1,4 +1,12 @@
-class nagios::server($vhost, $htpasswd_source, $admins) {
+class nagios::server(
+    $domain,
+    $certificate,
+    $private_key,
+    $is_default=false,
+    $htpasswd_source,
+    $admins
+  ) {
+
   File {
     owner  => 'root',
     group  => 'root',
@@ -12,40 +20,19 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
     ensure => present
   }
 
-  file {'/etc/nginx/sites-enabled/default':
-    ensure => absent,
-    require => Package['nginx']
-  }
-
-  file {"/etc/nginx/sites-available/${vhost}":
-    content => template('nagios/site.erb'),
-    require => Package['nginx'],
-    notify => Service['nginx']
-  }
-
-  file {"/etc/nginx/sites-enabled/${vhost}":
-    ensure => link,
-    target => "/etc/nginx/sites-available/${vhost}",
-    notify => Service['nginx']
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
-    ensure => file,
-    require => Package['nginx'],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
-    ensure => file,
-    mode => 0400,
-    require => Package['nginx'],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
+  nginx::hostconfig{$domain:
+    source => 'puppet:///modules/nagios/site.conf',
+    is_default => $is_default,
+    certificate => $certificate,
+    private_key => $private_key,
+    log => 'access_log_monitoring'
   }
 
   spawn-fcgi::php-pool {'global':
     ensure => present,
     socket => '/tmp/php-fastcgi.sock',
-    children => '3'
+    children => '3',
+    require => Package['php5-cgi']
   }
 
   service {'nagios3':
@@ -104,7 +91,9 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
          '/etc/nagios3/conf.d/hostgroups_nagios2.cfg',
          '/etc/nagios3/conf.d/localhost_nagios2.cfg',
          '/etc/nagios3/conf.d/services_nagios2.cfg']:
-    ensure => absent
+    ensure => absent,
+    require => Package['nagios3'],
+    before => Service['nagios3']
   }
 
   resources {['nagios_contact', 'nagios_contactgroup', 'nagios_host',
@@ -114,31 +103,37 @@ class nagios::server($vhost, $htpasswd_source, $admins) {
 
   Nagios_contact <| |> {
     target => '/etc/nagios3/conf.d/contacts.cfg',
+    require => Package['nagios3'],
     notify => [File['/etc/nagios3/conf.d/contacts.cfg'], Service['nagios3']]
   }
 
   Nagios_contactgroup <| |> {
     target => '/etc/nagios3/conf.d/contactgroups.cfg',
+    require => Package['nagios3'],
     notify => [File['/etc/nagios3/conf.d/contactgroups.cfg'], Service['nagios3']]
   }
 
   Nagios_command <| |> {
     target => '/etc/nagios3/conf.d/commands.cfg',
-    notify => [File['/etc/nagios3/conf.d/commands.cfg'], Service['nagios3']],
+    require => Package['nagios3'],
+    notify => [File['/etc/nagios3/conf.d/commands.cfg'], Service['nagios3']]
   }
 
   Nagios_host <| |> {
     target => '/etc/nagios3/conf.d/hosts.cfg',
+    require => Package['nagios3'],
     notify => [File['/etc/nagios3/conf.d/hosts.cfg'], Service['nagios3']]
   }
 
   Nagios_hostgroup <| |> {
     target => '/etc/nagios3/conf.d/hostgroups.cfg',
+    require => Package['nagios3'],
     notify => [File['/etc/nagios3/conf.d/hostgroups.cfg'], Service['nagios3']]
   }
 
   Nagios_service <| |> {
     target => '/etc/nagios3/conf.d/services.cfg',
+    require => Package['nagios3'],
     notify => [File['/etc/nagios3/conf.d/services.cfg'], Service['nagios3']]
   }
 

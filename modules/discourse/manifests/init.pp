@@ -1,4 +1,10 @@
-class discourse inherits private::discourse {
+class discourse(
+    $domain,
+    $certificate,
+    $private_key,
+    $is_default = false
+  ) inherits private::discourse {
+
   include postgresql::server
 
   postgresql::database {'discourse':}
@@ -11,7 +17,15 @@ class discourse inherits private::discourse {
     require => Postgresql::Database['discourse']
   }
 
-  package {['postgresql-contrib', 'redis-server', 'ruby1.9.1']:
+  $basic_dependencies = ['postgresql-contrib', 'redis-server', 'ruby1.9.1',
+      'libjemalloc1', 'curl']
+  $gem_dependencies = ['git', 'build-essential', 'ruby1.9.1-dev', 'libxml2-dev',
+      'libxslt-dev', 'libpq-dev']
+  $image_optim_dependencies = ['advancecomp', 'gifsicle', 'jhead', 'jpegoptim',
+      'libjpeg-progs', 'optipng', 'pngcrush']
+  $image_sorcery_dependencies = 'imagemagick'
+
+  package {[$basic_dependencies, $gem_dependencies, $image_optim_dependencies, $image_sorcery_dependencies]:
     ensure => present
   }
 
@@ -25,17 +39,20 @@ class discourse inherits private::discourse {
   exec {'update-alternatives --set gem "/usr/bin/gem1.9.1"':
     unless => 'test $(readlink "/etc/alternatives/gem") == "/usr/bin/gem1.9.1"',
     require => Package['ruby1.9.1'],
-    before => Package['bundler']
+    before => Exec['update_gem']
+  }
+
+  exec {'update_gem':
+    command => '/usr/bin/gem update --system 1.8.25',
+    unless => 'test $(gem -v) == "1.8.25"',
+    environment => 'REALLY_GEM_UPDATE_SYSTEM=1',
   }
 
   package {'bundler':
     ensure => present,
-    provider => gem
+    provider => gem,
+    require => Exec['update_gem']
   }
-
-  $gem_dependencies = ['git', 'build-essential', 'ruby1.9.1-dev', 'libxml2-dev',
-                       'libxslt-dev', 'libpq-dev']
-  package {$gem_dependencies: ensure => present}
 
   file {'/opt/discourse':
     ensure => directory,
@@ -44,21 +61,20 @@ class discourse inherits private::discourse {
     group => www-data
   }
 
-  file {'/opt/discourse/config/database.yml':
-    mode => 600,
+  file {['/opt/discourse/tmp', '/opt/discourse/tmp/pids']:
+    ensure => directory,
+    mode => 755,
     owner => discourse,
     group => www-data,
-    content => template('discourse/database.yml.erb'),
-    notify => Service['discourse-thin'],
     require => Exec['fetch-discourse']
   }
 
-  file {'/opt/discourse/config/redis.yml':
+  file {'/opt/discourse/config/discourse.conf':
     mode => 600,
     owner => discourse,
     group => www-data,
-    source => 'puppet:///modules/discourse/redis.yml',
-    notify => Service['discourse-thin'],
+    content => template('discourse/discourse.conf.erb'),
+    notify => Service['discourse'],
     require => Exec['fetch-discourse']
   }
 
@@ -93,22 +109,22 @@ class discourse inherits private::discourse {
     user => discourse,
     group => www-data,
     require => [Package['mercurial'], File['/opt/discourse']],
+    notify => Exec['/usr/local/bin/init-discourse'],
     onlyif => "test ! -d /opt/discourse/.hg"
   }
 
   exec {'/usr/local/bin/init-discourse':
     subscribe => File['/usr/local/bin/init-discourse'],
     refreshonly => true,
-    environment => ["DISCOURSE_SECRET=${secret}", "AIRBRAKE_KEY=${airbrake_key}"],
+    environment => ["AIRBRAKE_KEY=${airbrake_key}"],
     user => discourse,
     group => www-data,
     timeout => 0,
     logoutput => true,
-    require => [Package['bundler', 'postgresql-contrib', $gem_dependencies],
+    require => [Package['bundler', $gem_dependencies],
                 User['discourse'], File['/etc/sudoers.d/discourse'],
                 Exec['fetch-discourse'],
-                File['/opt/discourse/config/database.yml'],
-                File['/opt/discourse/config/redis.yml'],
+                File['/opt/discourse/config/discourse.conf'],
                 Postgresql::Role['discourse']]
   }
 
@@ -132,6 +148,12 @@ class discourse inherits private::discourse {
     ensure => present,
     type => 1,
     value => 'admins@adblockplus.org'
+  }
+
+  discourse::sitesetting {'site_contact_username':
+    ensure => present,
+    type => 1,
+    value => 'system'
   }
 
   discourse::sitesetting {'must_approve_users':
@@ -158,7 +180,7 @@ class discourse inherits private::discourse {
     value => 'adblockplus.org|eyeo.com'
   }
 
-  discourse::sitesetting {'use_ssl':
+  discourse::sitesetting {'use_https':
     ensure => present,
     type => 5,
     value => 't'
@@ -224,79 +246,39 @@ class discourse inherits private::discourse {
     value => 'f'
   }
 
-  Discourse::Postactiontype <| |> {
-    require => Exec['/usr/local/bin/init-discourse']
+  discourse::sitesetting {'allow_user_locale':
+    ensure => present,
+    type => 5,
+    value => 't'
   }
 
-  discourse::postactiontype {'bookmark':
+  discourse::sitesetting {'white_listed_spam_host_domains':
     ensure => present,
-    id => 1,
-    position => 1
+    type => 1,
+    value => 'adblockplus.org,eyeo.com'
   }
 
-  discourse::postactiontype {'like':
+  discourse::sitesetting {'max_mentions_per_post':
     ensure => present,
-    id => 2,
-    position => 2,
-    icon => 'heart'
-  }
-
-  discourse::postactiontype {'off_topic':
-    ensure => present,
-    id => 3,
-    position => 3,
-    is_flag => true
-  }
-
-  discourse::postactiontype {'inappropriate':
-    ensure => present,
-    id => 4,
-    position => 4,
-    is_flag => true
-  }
-
-  discourse::postactiontype {'vote':
-    ensure => present,
-    position => 5,
-    id => 5
-  }
-
-  discourse::postactiontype {'custom_flag':
-    ensure => present,
-    id => 6,
-    position => 7,
-    is_flag => true
-  }
-
-  discourse::postactiontype {'spam':
-    ensure => present,
-    id => 7,
-    position => 6,
-    is_flag => true
-  }
-
-  discourse::admin {$admins:
-    ensure => present,
-    require => Exec['/usr/local/bin/init-discourse']
+    type => 3,
+    value => '50',
   }
 
   Discourse::Customservice <| |> {
     user => 'discourse',
     workdir => '/opt/discourse',
-    env => ['GEM_HOME=~discourse/.gems', 'RAILS_ENV=production', 'RUBY_GC_MALLOC_LIMIT=90000000'],
+    env => ['RAILS_ENV=production', 'RUBY_GC_MALLOC_LIMIT=90000000',
+      'UNICORN_WORKERS=2', 'LD_PRELOAD=/usr/lib/libjemalloc.so.1'],
     require => Exec['/usr/local/bin/init-discourse']
   }
 
-  discourse::customservice {'discourse-thin':
-    command => 'bundle exec thin -S /tmp/discourse-thin.sock start'
+  discourse::customservice {'discourse':
+    command => 'bundle exec config/unicorn_launcher -c config/unicorn.conf.rb',
+    require => File['/opt/discourse/tmp/pids'],
   }
 
   discourse::customservice {'sidekiq':
     command => 'bundle exec sidekiq'
-  }
-
-  discourse::customservice {'clockwork':
-    command => 'bundle exec clockwork config/clock.rb'
   }
 
   class {'nginx':
@@ -304,31 +286,15 @@ class discourse inherits private::discourse {
     worker_connections => 500
   }
 
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.key':
-    ensure => file,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['intraforum.adblockplus.org'],
-    require => Package['nginx'],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.key'
-  }
-
-  file {'/etc/nginx/sites-available/adblockplus.org_sslcert.pem':
-    ensure => file,
-    mode => 0400,
-    notify => Service['nginx'],
-    before => Nginx::Hostconfig['intraforum.adblockplus.org'],
-    require => Package['nginx'],
-    source => 'puppet:///modules/private/adblockplus.org_sslcert.pem'
-  }
-
-  nginx::hostconfig{'intraforum.adblockplus.org':
-    source => 'puppet:///modules/discourse/intraforum.adblockplus.org',
-    enabled => true
-  }
-
-  file {'/etc/logrotate.d/nginx_intraforum.adblockplus.org':
-    ensure => file,
-    require => Nginx::Hostconfig['intraforum.adblockplus.org'],
-    source => 'puppet:///modules/discourse/logrotate'
+  nginx::hostconfig{$domain:
+    source => 'puppet:///modules/discourse/site.conf',
+    global_config => '
+      upstream discourse {
+        server localhost:3000;
+      }',
+    is_default => $is_default,
+    certificate => $certificate,
+    private_key => $private_key,
+    log => 'access_log_intraforum'
   }
 }

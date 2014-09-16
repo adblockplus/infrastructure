@@ -1,4 +1,9 @@
-class rietveld($domain) inherits private::rietveld {
+class rietveld(
+    $domain,
+    $certificate,
+    $private_key,
+    $is_default=false
+  ) inherits private::rietveld {
 
   include nginx
   $django_home = '/home/rietveld/django-gae2django'
@@ -9,8 +14,11 @@ class rietveld($domain) inherits private::rietveld {
   }
 
   nginx::hostconfig {$domain:
-    content => template('rietveld/site.erb'),
-    enabled => true
+    source => 'puppet:///modules/rietveld/site.conf',
+    is_default => $is_default,
+    certificate => $certificate,
+    private_key => $private_key,
+    log => 'access_log_codereview'
   }
 
   package {['python-django', 'make', 'patch', 'gunicorn']: ensure => present}
@@ -77,4 +85,4 @@ class rietveld($domain) inherits private::rietveld {
     cwd => "${rietveld_home}",
     require => Exec['install_rietveld'],
   }
-} 
+}
