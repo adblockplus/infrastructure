@@ -1,4 +1,12 @@
 VAGRANTFILE_API_VERSION = "2"
+REPOSITORY_DIR = File.dirname(__FILE__)
+DEPENDENCY_SCRIPT = File.join(REPOSITORY_DIR, "ensure_dependencies.py")
+
+if !system("python", DEPENDENCY_SCRIPT)
+  error = Vagrant::Errors::VagrantError
+  error.error_message("Failed to ensure dependencies being up-to-date!")
+  raise error
+end
 
 def define_standard_vm(config, host_name, ip)
   config.vm.define host_name do |config|
