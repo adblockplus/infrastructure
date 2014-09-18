@@ -1,1 +1,1 @@
-%sudo ALL=(ALL) NOPASSWD:/usr/bin/hg pull -qu -R /etc/puppet/infrastructure,/usr/bin/hg pull -qu -R /etc/puppet/infrastructure/modules/private
+%sudo ALL=(ALL) NOPASSWD:/usr/bin/hg pull -qu -R /etc/puppet/infrastructure,/usr/bin/hg pull -qu -R /etc/puppet/infrastructure/modules/private,/etc/puppet/infrastructure/ensure_dependencies.py /etc/puppet/infrastructure

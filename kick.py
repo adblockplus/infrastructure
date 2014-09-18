@@ -49,6 +49,7 @@ def updateMaster(user):
   remoteCommand = ' && '.join([
     'sudo hg pull -qu -R /etc/puppet/infrastructure',
     'sudo hg pull -qu -R /etc/puppet/infrastructure/modules/private',
+    'sudo /etc/puppet/infrastructure/ensure_dependencies.py /etc/puppet/infrastructure',
   ])
   runCommand(user, "puppetmaster.adblockplus.org", remoteCommand)
 
