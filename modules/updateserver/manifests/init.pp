@@ -121,4 +121,20 @@ class updateserver(
     minute => '*/10',
     require => Exec['update_update_manifests']
   }
+
+  include spawn-fcgi
+  package {'python-flup':}
+
+  spawn-fcgi::pool {"multiplexer":
+    ensure => present,
+    fcgi_app => '/opt/sitescripts/multiplexer.fcgi',
+    socket => '/tmp/multiplexer-fastcgi.sock',
+    mode => '0666',
+    user => 'nginx',
+    children => 1,
+    require => [
+      Exec["fetch_sitescripts"],
+      Package["python-flup"],
+    ],
+  }
 }
