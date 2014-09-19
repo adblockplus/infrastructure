@@ -1,0 +1,21 @@
+language:
+  bash
+
+script:
+  - ln -s private-stub modules/private
+  - ./ensure_dependencies.py
+  - sudo hostname $HOSTNAME
+  - sudo apt-get -y install puppet
+  - sudo puppet apply --environment=development --detailed-exitcodes --verbose --debug --modulepath=./modules ./manifests/nodes.pp; test $? -eq 2
+
+env:
+  - HOSTNAME=filter1
+  - HOSTNAME=server4
+  - HOSTNAME=codereview1
+  - HOSTNAME=download1
+  - HOSTNAME=filtermaster1
+  - HOSTNAME=issues1
+  - HOSTNAME=stats1
+  - HOSTNAME=update1
+  - HOSTNAME=web1
+
