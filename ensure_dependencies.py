@@ -78,14 +78,14 @@ class Git():
     subprocess.check_call(["git", "clone", "--quiet", source, target])
 
   def get_revision_id(self, repo, rev="HEAD"):
-    command = ["git", "-C", repo, "rev-parse", "--revs-only", rev]
-    return subprocess.check_output(command).strip()
+    command = ["git", "rev-parse", "--revs-only", rev]
+    return subprocess.check_output(command, cwd=repo).strip()
 
   def pull(self, repo):
-    subprocess.check_call(["git", "-C", repo, "fetch", "--quiet", "--all", "--tags"])
+    subprocess.check_call(["git", "fetch", "--quiet", "--all", "--tags"], cwd=repo)
 
   def update(self, repo, rev):
-    subprocess.check_call(["git", "-C", repo, "checkout", "--quiet", rev])
+    subprocess.check_call(["git", "checkout", "--quiet", rev], cwd=repo)
 
 repo_types = {
   "hg": Mercurial(),
