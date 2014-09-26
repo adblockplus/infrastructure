@@ -2,8 +2,7 @@ language:
   bash
 
 script:
-  - ln -s private-stub modules/private
-  - ./ensure_dependencies.py
+  - make
   - sudo hostname $HOSTNAME
   - sudo apt-get -y install puppet
   - sudo puppet apply --environment=development --detailed-exitcodes --verbose --debug --modulepath=./modules ./manifests/nodes.pp; test $? -eq 2
