@@ -46,7 +46,7 @@ clean:
 # all submodules as well as the modules/private stub, if any.
 distclean: clean
 	$(MAKE) list-dependencies | while read module; do rm -rf "$$module"; done
-	test -L "modules/private" && rm -f "modules/private"
+	if [ -L "modules/private" ]; then rm "modules/private"; fi
 
 # -------------------------------------------------------------------------
 # Vagrant-specific utilities
