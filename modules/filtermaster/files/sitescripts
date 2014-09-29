@@ -12,6 +12,7 @@ ruadlist_repository=%(root)s/ruadlist
 listefr_repository=%(root)s/listefr
 exceptions_repository=%(root)s/exceptionrules
 easylistdutch_repository=%(root)s/easylistdutch
+adblockpolska_repository=%(root)s/adblockpolska
 facebookfilters_repository=%(root)s/facebookfilters
 youtubefilters_repository=%(root)s/youtubefilters
 antiadblockfilters_repository=%(root)s/antiadblockfilters
