@@ -104,6 +104,7 @@ class filtermaster {
                   'listefr',
                   'exceptionrules',
                   'easylistdutch',
+                  'adblockpolska',
                   'facebookfilters',
                   'youtubefilters',
                   'antiadblockfilters'
