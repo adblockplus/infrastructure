@@ -5,16 +5,16 @@ class discourse(
     $is_default = false
   ) inherits private::discourse {
 
-  include postgresql::server
+  class {"postgresql::server":}
 
-  postgresql::database {'discourse':}
+  postgresql::server::database {'discourse':}
 
-  postgresql::role {'discourse':
+  postgresql::server::role {'discourse':
     password_hash => $database_password,
     db => 'discourse',
     login => true,
     superuser => true,
-    require => Postgresql::Database['discourse']
+    require => Postgresql::Server::Database['discourse']
   }
 
   $basic_dependencies = ['postgresql-contrib', 'redis-server', 'ruby1.9.1',
@@ -125,7 +125,7 @@ class discourse(
                 User['discourse'], File['/etc/sudoers.d/discourse'],
                 Exec['fetch-discourse'],
                 File['/opt/discourse/config/discourse.conf'],
-                Postgresql::Role['discourse']]
+                Postgresql::Server::Role['discourse']]
   }
 
   Discourse::Sitesetting <| |> {

@@ -3,7 +3,7 @@ _root = hg:https://hg.adblockplus.org/ git:https://github.com/adblockplus/
 
 # VCS-specific references to submodule revisions
 modules/concat = infrastructure-puppet-concat hg:3c198eaf8394 git:6f4f617
-modules/postgresql = infrastructure-puppet-postgresql hg:9dd4535a8640 git:8f7e172
+modules/postgresql = infrastructure-puppet-postgresql hg:8c90d2297756 git:4.0.0
 modules/spawn-fcgi = infrastructure-puppet-spawn-fcgi hg:96cb4bd8d241 git:d23d5c8
 modules/apt = infrastructure-puppetlabs-apt hg:2ad7ae372ae8 git:7798599
 modules/firewall = infrastructure-puppetlabs-firewall hg:7005ec47f8a7 git:7b8ddb0
