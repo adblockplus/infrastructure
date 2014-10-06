@@ -4,10 +4,10 @@ define discourse::sitesetting(
   $type = 1,
   $ensure = 'present'
 ) {
-  # Attempt some escaping
-  $escaped_value = regsubst($value, '[\'\\]', '\\\1', 'G')
-  $escaped_setting = regsubst($setting, '[\'\\]', '\\\1', 'G')
-  $escaped_type = regsubst($type, '\D', '', 'G')
+
+  $escaped_value = postgresql_escape($value)
+  $escaped_setting = postgresql_escape($setting)
+  $escaped_type = postgresql_escape($type)
 
   case $ensure {
     default: {
