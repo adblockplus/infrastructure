@@ -44,12 +44,11 @@ def runInitCommands():
 
   callRailsCommand(['bundle', 'install', '--deployment', '--without', 'test', '--without', 'development'])
   initAirBrake()
+  callRailsCommand(['bundle', 'exec', 'rake', 'db:migrate'])
   callRailsCommand(['bundle', 'exec', 'rake', 'assets:precompile'])
 
   if os.path.exists(service_path):
     subprocess.check_call(['sudo', service_path, 'stop'])
-
-  callRailsCommand(['bundle', 'exec', 'rake', 'db:migrate'])
 
   if os.path.exists(service_path):
     subprocess.check_call(['sudo', service_path, 'start'])
