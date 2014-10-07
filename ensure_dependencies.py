@@ -87,10 +87,10 @@ class Git():
   def update(self, repo, rev):
     subprocess.check_call(["git", "checkout", "--quiet", rev], cwd=repo)
 
-repo_types = {
-  "hg": Mercurial(),
-  "git": Git(),
-}
+repo_types = OrderedDict((
+  ("hg", Mercurial()),
+  ("git", Git()),
+))
 
 def parse_spec(path, line):
   if "=" not in line:
