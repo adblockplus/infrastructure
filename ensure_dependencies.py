@@ -25,7 +25,9 @@ import errno
 import logging
 import subprocess
 import urlparse
+
 from collections import OrderedDict
+from ConfigParser import RawConfigParser
 
 USAGE = """
 A dependencies file should look like this:
@@ -67,6 +69,26 @@ class Mercurial():
   def update(self, repo, rev):
     subprocess.check_call(["hg", "update", "--repository", repo, "--quiet", "--check", "--rev", rev])
 
+  def ignore(self, target, repo):
+
+    if not self.istype(target):
+
+      config_path = os.path.join(repo, ".hg", "hgrc")
+      ignore_path = os.path.abspath(os.path.join(repo, ".hg", "dependencies"))
+
+      config = RawConfigParser()
+      config.read(config_path)
+
+      if not config.has_section("ui"):
+        config.add_section("ui")
+
+      config.set("ui", "ignore.dependencies", ignore_path)
+      with open(config_path, "w") as stream:
+        config.write(stream)
+
+      module = os.path.relpath(target, repo)
+      _ensure_line_exists(ignore_path, module)
+
 class Git():
   def istype(self, repodir):
     return os.path.exists(os.path.join(repodir, ".git"))
@@ -86,6 +108,11 @@ class Git():
 
   def update(self, repo, rev):
     subprocess.check_call(["git", "checkout", "--quiet", rev], cwd=repo)
+
+  def ignore(self, target, repo):
+    module = os.path.relpath(target, repo)
+    exclude_file = os.path.join(repo, ".git", "info", "exclude")
+    _ensure_line_exists(exclude_file, module)
 
 repo_types = OrderedDict((
   ("hg", Mercurial()),
@@ -174,6 +201,10 @@ def ensure_repo(parentrepo, target, roots, sourcename):
   logging.info("Cloning repository %s into %s" % (url, target))
   repo_types[type].clone(url, target)
 
+  for repo in repo_types.itervalues():
+    if repo.istype(parentrepo):
+      repo.ignore(target, parentrepo)
+
 def update_repo(target, revisions):
   type = get_repo_type(target)
   if type is None:
@@ -245,6 +276,16 @@ def resolve_deps(repodir, level=0, self_update=True, overrideroots=None, skipdep
         os.execv(sys.executable, [sys.executable, target] + sys.argv[1:])
       else:
         logging.warning("Cannot restart %s automatically, please rerun" % target)
+
+def _ensure_line_exists(path, pattern):
+  with open(path, 'a+') as f:
+    file_content = [l.strip() for l in f.readlines()]
+    if not pattern in file_content:
+      file_content.append(pattern)
+      f.seek(0, os.SEEK_SET)
+      f.truncate()
+      for l in file_content:
+        print >>f, l
 
 if __name__ == "__main__":
   logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
