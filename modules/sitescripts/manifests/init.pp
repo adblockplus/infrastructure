@@ -1,5 +1,6 @@
 class sitescripts (
-    $sitescriptsini_source = undef
+    $sitescriptsini_source = '',
+    $sitescriptsini_content = '',
   ){
 
   concat {'/etc/sitescripts.ini':
@@ -8,15 +9,22 @@ class sitescripts (
     group => root,
   }
 
-  define configfragment($source = $title)
+  define configfragment($content = '', $source = '')
   {
-    concat::fragment {$source:
-      target => '/etc/sitescripts.ini',
-      source => $source
+    concat::fragment {"/etc/sitescripts.ini#$title":
+      target  => '/etc/sitescripts.ini',
+      content => $content,
+      source  => "$source$content" ? {
+        ''     => $title,
+        default => $source,
+      }
     }
   }
 
-  configfragment {$sitescriptsini_source: }
+  configfragment {'/etc/sitescripts.ini':
+    content => $sitescriptsini_content,
+    source => $sitescriptsini_source,
+  }
 
   exec { "fetch_sitescripts":
     command => "hg clone https://hg.adblockplus.org/sitescripts /opt/sitescripts",
