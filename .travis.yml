@@ -1,6 +1,10 @@
 language:
   bash
 
+before_install:
+  - sudo apt-get -y update
+  - sudo apt-get -y upgrade
+
 script:
   - make
   - sudo hostname $HOSTNAME
