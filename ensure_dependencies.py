@@ -1,20 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# This file is part of the Adblock Plus build tools,
-# Copyright (C) 2006-2014 Eyeo GmbH
-#
-# Adblock Plus is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License version 3 as
-# published by the Free Software Foundation.
-#
-# Adblock Plus is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import sys
 import os
@@ -100,7 +89,7 @@ class Git():
     subprocess.check_call(["git", "clone", "--quiet", source, target])
 
   def get_revision_id(self, repo, rev="HEAD"):
-    command = ["git", "rev-parse", "--revs-only", rev]
+    command = ["git", "rev-parse", "--revs-only", rev + '^{commit}']
     return subprocess.check_output(command, cwd=repo).strip()
 
   def pull(self, repo):

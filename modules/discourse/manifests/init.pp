@@ -10,7 +10,7 @@ class discourse(
   postgresql::server::database {'discourse':}
 
   postgresql::server::role {'discourse':
-    password_hash => $database_password,
+    password_hash => postgresql_password('discourse', $database_password),
     db => 'discourse',
     login => true,
     superuser => true,
