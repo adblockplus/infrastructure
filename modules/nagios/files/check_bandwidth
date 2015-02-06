@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, re, subprocess, sys, socket, struct, fcntl
+import os, re, subprocess, sys, socket, struct, fcntl, time
 
 INTERVAL = 5
 
@@ -31,8 +31,13 @@ if __name__ == "__main__":
   crit = int(sys.argv[2])
 
   process = subprocess.Popen(
-    ["sudo", "tcpdump", "-q", "-s", "64", "-G", str(INTERVAL), "-W", "1", "-w", "-"],
+    ["sudo", "tcpdump", "-q", "-s", "64", "-W", "1", "-w", "-"],
     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  time.sleep(INTERVAL)
+  kill = subprocess.Popen(
+      ["sudo", "kill", "-TERM", str(process.pid)],
+      stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
   mac = getmacaddress()
 
   total = {"rx": 0, "tx": 0}
