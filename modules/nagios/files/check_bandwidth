@@ -31,12 +31,9 @@ if __name__ == "__main__":
   crit = int(sys.argv[2])
 
   process = subprocess.Popen(
-    ["sudo", "tcpdump", "-q", "-s", "64", "-W", "1", "-w", "-"],
+    ["sudo", "timeout", "-s", "SIGTERM", str(INTERVAL), "tcpdump", "-q", "-s", "64", "-W", "1", "-w", "-"],
     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   time.sleep(INTERVAL)
-  kill = subprocess.Popen(
-      ["sudo", "kill", "-TERM", str(process.pid)],
-      stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
   mac = getmacaddress()
 
