@@ -14,7 +14,7 @@ class web::server(
   }
 
   Cron {
-    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
+    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/cms:/opt/sitescripts'],
   }
 
   include nginx
@@ -30,13 +30,13 @@ class web::server(
     log => "access_log_$vhost"
   }
 
-  class {'sitescripts':
-    sitescriptsini_source => 'puppet:///modules/web/sitescripts',
-  }
-
   if $multiplexer_locations != undef {
     include spawn-fcgi
     package {'python-flup':}
+
+    class {'sitescripts':
+      sitescriptsini_source => 'puppet:///modules/web/sitescripts',
+    }
 
     spawn-fcgi::pool {"multiplexer":
       ensure => present,
@@ -59,6 +59,14 @@ class web::server(
     managehome => true,
   }
 
+  exec {"fetch_cms":
+    command => "hg clone https://hg.adblockplus.org/cms/ /opt/cms",
+    path => ["/usr/bin/", "/bin/"],
+    require => Package['mercurial'],
+    timeout => 0,
+    onlyif => "test ! -d /opt/cms",
+  }
+
   exec {"fetch_repo":
     command => "hg clone -U https://hg.adblockplus.org/${repository} /home/www/${repository}",
     path => ["/usr/bin/", "/bin/"],
@@ -79,9 +87,15 @@ class web::server(
     mode => 755,
   }
 
+  cron {'update_cms':
+    ensure => present,
+    command => "hg pull -q -u -R /opt/cms",
+    minute  => '5-55/10',
+  }
+
   cron {'update_repo':
     ensure => present,
-    command => "hg pull -q -R /home/www/${repository} && python -m sitescripts.cms.bin.generate_static_pages /home/www/${repository} /var/www/${vhost}",
+    command => "hg pull -q -R /home/www/${repository} && python -m cms.bin.generate_static_pages /home/www/${repository} /var/www/${vhost}",
     user => www,
     minute  => '*/10',
   }
