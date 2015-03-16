@@ -56,6 +56,7 @@ node default {
     {host => 'filter16.adblockplus.org', ip => '10.8.0.142'},
     {host => 'filter17.adblockplus.org', ip => '10.8.0.143'},
     {host => 'filter18.adblockplus.org', ip => '10.8.0.144'},
+    {host => 'web2.adblockplus.org', ip => '10.8.0.145'},
   ]
 
   hostentry { $hosts: }
