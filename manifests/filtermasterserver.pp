@@ -1,7 +1,4 @@
 node 'filtermaster1' {
-  include base, filtermaster
+  include filtermaster
 
-  class {'nagios::client':
-    server_address => 'monitoring.adblockplus.org'
-  }
 }
