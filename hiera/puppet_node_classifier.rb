@@ -10,7 +10,7 @@ require 'yaml'
 # Where to search for the Hiera configuration
 HIERA_CONFIG = ENV.fetch('PUPPET_HIERA_CONFIG', '/etc/puppet/hiera.yaml')
 # Where to search for the Hosts configuration
-HOSTS_CONFIG = ENV.fetch('PUPPET_HOSTS_CONFIG', '/etc/puppet/infrastructure/hiera/private/hosts.yaml')
+HOSTS_CONFIG = ENV.fetch('PUPPET_HOSTS_CONFIG', '/etc/puppet/infrastructure/modules/private/hiera/hosts.yaml')
 
 # For logging and usage hints
 BASENAME = File.basename($0)

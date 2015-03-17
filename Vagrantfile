@@ -57,7 +57,7 @@ def define_standard_vm(config, host_name, ip, role=nil)
 end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config_path = File.join(REPOSITORY_DIR, "hiera/private/hosts.yaml")
+  config_path = File.join(REPOSITORY_DIR, "modules/private/hiera/hosts.yaml")
   config_data = YAML.load_file(config_path)
   servers = config_data["servers"]
   servers.each do |server, items|
