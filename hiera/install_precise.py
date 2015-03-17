@@ -98,6 +98,8 @@ subprocess.check_call(['apt-get', '-y', 'install', 'puppet'])
 subprocess.check_call(['apt-get', '-y', 'install', 'hiera-puppet'])
 
 if not os.path.exists('/etc/puppet/hiera.yaml'):
-  config = os.path.join(os.path.dirname(__file__), 'hiera.yaml')
+  realpath = os.path.realpath(__file__)
+  dirname = os.path.dirname(realpath)
+  config = os.path.join(dirname, 'hiera.yaml')
   if os.path.exists(config):
     os.symlink(config, '/etc/puppet/hiera.yaml')
