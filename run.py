@@ -44,7 +44,7 @@ def parseOptions(args):
 
 def getValidHosts():
   dirname = os.path.dirname(sys.argv[0])
-  path_name = os.path.join(dirname, "hiera", "private", "hosts.yaml")
+  path_name = os.path.join(dirname, "modules", "private", "hiera", "hosts.yaml")
   with open(path_name, 'rb') as handle:
     config = yaml.load(handle)
   servers = config.get('servers', {})
