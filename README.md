@@ -33,24 +33,6 @@ symbolic link to start using the resource:
 When creating a custom version, one may inspect the `modules/private-stub`
 directory to determine which resources have to be provided.
 
-### `hiera/private`
-
-Analogous to `modules/private`, [Hiera](https://docs.puppetlabs.com/hiera/1/)
-configuration files specific to the current environment are expected to be
-found in `hiera/private`. Default resources for development (and testing)
-purposes are provided within `modules/private-stub/hiera`:
-
-#### UNIX-like
-
-    ln -s ../modules/private-stub/hiera hiera/private
-
-#### Windows
-
-    MKLINK /D ..\modules\private-stub\hiera hiera\private
-
-Note that custom versions are recommended to be tracked together with the
-custom `private` module, if any.
-
 Development environment
 -----------------------
 
