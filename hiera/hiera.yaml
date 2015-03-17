@@ -1,0 +1,12 @@
+---
+:backends:
+  - yaml
+:yaml:
+  :datadir: /etc/puppet/infrastructure/hiera
+:hierarchy:
+  - "hosts/%{::hostname}"
+  - "roles/%{::role}"
+  - "private/base"
+  - "private/hosts/%{::hostname}"
+  - "private/roles/%{::role}"
+  - "private/hosts"

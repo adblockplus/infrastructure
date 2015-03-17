@@ -1,0 +1,11 @@
+classes:
+  statsclient:
+  discourse:
+    domain: "intraforum.adblockplus.org"
+    certificate: "intraforum.adblockplus.org_sslcert.pem"
+    private_key: "intraforum.adblockplus.org_sslcert.key"
+    is_default: true
+
+requirements:
+  memory: 1024
+

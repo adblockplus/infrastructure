@@ -41,78 +41,40 @@ def parseOptions(args):
 
   return user, hosts, ignore_errors, args
 
-def readMonitoringConfig():
-  # Use Puppet's parser to convert monitoringserver.pp into YAML
-  manifest = os.path.join(os.path.dirname(__file__), 'manifests', 'monitoringserver.pp')
-  parseScript = '''
-    require 'puppet'
-    require 'puppet/parser'
-    parser = Puppet::Parser::Parser.new(Puppet[:environment])
-    Puppet.settings[:ignoreimport] = true
-    parser.file = ARGV[0]
-    print ZAML.dump(parser.parse)
-  '''
-  data, dummy = subprocess.Popen(['ruby', '', manifest],
-                  stdin=subprocess.PIPE,
-                  stdout=subprocess.PIPE).communicate(parseScript)
-
-  # See http://stackoverflow.com/q/8357650/785541 on parsing Puppet's YAML
-  yaml.add_multi_constructor(u"!ruby/object:", lambda loader, suffix, node: loader.construct_yaml_map(node))
-  yaml.add_constructor(u"!ruby/sym", lambda loader, node: loader.construct_yaml_str(node))
-  return yaml.load(data)
 
 def getValidHosts():
-  def processNode(node, hosts=None, groups=None):
-    if hosts == None:
-      hosts = set()
-    if groups == None:
-      groups = {}
-
-    if 'context' in node and 'code' in node['context']:
-      node = node['context']['code']
-
-    if node.get('type', None) == 'nagios_hostgroup':
-      data = node['instances']['children'][0]
-      title = data['title']['value']
-      members = filter(lambda c: c['param'] == 'members', data['parameters']['children'])[0]['value']['value']
-      members = re.split(r'\s*,\s*', members)
-      groups[title] = members
-    elif node.get('type', None) == 'nagios_host':
-      data = node['instances']['children'][0]
-      title = data['title']['value']
-      hosts.add(title)
-
-    for child in node['children']:
-      processNode(child, hosts, groups)
-    return hosts, groups
-
-  monitoringConfig = readMonitoringConfig()
-  if not monitoringConfig:
-    print >>sys.stderr, "Failed to parse monitoring configuration"
-    return [[], []]
-  # Extract hosts and groups from monitoring config
-  return processNode(monitoringConfig)
+  dirname = os.path.dirname(sys.argv[0])
+  path_name = os.path.join(dirname, "hiera", "private", "hosts.yaml")
+  with open(path_name, 'rb') as handle:
+    config = yaml.load(handle)
+  servers = config.get('servers', {})
+  return servers  
 
 def resolveHostList(hosts):
-  validHosts, validGroups = getValidHosts()
-  if not validHosts:
-    print >>sys.stderr, "Warning: No valid hosts found, not validating"
-    return hosts
 
   result = set()
-  for param in hosts:
-    if param in validGroups:
-      for host in validGroups[param]:
-        if host == '*':
-          result = result | validHosts
-        else:
-          result.add(host)
-    elif param in validHosts:
-      result.add(param)
-    elif '%s.adblockplus.org' % param in validHosts:
-      result.add('%s.adblockplus.org' % param)
-    else:
-      print >>sys.stderr, 'Warning: failed to recognize host or group %s' %param
+
+  try:
+    valid_hosts = getValidHosts()
+  except Warning as error:
+    print >>sys.stderr, 'Warning: failed to determine valid hosts:', error
+    result.update(hosts)
+  else:
+    for name in hosts:
+      chunk = [
+          value.get('dns', key) for (key, value) in valid_hosts.items()
+
+          if name == key
+          or name == '*'
+          or name == value.get('dns', None)
+          or name in value.get('groups', ())
+      ]
+
+      if len(chunk) == 0:
+        print >>sys.stderr, 'Warning: failed to recognize host or group', name
+      else:
+        result.update(chunk)
+
   return result
 
 def runCommand(user, host, command, ignore_errors=False):

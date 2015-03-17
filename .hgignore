@@ -1,3 +1,4 @@
 .vagrant
 \.pyc$
 ^modules/private$
+^hiera/private$

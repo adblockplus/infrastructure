@@ -1,4 +1,7 @@
 class statsclient {
+
+  include ssh
+
   user {'stats':
     ensure => present,
     home => '/home/stats',

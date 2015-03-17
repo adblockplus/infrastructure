@@ -3,6 +3,8 @@ class filtermaster {
     environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
   }
 
+  include ssh
+
   concat::fragment {'sshd_max_limits':
     target => 'sshd_config',
     order => '50',

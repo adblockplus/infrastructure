@@ -1,5 +1,4 @@
 node 'stats1' {
-  include base
 
   class {'statsmaster':
     domain => 'stats.adblockplus.org',
@@ -8,7 +7,4 @@ node 'stats1' {
     is_default => true
   }
 
-  class {'nagios::client':
-    server_address => 'monitoring.adblockplus.org'
-  }
 }

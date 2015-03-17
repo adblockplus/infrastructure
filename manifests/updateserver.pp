@@ -1,5 +1,5 @@
 node 'update1' {
-  include base, statsclient
+  include statsclient
 
   class {'updateserver':
     domain => 'update.adblockplus.org',
@@ -8,7 +8,4 @@ node 'update1' {
     is_default => true
   }
 
-  class {'nagios::client':
-    server_address => 'monitoring.adblockplus.org'
-  }
 }
