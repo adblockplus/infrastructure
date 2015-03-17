@@ -176,7 +176,11 @@ class nagios::server(
     $groups = [],
   ) {
 
-    $fqdn_name = join([$name, $nagios::server::zone], '.')
+    if $dns == undef {
+      $fqdn_name = join([$name, $nagios::server::zone], '.')
+    } else {
+      $fqdn_name = $dns
+    }
 
     nagios_host {$fqdn_name:
       use => 'generic-host',
