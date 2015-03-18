@@ -3,13 +3,21 @@ language:
 
 before_install:
   - sudo apt-get -y update
-  - sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y upgrade
 
 script:
   - make
+  - sudo mkdir -p /etc/puppet
+  - sudo ln -s $PWD /etc/puppet/infrastructure
+  - sudo /etc/puppet/infrastructure/hiera/install_precise.py
   - sudo hostname $HOSTNAME
-  - sudo apt-get -y install puppet
-  - sudo puppet apply --environment=development --detailed-exitcodes --verbose --debug --modulepath=./modules ./manifests/nodes.pp; test $? -eq 2
+  - sudo puppet apply
+    --debug
+    --detailed-exitcodes
+    --environment=development
+    --external_nodes=/etc/puppet/infrastructure/hiera/puppet_node_classifier.rb
+    --modulepath=/etc/puppet/infrastructure/modules
+    --node_terminus=exec
+    --verbose /etc/puppet/infrastructure/manifests/nodes.pp || test $? -eq 2
 
 env:
   - HOSTNAME=filter1

@@ -46,7 +46,10 @@ clean:
 # all submodules as well as the modules/private stub, if any.
 distclean: clean
 	$(MAKE) list-dependencies | while read module; do rm -rf "$$module"; done
-	if [ -L "modules/private" ]; then rm "modules/private"; fi
+	for resource in "modules/private modules/private-stub"; do \
+	    set -- $$resource; \
+	    test "x`readlink -f $$1`" = "x`readlink -f $$2`" && rm $$1; \
+	done
 
 # -------------------------------------------------------------------------
 # Vagrant-specific utilities
@@ -58,31 +61,31 @@ VAGRANT_LOG_PATH = .vagrant/logs
 VAGRANT_LOG_APPEND = tee -a "$(VAGRANT_LOG_PATH)/$*.log"
 VAGRANT_LOG_STANZA = echo "[`date` $@]" | $(VAGRANT_LOG_APPEND)
 
-%.back: $(VAGRANT_LOG_PATH)
+%.back: $(VAGRANT_LOG_PATH) modules/private
 	@$(VAGRANT_LOG_STANZA)
 	@$(VAGRANT) snapshot back "$*" 2>&1 | $(VAGRANT_LOG_APPEND)
 
-%.destroy: $(VAGRANT_LOG_PATH)
+%.destroy: $(VAGRANT_LOG_PATH) modules/private
 	@$(VAGRANT_LOG_STANZA)
 	@$(VAGRANT) destroy -f "$*" 2>&1 | $(VAGRANT_LOG_APPEND)
 
-%.halt: $(VAGRANT_LOG_PATH)
+%.halt: $(VAGRANT_LOG_PATH) modules/private
 	@$(VAGRANT_LOG_STANZA)
 	@$(VAGRANT) halt "$*" 2>&1 | $(VAGRANT_LOG_APPEND)
 
-%.provision: $(VAGRANT_LOG_PATH)
+%.provision: $(VAGRANT_LOG_PATH) modules/private
 	@$(VAGRANT_LOG_STANZA)
 	@$(VAGRANT) provision "$*" 2>&1 | $(VAGRANT_LOG_APPEND)
 
-%.snapshot: $(VAGRANT_LOG_PATH)
+%.snapshot: $(VAGRANT_LOG_PATH) modules/private
 	@$(VAGRANT_LOG_STANZA)
-	@$(VAGRANT) snapshot take "$*" 2>&1 | $(VAGRANT_LOG_APPEND)
+	@$(VAGRANT) snapshot take "$*" "`date`" 2>&1 | $(VAGRANT_LOG_APPEND)
 
-%.ssh: $(VAGRANT_LOG_PATH)
+%.ssh: $(VAGRANT_LOG_PATH) modules/private
 	@$(VAGRANT_LOG_STANZA)
 	@$(VAGRANT) ssh "$*"
 
-%.up: $(VAGRANT_LOG_PATH)
+%.up: $(VAGRANT_LOG_PATH) modules/private
 	@$(VAGRANT_LOG_STANZA)
 	@$(VAGRANT) up "$*" 2>&1 | $(VAGRANT_LOG_APPEND)
 
