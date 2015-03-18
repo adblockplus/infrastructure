@@ -4,7 +4,8 @@ class nagios::server(
     $private_key,
     $is_default=false,
     $htpasswd_source,
-    $admins
+    $admins,
+    $zone,
   ) {
 
   File {
@@ -121,10 +122,9 @@ class nagios::server(
 
   Nagios_host <| |> {
     target => '/etc/nagios3/conf.d/hosts.cfg',
-    require => Package['nagios3'],
     notify => [File['/etc/nagios3/conf.d/hosts.cfg'], Service['nagios3']]
   }
-
+  <-
   Nagios_hostgroup <| |> {
     target => '/etc/nagios3/conf.d/hostgroups.cfg',
     require => Package['nagios3'],
@@ -145,5 +145,46 @@ class nagios::server(
          '/etc/nagios3/conf.d/services.cfg']:
     require => Package['nagios3'],
     notify => Service['nagios3']
+  }
+
+  $nagios_contacts = hiera('nagios_contacts', {})
+  create_resources(nagios_contact, $nagios_contacts)
+
+  $nagios_contactgroups = hiera('nagios_contactgroups', {})
+  create_resources(nagios_contactgroup, $nagios_contactgroups)
+
+  $nagios_commands = hiera('nagios_commands', {})
+  create_resources(nagios_command, $nagios_commands)
+
+  $nagios_services = hiera('nagios_services', {})
+  create_resources(nagios_service, $nagios_services)
+
+  $nagios_hosts = hiera('nagios_hosts', {})
+  create_resources(nagios_host, $nagios_hosts)
+
+  $nagios_hostgroups = hiera('nagios_hostgroups', {})
+  create_resources(nagios_hostgroup, $nagios_hostgroups)
+
+  $nagios_generic = hiera('servers')
+  create_resources(nagios::server::generic_host, $nagios_generic)
+
+  define generic_host(
+    $ip,
+    $ssh_public_key = undef,
+    $role = undef,
+    $dns = undef,
+    $groups = [],
+  ) {
+
+    if $dns == undef {
+      $fqdn_name = join([$name, $nagios::server::zone], '.')
+    } else {
+      $fqdn_name = $dns
+    }
+
+    nagios_host {$fqdn_name:
+      use => 'generic-host',
+      hostgroups => $groups,
+    }
   }
 }

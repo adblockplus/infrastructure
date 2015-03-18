@@ -7,6 +7,9 @@ class statsmaster(
 
   include statsmaster::downloads, statsmaster::awstats
 
+  # Realize known_hosts from base module
+  Sshkey <| |>
+
   user {'stats':
     ensure => present,
     home => '/home/stats',
@@ -29,13 +32,6 @@ class statsmaster(
     owner => stats,
     mode => 0400,
     source => 'puppet:///modules/private/stats@stats.adblockplus.org',
-  }
-
-  file {'/home/stats/.ssh/known_hosts':
-    ensure => present,
-    owner => stats,
-    mode => 0400,
-    source => 'puppet:///modules/statsmaster/known_hosts',
   }
 
   class {'nginx':

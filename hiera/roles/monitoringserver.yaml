@@ -1,0 +1,85 @@
+classes:
+  puppetmaster:
+  nagios::server:
+    domain: "monitoring.adblockplus.org"
+    certificate: "monitoring.adblockplus.org_sslcert.pem"
+    private_key: "monitoring.adblockplus.org_sslcert.key"
+    is_default: "true"
+    htpasswd_source: "puppet:///modules/private/nagios-htpasswd"
+    admins: ["*"]
+    zone: "adblockplus.org"
+
+nagios_commands:
+  check_nrpe_timeout:
+    command_line: '/usr/lib/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$ -t $ARG2$'
+  check_easylist_http:
+    command_line: '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H easylist-downloads.adblockplus.org -u /easylist.txt -k "Accept-Encoding: gzip,deflate" -e "HTTP/1.1 200 OK"'
+  check_notification_http:
+    command_line: '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H notification.adblockplus.org -u /notification.json -k "Accept-Encoding: gzip,deflate" -e "HTTP/1.1 200 OK"'
+
+nagios_hostgroups:
+  all:
+    members: '*'
+  filter-servers:
+    members: ','
+  http-servers:
+    members: ','
+
+nagios_services:
+  current-load:
+    use: 'generic-service'
+    hostgroup_name: 'all'
+    service_description: 'Current Load'
+    check_command: 'check_nrpe_1arg!check_load'
+  disk-space:
+    use: 'generic-service'
+    hostgroup_name: 'all'
+    service_description: 'Disk Space'
+    check_command: 'check_nrpe_1arg!check_disk'
+  total-processes:
+    use: 'generic-service'
+    hostgroup_name: 'all'
+    service_description: 'Total Processes'
+    check_command: 'check_nrpe_1arg!check_total_procs'
+  zombie-processes:
+    use: 'generic-service'
+    hostgroup_name: 'all'
+    service_description: 'Zombie Processes'
+    check_command: 'check_nrpe_1arg!check_zombie_procs'
+  ssh:
+    use: 'generic-service'
+    hostgroup_name: 'all'
+    service_description: 'SSH'
+    check_command: 'check_ssh'
+  http:
+    use: 'generic-service'
+    hostgroup_name: 'http-servers'
+    service_description: 'HTTP'
+    check_command: 'check_http'
+  easylist-http:
+    use: 'generic-service'
+    hostgroup_name: 'filter-servers'
+    service_description: 'HTTP'
+    check_command: 'check_easylist_http'
+  notification-http:
+    use: 'generic-service'
+    hostgroup_name: 'filter-servers'
+    service_description: 'HTTP'
+    check_command: 'check_notification_http'
+  bandwidth:
+    use: 'generic-service'
+    hostgroup_name: 'all'
+    service_description: 'Bandwidth'
+    check_command: 'check_nrpe_timeout!check_bandwidth!20'
+    first_notification_delay: '15'
+  connections:
+    use: 'generic-service'
+    hostgroup_name: 'all'
+    service_description: 'Connections'
+    check_command: 'check_nrpe_1arg!check_connections'
+  memory:
+    use: 'generic-service'
+    hostgroup_name: 'all'
+    service_description: 'Memory'
+    check_command: 'check_nrpe_1arg!check_memory'
+

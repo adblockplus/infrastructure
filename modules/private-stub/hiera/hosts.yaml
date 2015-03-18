@@ -1,0 +1,43 @@
+---
+servers:
+  filter1:
+    ip: [10.8.0.120]
+    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAUhHiFdqQBATyyOE9XPR7v2+bghp3r1QY0O62d/klV7yhAOBKQuI6MtTu43cYQE60M10OzVfeeMfmc0dPP97UM=
+    groups: [filter-servers]
+  server4:
+    ip: [10.8.0.99]
+    role: monitoringserver
+    dns: server_4.adblockplus.org
+    groups: [http-servers]
+  codereview1:
+    ip: [10.8.0.132]
+    role: codereviewserver
+    groups: [http-servers]
+  download1:
+    ip: [10.8.0.126]
+    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBE9gWnTMFJkJ6DqrmnmQvOHyK/yaWvz6SKPetMX/A6avRLm4AzinvD+F7z4mIqRbJxhJgRljOxZWVgWCOQEWYaY=
+    dns: downloads.adblockplus.org
+    groups: [http-servers]
+  filtermaster1:
+    ip: [10.8.0.127]
+  server10:
+    ip: [10.8.0.105]
+    role: intraforumserver
+    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPoK6neBTjJIzWn6xhJozABPJoZ7809RmSOgBHKgbSMztjJD839Vbi263An4YgAhYijclPDX78zxjO0XgvW1aMc=
+    dns: server_10.adblockplus.org
+    groups: [http-servers]
+  issues1:
+    ip: [10.8.0.131]
+    groups: [http-servers]
+  stats1:
+    ip: [10.8.0.130]
+    groups: [http-servers]
+  update1:
+    ip: [10.8.0.128]
+    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNQ4C/hghKhYSQHiz3cquPVbbMP5tycwHChe5gbY03jVR9dynO6Ldb5MWL02r83zFisPqM6lvtnjuGA65dzVJYE=
+    groups: [http-servers]
+  web1:
+    ip: [10.8.0.129]
+    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMu0mGhPAhIbAv7H0iN74h6fC9H2576AxI9cXFj3FAQxHl2ItLIibrViThm0luOJiRIaLc1GxavBKK0dR4bzFR8=
+    groups: [http-servers]
+

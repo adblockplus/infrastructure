@@ -1,6 +1,6 @@
 node 'issues1' {
 
-  include base, private::trac
+  include private::trac
 
   class {'trac':
     domain => 'issues.adblockplus.org',
@@ -59,7 +59,4 @@ node 'issues1' {
     require => Exec['trac_auth_cookie_view'],
   }
 
-  class {'nagios::client':
-    server_address => 'monitoring.adblockplus.org'
-  }
 }

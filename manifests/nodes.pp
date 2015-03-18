@@ -1,10 +1,10 @@
 import 'filterserver.pp'
-import 'monitoringserver.pp'
 import 'downloadserver.pp'
-import 'intraforumserver.pp'
 import 'updateserver.pp'
 import 'statsserver.pp'
 import 'issuesserver.pp'
 import 'filtermasterserver.pp'
 import 'webserver.pp'
-import 'codereviewserver.pp'
+
+node default {
+}

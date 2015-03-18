@@ -1,5 +1,5 @@
 node 'download1' {
-  include base, statsclient
+  include statsclient
 
   class {'downloadserver':
     domain => 'downloads.adblockplus.org',
@@ -8,7 +8,4 @@ node 'download1' {
     is_default => true
   }
 
-  class {'nagios::client':
-    server_address => 'monitoring.adblockplus.org'
-  }
 }
