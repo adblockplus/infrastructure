@@ -21,9 +21,9 @@ nagios_hostgroups:
   all:
     members: '*'
   filter-servers:
-    members: ''
+    members: ','
   http-servers:
-    members: ''
+    members: ','
 
 nagios_services:
   current-load:
