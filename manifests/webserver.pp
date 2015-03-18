@@ -27,7 +27,7 @@ template=formmail/template/eyeo.mail',
 }
 
 node 'web2' {
-  include base, statsclient
+  include statsclient
 
   class {'web::server':
     vhost => 'beta.adblockplus.org',
@@ -37,9 +37,5 @@ node 'web2' {
     repository => 'web.adblockplus.org',
     # Hack: This server doesn't need multiplexer but it needs sitescripts
     multiplexer_locations => [],
-  }
-
-  class {'nagios::client':
-    server_address => 'monitoring.adblockplus.org'
   }
 }

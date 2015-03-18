@@ -40,4 +40,9 @@ servers:
     ip: [10.8.0.129]
     ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMu0mGhPAhIbAv7H0iN74h6fC9H2576AxI9cXFj3FAQxHl2ItLIibrViThm0luOJiRIaLc1GxavBKK0dR4bzFR8=
     groups: [http-servers]
+  web2:
+    ip: [10.8.0.145]
+    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDhC6a20iZh6VurNrRC3ZzdilTp6yelnzJ8/49ujHvkAC38Rj6870re3Yvkg+8AfxdyVNP8owqC6x7KQD0zJ6Nk=
+    groups: [http-servers]
+
 
