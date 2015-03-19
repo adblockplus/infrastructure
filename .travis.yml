@@ -29,4 +29,5 @@ env:
   - HOSTNAME=stats1
   - HOSTNAME=update1
   - HOSTNAME=web1
+  - HOSTNAME=web2
 
