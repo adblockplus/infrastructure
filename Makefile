@@ -87,7 +87,7 @@ VAGRANT_LOG_STANZA = echo "[`date` $@]" | $(VAGRANT_LOG_APPEND)
 
 %.up: $(VAGRANT_LOG_PATH) modules/private
 	@$(VAGRANT_LOG_STANZA)
-	@$(VAGRANT) up "$*" 2>&1 | $(VAGRANT_LOG_APPEND)
+	@$(VAGRANT) up --no-provision "$*" 2>&1 | $(VAGRANT_LOG_APPEND)
 
 # -------------------------------------------------------------------------
 # Fragmental dependencies of other targets
