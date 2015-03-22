@@ -81,12 +81,6 @@ class rietveld(
     require => [Package['gunicorn'], File['/etc/init.d/rietveld']]
   }
 
-  exec {'set_superuser':
-    command => "echo \"from django.db import DEFAULT_DB_ALIAS as database; from django.contrib.auth.models import User; User.objects.db_manager(database).create_superuser('admin', 'admins@adblockplus.org', '${admin_password}')\" | ./manage.py shell",
-    cwd => "${rietveld_home}",
-    require => Exec['install_rietveld'],
-  }
-
   file {"${rietveld_home}/fixtures":
     ensure => directory,
     owner => 'rietveld',

@@ -1,0 +1,5 @@
+rietveld::fixtures:
+  development:
+    ensure: "present"
+    source: "puppet:///modules/private/rietveld-auth-users.json"
+
