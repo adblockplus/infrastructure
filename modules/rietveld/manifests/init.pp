@@ -2,7 +2,8 @@ class rietveld(
     $domain,
     $certificate,
     $private_key,
-    $is_default=false
+    $is_default = false,
+    $fixtures = hiera('rietveld::fixtures', {}),
   ) inherits private::rietveld {
 
   include nginx
@@ -80,9 +81,44 @@ class rietveld(
     require => [Package['gunicorn'], File['/etc/init.d/rietveld']]
   }
 
-  exec {'set_superuser':
-    command => "echo \"from django.db import DEFAULT_DB_ALIAS as database; from django.contrib.auth.models import User; User.objects.db_manager(database).create_superuser('admin', 'admins@adblockplus.org', '${admin_password}')\" | ./manage.py shell",
-    cwd => "${rietveld_home}",
+  file {"${rietveld_home}/fixtures":
+    ensure => directory,
+    owner => 'rietveld',
+    mode => 0750,
     require => Exec['install_rietveld'],
   }
+
+  define fixture(
+    $ensure = present,
+    $source = undef,
+    $content = undef,
+  ) {
+
+    # Note that $script will return EXIT_SUCCESS when the .type is
+    # not recognized - although no action is done then. Thus we enforce
+    # JSON here, which is the default for command "dumpdata" anyway:
+    $script = "${rietveld::rietveld_home}/manage.py"
+    $destination = "${rietveld::rietveld_home}/fixtures/$name.json"
+
+    exec {$destination:
+      command => shellquote($script, 'loaddata', $destination),
+      cwd => $rietveld::rietveld_home,
+      refreshonly => true,
+      user => 'rietveld',
+    }
+
+    file {$destination:
+      ensure => $ensure,
+      content => $content,
+      source => $source,
+      owner => 'rietveld',
+      mode => 0640,
+      notify => $ensure ? {
+        present => Exec[$destination],
+        default => [],
+      }
+    }
+  }
+
+  create_resources(rietveld::fixture, $fixtures)
 }
