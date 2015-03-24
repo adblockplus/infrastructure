@@ -10,6 +10,11 @@ node 'web1' {
     custom_config => '
       rewrite ^(/de)?/index\.html$ / permanent;
       rewrite ^(/de)?/job\.html$ /jobs permanent;
+
+      location ~ ^(/[^/]+/jobs)/
+      {
+        error_page 404 $1/not-available;
+      }
     ',
     repository => 'web.eyeo.com',
     multiplexer_locations => ['/formmail'],
