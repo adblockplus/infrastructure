@@ -14,7 +14,9 @@ class base ($zone='adblockplus.org') {
 
   include private::users, postfix, ssh
 
-  package {['mercurial', 'vim', 'emacs', 'debian-goodies']: ensure => present}
+  package {['mercurial', 'vim', 'emacs', 'debian-goodies', 'htop']:
+    ensure => present,
+  }
 
   file {'/etc/timezone':
     ensure => file,
