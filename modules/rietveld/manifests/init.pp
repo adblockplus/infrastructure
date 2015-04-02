@@ -3,8 +3,9 @@ class rietveld(
     $certificate,
     $private_key,
     $is_default = false,
+    $secret_key = hiera('rietveld::secret_key', ''),
     $fixtures = hiera('rietveld::fixtures', {}),
-  ) inherits private::rietveld {
+) {
 
   include nginx
   $django_home = '/home/rietveld/django-gae2django'
