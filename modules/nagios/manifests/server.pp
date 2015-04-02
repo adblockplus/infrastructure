@@ -6,6 +6,12 @@ class nagios::server(
     $htpasswd_source,
     $admins,
     $zone,
+    $contacts = hiera('nagios::server::contacts', {}),
+    $contactgroups = hiera('nagios::server::contactgroups', {}),
+    $commands = hiera('nagios::server::commands', {}),
+    $services = hiera('nagios::server::services', {}),
+    $hosts = hiera('nagios::server::hosts', {}),
+    $hostgroups = hiera('nagios::server::hostgroups', {}),
   ) {
 
   File {
@@ -147,23 +153,12 @@ class nagios::server(
     notify => Service['nagios3']
   }
 
-  $nagios_contacts = hiera('nagios_contacts', {})
-  create_resources(nagios_contact, $nagios_contacts)
-
-  $nagios_contactgroups = hiera('nagios_contactgroups', {})
-  create_resources(nagios_contactgroup, $nagios_contactgroups)
-
-  $nagios_commands = hiera('nagios_commands', {})
-  create_resources(nagios_command, $nagios_commands)
-
-  $nagios_services = hiera('nagios_services', {})
-  create_resources(nagios_service, $nagios_services)
-
-  $nagios_hosts = hiera('nagios_hosts', {})
-  create_resources(nagios_host, $nagios_hosts)
-
-  $nagios_hostgroups = hiera('nagios_hostgroups', {})
-  create_resources(nagios_hostgroup, $nagios_hostgroups)
+  create_resources(nagios_contact, $contacts)
+  create_resources(nagios_contactgroup, $contactgroups)
+  create_resources(nagios_command, $commands)
+  create_resources(nagios_service, $services)
+  create_resources(nagios_host, $hosts)
+  create_resources(nagios_hostgroup, $hostgroups)
 
   $nagios_generic = hiera('servers')
   create_resources(nagios::server::generic_host, $nagios_generic)
