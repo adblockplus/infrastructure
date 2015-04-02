@@ -9,7 +9,7 @@ classes:
     admins: ["*"]
     zone: "adblockplus.org"
 
-nagios_commands:
+nagios::server::commands:
   check_nrpe_timeout:
     command_line: '/usr/lib/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$ -t $ARG2$'
   check_easylist_http:
@@ -17,7 +17,7 @@ nagios_commands:
   check_notification_http:
     command_line: '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H notification.adblockplus.org -u /notification.json -k "Accept-Encoding: gzip,deflate" -e "HTTP/1.1 200 OK"'
 
-nagios_hostgroups:
+nagios::server::hostgroups:
   all:
     members: '*'
   filter-servers:
@@ -25,7 +25,7 @@ nagios_hostgroups:
   http-servers:
     members: ','
 
-nagios_services:
+nagios::server::services:
   current-load:
     use: 'generic-service'
     hostgroup_name: 'all'
