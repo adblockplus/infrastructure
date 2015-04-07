@@ -1,4 +1,4 @@
-nagios_contacts:
+nagios::server::contacts:
   root:
     service_notification_period: '24x7'
     host_notification_period: '24x7'
@@ -8,7 +8,7 @@ nagios_contacts:
     host_notification_commands: 'notify-host-by-email'
     email: 'root@localhost'
 
-nagios_contactgroups:
+nagios::server::contactgroups:
   admins:
     alias: 'Nagios Administrators'
     members: 'root'
