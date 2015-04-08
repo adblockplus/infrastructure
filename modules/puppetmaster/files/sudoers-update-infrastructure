@@ -1,1 +1,2 @@
 %sudo ALL=(ALL) NOPASSWD:/usr/bin/hg pull -qu -R /etc/puppet/infrastructure,/usr/bin/hg pull -qu -R /etc/puppet/infrastructure/modules/private,/etc/puppet/infrastructure/ensure_dependencies.py /etc/puppet/infrastructure
+%sudo ALL=(ALL) NOPASSWD:/bin/cat /etc/puppet/infrastructure/modules/private/hiera/hosts.yaml
