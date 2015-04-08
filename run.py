@@ -1,50 +1,49 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import argparse
 import sys
 import os
 import re
 import subprocess
-import getopt
 import yaml
 
-def usage():
-  print >>sys.stderr, '''
-Usage: %s [-u <user>] [-h <host>|<group>] [-i] ... <command>
+def createArgumentParser(**kwargs):
+  parser = argparse.ArgumentParser(**kwargs)
+  parser.add_argument(
+    '-u', '--user', metavar='user', dest='user', type=str, default='vagrant',
+    help='user name for use with SSH, must exist on all hosts'
+  )
 
-Runs a command on the given hosts or groups of hosts.
-
-Options:
-  -u <user>       User name to use with the SSH command
-  -h <host|group> Host or group to run the command on (can be specified multiple times)
-  -i              If specified, command will be executed on all hosts despite errors
-''' % sys.argv[0]
+  return parser
 
 def parseOptions(args):
-  try:
-    options, args = getopt.getopt(args, 'u:h:i')
-  except getopt.GetoptError, e:
-    print >>sys.stderr, e
-    usage()
-    sys.exit(1)
+  description = 'Run a command on the given hosts or groups of hosts'
+  parser = createArgumentParser(description=description)
+  parser.add_argument(
+    '-i', '--ignore-errors', action='store_true', dest='ignore_errors',
+    help='continue execution on next host in case of an error'
+  )
 
-  user = None
-  hosts = []
-  ignore_errors = False
-  for option, value in options:
-    if option == '-u':
-      user = value
-    elif option == '-h':
-      hosts.append(value)
-    elif option == '-i':
-      ignore_errors = True
+  hosts = set()
+  parser.add_argument(
+    '-t', '--target', metavar='host|group',
+    help='target host or group, can be specified multiple times',
+    type=lambda value: hosts.update([value])
+  )
 
-  return user, hosts, ignore_errors, args
+  parser.add_argument(
+    'args', metavar='command', type=str, nargs='+',
+    help='the command to run on the specified hosts'
+  )
 
+  options = parser.parse_args(args)
+  options.hosts = hosts
+  return options
 
 def getValidHosts():
   dirname = os.path.dirname(sys.argv[0])
-  path_name = os.path.join(dirname, "modules", "private", "hiera", "hosts.yaml")
+  path_name = os.path.join(dirname, 'modules', 'private', 'hiera', 'hosts.yaml')
   with open(path_name, 'rb') as handle:
     config = yaml.load(handle)
   servers = config.get('servers', {})
@@ -80,18 +79,18 @@ def resolveHostList(hosts):
 def runCommand(user, host, command, ignore_errors=False):
   if not isinstance(command, list):
     command = [command]
-  command = ["ssh"] + (["-l", user] if user else []) + [host] + command
+  command = ['ssh'] + (['-l', user] if user else []) + [host] + command
   if ignore_errors:
     subprocess.call(command)
   else:
     subprocess.check_call(command)
 
-if __name__ == "__main__":
-  user, hosts, ignore_errors, args = parseOptions(sys.argv[1:])
-  selectedHosts = resolveHostList(hosts)
+if __name__ == '__main__':
+  options = parseOptions(sys.argv[1:])
+  selectedHosts = resolveHostList(options.hosts)
   if len(selectedHosts) == 0:
     print >>sys.stderr, 'No valid hosts or groups specified, nothing to do'
     sys.exit(0)
   for host in selectedHosts:
     print >>sys.stderr, 'Running on %s...' % host
-    runCommand(user, host, args, ignore_errors=ignore_errors)
+    runCommand(options.user, host, options.args, options.ignore_errors)

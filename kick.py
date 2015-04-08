@@ -3,46 +3,39 @@
 
 import sys
 import getopt
-from run import resolveHostList, runCommand
-
-def usage():
-  print >>sys.stderr, '''
-Usage: %s [-u <user>] [-t|-q] [<host>|<group>] ...
-
-Runs provisioning on the given hosts or groups of hosts.
-
-Options:
-  -u <user>       User name to use with the SSH command (needs access to puppet
-                  master and all hosts)
-  -t              Dry-run mode, will produce the usual output but not change
-                  host configuration
-  -q              Quiet mode, suppress Puppet output to console
-''' % sys.argv[0]
+from run import resolveHostList, runCommand, createArgumentParser
 
 def parseOptions(args):
-  try:
-    options, args = getopt.getopt(args, 'u:vt')
-  except getopt.GetoptError, e:
-    print >>sys.stderr, e
-    usage()
-    sys.exit(1)
+  description = 'Run provisioning on the given hosts or groups of hosts'
+  parser = createArgumentParser(description=description)
+  parser.add_argument(
+    '-t', '--test', action='store_true', dest='dry_run',
+    help='dry-run mode, will not apply any host setup changes'
+  )
 
-  if set(('-t', '-q')).issubset(options):
+  parser.add_argument(
+    '-q', '--quiet', action='store_true', dest='quiet',
+    help='quiet mode, suppresses Puppet output to console'
+  )
+
+  parser.add_argument(
+    'hosts', metavar='host|group', nargs='+',
+    help='target host or group, can be specified multiple times',
+  )
+
+  options = parser.parse_args(args)
+
+  if options.quiet and options.dry_run:
     print >>sys.stderr, 'Only one mode flag can be specified, either -t or -q'
-    usage()
     sys.exit(1)
+  elif options.quiet:
+    options.mode = ''
+  elif options.dry_run:
+    options.mode = ' --test --noop'
+  else:
+    options.mode = ' --test'
 
-  user = None
-  mode = ' --test'
-  for option, value in options:
-    if option == '-u':
-      user = value
-    elif option == '-q':
-      mode = ''
-    elif option == '-t':
-      mode = ' --test --noop'
-
-  return user, mode, args
+  return options
 
 def updateMaster(user):
   print 'Updating data on the puppet master...'
@@ -51,7 +44,7 @@ def updateMaster(user):
     'sudo hg pull -qu -R /etc/puppet/infrastructure/modules/private',
     'sudo /etc/puppet/infrastructure/ensure_dependencies.py /etc/puppet/infrastructure',
   ])
-  runCommand(user, "puppetmaster.adblockplus.org", remoteCommand)
+  runCommand(user, 'puppetmaster.adblockplus.org', remoteCommand)
 
 def updateClient(user, host, mode):
   print 'Provisioning %s...' % host
@@ -60,12 +53,12 @@ def updateClient(user, host, mode):
   # Have to ignore errors here, Puppet will return non-zero for successful runs
   runCommand(user, host, remoteCommand, ignore_errors=True)
 
-if __name__ == "__main__":
-  user, mode, args = parseOptions(sys.argv[1:])
-  needKicking = resolveHostList(args)
+if __name__ == '__main__':
+  options = parseOptions(sys.argv[1:])
+  needKicking = resolveHostList(options.hosts)
   if len(needKicking) == 0:
     print >>sys.stderr, 'No valid hosts or groups specified, nothing to do'
     sys.exit(0)
-  updateMaster(user)
+  updateMaster(options.user)
   for host in needKicking:
-    updateClient(user, host, mode)
+    updateClient(options.user, host, options.mode)
