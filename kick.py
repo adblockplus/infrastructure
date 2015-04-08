@@ -55,7 +55,7 @@ def updateClient(user, host, mode):
 
 if __name__ == '__main__':
   options = parseOptions(sys.argv[1:])
-  needKicking = resolveHostList(options.hosts)
+  needKicking = resolveHostList(options)
   if len(needKicking) == 0:
     print >>sys.stderr, 'No valid hosts or groups specified, nothing to do'
     sys.exit(0)

@@ -4,6 +4,7 @@
 import argparse
 import sys
 import os
+import posixpath
 import re
 import subprocess
 import yaml
@@ -11,8 +12,18 @@ import yaml
 def createArgumentParser(**kwargs):
   parser = argparse.ArgumentParser(**kwargs)
   parser.add_argument(
-    '-u', '--user', metavar='user', dest='user', type=str, default='vagrant',
+    '-u', '--user', metavar='user', dest='user', type=str,
     help='user name for use with SSH, must exist on all hosts'
+  )
+
+  parser.add_argument(
+    '-l', '--local', action='store_false', dest='remote', default=None,
+    help='use the local version of hosts.yaml'
+  )
+
+  parser.add_argument(
+    '-r', '--remote', metavar='master', dest='remote', type=str,
+    help='use a remote (puppet-master) version of hosts.yaml'
   )
 
   return parser
@@ -41,25 +52,41 @@ def parseOptions(args):
   options.hosts = hosts
   return options
 
-def getValidHosts():
-  dirname = os.path.dirname(sys.argv[0])
-  path_name = os.path.join(dirname, 'modules', 'private', 'hiera', 'hosts.yaml')
-  with open(path_name, 'rb') as handle:
-    config = yaml.load(handle)
+def getValidHosts(options):
+  path_canonical = ('modules', 'private', 'hiera', 'hosts.yaml')
+
+  if options.remote:
+    login = ['-l', options.user] if options.user else []
+    path_name = posixpath.join('/etc/puppet/infrastructure', *path_canonical)
+    command = ['ssh'] + login + [options.remote, '--', 'sudo', 'cat', path_name]
+    child = subprocess.Popen(command, stderr=sys.stderr, stdout=subprocess.PIPE)
+    try:
+      config = yaml.load(child.stdout)
+    finally:
+      child.stdout.close()
+      child.wait()
+  elif options.remote is False:
+    dirname = os.path.dirname(sys.argv[0])
+    path_name = os.path.join(dirname, *path_canonical)
+    with open(path_name, 'rb') as handle:
+      config = yaml.load(handle)
+  else:
+    sys.exit('Please either specify a --remote host or use --local')
+
   servers = config.get('servers', {})
   return servers  
 
-def resolveHostList(hosts):
+def resolveHostList(options):
 
   result = set()
 
   try:
-    valid_hosts = getValidHosts()
+    valid_hosts = getValidHosts(options)
   except Warning as error:
     print >>sys.stderr, 'Warning: failed to determine valid hosts:', error
-    result.update(hosts)
+    result.update(options.hosts)
   else:
-    for name in hosts:
+    for name in options.hosts:
       chunk = [
           value.get('dns', key) for (key, value) in valid_hosts.items()
 
@@ -87,7 +114,7 @@ def runCommand(user, host, command, ignore_errors=False):
 
 if __name__ == '__main__':
   options = parseOptions(sys.argv[1:])
-  selectedHosts = resolveHostList(options.hosts)
+  selectedHosts = resolveHostList(options)
   if len(selectedHosts) == 0:
     print >>sys.stderr, 'No valid hosts or groups specified, nothing to do'
     sys.exit(0)
