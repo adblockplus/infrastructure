@@ -5,67 +5,47 @@ index index;
 default_type text/html;
 charset utf-8;
 
+set $index_page "index";
+
 <% if @custom_config %>
   <%= custom_config %>
 <% end %>
 
-# Match Accept-Language header against available languages
-
-set $preferredLang "";
-if ($http_accept_language ~ ^(\w\w)-(\w\w)\b)
+location /
 {
-  set $preferrredLang $1_$2;
-}
-if (!-f $document_root/$preferredLang/index)
-{
-  set $preferredLang "";
-}
+  # Match Accept-Language header against available languages
 
-set $temp "$preferredLang|$http_accept_language";
-if ($temp ~ ^\|(\w\w)\b)
-{
-  set $preferredLang $1;
-}
-if (!-f $document_root/$preferredLang/index)
-{
-  set $preferredLang "";
-}
+  set $preferredLang en;
+  set $preferredRegion "";
+  if ($http_accept_language ~ ^(\w\w)\b)
+  {
+    set $preferredLang $1;
+  }
+  if ($http_accept_language ~ ^\w\w-(\w\w)\b)
+  {
+    set $preferredRegion $1;
+  }
 
-if ($preferredLang = "")
-{
-  set $preferredLang "en";
-}
+  # Redirect canonical URLs to language-specific versions
 
-# Always redirect server root
+  if (-f "$document_root/${preferredLang}_$preferredRegion$uri")
+  {
+    rewrite ^(.*) /${preferredLang}_$preferredRegion$1 last;
+  }
+  if (-f "$document_root/$preferredLang$uri")
+  {
+    rewrite ^(.*) /$preferredLang$1 last;
+  }
+  if (-f "$document_root/en$uri")
+  {
+    rewrite ^(.*) /en$1 last;
+  }
 
-rewrite ^/$ /$preferredLang/ last;
+  # Redirect server/language root
 
-# Don't do anything if requested file exists
-
-if (-f $request_filename)
-{
-  break;
-}
-if (-d $request_filename)
-{
-  break;
-}
-
-# Redirect canonical URLs to language-specific versions
-
-set $canonical $uri;
-if ($canonical ~ ^(.*?)\?)
-{
-  set $canonical $1;
-}
-
-if (-f $document_root/$preferredLang$canonical)
-{
-  rewrite ^ /$preferredLang$canonical last;
-}
-if (-f $document_root/en$canonical)
-{
-  rewrite ^ /en$canonical last;
+  rewrite ^/$ /$index_page last;
+  rewrite ^/(\w\w(_\w\w)?)$ /$1/ permanent;
+  rewrite ^/(\w\w(_\w\w)?)/$ /$1/$index_page last;
 }
 
 <% if @multiplexer_locations %>
