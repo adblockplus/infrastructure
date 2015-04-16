@@ -5,7 +5,7 @@ if ($uri ~ ^/(:?\w\w(_\w\w)?/)?(?:index|firefox|chrome|opera|android|internet-ex
 {
   set $csp_frame "; frame-src www.youtube-nocookie.com;";
 }
-add_header Content-Security-Policy "default-src \'self\'; img-src * data:; style-src \'self\' \'unsafe-inline\'; script-src \'self\' \'unsafe-inline\' \'unsafe-eval\' $csp_frame";
+add_header Content-Security-Policy "default-src 'self'; img-src * data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval' $csp_frame";
 add_header X-Frame-Options "sameorigin";
 
 # User agent sniffing
@@ -56,7 +56,7 @@ if ($http_user_agent ~ \bMaxthon/\d+)
   set $user_agent "maxthon";
 }
 
-sub_filter \' id="content" class="\' \' id="content" class="ua-$user_agent \';
+sub_filter ' id="content" class="' ' id="content" class="ua-$user_agent ';
 
 set $index_page "firefox";
 if ($user_agent != "")
