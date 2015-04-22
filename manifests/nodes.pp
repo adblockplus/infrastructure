@@ -1,4 +1,3 @@
-import 'filterserver.pp'
 import 'downloadserver.pp'
 import 'updateserver.pp'
 import 'statsserver.pp'
