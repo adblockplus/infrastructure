@@ -1,0 +1,7 @@
+classes:
+  statsclient:
+  filterserver:
+    is_default: true
+  notificationserver:
+    is_default: false
+
