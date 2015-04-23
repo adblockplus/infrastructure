@@ -37,14 +37,14 @@ def parseOptions(args):
 
   return options
 
-def updateMaster(user):
+def updateMaster(options):
   print 'Updating data on the puppet master...'
   remoteCommand = ' && '.join([
     'sudo hg pull -qu -R /etc/puppet/infrastructure',
     'sudo hg pull -qu -R /etc/puppet/infrastructure/modules/private',
     'sudo /etc/puppet/infrastructure/ensure_dependencies.py /etc/puppet/infrastructure',
   ])
-  runCommand(user, 'puppetmaster.adblockplus.org', remoteCommand)
+  runCommand(options.user, options.remote, remoteCommand)
 
 def updateClient(user, host, mode):
   print 'Provisioning %s...' % host
@@ -55,10 +55,10 @@ def updateClient(user, host, mode):
 
 if __name__ == '__main__':
   options = parseOptions(sys.argv[1:])
+  updateMaster(options)
   needKicking = resolveHostList(options)
   if len(needKicking) == 0:
     print >>sys.stderr, 'No valid hosts or groups specified, nothing to do'
     sys.exit(0)
-  updateMaster(options.user)
   for host in needKicking:
     updateClient(options.user, host, options.mode)

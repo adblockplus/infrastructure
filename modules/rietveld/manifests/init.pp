@@ -33,7 +33,7 @@ class rietveld(
   }
 
   exec {'get_rietveld':
-    command => "hg clone https://code.google.com/p/django-gae2django/ ${django_home}/",
+    command => "hg clone https://hg.adblockplus.org/gae2django/ ${django_home}/",
     require => Package['mercurial'],
     user => rietveld,
     onlyif => "test ! -d ${django_home}",

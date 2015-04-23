@@ -2,6 +2,7 @@
 servers:
   filter1:
     ip: [10.8.0.120]
+    role: filterserver
     ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAUhHiFdqQBATyyOE9XPR7v2+bghp3r1QY0O62d/klV7yhAOBKQuI6MtTu43cYQE60M10OzVfeeMfmc0dPP97UM=
     groups: [filter-servers]
   server4:
