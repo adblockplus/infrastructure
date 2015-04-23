@@ -1,4 +1,4 @@
-RIETVELDREV=32c87e882d9b
+RIETVELDREV=40320f76005c
 
 default:
 	@echo "Run 'make all' to fetch required sources to run this example."
@@ -28,7 +28,7 @@ dev.db:
 	./manage.py syncdb --noinput
 
 rietveld.hg:
-	hg clone -u $(RIETVELDREV) http://code.google.com/p/rietveld rietveld.hg
+	hg clone -u $(RIETVELDREV) https://hg.adblockplus.org/rietveld rietveld.hg
 
 codereview: rietveld.hg
 	ln -s rietveld.hg/codereview .
