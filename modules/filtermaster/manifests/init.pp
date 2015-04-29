@@ -109,7 +109,8 @@ class filtermaster {
                   'adblockpolska',
                   'facebookfilters',
                   'youtubefilters',
-                  'antiadblockfilters'
+                  'antiadblockfilters',
+                  'adwarefilters',
      ]:
   }
 

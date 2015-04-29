@@ -16,4 +16,5 @@ adblockpolska_repository=%(root)s/adblockpolska
 facebookfilters_repository=%(root)s/facebookfilters
 youtubefilters_repository=%(root)s/youtubefilters
 antiadblockfilters_repository=%(root)s/antiadblockfilters
+adwarefilters_repository=%(root)s/adwarefilters
 outdir=/home/rsync/generated
