@@ -26,6 +26,7 @@ env:
   - HOSTNAME=download1
   - HOSTNAME=filtermaster1
   - HOSTNAME=issues1
+  - HOSTNAME=issues2
   - HOSTNAME=stats1
   - HOSTNAME=update1
   - HOSTNAME=web1
