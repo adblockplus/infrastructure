@@ -1,0 +1,34 @@
+language:
+  bash
+
+before_install:
+  - sudo apt-get -y update
+
+script:
+  - make
+  - sudo mkdir -p /etc/puppet
+  - sudo ln -s $PWD /etc/puppet/infrastructure
+  - sudo /etc/puppet/infrastructure/hiera/install_precise.py
+  - sudo hostname $HOSTNAME
+  - sudo puppet apply
+    --debug
+    --detailed-exitcodes
+    --environment=development
+    --external_nodes=/etc/puppet/infrastructure/hiera/puppet_node_classifier.rb
+    --modulepath=/etc/puppet/infrastructure/modules
+    --node_terminus=exec
+    --verbose /etc/puppet/infrastructure/manifests/nodes.pp || test $? -eq 2
+
+env:
+  - HOSTNAME=filter1
+  - HOSTNAME=server4
+  - HOSTNAME=codereview1
+  - HOSTNAME=download1
+  - HOSTNAME=filtermaster1
+  - HOSTNAME=issues1
+  - HOSTNAME=issues2
+  - HOSTNAME=stats1
+  - HOSTNAME=update1
+  - HOSTNAME=web1
+  - HOSTNAME=web2
+

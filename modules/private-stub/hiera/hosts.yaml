@@ -30,6 +30,10 @@ servers:
   issues1:
     ip: [10.8.0.131]
     groups: [http-servers]
+  issues2:
+    ip: [10.8.0.147]
+    role: issuesserver
+    groups: [http-servers]
   stats1:
     ip: [10.8.0.130]
     groups: [http-servers]

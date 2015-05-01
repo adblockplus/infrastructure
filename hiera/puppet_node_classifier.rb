@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/ruby
 # This script is a node classifier for Puppet that operates on top of Hiera
 # and uses a custom hosts.yaml config to map host roles.
 
