@@ -3,7 +3,6 @@
 import sys, os, pwd, subprocess
 
 app_dir = '/opt/discourse'
-airbrake_key = os.environ.get('AIRBRAKE_KEY', None)
 
 # HOME environment variable isn't reliable when called via sudo
 home_dir = os.path.expanduser('~' + pwd.getpwuid(os.getuid()).pw_name)
@@ -17,33 +16,10 @@ env['RUBY_GC_MALLOC_LIMIT'] = '90000000'
 def callRailsCommand(command):
   subprocess.check_call(command, env=env, cwd=app_dir)
 
-def initAirBrake():
-  if airbrake_key == None:
-    return
-
-  path = os.path.join(app_dir, 'config', 'initializers', 'airbrake.rb')
-  if os.path.exists(path):
-    with open(path, 'rb') as handle:
-      data = handle.read()
-
-    if data.find(airbrake_key) >= 0:
-      return
-    else:
-      os.remove(path)
-  callRailsCommand([os.path.join(app_dir, 'script', 'rails'), 'generate', 'airbrake', '--api-key', airbrake_key])
-
-  with open(path, 'rb+') as handle:
-    # Prepend file with require 'airbrake', won't happen by default
-    data = handle.read()
-    handle.seek(0)
-    print >>handle, "require 'airbrake'"
-    handle.write(data)
-
 def runInitCommands():
   service_path = '/etc/init.d/discourse'
 
   callRailsCommand(['bundle', 'install', '--deployment', '--without', 'test', '--without', 'development'])
-  initAirBrake()
   callRailsCommand(['bundle', 'exec', 'rake', 'db:migrate'])
   callRailsCommand(['bundle', 'exec', 'rake', 'assets:precompile'])
 

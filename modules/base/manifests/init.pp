@@ -6,8 +6,10 @@ class base ($zone='adblockplus.org') {
     stage => 'pre',
   }
 
-  class {'apt':
-    always_apt_update => true
+  if !defined(Class['apt']) {
+    class {'apt':
+      always_apt_update => true
+    }
   }
 
   Exec['apt_update'] -> Package <| |>
@@ -52,7 +54,7 @@ class base ($zone='adblockplus.org') {
     $dns            = undef,
     $groups         = undef,
   ) {
-    
+
     if is_array($ip) {
       $internal_ip = $ip[0]
     } else {
@@ -60,7 +62,7 @@ class base ($zone='adblockplus.org') {
     }
 
     $fqdn_name = join([$name, $base::zone], '.')
-    
+
     host{$name:
       ensure => present,
       ip => $internal_ip,
@@ -68,7 +70,7 @@ class base ($zone='adblockplus.org') {
       host_aliases => $dns ? {
         undef => [],
         default => $dns,
-      }  
+      }
     }
 
     if $ssh_public_key != undef {

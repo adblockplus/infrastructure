@@ -5,7 +5,15 @@ class discourse(
     $is_default = false
   ) inherits private::discourse {
 
+  class { 'postgresql::globals':
+    manage_package_repo => true,
+    version => '9.3',
+  }->
   class {"postgresql::server":}
+
+  class {"postgresql::server::contrib":
+    package_ensure => 'present',
+  }
 
   postgresql::server::database {'discourse':}
 
@@ -17,41 +25,48 @@ class discourse(
     require => Postgresql::Server::Database['discourse']
   }
 
-  $basic_dependencies = ['postgresql-contrib', 'redis-server', 'ruby1.9.1',
-      'libjemalloc1', 'curl']
-  $gem_dependencies = ['git', 'build-essential', 'ruby1.9.1-dev', 'libxml2-dev',
-      'libxslt-dev', 'libpq-dev']
+  $rvm_dependencies = ['curl', 'git-core', 'patch', 'build-essential', 'bison',
+      'zlib1g-dev', 'libssl-dev', 'libxml2-dev', 'sqlite3', 'libsqlite3-dev',
+      'autotools-dev', 'libxslt1-dev', 'libyaml-0-2', 'autoconf', 'automake',
+      'libreadline6-dev', 'libyaml-dev', 'libtool', 'libgdbm-dev',
+      'libncurses5-dev', 'libffi-dev', 'pkg-config', 'gawk']
+  $discourse_dependencies = ['redis-server', 'libjemalloc1']
+  $gem_dependencies = ['libpq-dev']
   $image_optim_dependencies = ['advancecomp', 'gifsicle', 'jhead', 'jpegoptim',
       'libjpeg-progs', 'optipng', 'pngcrush']
   $image_sorcery_dependencies = 'imagemagick'
 
-  package {[$basic_dependencies, $gem_dependencies, $image_optim_dependencies, $image_sorcery_dependencies]:
+  package {[$rvm_dependencies, $discourse_dependencies, $gem_dependencies, $image_optim_dependencies, $image_sorcery_dependencies]:
     ensure => present
   }
 
-  Exec {path => '/bin:/usr/bin:/usr/sbin:/usr/local/bin'}
-
-  exec {'update-alternatives --set ruby "/usr/bin/ruby1.9.1"':
-    unless => 'test $(readlink "/etc/alternatives/ruby") == "/usr/bin/ruby1.9.1"',
-    require => Package['ruby1.9.1']
+  Exec <| tag == 'rvm' |> {
+    path => '/bin:/usr/bin:/usr/sbin:/usr/local/bin:/home/discourse/.rvm/bin',
+    user => discourse,
+    group => www-data,
+    environment => ['HOME=/home/discourse'],
   }
 
-  exec {'update-alternatives --set gem "/usr/bin/gem1.9.1"':
-    unless => 'test $(readlink "/etc/alternatives/gem") == "/usr/bin/gem1.9.1"',
-    require => Package['ruby1.9.1'],
-    before => Exec['update_gem']
+  exec {'install-rvm-key':
+    command => 'gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3',
+    tag => 'rvm',
+    unless => 'gpg --list-keys | grep D39DC0E3',
   }
 
-  exec {'update_gem':
-    command => '/usr/bin/gem update --system 1.8.25',
-    unless => 'test $(gem -v) == "1.8.25"',
-    environment => 'REALLY_GEM_UPDATE_SYSTEM=1',
+  exec {'install-ruby':
+    command => 'curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1.2',
+    tag => 'rvm',
+    creates => '/home/discourse/.rvm',
+    timeout => 0,
+    logoutput => true,
+    require => [Exec['install-rvm-key'], Package[$rvm_dependencies]],
   }
 
-  package {'bundler':
-    ensure => present,
-    provider => gem,
-    require => Exec['update_gem']
+  exec {'install-bundler':
+    command => 'rvm default do gem install bundler',
+    tag => 'rvm',
+    unless => 'rvm default do gem list | grep "^bundler ")',
+    require => Exec['install-ruby'],
   }
 
   file {'/opt/discourse':
@@ -108,20 +123,38 @@ class discourse(
     path => ["/usr/bin/", "/bin/"],
     user => discourse,
     group => www-data,
+    timeout => 0,
     require => [Package['mercurial'], File['/opt/discourse']],
-    notify => Exec['/usr/local/bin/init-discourse'],
+    notify => Exec['init-discourse'],
     onlyif => "test ! -d /opt/discourse/.hg"
   }
 
-  exec {'/usr/local/bin/init-discourse':
+  file {'/opt/discourse/config/initializers/airbrake.rb':
+    ensure => absent,
+    before => Exec['init-discourse'],
+  }
+
+  file {'/opt/discourse/config/version.rb':
+    ensure => present,
+    owner => discourse,
+    group => www-data,
+
+    # This is hardcoded here so that Discourse doesn't try to extract it from
+    # the repository. Ideally, we should update it when updating Discourse.
+    content => '$git_version = "8a3a02421a39f53b6adf3ca9a6fdba73f42bc932"',
+    require => Exec['fetch-discourse'],
+    before => Exec['init-discourse'],
+  }
+
+  exec {'init-discourse':
+    command => 'rvm default do /usr/local/bin/init-discourse',
+    tag => 'rvm',
     subscribe => File['/usr/local/bin/init-discourse'],
     refreshonly => true,
-    environment => ["AIRBRAKE_KEY=${airbrake_key}"],
-    user => discourse,
-    group => www-data,
     timeout => 0,
     logoutput => true,
-    require => [Package['bundler', $gem_dependencies],
+    require => [Exec['install-bundler'],
+                Package[$discourse_dependencies, $gem_dependencies],
                 User['discourse'], File['/etc/sudoers.d/discourse'],
                 Exec['fetch-discourse'],
                 File['/opt/discourse/config/discourse.conf'],
@@ -129,7 +162,7 @@ class discourse(
   }
 
   Discourse::Sitesetting <| |> {
-    require => Exec['/usr/local/bin/init-discourse']
+    require => Exec['init-discourse']
   }
 
   discourse::sitesetting {'title':
@@ -216,6 +249,30 @@ class discourse(
     value => 'f'
   }
 
+  discourse::sitesetting {'enable_google_logins':
+    ensure => present,
+    type => 5,
+    value => 'f'
+  }
+
+  discourse::sitesetting {'enable_google_oauth2_logins':
+    ensure => present,
+    type => 5,
+    value => 't'
+  }
+
+  discourse::sitesetting {'google_oauth2_client_id':
+    ensure => present,
+    type => 1,
+    value => $google_client_id
+  }
+
+  discourse::sitesetting {'google_oauth2_client_secret':
+    ensure => present,
+    type => 1,
+    value => $google_client_secret
+  }
+
   discourse::sitesetting {'enable_facebook_logins':
     ensure => present,
     type => 5,
@@ -269,16 +326,16 @@ class discourse(
     workdir => '/opt/discourse',
     env => ['RAILS_ENV=production', 'RUBY_GC_MALLOC_LIMIT=90000000',
       'UNICORN_WORKERS=2', 'LD_PRELOAD=/usr/lib/libjemalloc.so.1'],
-    require => Exec['/usr/local/bin/init-discourse']
+    require => Exec['init-discourse']
   }
 
   discourse::customservice {'discourse':
-    command => 'bundle exec config/unicorn_launcher -c config/unicorn.conf.rb',
+    command => '/home/discourse/.rvm/bin/rvm default do bundle exec config/unicorn_launcher -c config/unicorn.conf.rb',
     require => File['/opt/discourse/tmp/pids'],
   }
 
   discourse::customservice {'sidekiq':
-    command => 'bundle exec sidekiq'
+    command => '/home/discourse/.rvm/bin/rvm default do bundle exec sidekiq'
   }
 
   class {'nginx':
