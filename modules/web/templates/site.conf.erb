@@ -36,6 +36,10 @@ location /
   {
     rewrite ^(.*) /$preferredLang$1 last;
   }
+  if (-f "$document_root/en$uri/$index_page")
+  {
+    rewrite ^(.*) /en$1 last;
+  }
   if (-f "$document_root/en$uri")
   {
     rewrite ^(.*) /en$1 last;
