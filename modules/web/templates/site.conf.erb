@@ -28,19 +28,15 @@ location /
 
   # Redirect canonical URLs to language-specific versions
 
-  if (-f "$document_root/${preferredLang}_$preferredRegion$uri")
+  if (-e "$document_root/${preferredLang}_$preferredRegion$uri")
   {
     rewrite ^(.*) /${preferredLang}_$preferredRegion$1 last;
   }
-  if (-f "$document_root/$preferredLang$uri")
+  if (-e "$document_root/$preferredLang$uri")
   {
     rewrite ^(.*) /$preferredLang$1 last;
   }
-  if (-f "$document_root/en$uri/$index_page")
-  {
-    rewrite ^(.*) /en$1 last;
-  }
-  if (-f "$document_root/en$uri")
+  if (-e "$document_root/en$uri")
   {
     rewrite ^(.*) /en$1 last;
   }
