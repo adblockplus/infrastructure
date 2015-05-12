@@ -49,5 +49,17 @@ servers:
     ip: [10.8.0.146]
     ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNGsgpvtJ9VeYhcl094C0h0fw26lQSa/6bAan1o8FB+cu35+lugsSSUXXbGT5sr+UYaWILB226RgO+aQ4mn49m0=
     groups: [http-servers]
+  web-sh-abp-org-1:
+    ip: [10.8.0.147]
+    groups: [http-servers]
+  web-yt-abp-me-1:
+    ip: [10.8.0.148]
+    groups: [http-servers]
+  web-fb-abp-me-1:
+    ip: [10.8.0.149]
+    groups: [http-servers]
+  web-aa-org-1:
+    ip: [10.8.0.150]
+    groups: [http-servers]
 
 

@@ -99,3 +99,51 @@ node 'web3' {
     repository => 'testpages.adblockplus.org',
   }
 }
+
+node 'web-sh-abp-org-1' {
+  include statsclient
+
+  class {'web::server':
+    vhost => 'share.adblockplus.org',
+    certificate => 'share.adblockplus.org_sslcert.pem',
+    private_key => 'share.adblockplus.org_sslcert.key',
+    is_default => true,
+    repository => 'share.adblockplus.org',
+  }
+}
+
+node 'web-yt-abp-me-1' {
+  include statsclient
+
+  class {'web::server':
+    vhost => 'youtube.adblockplus.me',
+    certificate => 'youtube.adblockplus.me_sslcert.pem',
+    private_key => 'youtube.adblockplus.me_sslcert.key',
+    is_default => true,
+    repository => 'youtube.adblockplus.me',
+  }
+}
+
+node 'web-fb-abp-me-1' {
+  include statsclient
+
+  class {'web::server':
+    vhost => 'facebook.adblockplus.me',
+    certificate => 'facebook.adblockplus.me_sslcert.pem',
+    private_key => 'facebook.adblockplus.me_sslcert.key',
+    is_default => true,
+    repository => 'facebook.adblockplus.me',
+  }
+}
+
+node 'web-aa-org-1' {
+  include statsclient
+
+  class {'web::server':
+    vhost => 'acceptableads.org',
+    certificate => 'acceptableads.org_sslcert.pem',
+    private_key => 'acceptableads.org_sslcert.key',
+    is_default => true,
+    repository => 'web.acceptableads.org',
+  }
+}
