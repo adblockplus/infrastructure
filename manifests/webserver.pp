@@ -35,10 +35,11 @@ node 'web2' {
   include statsclient
 
   class {'web::server':
-    vhost => 'beta.adblockplus.org',
-    certificate => 'beta.adblockplus.org_sslcert.pem',
-    private_key => 'beta.adblockplus.org_sslcert.key',
+    vhost => 'adblockplus.org',
+    certificate => 'adblockplus.org_sslcert.pem',
+    private_key => 'adblockplus.org_sslcert.key',
     is_default => true,
+    aliases => ['www.adblockplus.org'],
     custom_config => template('web/adblockplus.org.conf.erb'),
     repository => 'web.adblockplus.org',
     multiplexer_locations => ['/getSubscription'],
