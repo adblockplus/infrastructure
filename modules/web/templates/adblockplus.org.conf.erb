@@ -57,6 +57,7 @@ if ($http_user_agent ~ \bMaxthon/\d+)
 }
 
 sub_filter ' id="content" class="' ' id="content" class="ua-$user_agent ';
+sub_filter_last_modified on;
 
 set $index_page "firefox";
 if ($user_agent != "")
