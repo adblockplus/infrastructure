@@ -178,14 +178,17 @@ location /redirect
   rewrite ^ /$lang/$link$anchor? redirect;
 }
 
-location /devbuilds
-{
-  rewrite ^(.*) https://downloads.adblockplus.org$1;
-}
-
 # Locations still served by the legacy server
 
 location ~ ^(/blog|/releases|/development-builds|/atom|/rss|/category|/section|/author|/file_download|/textpattern|/default-static|/_override-static)($|/)
+{
+  try_files $uri @proxied;
+}
+location /devbuilds
+{
+  try_files $uri @proxied;
+}
+location /submitEmail
 {
   try_files $uri @proxied;
 }
