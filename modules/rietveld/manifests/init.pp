@@ -5,6 +5,10 @@ class rietveld(
     $is_default = false,
     $secret_key = hiera('rietveld::secret_key', ''),
     $fixtures = hiera('rietveld::fixtures', {}),
+    $database = hiera('rietveld::database', {
+      'engine' => 'sqlite3',
+      'name' => 'dev.db',
+    }),
 ) {
 
   include nginx
@@ -60,7 +64,7 @@ class rietveld(
     require => [
       File["${rietveld_home}/Makefile"],
       File["${rietveld_home}/settings.py"]],
-    onlyif => "test ! -f ${$rietveld_home}/dev.db",
+    onlyif => "test ! -e ${$rietveld_home}/gae2django",
   }
 
   file {'/etc/init/rietveld.conf':
