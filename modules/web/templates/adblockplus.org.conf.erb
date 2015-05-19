@@ -192,6 +192,10 @@ location /submitEmail
 {
   try_files $uri @proxied;
 }
+location /verifyEmail
+{
+  try_files $uri @proxied;
+}
 location /forum
 {
   try_files $uri @proxied;
