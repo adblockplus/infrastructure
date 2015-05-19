@@ -1,5 +1,3 @@
-expires 1d;
-
 root /var/www/<%= vhost %>;
 index index;
 default_type text/html;
@@ -13,6 +11,8 @@ set $index_page "index";
 
 location /
 {
+  expires 1d;
+
   # Match Accept-Language header against available languages
 
   set $preferredLang en;
