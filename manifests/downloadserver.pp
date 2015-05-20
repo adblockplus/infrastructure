@@ -1,4 +1,4 @@
-node 'download1', 'download2', 'download3' {
+node 'download1', 'download2', 'download3', 'download4' {
   include statsclient
 
   class {'downloadserver':
