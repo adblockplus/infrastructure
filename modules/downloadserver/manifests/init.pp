@@ -11,6 +11,26 @@ class downloadserver(
     ssl_session_cache => off,
   }
 
+  class {'sitescripts':
+    sitescriptsini_source => 'puppet:///modules/downloadserver/sitescripts',
+  }
+
+  package {['python-flup', 'python-jinja2']:}
+  include spawn-fcgi
+
+  spawn-fcgi::pool {'multiplexer':
+    ensure => present,
+    fcgi_app => '/opt/sitescripts/multiplexer.fcgi',
+    socket => '/tmp/multiplexer-fastcgi.sock',
+    mode => '0666',
+    user => 'nginx',
+    children => 1,
+    require => [
+      Exec['fetch_sitescripts'],
+      Package['python-flup', 'python-jinja2'],
+    ],
+  }
+
   user {'hg':
     ensure => present,
     comment => 'Mercurial client user',
@@ -45,6 +65,12 @@ class downloadserver(
     certificate => $certificate,
     private_key => $private_key,
     log => 'access_log_downloads'
+  }
+
+  file {'/etc/nginx/conf.d/adblockbrowserupdatescache.conf':
+    source => 'puppet:///modules/downloadserver/adblockbrowserupdatescache.conf',
+    require => Package['nginx'],
+    notify => Service['nginx']
   }
 
   cron {'mirror':

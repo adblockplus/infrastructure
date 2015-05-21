@@ -1,0 +1,6 @@
+[extensions]
+nightliesDirectory=/var/www/devbuilds
+nightliesURL=https://downloads.adblockplus.org/devbuilds
+
+[multiplexer]
+sitescripts.extensions.web.adblockbrowserUpdates=
