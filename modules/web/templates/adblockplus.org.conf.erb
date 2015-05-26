@@ -189,7 +189,7 @@ location /devbuilds
 
 # Locations still served by the legacy server
 
-location ~ ^(/blog|/releases|/development-builds|/atom|/rss|/category|/section|/author|/file_download|/textpattern|/default-static|/_override-static)($|/)
+location ~ ^(/blog|/releases|/development-builds|/atom|/rss|/category|/section|/author|/file_download|/images|/textpattern|/default-static|/_override-static)($|/)
 {
   try_files $uri @proxied;
 }
