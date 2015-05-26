@@ -8,7 +8,7 @@ class statsmaster(
   include statsmaster::downloads, statsmaster::awstats
 
   # Realize known_hosts from base module
-  Sshkey <| |>
+  Sshkey <| tag == 'base::explicit_host_record' |>
 
   user {'stats':
     ensure => present,

@@ -85,9 +85,16 @@ class base ($zone='adblockplus.org') {
         key => $ssh_public_key,
         type => ssh-rsa,
         host_aliases => $ip,
+        tag => 'base::explicit_host_record',
       }
     }
+  }
 
+  # Work around https://projects.puppetlabs.com/issues/4145
+  Sshkey<| |> ->
+  file {'/etc/ssh/ssh_known_hosts':
+    ensure => 'present',
+    mode => 0644,
   }
 }
 
