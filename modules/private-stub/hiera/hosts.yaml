@@ -3,63 +3,72 @@ servers:
   filter1:
     ip: [10.8.0.120]
     role: filterserver
-    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAUhHiFdqQBATyyOE9XPR7v2+bghp3r1QY0O62d/klV7yhAOBKQuI6MtTu43cYQE60M10OzVfeeMfmc0dPP97UM=
+    ssh_public_key: &vagrant_box
+      AAAAB3NzaC1yc2EAAAADAQABAAABAQChpIwFFj2G8HeGbpe6tNLESGOKH2XiJ1A3w0iQydJoQjQMq/bd3lPexYDEFDI5orxe4KTtWXzqL74uco54x6DY35c7DbTBFlZi++DNfajh7zZVj+15ZXc5jefP8PO66gMgHUQ6dp0z8W5/p9OXdIwaWa8n083CzJn8IixF7/Q0bqBon7+7DNX/m+B7h+EfWizbzTrknrvGXXUYc1X7KY04fAIPa5S0TqEUliF2Yk1YHYyN5w7NUeLq3rd0YK8jFUy5DiKUgQ+ZYIKU3swcguZvFo38JBBrJns+1CKD28XQG6TguhWpzeVNMwcl+tm5LJjpGrTonprGgEPFC8Aa/+2T
     groups: [filter-servers]
   server4:
     ip: [10.8.0.99]
     role: monitoringserver
+    ssh_public_key: *vagrant_box
     dns: server_4.adblockplus.org
     groups: [http-servers]
   codereview1:
     ip: [10.8.0.132]
     role: codereviewserver
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
   download1:
     ip: [10.8.0.126]
-    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBE9gWnTMFJkJ6DqrmnmQvOHyK/yaWvz6SKPetMX/A6avRLm4AzinvD+F7z4mIqRbJxhJgRljOxZWVgWCOQEWYaY=
+    ssh_public_key: *vagrant_box
     dns: downloads.adblockplus.org
     groups: [http-servers]
   filtermaster1:
     ip: [10.8.0.127]
+    ssh_public_key: *vagrant_box
   server10:
     ip: [10.8.0.105]
     role: intraforumserver
-    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPoK6neBTjJIzWn6xhJozABPJoZ7809RmSOgBHKgbSMztjJD839Vbi263An4YgAhYijclPDX78zxjO0XgvW1aMc=
+    ssh_public_key: *vagrant_box
     dns: server_10.adblockplus.org
     groups: [http-servers]
   issues1:
     ip: [10.8.0.131]
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
   stats1:
     ip: [10.8.0.130]
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
   update1:
     ip: [10.8.0.128]
-    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNQ4C/hghKhYSQHiz3cquPVbbMP5tycwHChe5gbY03jVR9dynO6Ldb5MWL02r83zFisPqM6lvtnjuGA65dzVJYE=
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
   web1:
     ip: [10.8.0.129]
-    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMu0mGhPAhIbAv7H0iN74h6fC9H2576AxI9cXFj3FAQxHl2ItLIibrViThm0luOJiRIaLc1GxavBKK0dR4bzFR8=
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
   web2:
     ip: [10.8.0.145]
-    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDhC6a20iZh6VurNrRC3ZzdilTp6yelnzJ8/49ujHvkAC38Rj6870re3Yvkg+8AfxdyVNP8owqC6x7KQD0zJ6Nk=
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
   web3:
     ip: [10.8.0.146]
-    ssh_public_key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNGsgpvtJ9VeYhcl094C0h0fw26lQSa/6bAan1o8FB+cu35+lugsSSUXXbGT5sr+UYaWILB226RgO+aQ4mn49m0=
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
   web-sh-abp-org-1:
     ip: [10.8.0.147]
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
   web-yt-abp-me-1:
     ip: [10.8.0.148]
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
   web-fb-abp-me-1:
     ip: [10.8.0.149]
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
   web-aa-org-1:
     ip: [10.8.0.150]
+    ssh_public_key: *vagrant_box
     groups: [http-servers]
-
 
