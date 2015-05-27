@@ -100,7 +100,7 @@ class statsmaster::awstats {
   $sites = {
     'adblockplus.org' => {
       host => 'web2.adblockplus.org',
-      log => 'access_log_adblockplus',
+      log => 'access_log_adblockplus.org',
     },
     'easylist.adblockplus.org' => {
       host => 'ssh.adblockplus.org',
@@ -108,19 +108,19 @@ class statsmaster::awstats {
     },
     'share.adblockplus.org' => {
       host => 'web-sh-abp-org-1.adblockplus.org',
-      log => 'access_log_share',
+      log => 'access_log_share.adblockplus.org',
     },
     'facebook.adblockplus.me' => {
       host => 'web-fb-abp-me-1.adblockplus.org',
-      log => 'access_log_facebook',
+      log => 'access_log_facebook.adblockplus.me',
     },
     'youtube.adblockplus.me' => {
       host => 'web-yt-abp-me-1.adblockplus.org',
-      log => 'access_log_youtube',
+      log => 'access_log_youtube.adblockplus.me',
     },
     'acceptableads.org' => {
       host => 'web-aa-org-1.adblockplus.org',
-      log => 'access_log_acceptableads',
+      log => 'access_log_acceptableads.org',
     },
     'eyeo.com' => {
       host => 'web1.adblockplus.org',
