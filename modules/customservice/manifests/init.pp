@@ -1,4 +1,4 @@
-define discourse::customservice(
+define customservice(
   $command,
   $user,
   $env = [],
@@ -9,7 +9,7 @@ define discourse::customservice(
     owner => root,
     group => root,
     mode => '0755',
-    content => template('discourse/init-customservice.erb'),
+    content => template('customservice/init-customservice.erb'),
     notify => Service["$name"]
   }
 

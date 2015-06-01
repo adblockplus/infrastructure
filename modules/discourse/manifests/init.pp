@@ -321,7 +321,7 @@ class discourse(
     value => '50',
   }
 
-  Discourse::Customservice <| |> {
+  Customservice {
     user => 'discourse',
     workdir => '/opt/discourse',
     env => ['RAILS_ENV=production', 'RUBY_GC_MALLOC_LIMIT=90000000',
@@ -329,12 +329,12 @@ class discourse(
     require => Exec['init-discourse']
   }
 
-  discourse::customservice {'discourse':
+  customservice {'discourse':
     command => '/home/discourse/.rvm/bin/rvm default do bundle exec config/unicorn_launcher -c config/unicorn.conf.rb',
     require => File['/opt/discourse/tmp/pids'],
   }
 
-  discourse::customservice {'sidekiq':
+  customservice {'sidekiq':
     command => '/home/discourse/.rvm/bin/rvm default do bundle exec sidekiq'
   }
 

@@ -4,16 +4,13 @@ class rietveld(
     $private_key,
     $is_default = false,
     $secret_key = hiera('rietveld::secret_key', ''),
-    $fixtures = hiera('rietveld::fixtures', {}),
-    $database = hiera('rietveld::database', {
-      'engine' => 'sqlite3',
-      'name' => 'dev.db',
-    }),
+    $admins = hiera('rietveld::admins', []),
+    $oauth2_client_id = hiera('rietveld::oauth2_client_id', ''),
+    $oauth2_client_secret = hiera('rietveld::oauth2_client_secret', ''),
 ) {
 
   include nginx
-  $django_home = '/home/rietveld/django-gae2django'
-  $rietveld_home = "${django_home}/examples/rietveld"
+  $rietveld_home = '/opt/rietveld'
 
   Exec {
     path => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
@@ -27,7 +24,7 @@ class rietveld(
     log => 'access_log_codereview'
   }
 
-  package {['python-django', 'make', 'patch', 'gunicorn']: ensure => present}
+  package {['wget', 'unzip', 'git', 'make', 'patch', 'subversion']: ensure => present}
 
   user {'rietveld':
     ensure => present,
@@ -36,94 +33,85 @@ class rietveld(
     managehome => true
   }
 
+  exec {'download_appengine':
+    # TODO: We cannot rely on this URL to stay fixed
+    command => 'wget -O /home/rietveld/google_appengine.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.21.zip',
+    user => 'root',
+    creates => '/home/rietveld/google_appengine.zip',
+    require => [User['rietveld'], Package['wget']],
+  }
+
+  exec {'install_appengine':
+    command => 'unzip /home/rietveld/google_appengine.zip -d /opt',
+    user => 'root',
+    creates => '/opt/google_appengine',
+    require => [Exec['download_appengine'], Package['unzip']],
+  }
+
   exec {'get_rietveld':
-    command => "hg clone https://hg.adblockplus.org/gae2django/ ${django_home}/",
-    require => Package['mercurial'],
-    user => rietveld,
-    onlyif => "test ! -d ${django_home}",
+    command => "git clone https://github.com/rietveld-codereview/rietveld.git $rietveld_home && cd $rietveld_home && git reset --HARD 87257f5",
+    user => 'root',
+    require => Package['git'],
+    creates => $rietveld_home,
   }
 
-  file {"${rietveld_home}/Makefile":
+  exec {'setup_rietveld':
+    command => 'make update_revision mapreduce',
+    cwd => $rietveld_home,
+    user => root,
+    require => [Exec['get_rietveld'], Package['make', 'patch', 'subversion']],
+    creates => "${rietveld_home}/mapreduce",
+  }
+
+  file {'/opt/wrappers':
+    ensure => directory,
+    owner => 'root',
+  }
+
+  file {'wrapper.py':
+    path => '/opt/wrappers/wrapper.py',
     ensure => file,
-    owner => rietveld,
-    require => Exec['get_rietveld'],
-    source => 'puppet:///modules/rietveld/Makefile',
-  }
-
-  file {"${rietveld_home}/settings.py":
-    ensure => file,
-    owner => rietveld,
-    require => Exec['get_rietveld'],
-    content => template('rietveld/settings.py.erb'),
-  }
-
-  exec {'install_rietveld':
-    command => "make all",
-    cwd => "${rietveld_home}",
-    user => rietveld,
-    require => [
-      File["${rietveld_home}/Makefile"],
-      File["${rietveld_home}/settings.py"]],
-    onlyif => "test ! -e ${$rietveld_home}/gae2django",
-  }
-
-  file {'/etc/init/rietveld.conf':
-    ensure => file,
-    owner => root,
-    source => 'puppet:///modules/rietveld/rietveld.conf',
+    owner => 'root',
+    mode => '0755',
+    source => 'puppet:///modules/rietveld/wrapper.py',
     notify => Service['rietveld'],
   }
 
-  file {'/etc/init.d/rietveld':
+  file {'dev_appserver.py':
+    path => '/opt/wrappers/dev_appserver.py',
     ensure => link,
-    target => '/lib/init/upstart-job',
-    require => [File['/etc/init/rietveld.conf'], Exec['install_rietveld']]
+    require => File['wrapper.py'],
+    target => '/opt/wrappers/wrapper.py',
   }
 
-  service {'rietveld':
-    ensure => running,
-    hasstatus => false,
-    require => [Package['gunicorn'], File['/etc/init.d/rietveld']]
+  file {'_python_runtime.py':
+    path => '/opt/wrappers/_python_runtime.py',
+    ensure => link,
+    require => File['wrapper.py'],
+    target => '/opt/wrappers/wrapper.py',
   }
 
-  file {"${rietveld_home}/fixtures":
+  file {'/var/lib/rietveld':
     ensure => directory,
     owner => 'rietveld',
-    mode => 0750,
-    require => Exec['install_rietveld'],
   }
 
-  define fixture(
-    $ensure = present,
-    $source = undef,
-    $content = undef,
-  ) {
-
-    # Note that $script will return EXIT_SUCCESS when the .type is
-    # not recognized - although no action is done then. Thus we enforce
-    # JSON here, which is the default for command "dumpdata" anyway:
-    $script = "${rietveld::rietveld_home}/manage.py"
-    $destination = "${rietveld::rietveld_home}/fixtures/$name.json"
-
-    exec {$destination:
-      command => shellquote($script, 'loaddata', $destination),
-      cwd => $rietveld::rietveld_home,
-      refreshonly => true,
-      user => 'rietveld',
-    }
-
-    file {$destination:
-      ensure => $ensure,
-      content => $content,
-      source => $source,
-      owner => 'rietveld',
-      mode => 0640,
-      notify => $ensure ? {
-        present => Exec[$destination],
-        default => [],
-      }
-    }
+  file {'config.ini':
+    path => '/var/lib/rietveld/config.ini',
+    ensure => file,
+    owner => 'root',
+    content => template('rietveld/config.ini.erb'),
+    notify => Service['rietveld'],
   }
 
-  create_resources(rietveld::fixture, $fixtures)
+  customservice {'rietveld':
+    command => "/opt/wrappers/dev_appserver.py \
+      --enable_sendmail --skip_sdk_update_check
+      --port 8080 ${rietveld_home}",
+    user => 'rietveld',
+    require => [
+      Exec['install_appengine', 'setup_rietveld'],
+      File['dev_appserver.py', '_python_runtime.py', 'config.ini'],
+    ],
+  }
 }

@@ -1,0 +1,7 @@
+[main]
+cookie_secret = <%= @secret_key %>
+admins = <% admins.each do |admin| %><%= admin %> <% end %>
+
+[oauth2]
+client_id = <%= @oauth2_client_id %>
+client_secret = <%= @oauth2_client_secret %>

@@ -1,6 +1,6 @@
 rietveld::secret_key: 'el@4s$*(idwm5-87teftxlksckmy8$tyo7(tm!n-5x)zeuheex'
-rietveld::fixtures:
-  development:
-    ensure: "present"
-    source: "puppet:///modules/private/rietveld-auth-users.json"
+rietveld::admins: ['admin@example.com']
 
+# Google OAuth2 credentials (only valid for codereview.test.example.com)
+rietveld::oauth2_client_id: '513968628653-95pc63l111it9srihkktkjuvv82ub17s.apps.googleusercontent.com'
+rietveld::oauth2_client_secret: 'G6mHhxjv48gwNSshSyXmNCLi'
