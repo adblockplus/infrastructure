@@ -1,6 +1,0 @@
-fastcgi_cache_path /var/cache/nginx/notification levels=1 keys_zone=notification:1m;
-
-map $arg_lastVersion $group
-{
-  ~(?<1>-.*) $1;
-}
