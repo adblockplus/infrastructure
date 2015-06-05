@@ -140,7 +140,7 @@ allow_owner = true
 
 [blackmagic]
 permissions = TICKET_SET_PRIORITY, TICKET_CREATE_CC, TICKET_EDIT_KEYWORDS,TICKET_SET_OWNER, TICKET_SET_MILESTONE, TICKET_DEPENDENCY
-tweaks = id, priority, cc, keywords, owner, sensitive, milestone, blocking,blockedby,summary,type,component,verified_working,ready,review_url,platform
+tweaks = id, priority, cc, keywords, owner, sensitive, milestone, blocking,blockedby,summary,type,component,verified_working,ready,review_url,platform,tester
 gray_disabled = #cccccc
 id.label = Issue
 priority.permission = TICKET_SET_PRIORITY
@@ -171,7 +171,8 @@ priority.tip = Please only set this if you are absolutely sure about it.
 blocking.tip = Does this issue prevent another one from being fixed upfront?
 blockedby.tip = Does another issue prevent this one from being fixed?
 platform.tip = Please select the platform, where the issue belongs to.
-
+tester.permission = TICKET_MODIFY
+tester.tip = Select the tester who is assigned to this issue (to be set by Testers themselves)
 
 [ticket-custom]
 verified_working = checkbox
@@ -194,4 +195,8 @@ platform = select
 platform.label = Platform
 platform.options = Unknown|Android|Chrome|Internet Explorer|Firefox|Firefox Mobile|Kitt|Maxthon|Maxthon for Android|Opera|Safari|SeaMonkey|Thunderbird|Yandex.Browser
 platform.value = Unknown
+tester = select
+tester.label = Tester
+tester.options = Unknown|Ross|Shikitita
+tester.value = Unknown
 
