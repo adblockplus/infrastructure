@@ -50,6 +50,7 @@ class notificationserver($is_default = false) {
     is_default => $is_default,
     certificate => 'easylist-downloads.adblockplus.org_sslcert.pem',
     private_key => 'easylist-downloads.adblockplus.org_sslcert.key',
-    log => 'access_log_notification'
+    log => 'access_log_notification',
+    log_format => 'notification',
   }
 }

@@ -54,6 +54,7 @@ class nginx (
       $domain = $title,
       $alt_names = [],
       $log,
+      $log_format = 'main',
       $is_default = false,
       $source = undef,
       $content = undef,

@@ -61,7 +61,7 @@
     <% end %>
 <% end %>
 
-access_log /var/log/nginx/<%= log %> main;
+access_log /var/log/nginx/<%= log %> <%= log_format %>;
 
 # redirect server error pages to the static page /50x.html
 #
