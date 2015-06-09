@@ -49,7 +49,7 @@ class rietveld(
   }
 
   exec {'get_rietveld':
-    command => "git clone https://github.com/rietveld-codereview/rietveld.git $rietveld_home && cd $rietveld_home && git reset --HARD 87257f5",
+    command => "git clone https://github.com/rietveld-codereview/rietveld.git $rietveld_home && cd $rietveld_home && git reset --hard 87257f5",
     user => 'root',
     require => Package['git'],
     creates => $rietveld_home,
