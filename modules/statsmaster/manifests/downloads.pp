@@ -2,7 +2,7 @@ class statsmaster::downloads {
   package {['pypy', 'python-jinja2']:}
 
   class {'sitescripts':
-    sitescriptsini_source => 'puppet:///modules/statsmaster/sitescripts.ini',
+    sitescriptsini_content => template('statsmaster/sitescripts.ini.erb'),
   }
 
   file {['/var/www/stats', '/var/www/statsdata']:
