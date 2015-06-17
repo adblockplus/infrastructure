@@ -227,6 +227,10 @@ location /jsdoc
 {
   try_files $uri @proxied;
 }
+location /docs
+{
+  try_files $uri @proxied;
+}
 location /403.html
 {
   try_files $uri @proxied;
