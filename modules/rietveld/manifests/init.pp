@@ -11,6 +11,9 @@ class rietveld(
 
   include nginx
   $rietveld_home = '/opt/rietveld'
+  $rietveld_branch = 'default'
+  $rietveld_revision = '2259be9bd074'
+  $rietveld_source = 'https://hg.adblockplus.org/rietveld'
 
   Exec {
     path => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
@@ -24,7 +27,7 @@ class rietveld(
     log => 'access_log_codereview'
   }
 
-  package {['wget', 'unzip', 'git', 'make', 'patch', 'subversion']: ensure => present}
+  package {['wget', 'unzip', 'make', 'patch', 'subversion']: ensure => present}
 
   user {'rietveld':
     ensure => present,
@@ -49,9 +52,11 @@ class rietveld(
   }
 
   exec {'get_rietveld':
-    command => "git clone https://github.com/rietveld-codereview/rietveld.git $rietveld_home && cd $rietveld_home && git reset --hard 87257f5",
+    command => shellquote(
+      'hg', 'clone', $rietveld_source, '-b', $rietveld_branch,
+      '-r', $rietveld_revision, $rietveld_home),
     user => 'root',
-    require => Package['git'],
+    require => Package['mercurial'],
     creates => $rietveld_home,
   }
 
