@@ -203,6 +203,24 @@ def enable_oauth2(client_id, client_secret, admins):
 
   user_service_stub.UserServiceStub._Dynamic_GetOAuthUser = _Dynamic_GetOAuthUser
 
+def fix_target_resolution():
+  """
+  By default, the dispatcher assumes port 80 for target authorities that
+  only contain a hostname but no port part. This hard-coded behavior is
+  altered in function fix_target_resolution() so that the port given
+  as --port option to the appserver-script is used instead. Without this
+  monkey-patch, dispatching tasks from an application run behind a HTTP
+  proxy server on port 80 (or HTTPS on 443) will fail, because
+  applications will omit the default port when addressing resources.
+  """
+  from google.appengine.tools.devappserver2.dispatcher import Dispatcher
+  orig_resolve_target = Dispatcher._resolve_target
+
+  def resolve_target(dispatcher, hostname, path):
+    new_hostname = hostname if ":" in hostname else "%s:%d" % (hostname, dispatcher._port)
+    return orig_resolve_target(dispatcher, new_hostname, path)
+
+  Dispatcher._resolve_target = resolve_target
 
 if __name__ == '__main__':
   engine_dir = '/opt/google_appengine'
@@ -223,5 +241,6 @@ if __name__ == '__main__':
       config.get('oauth2', 'client_secret'),
       config.get('main', 'admins').split()
     )
+    fix_target_resolution()
 
   execfile(script_file)
