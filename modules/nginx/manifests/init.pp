@@ -28,6 +28,12 @@ class nginx (
     mode => 0644,
   }
 
+  Exec {
+    path => '/usr/bin:/bin',
+    logoutput => 'on_failure',
+  }
+
+
   file {'/etc/nginx/nginx.conf':
     content => template('nginx/nginx.conf.erb'),
     require => Package['nginx'],
@@ -117,6 +123,43 @@ class nginx (
   file {'/etc/logrotate.d/nginx':
     source => 'puppet:///modules/nginx/logrotate',
     require => Package['nginx']
+  }
+
+  $find_cmd_base = [
+    'find', '/var/log/nginx',
+    '-mindepth', '1', '-maxdepth', '1', '-type', 'f',
+  ]
+
+  # Kill the find process to force an exit status != 0 by finding the parent pid
+  # of the exec's sh process
+  $find_kill_exec = [
+    '-exec', 'sh', '-c',
+    'ps -p $$ -o ppid= | xargs kill -TERM',
+     ';',
+  ]
+
+  $find_chown_base = [
+    $find_cmd_base,
+    '-not', '(', '-user', $nginx::params::user, '-and', '-group', 'adm', ')',
+  ]
+  $find_chown_exec = [
+    '-ls', '-exec', 'chown',
+    "${nginx::params::user}.adm", '{}', ';',
+  ]
+
+  exec {"set_logfiles_owner":
+    command => shellquote($find_chown_base, $find_chown_exec),
+    unless => shellquote($find_chown_base, $find_kill_exec),
+    subscribe => Service['nginx'], 
+  }
+
+  $find_chmod_base = [$find_cmd_base, '-not', '-perm', '0640']
+  $find_chmod_exec = ['-ls', '-exec', 'chmod', '0640', '{}', ';']
+
+  exec {"set_logfiles_permissions":
+    command => shellquote($find_chmod_base, $find_chmod_exec),
+    unless => shellquote($find_chmod_base, $find_kill_exec),
+    subscribe => Service['nginx'],
   }
 
   service {'nginx':
