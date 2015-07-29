@@ -1,11 +1,3 @@
 classes:
   filtermaster:
 
-filtermaster::repo_download:
-  easylist:
-  easylistcombinations:
-  malwaredomains:
-  exceptionrules:
-    alias: exceptions
-  antiadblockfilters:
-  adwarefilters:

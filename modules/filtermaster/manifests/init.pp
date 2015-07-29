@@ -1,4 +1,7 @@
-class filtermaster {
+class filtermaster(
+  $repos = hiera('filtermaster::repos', []),
+  $repo_downloads = hiera('filtermaster::repo_downloads', {}),
+) {
 
   Cron {
     environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
@@ -98,7 +101,10 @@ class filtermaster {
     }
   }
 
-  create_resources('filtermaster::repo_download', $repo_download)
+  create_resources('filtermaster::repo_download', $repo_downloads)
+
+  repo_download {$repos:
+  }
 
   cron {'update_subscription':
     ensure => present,

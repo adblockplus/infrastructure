@@ -1,0 +1,10 @@
+filtermaster::repos:
+  - easylist
+  - easylistcombinations
+  - malwaredomains
+  - antiadblockfilters
+  - adwarefilters
+
+filtermaster::repo_downloads:
+  exceptionrules:
+    alias: exceptions
