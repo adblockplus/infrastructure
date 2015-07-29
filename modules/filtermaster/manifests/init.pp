@@ -1,4 +1,5 @@
 class filtermaster {
+
   Cron {
     environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
   }
@@ -85,7 +86,8 @@ class filtermaster {
 
   package {['p7zip-full']:}
 
-  define repo_download() {
+  define repo_download($alias = $title) {
+
     exec {"fetch_${title}":
       command => "hg clone https://hg.adblockplus.org/${title} /home/rsync/subscription/${title}",
       path => ["/usr/bin/", "/bin/"],
@@ -96,23 +98,7 @@ class filtermaster {
     }
   }
 
-  repo_download {['easylist',
-                  'easylistgermany',
-                  'easylistitaly',
-                  'easylistchina',
-                  'easylistcombinations',
-                  'malwaredomains',
-                  'ruadlist',
-                  'listefr',
-                  'exceptionrules',
-                  'easylistdutch',
-                  'adblockpolska',
-                  'facebookfilters',
-                  'youtubefilters',
-                  'antiadblockfilters',
-                  'adwarefilters',
-     ]:
-  }
+  create_resources('filtermaster::repo_download', $repo_download)
 
   cron {'update_subscription':
     ensure => present,
@@ -143,6 +129,6 @@ class filtermaster {
   }
 
   class {'sitescripts':
-    sitescriptsini_source => 'puppet:///modules/filtermaster/sitescripts'
+    sitescriptsini_content => template('filtermaster/sitescripts.ini.erb'),
   }
 }

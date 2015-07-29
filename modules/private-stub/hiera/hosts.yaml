@@ -24,6 +24,7 @@ servers:
     groups: [http-servers]
   filtermaster1:
     ip: [10.8.0.127]
+    role: filtermasterserver
     ssh_public_key: *vagrant_box
   server10:
     ip: [10.8.0.105]

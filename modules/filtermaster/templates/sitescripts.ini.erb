@@ -1,0 +1,7 @@
+[DEFAULT]
+root=/home/rsync/subscription
+
+[subscriptionDownloads]
+<% scope.function_hiera('filtermaster::repo_download', {}).each do |key, hash| -%>
+<%= hash['alias'] rescue key %>_repository=%(root)s/<%= key %>
+<% end -%>
