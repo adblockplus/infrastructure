@@ -127,7 +127,7 @@ class statsmaster::awstats {
       log => 'access_log_eyeo.com',
     },
     'intraforum.adblockplus.org' => {
-      host => 'server_10.adblockplus.org',
+      host => 'server10.adblockplus.org',
       log => 'access_log_intraforum',
     },
   }
