@@ -6,6 +6,7 @@ class statsclient {
     ensure => present,
     home => '/home/stats',
     managehome => true,
+    groups => ['adm'],
   }
 
   file {'/home/stats/.ssh':
