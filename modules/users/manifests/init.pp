@@ -3,17 +3,14 @@ class users {
     $user_name = $title,
     $authorized_keys,
     $password = undef,
-    $sudo = false
+    $groups = [],
   ) {
     user {$user_name:
       home => "/home/${user_name}",
       shell => "/bin/bash",
       managehome => true,
       password => $password,
-      groups => $sudo ? {
-        true => 'sudo',
-        default => undef
-      }
+      groups => $groups,
     }
 
     file {"/home/${user_name}/.ssh":
