@@ -1,4 +1,7 @@
-class ssh {
+class ssh(
+  $agent_forwarding = hiera('ssh::agent_forwarding', false),
+) {
+
   package {'openssh-server': ensure => present}
 
   concat {'sshd_config':
@@ -11,7 +14,7 @@ class ssh {
 
   concat::fragment {'sshd_config_template':
     target => 'sshd_config',
-    source => 'puppet:///modules/ssh/sshd_config',
+    content => template('ssh/sshd_config.erb'),
     order => '01',
   }
 

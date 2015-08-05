@@ -60,7 +60,11 @@ PasswordAuthentication no
 #GSSAPIAuthentication no
 #GSSAPICleanupCredentials yes
 
+<% if @agent_forwarding and [true, 'true', 'yes'].include? @agent_forwarding -%>
+AllowAgentForwarding yes
+<% else -%>
 AllowAgentForwarding no
+<% end -%>
 AllowTcpForwarding no
 X11Forwarding no
 X11DisplayOffset 10
