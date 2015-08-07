@@ -48,7 +48,7 @@ below.
 
 * [VirtualBox](https://www.virtualbox.org/)
 * [Vagrant](http://vagrantup.com/)
-* Both `modules/private` and `hiera/private` exist (see above)
+* `modules/private` exists (see above)
 
 ### Start a VM
 
