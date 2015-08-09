@@ -49,43 +49,43 @@ class trac(
   }
 
   exec { 'install_BlackMagicTicketTweaks':
-    command => "pip install svn+http://trac-hacks.org/svn/blackmagictickettweaksplugin/0.12/",
+    command => "pip install svn+https://trac-hacks.org/svn/blackmagictickettweaksplugin/0.12/",
     require => Package['subversion', 'python-pip'],
     unless => "python -c 'import blackmagic'",
   }
 
   exec { 'install_SensitiveTickets':
-    command => "pip install svn+http://trac-hacks.org/svn/sensitiveticketsplugin/trunk/",
+    command => "pip install svn+https://trac-hacks.org/svn/sensitiveticketsplugin/trunk/",
     require => Package['subversion', 'python-pip'],
     unless => "python -c 'import sensitivetickets'",
   }
 
   exec { 'install_AccountManager':
-    command => "pip install svn+http://trac-hacks.org/svn/accountmanagerplugin/tags/acct_mgr-0.4.4/",
+    command => "pip install svn+https://trac-hacks.org/svn/accountmanagerplugin/tags/acct_mgr-0.4.4/",
     require => Package['subversion', 'python-pip'],
     unless => "python -c 'import acct_mgr'",
   }
 
   exec { 'install_TicketTemplate':
-    command => "pip install svn+http://trac-hacks.org/svn/tractickettemplateplugin/0.11/",
+    command => "pip install svn+https://trac-hacks.org/svn/tractickettemplateplugin/0.11/",
     require => Package['subversion', 'python-pip'],
     unless => "python -c 'import tickettemplate'",
   }
 
   exec { 'install_AutocompleteUsers':
-    command => "pip install svn+http://trac-hacks.org/svn/autocompleteusersplugin/trunk/",
+    command => "pip install svn+https://trac-hacks.org/svn/autocompleteusersplugin/trunk/",
     require => Package['subversion', 'python-pip'],
     unless => "python -c 'import autocompleteusers'",
   }
 
   exec { 'install_MasterTickets':
-    command => "pip install svn+http://trac-hacks.org/svn/masterticketsplugin/trunk/",
+    command => "pip install svn+https://trac-hacks.org/svn/masterticketsplugin/trunk/",
     require => Package['subversion', 'python-pip', 'graphviz'],
     unless => "python -c 'import mastertickets'",
   }
 
   exec { 'install_NeverNotifyUpdater':
-    command => "pip install svn+http://trac-hacks.org/svn/nevernotifyupdaterplugin/1.0/",
+    command => "pip install svn+https://trac-hacks.org/svn/nevernotifyupdaterplugin/1.0/",
     require => Package['subversion', 'python-pip'],
     unless => "python -c 'import nevernotifyupdaterplugin'",
   }
@@ -109,13 +109,13 @@ class trac(
   }
 
   exec { 'install_Tractags':
-    command => "pip install svn+http://trac-hacks.org/svn/tagsplugin/tags/0.7/",
+    command => "pip install svn+https://trac-hacks.org/svn/tagsplugin/tags/0.7/",
     require => Package['python-pip'],
     unless => "python -c 'import tractags'",
   }
 
   exec { 'install_PrivateTickets':
-    command => "pip install svn+http://trac-hacks.org/svn/privateticketsplugin/tags/2.0.2/",
+    command => "pip install svn+https://trac-hacks.org/svn/privateticketsplugin/tags/2.0.2/",
     require => Package['subversion', 'python-pip'],
     unless => "python -c 'import privatetickets'",
   }
