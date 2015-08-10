@@ -44,6 +44,11 @@ mirror our production environment.
 The most convenient way to do this is to use Vagrant, as described
 below.
 
+Git users on Windows may experience issues caused by automatic line ending
+conversion if the git option `core.autocrlf` is set to `true`. It is therefore
+recommended to set this option to `false` or `input`, e.g. by running
+`git config --global core.autocrlf false`.
+
 ### Requirements
 
 * [VirtualBox](https://www.virtualbox.org/)
