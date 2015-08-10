@@ -21,6 +21,14 @@ class notificationserver($is_default = false) {
     onlyif => 'test ! -d /opt/notifications'
   }
 
+  cron {'update_notifications':
+    command => 'hg pull -q -u -R /opt/notifications',
+    environment => ['MAILTO=admins@adblockplus.org,root'],
+    minute => '*/5',
+    user => 'nginx',
+    require => Exec['fetch_notifications'],
+  }
+
   include spawn-fcgi
   package {'python-flup':}
 
