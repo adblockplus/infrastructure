@@ -44,6 +44,8 @@ node 'issues1' {
     ],
   }
 
+  $mysql = "mysql -utrac -p'${private::trac::database_password}'"
+
   # Synchronizing e-mail and password information between the project
   # allows for logging in from any entry point - whilst maintaining a
   # registration form (and process) in one project only.
@@ -51,7 +53,7 @@ node 'issues1' {
     ensure => present,
     user => trac,
     minute => '*/30',
-    command => "mysql -utrac -p'${private::trac::database_password}' trac_orders --execute ' \
+    command => "$mysql trac_orders --execute ' \
       INSERT INTO session_attribute (sid, authenticated, name, value) SELECT sid, authenticated, name, value \
       FROM trac.session_attribute WHERE authenticated = 1 AND name IN (\"email\", \"password\") \
       ON DUPLICATE KEY UPDATE value=VALUES(value) ' >/dev/null
@@ -59,4 +61,17 @@ node 'issues1' {
     require => Exec['trac_auth_cookie_view'],
   }
 
+  cron {'trac_session_cleanup':
+    command => "$mysql trac --execute ' \
+      DELETE session, session_attribute FROM session \
+      JOIN session_attribute ON session.sid = session_attribute.sid \
+      AND session.authenticated = session_attribute.authenticated \
+      WHERE session.authenticated = 0 AND \
+      session.last_visit < UNIX_TIMESTAMP(NOW() - INTERVAL 10 DAY)' >/dev/null",
+    ensure => present,
+    hour => 1,
+    minute => 0,
+    require => Trac::Instance['issues'],
+    user => trac,
+  }
 }
