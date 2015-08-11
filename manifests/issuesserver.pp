@@ -74,4 +74,20 @@ node 'issues1' {
     require => Trac::Instance['issues'],
     user => trac,
   }
+
+  cron {'trac_account_cleanup':
+    command => "$mysql trac --execute ' \
+      DELETE session, session_attribute FROM session \
+      JOIN session_attribute AS session_data ON session.sid = session_data.sid \
+      AND session.authenticated = session_data.authenticated \
+      JOIN session_attribute ON session.sid = session_attribute.sid \
+      AND session.authenticated = session_attribute.authenticated \
+      WHERE session_data.name = \"email_verification_token\" AND \
+      session.last_visit < UNIX_TIMESTAMP(NOW() - INTERVAL 5 DAY)' >/dev/null",
+    ensure => present,
+    hour => 2,
+    minute => 0,
+    require => Trac::Instance['issues'],
+    user => trac,
+  }
 }
