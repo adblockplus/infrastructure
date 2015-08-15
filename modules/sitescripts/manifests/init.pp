@@ -26,6 +26,9 @@ class sitescripts (
     source => $sitescriptsini_source,
   }
 
+  $configfragments = hiera('sitescripts::configfragments', {})
+  create_resources('sitescripts::configfragment', $configfragments)
+
   exec { "fetch_sitescripts":
     command => "hg clone https://hg.adblockplus.org/sitescripts /opt/sitescripts",
     path => ["/usr/bin/", "/bin/"],
