@@ -1,6 +1,6 @@
 class nginx::params {
-  $worker_processes = $::processorcount
-  $worker_connections = 1024
+  $worker_processes = hiera('nginx::worker_processes', $::processorcount)
+  $worker_connections = hiera('nginx::worker_connections', 1024)
   $multi_accept = off
   $worker_rlimit_nofile = 30000
   $sendfile = on
