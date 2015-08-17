@@ -1,0 +1,5 @@
+classes:
+  hgweb:
+    domain: "hg.adblockplus.org"
+    is_default: true
+

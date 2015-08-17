@@ -1,0 +1,11 @@
+[web]
+contact = <%= @title %>@localhost
+deny_read = *
+description = Mercurial Access Control
+hidden = true
+
+[hooks]
+pretxnchangegroup.authorCheck = !( hg log --template '{author}\n' -r $HG_NODE: | grep -i -v "$HGUSER")
+changegroup.updateAuth = python:sitescripts.management.bin.generateHgAuth.hook
+commit.updateAuth = python:sitescripts.management.bin.generateHgAuth.hook
+
