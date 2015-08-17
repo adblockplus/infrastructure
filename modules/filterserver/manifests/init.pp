@@ -1,7 +1,6 @@
 class filterserver($is_default = false) {
   if !defined(Class['nginx']) {
     class {'nginx':
-      worker_processes => 2,
       worker_connections => 4000,
       ssl_session_cache => off,
     }
