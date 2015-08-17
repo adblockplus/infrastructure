@@ -1,5 +1,5 @@
 class nginx::params {
-  $worker_processes = 2
+  $worker_processes = $::processorcount
   $worker_connections = 1024
   $multi_accept = off
   $worker_rlimit_nofile = 30000
