@@ -339,7 +339,6 @@ class discourse(
   }
 
   class {'nginx':
-    worker_processes => 1,
     worker_connections => 500
   }
 
