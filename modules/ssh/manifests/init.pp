@@ -1,5 +1,6 @@
 class ssh(
   $agent_forwarding = hiera('ssh::agent_forwarding', false),
+  $tcp_forwarding = hiera('ssh::tcp_forwarding', false),
 ) {
 
   package {'openssh-server': ensure => present}

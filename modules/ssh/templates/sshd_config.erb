@@ -65,7 +65,13 @@ AllowAgentForwarding yes
 <% else -%>
 AllowAgentForwarding no
 <% end -%>
+
+<% if @tcp_forwarding and [true, 'true', 'yes'].include? @tcp_forwarding -%>
+AllowTcpForwarding yes
+<% else -%>
 AllowTcpForwarding no
+<% end -%>
+
 X11Forwarding no
 X11DisplayOffset 10
 PrintMotd no
