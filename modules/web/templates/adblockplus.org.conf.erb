@@ -106,6 +106,10 @@ location /redirect
   {
     rewrite ^ https://plus.google.com/communities/104936844759781288661? redirect;
   }
+  if ($arg_link ~ "^adblock_browser_promotion_\d$")
+  {
+    rewrite ^ https://adblockplus.org/adblock-browser redirect;
+  }
 
   set $lang "en";
   set $link "";
