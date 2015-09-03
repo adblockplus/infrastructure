@@ -55,18 +55,6 @@ repository=$sitescripts_var_dir/subscriptionlist",
   }
 }
 
-node 'web3' {
-  include statsclient
-
-  class {'web::server':
-    vhost => 'testpages.adblockplus.org',
-    certificate => 'testpages.adblockplus.org_sslcert.pem',
-    private_key => 'testpages.adblockplus.org_sslcert.key',
-    is_default => true,
-    repository => 'testpages.adblockplus.org',
-  }
-}
-
 node 'web-sh-abp-org-1' {
   include statsclient
 

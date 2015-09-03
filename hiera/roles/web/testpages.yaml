@@ -1,0 +1,9 @@
+classes:
+  statsclient:
+  web::server:
+    vhost: testpages.adblockplus.org
+    certificate: testpages.adblockplus.org_sslcert.pem
+    private_key: testpages.adblockplus.org_sslcert.key
+    is_default: true
+    repository: testpages.adblockplus.org
+

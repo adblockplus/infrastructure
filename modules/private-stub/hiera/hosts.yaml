@@ -55,6 +55,7 @@ servers:
     groups: [http-servers]
   web3:
     ip: [10.8.0.146]
+    role: web/testpages
     ssh_public_key: *vagrant_box
     groups: [http-servers]
   web-sh-abp-org-1:
