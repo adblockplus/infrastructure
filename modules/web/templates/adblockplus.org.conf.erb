@@ -11,6 +11,8 @@ add_header X-Frame-Options "sameorigin";
 # User agent sniffing
 
 set $user_agent "";
+set $index_page "";
+
 if ($http_user_agent ~ \bGecko/\d+)
 {
   set $user_agent "firefox";
@@ -55,14 +57,23 @@ if ($http_user_agent ~ \bMaxthon/\d+)
 {
   set $user_agent "maxthon";
 }
+if ($http_user_agent ~ \b(iPad|iPhone|iPod)\b)
+{
+  set $user_agent "ios";
+  set $index_page "safari";
+}
 
 sub_filter ' id="content" class="' ' id="content" class="ua-$user_agent ';
 sub_filter_last_modified on;
 
-set $index_page "firefox";
-if ($user_agent != "")
+if ($index_page = "")
 {
   set $index_page $user_agent;
+}
+
+if ($index_page = "")
+{
+  set $index_page "firefox";
 }
 
 # Various redirects
