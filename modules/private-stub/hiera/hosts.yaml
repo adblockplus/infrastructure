@@ -65,6 +65,7 @@ servers:
     groups: [http-servers]
   web-yt-abp-me-1:
     ip: [10.8.0.148]
+    role: web/youtube
     ssh_public_key: *vagrant_box
     groups: [http-servers]
   web-fb-abp-me-1:

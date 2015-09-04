@@ -54,15 +54,3 @@ repository=$sitescripts_var_dir/subscriptionlist",
     require => Exec['fetch_repository_subscriptionlist']
   }
 }
-
-node 'web-yt-abp-me-1' {
-  include statsclient
-
-  class {'web::server':
-    vhost => 'youtube.adblockplus.me',
-    certificate => 'youtube.adblockplus.me_sslcert.pem',
-    private_key => 'youtube.adblockplus.me_sslcert.key',
-    is_default => true,
-    repository => 'youtube.adblockplus.me',
-  }
-}
