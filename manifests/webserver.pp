@@ -55,18 +55,6 @@ repository=$sitescripts_var_dir/subscriptionlist",
   }
 }
 
-node 'web-sh-abp-org-1' {
-  include statsclient
-
-  class {'web::server':
-    vhost => 'share.adblockplus.org',
-    certificate => 'share.adblockplus.org_sslcert.pem',
-    private_key => 'share.adblockplus.org_sslcert.key',
-    is_default => true,
-    repository => 'share.adblockplus.org',
-  }
-}
-
 node 'web-yt-abp-me-1' {
   include statsclient
 
