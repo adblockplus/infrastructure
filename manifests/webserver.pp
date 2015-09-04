@@ -90,15 +90,3 @@ node 'web-fb-abp-me-1' {
     repository => 'facebook.adblockplus.me',
   }
 }
-
-node 'web-aa-org-1' {
-  include statsclient
-
-  class {'web::server':
-    vhost => 'acceptableads.org',
-    certificate => 'acceptableads.org_sslcert.pem',
-    private_key => 'acceptableads.org_sslcert.key',
-    is_default => true,
-    repository => 'web.acceptableads.org',
-  }
-}

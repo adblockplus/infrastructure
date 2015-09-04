@@ -72,6 +72,7 @@ servers:
     groups: [http-servers]
   web-aa-org-1:
     ip: [10.8.0.150]
+    role: web/acceptableads
     ssh_public_key: *vagrant_box
     groups: [http-servers]
   hg1:
