@@ -66,15 +66,3 @@ node 'web-yt-abp-me-1' {
     repository => 'youtube.adblockplus.me',
   }
 }
-
-node 'web-fb-abp-me-1' {
-  include statsclient
-
-  class {'web::server':
-    vhost => 'facebook.adblockplus.me',
-    certificate => 'facebook.adblockplus.me_sslcert.pem',
-    private_key => 'facebook.adblockplus.me_sslcert.key',
-    is_default => true,
-    repository => 'facebook.adblockplus.me',
-  }
-}
