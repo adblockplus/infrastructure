@@ -1,21 +1,30 @@
-<% if @aliases %>
-  <% @aliases.each do |vhost_alias| %>
-    server
-    {
-      listen 80;
-      listen [::]:80;
-      listen 443 ssl spdy;
-      listen [::]:443 ssl spdy;
+<%- if @aliases %>
+<%-   @aliases.each do |vhost_alias| %>
+server
+{
+  server_name '<%= vhost_alias %>';
 
-      server_name '<%= vhost_alias %>';
+  listen 80;
+  listen [::]:80;
+<%-     if @certificate != @private_key %>
+  listen 443 ssl spdy;
+  listen [::]:443 ssl spdy;
 
-      ssl_certificate <%= certificate %>;
-      ssl_certificate_key <%= private_key %>;
+  ssl_certificate <%= @certificate %>;
+  ssl_certificate_key <%= @private_key %>;
 
-      location /
-      {
-        rewrite .* https://<%= vhost %>/ redirect;
-      }
-    }
-  <% end %>
-<% end %>
+  location /
+  {
+    rewrite .* https://<%= @vhost %>/ redirect;
+  }
+<%-     else %>
+
+  location /
+  {
+    rewrite .* http://<%= @vhost %>/ redirect;
+  }
+<%-     end %>
+}
+<%-   end %>
+<%- end %>
+

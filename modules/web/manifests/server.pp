@@ -1,8 +1,8 @@
 class web::server(
     $vhost,
     $repository,
-    $certificate,
-    $private_key,
+    $certificate = hiera('web::server::certificate', 'undef'),
+    $private_key = hiera('web::server::private_key', 'undef'),
     $is_default = false,
     $aliases = undef,
     $custom_config = undef,
@@ -25,8 +25,8 @@ class web::server(
     content => template('web/site.conf.erb'),
     global_config => template('web/global.conf.erb'),
     is_default => $is_default,
-    certificate => $certificate,
-    private_key => $private_key,
+    certificate => $certificate ? {'undef' => undef, default => $certificate},
+    private_key => $private_key ? {'undef' => undef, default => $private_key},
     log => "access_log_$vhost"
   }
 
