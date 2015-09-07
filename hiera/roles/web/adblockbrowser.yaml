@@ -1,0 +1,21 @@
+classes:
+  statsclient:
+  web::server:
+    vhost: adblockbrowser.org
+    aliases:
+      - www.adblockbrowser.org
+    is_default: true
+    repository: web.adblockbrowser.org
+    multiplexer_locations:
+      - /sendInstallationLink
+
+sitescripts::configfragments:
+  installation_link:
+    content: |
+      [DEFAULT]
+      mailer=/usr/sbin/sendmail
+      [multiplexer]
+      sitescripts.send_installation_link.web.send_installation_link =
+      [send_installation_link]
+      email_template=send_installation_link/template/adblockbrowser_installation_link.tmpl
+

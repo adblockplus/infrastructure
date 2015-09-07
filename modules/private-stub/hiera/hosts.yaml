@@ -83,4 +83,9 @@ servers:
     role: hgwebserver
     ssh_public_key: *vagrant_box
     groups: [http-servers]
+  web-abb-org-1:
+    ip: [10.8.0.154]
+    role: web/adblockbrowser
+    ssh_public_key: *vagrant_box
+    groups: [http-servers]
 
