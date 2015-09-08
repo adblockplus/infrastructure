@@ -87,6 +87,8 @@ rewrite ^/androidupdate.json$ https://update.adblockplus.org/adblockplusandroid/
 rewrite ^/androidupdates.xml$ https://update.adblockplus.org/adblockplusandroid/updates.xml permanent;
 rewrite ^/ieupdate.json$ https://update.adblockplus.org/adblockplusie/update.json permanent;
 
+rewrite ^/(\w\w(_\w\w)?/)?adblock-browser/?$ https://adblockbrowser.org/ permanent;
+
 location /redirect
 {
   if ($arg_link = "reporter_connect_issue")
