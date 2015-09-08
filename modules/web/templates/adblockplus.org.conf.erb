@@ -121,6 +121,26 @@ location /redirect
   {
     rewrite ^ https://adblockplus.org/adblock-browser redirect;
   }
+  if ($arg_link = "adblock_browser_android_support")
+  {
+    rewrite ^ https://adblockbrowser.org/en/android-support/? redirect;
+  }
+  if ($arg_link = "adblock_browser_ios_support")
+  {
+    rewrite ^ https://adblockbrowser.org/en/ios-support/? redirect;
+  }
+  if ($arg_link = "adblock_browser_android_store")
+  {
+    rewrite ^ https://play.google.com/store/apps/details?id=org.adblockplus.browser? redirect;
+  }
+  if ($arg_link = "adblock_browser_ios_store")
+  {
+    rewrite ^ https://itunes.apple.com/us/app/adblock-browser/id1015653330?ls=1&mt=8? redirect;
+  }
+  if ($arg_link = "adblock_browser_android_download")
+  {
+    rewrite ^ https://downloads.adblockplus.org/adblockbrowser-1.0.0-arm.apk? redirect;
+  }
 
   set $lang "en";
   set $link "";
