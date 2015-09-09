@@ -12,7 +12,8 @@ class base ($zone='adblockplus.org') {
     }
   }
 
-  Exec['apt_update'] -> Package <| |>
+  # Note that APT dependencies are excluded here!
+  Exec['apt_update'] -> Package <|title != 'python-software-properties'|>
 
   include private::users, postfix, ssh
 
