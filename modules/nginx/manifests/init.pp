@@ -4,11 +4,11 @@ class nginx (
     $ssl_session_cache =  $nginx::params::ssl_session_cache
   ) inherits nginx::params {
 
+  apt::ppa {'ppa:nginx/stable':
+  }
+
   apt::source {'nginx':
-    location => "http://nginx.org/packages/ubuntu",
-    repos => "nginx",
-    key => "7BD9BF62",
-    key_source => "http://nginx.org/keys/nginx_signing.key"
+    ensure => 'absent',
   }
 
   # Ensures that nginx is not installed from the Ubuntu sources
@@ -18,8 +18,8 @@ class nginx (
   }
 
   package {'nginx':
-    ensure => '1.8.0-1~precise',
-    require => Apt::Source['nginx']
+    ensure => '1.8.0-1+precise1',
+    require => Apt::Ppa['ppa:nginx/stable'],
   }
 
   File {
@@ -106,6 +106,13 @@ class nginx (
     }
 
     if $enabled == true {
+
+      if $is_default {
+        $default_conf = '/etc/nginx/sites-enabled/default'
+        ensure_resource('file', $default_conf, {ensure => 'absent'})
+        File[$default_conf] ~> Service['nginx']
+      }
+
       file {"/etc/nginx/sites-enabled/${domain}":
         ensure  => link,
         require => File["/etc/nginx/sites-available/${domain}"],
