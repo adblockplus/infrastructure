@@ -64,21 +64,17 @@ class statsmaster(
     ensure => absent,
   }
 
-  file {'/opt/cron_geoipdb_update.py':
-    ensure => file,
-    owner => root,
-    mode => 0750,
-    source => 'puppet:///modules/statsmaster/cron_geoipdb_update.py',
+  cron {'geoipdb_update':
+    ensure => 'absent',
   }
 
-  cron {'geoipdb_update':
-    ensure => present,
-    require => File['/opt/cron_geoipdb_update.py'],
-    command => '/opt/cron_geoipdb_update.py',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
-    user => root,
-    hour => 3,
-    minute => 15,
-    monthday => 3,
+  class {'geoip':
+    cron => {
+      'environment' => ['MAILTO=admins@adblockplus.org,root'],
+      'hour' => 3,
+      'minute' => 15,
+      'monthday' => 3,
+    },
+    script => '/opt/cron_geoipdb_update.py',
   }
 }
