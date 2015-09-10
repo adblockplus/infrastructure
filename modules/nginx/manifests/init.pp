@@ -1,7 +1,9 @@
 class nginx (
     $worker_processes = $nginx::params::worker_processes,
     $worker_connections = $nginx::params::worker_connections,
-    $ssl_session_cache =  $nginx::params::ssl_session_cache
+    $ssl_session_cache =  $nginx::params::ssl_session_cache,
+    $geoip_country = undef,
+    $geoip_city = undef,
   ) inherits nginx::params {
 
   apt::ppa {'ppa:nginx/stable':

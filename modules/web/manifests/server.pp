@@ -6,7 +6,10 @@ class web::server(
     $is_default = false,
     $aliases = undef,
     $custom_config = undef,
-    $multiplexer_locations = undef) {
+    $multiplexer_locations = undef,
+    $geoip = false,
+) {
+
   File {
     owner  => 'root',
     group  => 'root',
@@ -17,7 +20,17 @@ class web::server(
     environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/cms:/opt/sitescripts'],
   }
 
-  include nginx
+  class {'nginx':
+    geoip_country => $geoip ? {
+      false => undef,
+      default => '/usr/share/GeoIP/GeoIPv6.dat',
+    },
+  }
+
+  class {'geoip':
+    cron => {hour => 0, minute => 8, monthday => 15},
+    ensure => $geoip ? {false => 'absent', default => 'present'},
+  }
 
   package {['python-jinja2', 'python-markdown']:}
 

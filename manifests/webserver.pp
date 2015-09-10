@@ -10,6 +10,7 @@ node 'web2' {
     custom_config => template('web/adblockplus.org.conf.erb'),
     repository => 'web.adblockplus.org',
     multiplexer_locations => ['/getSubscription'],
+    geoip => true,
   }
 
   $sitescripts_var_dir = '/var/lib/sitescripts'
