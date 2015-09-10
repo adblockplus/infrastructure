@@ -11,15 +11,18 @@ class nginx (
     ensure => 'absent',
   }
 
-  # Ensures that nginx is not installed from the Ubuntu sources
-  package {'nginx-common':
-    ensure => purged,
-    before => Package['nginx']
+  exec {'purge-nginx':
+    command => '/usr/bin/apt-get -y purge nginx',
+    logoutput => true,
+    path => '/usr/sbin:/usr/bin:/sbin:/bin',
+    refreshonly => true,
+    returns => [0, 100],
+    subscribe => Apt::Ppa['ppa:nginx/stable'],
   }
 
   package {'nginx':
     ensure => '1.8.0-1+precise1',
-    require => Apt::Ppa['ppa:nginx/stable'],
+    require => Exec['purge-nginx'],
   }
 
   File {
@@ -110,7 +113,7 @@ class nginx (
       if $is_default {
         $default_conf = '/etc/nginx/sites-enabled/default'
         ensure_resource('file', $default_conf, {ensure => 'absent'})
-        File[$default_conf] ~> Service['nginx']
+        Package['nginx'] -> File[$default_conf] ~> Service['nginx']
       }
 
       file {"/etc/nginx/sites-enabled/${domain}":
