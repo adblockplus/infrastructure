@@ -11,7 +11,7 @@ class filterserver($is_default = false) {
       ensure => directory,
       owner => nginx,
       mode => 0755,
-      require => Package['nginx']
+      require => User['nginx']
     }
   }
 

@@ -15,7 +15,7 @@ class notificationserver($is_default = false) {
     path => ['/usr/bin/', '/bin/'],
     require => [
       Package['mercurial'],
-      Package['nginx'],
+      User['nginx'],
     ],
     onlyif => 'test ! -d /opt/notifications'
   }

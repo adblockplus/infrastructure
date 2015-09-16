@@ -27,6 +27,11 @@ class nginx (
     require => Exec['purge-nginx'],
   }
 
+  user {'nginx':
+    ensure => 'present',
+    require => Package['nginx'],
+  }
+
   File {
     owner => root,
     group => root,
