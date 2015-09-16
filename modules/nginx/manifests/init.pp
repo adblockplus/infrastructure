@@ -60,6 +60,12 @@ class nginx (
     require => Package['nginx']
   }
 
+  file {'/var/cache/nginx':
+    before => Service['nginx'],
+    ensure => directory,
+    require => Package['nginx'],
+  }
+
   define hostconfig (
       $domain = $title,
       $alt_names = [],
