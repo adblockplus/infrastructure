@@ -97,7 +97,10 @@ class hgweb(
     cwd => '/home/hg/web/hgaccess',
     logoutput => true,
     path => '/usr/local/bin:/usr/bin:/bin',
-    require => File['/home/hg/web/hgaccess'],
+    require => [
+      File['/home/hg/web/hgaccess'],
+      Package['mercurial'],
+    ],
     user => 'hg',
   }
 
