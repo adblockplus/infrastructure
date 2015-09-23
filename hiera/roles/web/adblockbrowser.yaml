@@ -5,6 +5,11 @@ classes:
     aliases:
       - www.adblockbrowser.org
     is_default: true
+    custom_config: |
+      location = /submit-feedback/ {
+        access_log /var/log/nginx/adblockbrowser_feedback data;
+        echo_read_request_body;
+      }
     repository: web.adblockbrowser.org
     multiplexer_locations:
       - /sendInstallationLink
