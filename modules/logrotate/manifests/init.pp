@@ -14,4 +14,7 @@ class logrotate {
     hour => '0',
     minute => '0'
   }
+
+  $config = hiera('logrotate::config', {})
+  create_resources('logrotate::config', $config)
 }
