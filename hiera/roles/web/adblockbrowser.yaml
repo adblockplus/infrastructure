@@ -14,6 +14,22 @@ classes:
     multiplexer_locations:
       - /sendInstallationLink
 
+logrotate::config:
+  adblockbrowser_feedback_data:
+    content: |
+      /var/log/nginx/adblockbrowser_feedback {
+        daily
+        rotate 30
+        compress
+        missingok
+        nodateext
+        sharedscripts
+        postrotate
+          [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
+        endscript
+      }
+    ensure: 'present'
+
 sitescripts::configfragments:
   installation_link:
     content: |
