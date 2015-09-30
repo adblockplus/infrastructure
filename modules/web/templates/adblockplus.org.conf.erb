@@ -147,6 +147,10 @@ location /redirect
   {
     rewrite ^ /forum/viewforum.php?f=26? redirect;
   }
+  if ($arg_link = "adblock_plus_safari_ios_store")
+  {
+    rewrite ^ https://itunes.apple.com/app/adblock-plus-abp/id1028871868? redirect;
+  }
 
   set $lang "en";
   set $link "";
