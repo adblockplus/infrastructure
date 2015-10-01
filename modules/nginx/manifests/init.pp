@@ -193,4 +193,11 @@ class nginx (
     hasstatus => true,
     require => File['/etc/nginx/nginx.conf']
   }
+
+  file {'/usr/share/nginx/html/50x.html':
+    mode => 0644,
+    owner => 'root',
+    require => Package['nginx'],
+    source => 'puppet:///modules/nginx/50x.html',
+  }
 }
