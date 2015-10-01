@@ -173,6 +173,7 @@ class hgweb(
     },
     source => 'puppet:///modules/hgweb/nginx.conf',
     is_default => $is_default,
+    global_config => template('hgweb/nginx_global.conf.erb'),
     log => 'access_log_hg',
     private_key => $private_key ? {
       'undef' => undef,
