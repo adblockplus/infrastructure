@@ -33,10 +33,6 @@ if ($http_user_agent ~ \bTrident/\d+)
 {
   set $user_agent "internet-explorer";
 }
-if ($http_user_agent ~ \bEdge/\d+)
-{
-  set $user_agent "internet-explorer";
-}
 if ($http_user_agent ~ \bPresto/\d+)
 {
   set $user_agent "opera";
@@ -48,6 +44,10 @@ if ($http_user_agent ~ \bOPR/\d+)
 if ($http_user_agent ~ \bAndroid\s.*\bAppleWebKit/\d+)
 {
   set $user_agent "android";
+}
+if ($http_user_agent ~ \bEdge/\d+)
+{
+  set $user_agent "edge";
 }
 if ($http_user_agent ~ \bYaBrowser/\d+)
 {
