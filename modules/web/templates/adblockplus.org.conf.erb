@@ -250,6 +250,14 @@ location /submitEmail
 }
 location /verifyEmail
 {
+  # Workaround for MS Outlook's behavior of re-encoding URLs;
+  # see https://issues.adblockplus.org/ticket/3180 for more information
+  if ($arg_email ~ (.*)%2540(.*)) {
+    set $email_user $1;
+    set $email_domain $2;
+    rewrite ^(.*)$ $1?email=$email_user%40$email_domain&signature=$arg_signature&product=$arg_product&lang=$arg_lang? redirect;
+  }
+
   try_files $uri @proxied;
 }
 location /forum
