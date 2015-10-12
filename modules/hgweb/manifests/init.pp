@@ -176,7 +176,7 @@ class hgweb(
       'undef' => undef,
       default => $certificate,
     },
-    source => 'puppet:///modules/hgweb/nginx.conf',
+    content => template('hgweb/nginx.conf.erb'),
     is_default => $is_default,
     global_config => template('hgweb/nginx_global.conf.erb'),
     log => 'access_log_hg',
