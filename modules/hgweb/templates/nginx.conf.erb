@@ -21,7 +21,7 @@ location ~ /[^/]+/(atom|rss)-log
 
 location /static/
 {
-  root /usr/share/mercurial/templates;
+  root <%= @templates %>;
 }
 
 location /robots.txt

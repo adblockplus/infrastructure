@@ -22,6 +22,10 @@
 # [*hgaccess*]
 #   A prototype directory source for the hgaccess repository.
 #
+# [*templates*]
+#   A directory providing custom /static/ resources to be used instead
+#   of the ones that ship with package mercurial.
+#
 # === Examples:
 #
 #   class {'hgweb':
@@ -34,6 +38,7 @@ class hgweb(
   $certificate = hiera('hgweb::certificate', 'undef'),
   $private_key = hiera('hgweb::private_key', 'undef'),
   $hgaccess = 'puppet:///modules/hgweb/hgaccess',
+  $templates = hiera('hgweb::templates', '/usr/share/mercurial/templates'),
 ) {
 
   include ssh, nginx
