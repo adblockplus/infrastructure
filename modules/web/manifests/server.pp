@@ -10,6 +10,11 @@ class web::server(
     $geoip = false,
 ) {
 
+  # Ensure there is at least one character in the respective strings;
+  # see https://codereview.adblockplus.org/29329028/#msg3
+  validate_re($vhost, '.+')
+  validate_re($repository, '.+')
+
   File {
     owner  => 'root',
     group  => 'root',
@@ -94,7 +99,10 @@ class web::server(
     mode => 755,
   }
 
-  file {"/var/www/${vhost}":
+  file {[
+    "/var/cache/$repository",
+    "/var/www/$vhost",
+  ]:
     ensure => directory,
     owner => www,
     mode => 755,
