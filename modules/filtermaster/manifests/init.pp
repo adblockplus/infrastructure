@@ -89,21 +89,9 @@ class filtermaster(
 
   package {['p7zip-full']:}
 
-  define repo_download($alias = $title) {
-
-    exec {"fetch_${title}":
-      command => "hg clone https://hg.adblockplus.org/${title} /home/rsync/subscription/${title}",
-      path => ["/usr/bin/", "/bin/"],
-      require => Package['mercurial'],
-      user => rsync,
-      timeout => 0,
-      onlyif => "test ! -d /home/rsync/subscription/${title}"
-    }
-  }
-
   create_resources('filtermaster::repo_download', $repo_downloads)
 
-  repo_download {$repos:
+  filtermaster::repo_download {$repos:
   }
 
   cron {'update_subscription':
