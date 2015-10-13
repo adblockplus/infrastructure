@@ -28,19 +28,6 @@ from flup.server.fcgi import WSGIServer
 from urllib import unquote
 import sys
 
-# Serialize ui.setconfig() accesses to avoid hitting http://bz.selenic.com/show_bug.cgi?id=3953
-from mercurial.ui import ui
-import thread
-
-config_lock = thread.allocate_lock()
-orig_setconfig = ui.setconfig
-
-def new_setconfig(*args, **kwargs):
-  with config_lock:
-    orig_setconfig(*args, **kwargs)
-
-ui.setconfig = new_setconfig
-
 # The config file looks like this.  You can have paths to individual
 # repos, collections of repos in a directory tree, or both.
 #
