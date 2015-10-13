@@ -6,6 +6,6 @@ root=/home/rsync/subscription
 <%= key %>_repository=%(root)s/<%= key %>
 <% end -%>
 <% @repo_downloads.each do |key, hash| -%>
-<%= hash['alias'] rescue key %>_repository=%(root)s/<%= key %>
+<%= hash['target'] or key %>_repository=%(root)s/<%= key %>
 <% end -%>
 outdir=/home/rsync/generated

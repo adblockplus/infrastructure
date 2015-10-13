@@ -4,7 +4,7 @@
 #
 # === Parameters:
 #
-# [*alias*]
+# [*target*]
 #   An optional alias for use as the download resource name, allows for
 #   repositories with different names. Note that this option is recognized
 #   only when setup via hiera('filtermaster::repo_downloads')!
@@ -16,7 +16,7 @@
 #   }
 #
 define filtermaster::repo_download (
-  $alias = $title,
+  $target = $title,
 ) {
 
   $directory = "/home/rsync/subscription/$title"

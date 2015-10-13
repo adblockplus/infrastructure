@@ -7,4 +7,5 @@ filtermaster::repos:
 
 filtermaster::repo_downloads:
   exceptionrules:
-    alias: exceptions
+    target: exceptions
+
