@@ -22,4 +22,8 @@ filtermaster::repos:
 filtermaster::repo_downloads:
   exceptionrules:
     target: exceptions
+  contentblockerlists:
+    static_files:
+      - easylist+exceptionrules_content_blocker.json
+      - easylist_content_blocker.json
 

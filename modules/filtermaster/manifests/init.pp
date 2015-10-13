@@ -21,14 +21,7 @@ class filtermaster(
   concat::fragment {'sshd_user_rsync':
     target => 'sshd_config',
     order => '99',
-    content => '
-      Match User rsync
-        AllowTcpForwarding no
-        X11Forwarding no
-        AllowAgentForwarding no
-        GatewayPorts no
-        ForceCommand rsync --server --sender -vltprz --delete-excluded . /home/rsync/generated/data/
-    '
+    content => template('filtermaster/sshd_rsync.erb'),
   }
 
   user {'rsync':

@@ -1,0 +1,13 @@
+Match User rsync
+  AllowTcpForwarding no
+  X11Forwarding no
+  AllowAgentForwarding no
+  GatewayPorts no
+  ForceCommand rsync --server --sender -vltprz --delete-excluded .<%
+    @repo_downloads.sort.each do |key,repo|
+      (repo['static_files'] or []).each do |name|
+        %> /home/rsync/subscription/<%= key %>/<%= name %><%
+      end
+    end
+  %> /home/rsync/generated/data/
+

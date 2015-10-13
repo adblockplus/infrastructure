@@ -9,6 +9,11 @@
 #   repositories with different names. Note that this option is recognized
 #   only when setup via hiera('filtermaster::repo_downloads')!
 #
+# [*static_files*]
+#   Files to include in the synchronization of download resources without
+#   prior aggregation, if any. Note that option is recognized only when
+#   setup via hiera('filtermaster::repo_downloads') as well!
+#
 # === Examples:
 #
 #   filtermaster::repo_download {'exceptionrules':
@@ -17,6 +22,7 @@
 #
 define filtermaster::repo_download (
   $target = $title,
+  $static_files = [],
 ) {
 
   $directory = "/home/rsync/subscription/$title"
