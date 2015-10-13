@@ -1,3 +1,25 @@
 classes:
   filtermaster:
 
+filtermaster::repos:
+  - easylist
+  - easylistgermany
+  - easylistitaly
+  - easylistchina
+  - easylistcombinations
+  - easylistspanish
+  - malwaredomains
+  - ruadlist
+  - listefr
+  - easylistdutch
+  - adblockpolska
+  - facebookfilters
+  - youtubefilters
+  - antiadblockfilters
+  - adwarefilters
+  - listear
+
+filtermaster::repo_downloads:
+  exceptionrules:
+    target: exceptions
+
