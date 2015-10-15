@@ -48,6 +48,12 @@ class filtermaster(
     owner => rsync
   }
 
+  file {'/home/rsync/generated/gzip':
+    ensure => directory,
+    owner => rsync,
+    require => File['/home/rsync/generated'],
+  }
+
   file {'/home/rsync/.ssh':
     ensure => directory,
     owner => rsync,

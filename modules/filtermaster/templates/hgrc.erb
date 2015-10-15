@@ -1,0 +1,11 @@
+[paths]
+default = <%= @repository %>
+
+[hooks]
+# Puppet: Filtermaster::Repo_download['<%= @title %>'].static_files
+<%- @static_files.each do |name| -%>
+<%-   target = "/home/rsync/generated/gzip/#{name}.gz" -%>
+<%-   id = scope.function_md5([name]) -%>
+post-update.<%= id %> = 7za a -tgzip -y -mx=9 -bd -mpass=5 "<%= target %>" "<%= name %>" >/dev/null
+<%- end -%>
+

@@ -38,4 +38,10 @@ define filtermaster::repo_download (
     timeout => 0,
     user => 'rsync',
   }
+
+  file {"$directory/.hg/hgrc":
+    content => template('filtermaster/hgrc.erb'),
+    owner => 'rsync',
+    require => Exec["filtermaster::repo_download#$title"],
+  }
 }
