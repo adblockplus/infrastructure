@@ -4,7 +4,9 @@ class filtermaster(
 ) {
 
   Cron {
-    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/sitescripts'],
+    environment => concat(hiera('cron::environment', []), [
+      'PYTHONPATH=/opt/sitescripts',
+    ]),
   }
 
   include ssh
