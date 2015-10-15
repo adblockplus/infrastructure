@@ -4,9 +4,9 @@
 :yaml:
   :datadir: /etc/puppet/infrastructure
 :hierarchy:
-  - "hiera/base"
-  - "hiera/roles/%{::role}"
-  - "modules/private/hiera/base"
-  - "modules/private/hiera/roles/%{::role}"
-  - "modules/private/hiera/hosts/%{::hostname}"
   - "modules/private/hiera/hosts"
+  - "modules/private/hiera/hosts/%{::hostname}"
+  - "modules/private/hiera/roles/%{::role}"
+  - "modules/private/hiera/base"
+  - "hiera/roles/%{::role}"
+  - "hiera/base"
