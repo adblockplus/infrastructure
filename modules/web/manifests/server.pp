@@ -22,7 +22,9 @@ class web::server(
   }
 
   Cron {
-    environment => ['MAILTO=admins@adblockplus.org', 'PYTHONPATH=/opt/cms:/opt/sitescripts'],
+    environment => concat(hiera('cron::environment', []), [
+      'PYTHONPATH=/opt/cms:/opt/sitescripts',
+    ]),
   }
 
   class {'nginx':

@@ -1,5 +1,5 @@
 Cron {
-  environment => 'MAILTO=admins@adblockplus.org'
+  environment => hiera('cron::environment', []),
 }
 
 Exec {

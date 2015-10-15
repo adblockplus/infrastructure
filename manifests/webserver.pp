@@ -48,7 +48,7 @@ repository=$sitescripts_var_dir/subscriptionlist",
 
   cron {'update_repository_subscriptionlist':
     ensure => present,
-    environment => ['MAILTO=admins@adblockplus.org'],
+    environment => hiera('cron::environment', []),
     command => "hg pull --quiet --repository $subscriptions_repo",
     user => 'sitescripts',
     minute => '*/10',

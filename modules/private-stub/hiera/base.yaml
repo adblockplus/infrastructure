@@ -3,3 +3,6 @@ classes:
   nagios::client:
     server_address: monitoring.adblockplus.org
 
+cron::environment:
+  - MAILTO=root,vagrant
+

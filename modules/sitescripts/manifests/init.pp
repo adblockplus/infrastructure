@@ -39,7 +39,7 @@ class sitescripts (
   cron {"update_sitescripts":
     ensure => present,
     command => "hg pull -q -u -R /opt/sitescripts && /opt/sitescripts/ensure_dependencies.py -q",
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => hiera('cron::environment', []),
     user => root,
     require => Exec["fetch_sitescripts"],
   }
