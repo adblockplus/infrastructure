@@ -22,7 +22,7 @@ class notificationserver($is_default = false) {
 
   cron {'update_notifications':
     command => 'hg pull -q -u -R /opt/notifications',
-    environment => ['MAILTO=admins@adblockplus.org,root'],
+    environment => hiera('cron::environment', []),
     minute => '*/5',
     user => 'nginx',
     require => Exec['fetch_notifications'],
