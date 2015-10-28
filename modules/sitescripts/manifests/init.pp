@@ -3,14 +3,16 @@ class sitescripts (
     $sitescriptsini_content = '',
   ){
 
-  concat {'/etc/sitescripts.ini':
+  @concat {'/etc/sitescripts.ini':
     mode => 644,
     owner => root,
     group => root,
   }
 
-  define configfragment($content = '', $source = '')
-  {
+  define configfragment($content = '', $source = '') {
+
+    realize(Concat['/etc/sitescripts.ini'])
+
     concat::fragment {"/etc/sitescripts.ini#$title":
       target  => '/etc/sitescripts.ini',
       content => $content,
@@ -21,9 +23,12 @@ class sitescripts (
     }
   }
 
-  configfragment {'/etc/sitescripts.ini':
-    content => $sitescriptsini_content,
-    source => $sitescriptsini_source,
+  if ($sitescriptsini_source != '') or ($sitescriptsini_content != '') {
+
+    configfragment {'/etc/sitescripts.ini':
+      content => $sitescriptsini_content,
+      source => $sitescriptsini_source,
+    }
   }
 
   $configfragments = hiera('sitescripts::configfragments', {})
