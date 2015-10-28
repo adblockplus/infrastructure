@@ -36,6 +36,7 @@ class notificationserver($is_default = false) {
     fcgi_app => '/opt/sitescripts/multiplexer.fcgi',
     socket => '/tmp/multiplexer-fastcgi.sock',
     mode => '0666',
+    order => 500,
     user => 'nginx',
     children => 1,
     require => [
@@ -43,6 +44,10 @@ class notificationserver($is_default = false) {
       Exec['fetch_notifications'],
       Package['python-flup']
     ]
+  }
+
+  customservice::supervisor {'spawn-fcgi':
+    pidfile => '/var/run/500-multiplexer_spawn-fcgi.pid',
   }
 
   File {
