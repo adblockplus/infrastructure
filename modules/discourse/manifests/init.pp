@@ -141,7 +141,7 @@ class discourse(
 
     # This is hardcoded here so that Discourse doesn't try to extract it from
     # the repository. Ideally, we should update it when updating Discourse.
-    content => '$git_version = "8a3a02421a39f53b6adf3ca9a6fdba73f42bc932"',
+    content => '$git_version = "a324c71869cad20a40f7979354cd731041878276"',
     require => Exec['fetch-discourse'],
     before => Exec['init-discourse'],
   }
