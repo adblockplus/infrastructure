@@ -171,6 +171,10 @@ class hgweb(
     subscribe => File['/etc/hgweb.ini'],
   }
 
+  customservice::supervisor {'hgweb':
+    ensure => 'present',
+  }
+
   nginx::hostconfig {$domain:
     certificate => $certificate ? {
       'undef' => undef,
