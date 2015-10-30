@@ -1,0 +1,5 @@
+classes:
+  logstash:
+    contrib: false
+    ensure: running
+

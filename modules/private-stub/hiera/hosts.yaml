@@ -88,4 +88,8 @@ servers:
     role: web/adblockbrowser
     ssh_public_key: *vagrant_box
     groups: [http-servers]
+  log1:
+    ip: [10.8.1.210]
+    role: logserver
+    ssh_public_key: *vagrant_box
 
