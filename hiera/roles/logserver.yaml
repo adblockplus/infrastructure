@@ -1,5 +1,3 @@
 classes:
-  logstash:
-    contrib: false
-    ensure: running
+  adblockplus::logmaster:
 
