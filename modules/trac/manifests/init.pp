@@ -241,6 +241,20 @@ class trac(
       children => 1,
       require => Exec["deploy_$name"],
     }
+
+    logrotate::config {"trac_$name":
+      content => template('trac/logrotate.erb'),
+      ensure => 'present',
+    }
+  }
+
+  # Daily restart required for log rotation of all instances at once
+  cron {'restart-trac-daily':
+    command => 'service spawn-fcgi restart >/tmp/spawn-fcgi-restart.log',
+    environment => hiera('cron::environment', []),
+    hour => '1',
+    minute => '0',
+    user => 'root',
   }
 }
 
