@@ -91,6 +91,16 @@ rewrite ^/(\w\w(_\w\w)?/)?adblock-browser/?$ https://adblockbrowser.org/ permane
 
 location /redirect
 {
+  set $adblock_browser_android_download "https://downloads.adblockplus.org/adblockbrowser-1.1.0-arm.apk";
+  set $adblock_browser_android_store "https://play.google.com/store/apps/details?id=org.adblockplus.browser";
+
+  # Google Play is not available in China, so we redirect them to the
+  # builds for download, see https://issues.adblockplus.org/ticket/3094
+  if ($geoip_country_code = 'CN')
+  {
+    set $adblock_browser_android_store $adblock_browser_android_download;
+  }
+
   if ($arg_link = "reporter_connect_issue")
   {
     rewrite ^ /forum/? redirect;
@@ -133,7 +143,7 @@ location /redirect
   }
   if ($arg_link = "adblock_browser_android_store")
   {
-    rewrite ^ https://play.google.com/store/apps/details?id=org.adblockplus.browser? redirect;
+    rewrite ^ $adblock_browser_android_store? redirect;
   }
   if ($arg_link = "adblock_browser_ios_store")
   {
@@ -141,7 +151,7 @@ location /redirect
   }
   if ($arg_link = "adblock_browser_android_download")
   {
-    rewrite ^ https://downloads.adblockplus.org/adblockbrowser-1.1.0-arm.apk? redirect;
+    rewrite ^ $adblock_browser_android_download? redirect;
   }
   if ($arg_link = "adblock_plus_safari_ios_support")
   {
