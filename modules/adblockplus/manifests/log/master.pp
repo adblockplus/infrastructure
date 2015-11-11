@@ -1,9 +1,9 @@
-# == Class: adblockplus::logmaster
+# == Class: adblockplus::log::master
 #
 # A server setup to collect and pre-process (i.e. anonymize and combine)
 # log files using Logstash (https://logstash.net/) pipelines.
 #
-class adblockplus::logmaster {
+class adblockplus::log::master {
 
   include adblockplus
   realize(File['/var/adblockplus'])
