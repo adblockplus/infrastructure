@@ -1,0 +1,7 @@
+classes:
+  statsclient:
+  web::server:
+    vhost: subscribe.adblockplus.org
+    is_default: true
+    repository: subscribe.adblockplus.org
+
