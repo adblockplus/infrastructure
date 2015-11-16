@@ -1,0 +1,6 @@
+# Puppet: Adblockplus::Telemetry::Endpoint['<%= @title %>']
+location = <%= @location %> {
+  access_log <%= @logfile %> data;
+  echo_read_request_body;
+}
+

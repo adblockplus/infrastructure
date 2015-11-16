@@ -1,0 +1,8 @@
+classes:
+  adblockplus::telemetry:
+    domain: "telemetry.adblockplus.org"
+
+adblockplus::telemetry::endpoints:
+  adblockplus:
+    location: /submit/adblockplus
+

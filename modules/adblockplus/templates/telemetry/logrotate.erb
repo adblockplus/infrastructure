@@ -1,0 +1,9 @@
+# Puppet: Adblockplus::Telemetry::Endpoint['<%= @title %>']
+<%= @logfile %> {
+  daily
+  rotate 30
+  compress
+  missingok
+  nodateext
+}
+
