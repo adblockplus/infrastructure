@@ -171,6 +171,10 @@ location /redirect
     set $link "share";
     set $anchor "?a=minimal";
   }
+  if ($arg_link = "uninstalled")
+  {
+    set $link "uninstalled";
+  }
   if ($arg_link = "gettingStarted")
   {
     set $link "getting_started";
@@ -239,6 +243,11 @@ location /redirect
   if ($link = "share")
   {
     rewrite ^ https://share.adblockplus.org/$lang/? redirect;
+  }
+  if ($link = "uninstalled")
+  {
+    # For the uninstallation page we need to preserve the query parameters
+    rewrite ^ /$lang/$link redirect;
   }
   rewrite ^ /$lang/$link$anchor? redirect;
 }
