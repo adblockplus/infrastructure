@@ -15,6 +15,7 @@ adblockplusie_type=ie
 elemhidehelper_repository=%(sitescripts_var_root)s/elemhidehelper
 elemhidehelper_galleryID=elemhidehelper
 diagnostics_repository=%(sitescripts_var_root)s/abpwatcher
+diagnostics_galleryID=diagnostics-for-adblock-plus
 customization_repository=%(sitescripts_var_root)s/abpcustomization
 customization_galleryID=abpcustomization
 urlfixer_repository=%(sitescripts_var_root)s/urlfixer
