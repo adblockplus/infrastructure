@@ -6,7 +6,7 @@
 class adblockplus::log::master {
 
   include adblockplus
-  realize(File['/var/adblockplus'])
+  realize(File[$adblockplus::directory])
 
   # Mapping hiera values explicitly becomes obsolete with Puppet 3.x
   class {'logstash':
@@ -17,12 +17,12 @@ class adblockplus::log::master {
   }
 
   # Default location for output files in Logstash pipeline configurations
-  file {'/var/adblockplus/log':
+  file {"$adblockplus::directory/log":
     before => Service['logstash'],
     group => 'logstash',
     mode => 0775,
     require => [
-      File['/var/adblockplus'],
+      File[$adblockplus::directory],
       Package['logstash'],
     ],
   }
