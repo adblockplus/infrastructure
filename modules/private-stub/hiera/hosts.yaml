@@ -4,7 +4,7 @@ servers:
     ip: [10.8.0.120]
     role: filterserver
     ssh_public_key: &vagrant_box
-      AAAAB3NzaC1yc2EAAAADAQABAAABAQChpIwFFj2G8HeGbpe6tNLESGOKH2XiJ1A3w0iQydJoQjQMq/bd3lPexYDEFDI5orxe4KTtWXzqL74uco54x6DY35c7DbTBFlZi++DNfajh7zZVj+15ZXc5jefP8PO66gMgHUQ6dp0z8W5/p9OXdIwaWa8n083CzJn8IixF7/Q0bqBon7+7DNX/m+B7h+EfWizbzTrknrvGXXUYc1X7KY04fAIPa5S0TqEUliF2Yk1YHYyN5w7NUeLq3rd0YK8jFUy5DiKUgQ+ZYIKU3swcguZvFo38JBBrJns+1CKD28XQG6TguhWpzeVNMwcl+tm5LJjpGrTonprGgEPFC8Aa/+2T
+      AAAAB3NzaC1yc2EAAAADAQABAAABAQDkXTOj2JwvwlDaHbaMrDuosuRuU5ZuKe1EHNJa67ZxkB1a6Y1ObDxfYiYnvI5i9sQyUmmc5TrGAGGJs1BrriMaPayBaTSf3ymU2Rqxj3GZXuiioCxGV8I2R/aOhwvpbnVqZH5O99IuAZbrag5J/WhDWgWuk3gFrZxEwQmZW144tJH//I3b0oMAr3/arBViVeU52dHhKX9xdStTzFpWKUav/NoKKrgB91QKwPx8U6ymuDoCQU7qyTBnAX1sYuSwEMJzVRqtmKLybR4Xp5A94EMbJsgVbq4LrUrMo00FdLV0EGMmA2Kmd/9D+CuZXoD6/mWkzmaVfiUMKhrorM05voFp
     groups: [filter-servers]
   server4:
     ip: [10.8.0.99]
