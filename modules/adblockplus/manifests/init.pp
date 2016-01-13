@@ -4,7 +4,25 @@
 # used to integrate Puppet modules with each other, in order to assemble
 # the setups used by the Adblock Plus project.
 #
-class adblockplus {
+# === Parameters:
+#
+# [*users*]
+#   A hash of adblockplus::user $name => $parameter items to set up in this
+#   context, i.e. via Hiera.
+#
+# === Examples:
+#
+#   class {'adblockplus':
+#     users => {
+#       'pinocchio' => {
+#         # see adblockplus::user
+#       },
+#     },
+#   }
+#
+class adblockplus (
+  $users = hiera('adblockplus::users', []),
+) {
 
   # Used as internal constant within adblockplus::* resources
   $directory = '/var/adblockplus'
@@ -16,4 +34,7 @@ class adblockplus {
     mode => 0755,
     owner => 'root',
   }
+
+  # See modules/adblockplus/manifests/user.pp
+  create_resources('adblockplus::user', $users)
 }
