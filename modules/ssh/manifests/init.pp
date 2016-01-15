@@ -3,7 +3,10 @@ class ssh(
   $tcp_forwarding = hiera('ssh::tcp_forwarding', false),
 ) {
 
-  package {'openssh-server': ensure => present}
+  ensure_packages([
+    'openssh-client',
+    'openssh-server',
+  ])
 
   concat {'sshd_config':
     path => '/etc/ssh/sshd_config',
@@ -17,6 +20,15 @@ class ssh(
     target => 'sshd_config',
     content => template('ssh/sshd_config.erb'),
     order => '01',
+  }
+
+  file {'ssh_config':
+    content => template('ssh/ssh_config.erb'),
+    group => 'root',
+    mode => 0644,
+    owner => 'root',
+    path => '/etc/ssh/ssh_config',
+    require => Package['openssh-client'],
   }
 
   service {'ssh':
