@@ -1,1 +1,5 @@
  fastcgi_cache_path /var/cache/nginx/hgweb levels=1 keys_zone=hgwebfeed:1m;
+
+# HTTP header size increases proportional to the amount of Mercurial heads,
+# see https://www.mercurial-scm.org/wiki/HgWebInIisOnWindows#Troubleshooting
+large_client_header_buffers 16 16k;
