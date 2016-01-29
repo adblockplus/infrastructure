@@ -161,6 +161,10 @@ location /redirect
   {
     rewrite ^ https://itunes.apple.com/app/adblock-plus-abp/id1028871868? redirect;
   }
+  if ($arg_link = "adblock_plus_sbrowser_store")
+  {
+    rewrite ^ https://play.google.com/store/apps/details?id=org.adblockplus.adblockplussbrowser? redirect;
+  }
 
   set $lang "en";
   set $link "";
