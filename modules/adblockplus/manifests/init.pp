@@ -21,7 +21,7 @@
 #   }
 #
 class adblockplus (
-  $users = hiera('adblockplus::users', []),
+  $users = hiera_hash('adblockplus::users', {}),
 ) {
 
   # Used as internal constant within adblockplus::* resources
