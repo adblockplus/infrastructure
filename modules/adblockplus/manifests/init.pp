@@ -24,6 +24,9 @@ class adblockplus (
   $users = hiera_hash('adblockplus::users', {}),
 ) {
 
+  # See https://issues.adblockplus.org/ticket/3574#comment:4
+  include base
+
   # Used as internal constant within adblockplus::* resources
   $directory = '/var/adblockplus'
 

@@ -1,5 +1,5 @@
 classes:
-  base:
+  adblockplus:
   nagios::client:
     server_address: monitoring.adblockplus.org
 
