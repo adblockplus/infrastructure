@@ -147,13 +147,13 @@ class web::server(
     onlyif => 'test ! -x /usr/bin/jsdoc',
   }
 
-  package {'doxygen':}
+  package {['make', 'doxygen']:}
 
   cron {'generate_docs':
     ensure => present,
     require => [
       Exec['fetch_sitescripts', 'install_jsdoc'],
-      Package['doxygen'],
+      Package['make', 'doxygen'],
       File['/var/www/docs'],
     ],
     command => 'python -m sitescripts.docs.bin.generate_docs',
