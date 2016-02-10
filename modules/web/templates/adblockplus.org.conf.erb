@@ -299,13 +299,9 @@ location /subscriptionStatus
 {
   try_files $uri @proxied;
 }
-location /jsdoc
+location ~ ^/(docs|jsdoc)($|/)
 {
-  try_files $uri @proxied;
-}
-location /docs
-{
-  try_files $uri @proxied;
+  root /var/www/docs;
 }
 location /403.html
 {
