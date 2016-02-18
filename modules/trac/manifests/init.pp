@@ -127,6 +127,13 @@ class trac(
     mode => 644,
   }
 
+  file {'/home/trac/robots.txt':
+    ensure => 'present',
+    source => 'puppet:///modules/trac/robots.txt',
+    owner => 'trac',
+    mode => 644,
+  }
+
   define instance (
       $config = 'trac/trac.ini.erb',
       $description = 'Issue Tracker',
