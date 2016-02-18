@@ -15,7 +15,7 @@ class base ($zone='adblockplus.org') {
   # Note that APT dependencies are excluded here!
   Exec['apt_update'] -> Package <|title != 'python-software-properties'|>
 
-  include private::users, postfix, ssh
+  include postfix, ssh
 
   package {['mercurial', 'vim', 'emacs', 'debian-goodies', 'htop']:
     ensure => present,
