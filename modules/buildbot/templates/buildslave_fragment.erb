@@ -1,0 +1,9 @@
+# Puppet: <%= @title %>
+index=$(($index + 1))
+MASTER_BASEDIR[$index]=<%= @basedir %>
+MASTER_ENABLED[$index]=<%= ([:stopped, :false, false].include? @ensure)? 0: 1 %>
+MASTER_NAME[$index]=<%= @name %>
+MASTER_OPTIONS[$index]=
+MASTER_PREFIXCMD[$index]=
+MASTER_USER[$index]=<%= @user %>
+
