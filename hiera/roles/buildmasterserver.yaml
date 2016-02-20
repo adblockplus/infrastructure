@@ -1,5 +1,5 @@
 classes:
-  adblockplus::buildmaster:
+  adblockplus::build::master:
     domain: builds.adblockplus.org
     is_default_domain: true
     buildbot_config:

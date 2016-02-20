@@ -1,4 +1,4 @@
-# == Class: adblockplus::buildmaster
+# == Class: adblockplus::build::master
 #
 # An authoritative build-server setup based on Buildbot and Nginx.
 #
@@ -30,19 +30,19 @@
 #
 # === Examples:
 #
-#   class {'adblockplus::buildmaster':
+#   class {'adblockplus::build::master':
 #     domain => 'localhost',
 #     is_default_domain => true,
 #   }
 #
-class adblockplus::buildmaster (
+class adblockplus::build::master (
   $domain,
   $is_default_domain = false,
   $buildbot_config = {},
-  $ssl_cert = hiera('adblockplus::buildmaster::ssl_cert', 'undef'),
-  $ssl_key = hiera('adblockplus::buildmaster::ssl_key', 'undef'),
-  $slaves = hiera('adblockplus::buildmaster::slaves', {}),
-  $slave_credentials = hiera('adblockplus::buildmaster::slave_credentials', {}),
+  $ssl_cert = hiera('adblockplus::build::master::ssl_cert', 'undef'),
+  $ssl_key = hiera('adblockplus::build::master::ssl_key', 'undef'),
+  $slaves = hiera('adblockplus::build::master::slaves', {}),
+  $slave_credentials = hiera('adblockplus::build::master::slave_credentials', {}),
 ) {
 
   include nginx
