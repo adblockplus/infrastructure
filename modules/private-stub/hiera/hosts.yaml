@@ -107,9 +107,3 @@ servers:
     role: telemetryserver
     ssh_public_key: *vagrant_box
     groups: [http-servers]
-  amo-test:
-    ip: [10.8.0.151]
-    ssh_public_key: *vagrant_box
-    groups: []
-    role: intraforumserver
-
