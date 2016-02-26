@@ -18,8 +18,8 @@ PUPPETLABS_PREFS = '''
 # Puppetlabs packages (e.g. hiera) would attempt to install a puppet 3.x
 # or later release (which is not available in precise) if not pinned here
 Package: puppet puppet-common
-Pin: version 2.7.11-*
-Pin-Priority: 1000'''
+Pin: version 2.7.26-*
+Pin-Priority: 501'''
 
 PUPPETLABS_GPG_KEY = '''
 -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -94,8 +94,9 @@ with io.open('/etc/apt/preferences.d/puppetlabs', 'wb') as handle:
   handle.write(PUPPETLABS_PREFS)
 
 subprocess.check_call(['apt-get', '-y', 'update'])
-subprocess.check_call(['apt-get', '-y', 'install', 'puppet'])
-subprocess.check_call(['apt-get', '-y', 'install', 'hiera-puppet'])
+subprocess.check_call(['apt-get', '-y', 'install',
+                       '-o', 'Dpkg::Options::=--force-overwrite',
+                       'puppet', 'puppet-common', 'hiera-puppet'])
 
 if not os.path.exists('/etc/puppet/hiera.yaml'):
   realpath = os.path.realpath(__file__)
