@@ -120,6 +120,18 @@ class trac(
     unless => "python -c 'import privatetickets'",
   }
 
+  exec { 'install_TracXMLRPC':
+    command => 'pip install svn+https://trac-hacks.org/svn/xmlrpcplugin/trunk/',
+    require => Package['subversion', 'python-pip'],
+    unless => "python -c 'import tracrpc'",
+  }
+
+  exec { 'install_TracHTTPAuth':
+    command => 'pip install svn+https://trac-hacks.org/svn/httpauthplugin/trunk/',
+    require => Package['subversion', 'python-pip'],
+    unless => "python -c 'import httpauth'",
+  }
+
   file { '/home/trac/trac.ini':
     ensure => present,
     source => 'puppet:///modules/trac/trac.ini',
@@ -217,7 +229,9 @@ class trac(
         Exec['install_ThemeEngine'],
         Exec['install_Tractags'],
         Exec['install_TracSpamFilter'],
-        Exec['install_PrivateTickets']],
+        Exec['install_PrivateTickets'],
+        Exec['install_TracXMLRPC'],
+        Exec['install_TracHTTPAuth']],
     }
   
     exec {"deploy_$name":
