@@ -26,6 +26,10 @@
 #   A directory providing custom /static/ resources to be used instead
 #   of the ones that ship with package mercurial.
 #
+# [*trac_abpbot_password*]
+#   The password of the Trac user "abpbot", whose credentials are used to
+#   interact with issues.adblockplus.org.
+#
 # === Examples:
 #
 #   class {'hgweb':
@@ -39,6 +43,7 @@ class hgweb(
   $private_key = hiera('hgweb::private_key', 'undef'),
   $hgaccess = 'puppet:///modules/hgweb/hgaccess',
   $templates = hiera('hgweb::templates', '/usr/share/mercurial/templates'),
+  $trac_abpbot_password = hiera('hgweb::trac_abpbot_password', 'abpbot'),
 ) {
 
   include ssh, nginx
