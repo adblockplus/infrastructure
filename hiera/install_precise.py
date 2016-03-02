@@ -19,6 +19,11 @@ PUPPETLABS_PREFS = '''
 # or later release (which is not available in precise) if not pinned here
 Package: puppet puppet-common
 Pin: version 2.7.26-*
+Pin-Priority: 501
+
+# See https://issues.adblockplus.org/ticket/3706#comment:4
+Package: facter
+Pin: version 1.*
 Pin-Priority: 501'''
 
 PUPPETLABS_GPG_KEY = '''
