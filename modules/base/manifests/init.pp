@@ -97,18 +97,4 @@ class base ($zone='adblockplus.org') {
     ensure => 'present',
     mode => 0644,
   }
-
-  # Work around https://issues.adblockplus.org/ticket/3479
-  if $::environment == 'development' {
-
-    file {
-      '/etc/ssh/ssh_host_rsa_key':
-        source => 'puppet:///modules/base/development_host_rsa_key',
-        mode => 600,
-        notify => Service['ssh'];
-      '/etc/ssh/ssh_host_rsa_key.pub':
-        source => 'puppet:///modules/base/development_host_rsa_key.pub',
-        mode => 644;
-    }
-  }
 }
