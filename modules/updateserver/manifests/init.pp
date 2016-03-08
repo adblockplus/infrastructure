@@ -105,7 +105,7 @@ class updateserver(
     command => $update_update_manifests_script,
     user => 'sitescripts',
     timeout => 0,
-    require => [Exec['fetch_sitescripts'],
+    require => [Class['sitescripts'],
                 Fetch_repository[$repositories_to_sync],
                 File[$update_update_manifests_script],
                 File[$update_manifest_dirs], File[$safari_certificate_path],
@@ -132,7 +132,7 @@ class updateserver(
     user => 'nginx',
     children => 1,
     require => [
-      Exec["fetch_sitescripts"],
+      Class["sitescripts"],
       Package["python-flup"],
     ],
   }
