@@ -25,7 +25,7 @@ class downloadserver(
     user => 'nginx',
     children => 1,
     require => [
-      Exec['fetch_sitescripts'],
+      Class['sitescripts'],
       Package['python-flup', 'python-jinja2'],
     ],
   }
