@@ -23,7 +23,7 @@ class statsmaster::downloads {
     require => [
                  Package['pypy'],
                  Package['python-jinja2'],
-                 Exec["fetch_sitescripts"]
+                 Class["sitescripts"]
                ],
     command => "pypy -m sitescripts.stats.bin.logprocessor && python -m sitescripts.stats.bin.pagegenerator",
     environment => ['MAILTO=admins@adblockplus.org,root',
