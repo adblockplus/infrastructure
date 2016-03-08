@@ -66,7 +66,7 @@ class web::server(
       user => 'nginx',
       children => 1,
       require => [
-        Exec["fetch_sitescripts"],
+        Class["sitescripts"],
         Package["python-flup"],
       ],
     }
@@ -152,7 +152,8 @@ class web::server(
   cron {'generate_docs':
     ensure => present,
     require => [
-      Exec['fetch_sitescripts', 'install_jsdoc'],
+      Class['sitescripts'],
+      Exec['install_jsdoc'],
       Package['make', 'doxygen'],
       File['/var/www/docs'],
     ],
