@@ -40,7 +40,7 @@ class notificationserver($is_default = false) {
     user => 'nginx',
     children => 1,
     require => [
-      Exec['fetch_sitescripts'],
+      Class['sitescripts'],
       Exec['fetch_notifications'],
       Package['python-flup']
     ]
