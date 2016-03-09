@@ -45,6 +45,22 @@ class adblockplus (
     owner => 'root',
   }
 
+  # A common time-zone shared by all hosts provisioned eases synchronization
+  # and debugging, i.e. log-file review and similar tasks, significantly
+  file {
+    '/etc/timezone':
+      content => 'UTC',
+      ensure => 'present',
+      group => 'root',
+      mode => 0644,
+      notify => Service['cron'],
+      owner => 'root';
+    '/etc/localtime':
+      ensure => 'link',
+      target => '/usr/share/zoneinfo/UTC',
+      notify => Service['cron'];
+  }
+
   # Work around https://issues.adblockplus.org/ticket/3479
   if $::environment == 'development' {
 
