@@ -159,27 +159,4 @@ class nagios::server(
   create_resources(nagios_service, $services)
   create_resources(nagios_host, $hosts)
   create_resources(nagios_hostgroup, $hostgroups)
-
-  $nagios_generic = hiera('servers')
-  create_resources(nagios::server::generic_host, $nagios_generic)
-
-  define generic_host(
-    $ip,
-    $ssh_public_key = undef,
-    $role = undef,
-    $dns = undef,
-    $groups = [],
-  ) {
-
-    if $dns == undef {
-      $fqdn_name = join([$name, $nagios::server::zone], '.')
-    } else {
-      $fqdn_name = $dns
-    }
-
-    nagios_host {$fqdn_name:
-      use => 'generic-host',
-      hostgroups => $groups,
-    }
-  }
 }
