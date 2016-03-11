@@ -10,7 +10,6 @@ servers:
     ip: [10.8.0.99]
     role: monitoringserver
     ssh_public_key: *vagrant_box
-    dns: server4.adblockplus.org
     groups: [http-servers]
   codereview1:
     ip: [10.8.0.132]
@@ -20,7 +19,6 @@ servers:
   download1:
     ip: [10.8.0.126]
     ssh_public_key: *vagrant_box
-    dns: downloads.adblockplus.org
     groups: [http-servers]
   filtermaster1:
     ip: [10.8.0.127]
@@ -30,7 +28,6 @@ servers:
     ip: [10.8.0.105]
     role: intraforumserver
     ssh_public_key: *vagrant_box
-    dns: server10.adblockplus.org
     groups: [http-servers]
   issues1:
     ip: [10.8.0.131]

@@ -10,6 +10,10 @@
 #   The authorative domain or zone associated with the current environment,
 #   similar to the deprecated and soon to be removed $base::zone.
 #
+# [*hosts*]
+#   A hash of adblockplus::host $name => $parameter items to set up in this
+#   context, i.e. via Hiera.
+#
 # [*users*]
 #   A hash of adblockplus::user $name => $parameter items to set up in this
 #   context, i.e. via Hiera.
@@ -17,6 +21,11 @@
 # === Examples:
 #
 #   class {'adblockplus':
+#     hosts => {
+#       'node1' => {
+#         # see adblockplus::host
+#       },
+#     },
 #     users => {
 #       'pinocchio' => {
 #         # see adblockplus::user
@@ -26,6 +35,7 @@
 #
 class adblockplus (
   $authority = hiera('adblockplus::authority', 'adblockplus.org'),
+  $hosts = hiera_hash('adblockplus::hosts', {}),
   $users = hiera_hash('adblockplus::users', {}),
 ) {
 
@@ -74,6 +84,15 @@ class adblockplus (
         mode => 644;
     }
   }
+
+  # https://projects.puppetlabs.com/issues/4145
+  ensure_resource('file', '/etc/ssh/ssh_known_hosts', {
+    ensure => 'present',
+    mode => 0644,
+  })
+
+  # See modules/adblockplus/manifests/host.pp
+  create_resources('adblockplus::host', $hosts)
 
   # See modules/adblockplus/manifests/user.pp
   create_resources('adblockplus::user', $users)

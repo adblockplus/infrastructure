@@ -41,45 +41,34 @@ class base ($zone='adblockplus.org') {
     $groups         = undef,
   ) {
 
-    if is_array($ip) {
-      $internal_ip = $ip[0]
-    } else {
-      $internal_ip = $ip
+    $fqdn = $dns ? {
+      undef => "$name.${base::zone}",
+      default => $dns,
     }
 
-    $fqdn_name = join([$name, $base::zone], '.')
-
-    host{$name:
-      ensure => present,
-      ip => $internal_ip,
-      name => $fqdn_name,
-      host_aliases => $dns ? {
-        undef => [],
-        default => $dns,
-      }
+    $ips = is_array($ip) ? {
+      true => $ip,
+      default => [$ip],
     }
 
-    if $ssh_public_key != undef {
-
-      $name_key = $dns ? {
-        undef => $fqdn_name,
-        default => $dns,
-      }
-
-      @sshkey {$name:
-        name => $name_key,
-        key => $ssh_public_key,
-        type => ssh-rsa,
-        host_aliases => $ip,
-        tag => 'base::explicit_host_record',
-      }
+    $public_key = $ssh_public_key ? {
+      undef => undef,
+      default => "ssh-rsa $ssh_public_key $fqdn",
     }
-  }
 
-  # Work around https://projects.puppetlabs.com/issues/4145
-  Sshkey<| |> ->
-  file {'/etc/ssh/ssh_known_hosts':
-    ensure => 'present',
-    mode => 0644,
+    adblockplus::host {$title:
+      fqdn => $fqdn,
+      groups => $groups,
+      ips => $ips,
+      name => $name,
+      role => $role,
+      public_key => $public_key,
+    }
+
+    # Implicit realization behavior has been introduced by accident in a
+    # previous version, hence it should be kept until class base is obsolete
+    # and the obsolete records have been removed
+    realize(Host[$title])
+    realize(Sshkey[$title])
   }
 }
