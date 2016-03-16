@@ -90,4 +90,10 @@ node 'issues1' {
     require => Trac::Instance['issues'],
     user => trac,
   }
+
+  # https://issues.adblockplus.org/ticket/3787
+  customservice::supervisor {"spawn-fcgi":
+    ensure => 'present',
+    pidfile => "/var/run/500-tracd_issues_spawn-fcgi.pid",
+  }
 }
