@@ -6,15 +6,6 @@ class base ($zone='adblockplus.org') {
     stage => 'pre',
   }
 
-  if !defined(Class['apt']) {
-    class {'apt':
-      always_apt_update => true
-    }
-  }
-
-  # Note that APT dependencies are excluded here!
-  Exec['apt_update'] -> Package <|title != 'python-software-properties'|>
-
   include postfix, ssh
 
   package {['mercurial', 'vim', 'emacs', 'debian-goodies', 'htop']:

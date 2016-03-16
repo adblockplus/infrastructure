@@ -44,6 +44,11 @@ class adblockplus (
     zone => $authority,
   }
 
+  # Class['apt'] cannot yet be configured to update on-demand
+  class {'apt':
+    always_apt_update => ($environment != 'development'),
+  }
+
   # Used as internal constant within adblockplus::* resources
   $directory = '/var/adblockplus'
 
@@ -84,6 +89,9 @@ class adblockplus (
         mode => 644;
     }
   }
+
+  # Fix implicit package dependency Class['apt'] does not properly handle
+  Exec['apt_update'] -> Package<|title != 'python-software-properties'|>
 
   # https://projects.puppetlabs.com/issues/4145
   ensure_resource('file', '/etc/ssh/ssh_known_hosts', {
