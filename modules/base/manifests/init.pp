@@ -1,12 +1,6 @@
 class base ($zone='adblockplus.org') {
-  stage {'pre': before => Stage['main']}
-  stage {'post': require => Stage['main']}
 
-  class {'users':
-    stage => 'pre',
-  }
-
-  include postfix, ssh
+  include postfix, ssh, stdlib
 
   package {['mercurial', 'vim', 'emacs', 'debian-goodies', 'htop']:
     ensure => present,
@@ -17,8 +11,12 @@ class base ($zone='adblockplus.org') {
     enable => true,
   }
 
+  class {'users':
+    stage => 'setup',
+  }
+
   class {'logrotate':
-    stage => 'post'
+    stage => 'runtime',
   }
 
   $servers = hiera('servers')
