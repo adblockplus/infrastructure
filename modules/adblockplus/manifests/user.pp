@@ -32,6 +32,7 @@
 #
 define adblockplus::user (
   $authorized_keys = [],
+  $ensure = 'present',
   $groups = [],
   $password_hash = undef,
 ) {
@@ -39,10 +40,33 @@ define adblockplus::user (
   include adblockplus
   include users
 
-  users::user {"adblockplus::user#$name":
-    authorized_keys => join($authorized_keys, "\n"),
+  # Re-used multiple times below
+  $home = "/home/$name"
+
+  user {$name:
+    ensure => $ensure,
     groups => $groups,
+    home => $home,
+    managehome => true,
     password => $password_hash,
-    user_name => $name,
+    shell => '/bin/bash',
+  }
+
+  file {"$home/.ssh":
+    ensure => $ensure ? {
+      'present' => 'directory',
+      default => $ensure,
+    },
+    mode => 0700,
+    owner => $name,
+    require => User[$name],
+  }
+
+  file {"$home/.ssh/authorized_keys":
+    content => join($authorized_keys, "\n"),
+    ensure => $ensure,
+    mode => 0644,
+    owner => $name,
+    require => File["$home/.ssh"],
   }
 }
