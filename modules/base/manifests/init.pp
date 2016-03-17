@@ -6,11 +6,6 @@ class base ($zone='adblockplus.org') {
     ensure => present,
   }
 
-  service {'cron':
-    ensure => running,
-    enable => true,
-  }
-
   class {'users':
     stage => 'setup',
   }

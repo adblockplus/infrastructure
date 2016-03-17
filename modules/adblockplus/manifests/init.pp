@@ -76,6 +76,13 @@ class adblockplus (
       notify => Service['cron'];
   }
 
+  # Explicit resource required only to ensure cron(8) is running;
+  # there is no real requirement for a rationship with another resource
+  service {'cron':
+    ensure => 'running',
+    enable => true,
+  }
+
   # Work around https://issues.adblockplus.org/ticket/3479
   if $::environment == 'development' {
 
