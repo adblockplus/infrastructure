@@ -20,9 +20,6 @@
 #   A single command string or multiple commands in array form, to
 #   become exectued after every successful rotation.
 #
-# [*upload*]
-#   Whether to export the rotated *.1.gz to the $adblockplus::log::uplink.
-#
 # === Examples:
 #
 #   adblockplus::log::rotation {'nginx_error_log':
@@ -33,7 +30,6 @@
 #     postrotate => [
 #       '[ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`',
 #     ],
-#     upload => true,
 #   }
 #
 define adblockplus::log::rotation (
@@ -42,7 +38,6 @@ define adblockplus::log::rotation (
   $interval = 'daily',
   $path = "/var/log/$name",
   $postrotate = [],
-  $upload = false,
 ) {
 
   include adblockplus::log

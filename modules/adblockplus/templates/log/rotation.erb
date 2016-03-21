@@ -12,13 +12,4 @@
     <%= @postrotate.join("\n    ") rescue @postrotate %>
   endscript
 <% end -%>
-<% if @upload -%>
-  lastaction
-    <%= scope.function_shellquote([
-      "ssh", "-i", "/etc/ssh/ssh_host_rsa_key",
-      scope.function_hiera("adblockplus::log::uplink", "localhost"),
-      @name,
-    ]) %> < <%= @path %>.1.gz
-  endscript
-<% end -%>
 }
