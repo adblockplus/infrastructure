@@ -1,0 +1,50 @@
+# This role is meant for development, testing and debugging purpose only
+classes:
+  adblockplus::log::processor:
+  fluent:
+    package:
+      ensure: "2.3.1-0"
+      provider: "apt"
+    user:
+      managehome: true
+      groups:
+        - "adm"
+        - "users"
+      shell: "/bin/bash"
+
+# modules/fluent/manifests/config.pp
+fluent::configs:
+  debugging_example:
+    content: |
+      <source>
+        @type debug_agent
+        bind 0.0.0.0
+        port 24230
+      </source>
+    ensure: "absent"
+    name: "20-debug"
+  monitoring_example:
+    content: |
+      <source>
+        @type monitor_agent
+        bind 0.0.0.0
+        port 24220
+      </source>
+    ensure: "present"
+    name: "20-monitor"
+  output_example:
+    content: |
+      <match **>
+        @type file
+        path /tmp/fluentd-example.log
+      </match>
+    ensure: "present"
+    name: "80-output"
+
+# modules/fluent/manifests/gem.pp
+fluent::gems:
+  fluent-plugin-secure-forward:
+    ensure: "absent"
+  fluent-plugin-grep:
+    ensure: "present"
+
