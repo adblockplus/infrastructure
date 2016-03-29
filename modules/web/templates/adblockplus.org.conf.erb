@@ -121,6 +121,10 @@ location /redirect
   {
     rewrite ^ /forum/viewforum.php?f=18? redirect;
   }
+  if ($arg_link = "edge_support")
+  {
+    rewrite ^ /forum/viewforum.php?f=27? redirect;
+  }
   if ($arg_link = "knownIssuesChrome_filterstorage")
   {
     rewrite ^ /forum/viewtopic.php?t=23597? redirect;
