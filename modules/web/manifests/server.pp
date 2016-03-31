@@ -10,6 +10,8 @@ class web::server(
     $geoip = false,
 ) {
 
+  include sitescripts
+
   # Ensure there is at least one character in the respective strings;
   # see https://codereview.adblockplus.org/29329028/#msg3
   validate_re($vhost, '.+')
@@ -54,8 +56,8 @@ class web::server(
     include spawn-fcgi
     package {'python-flup':}
 
-    class {'sitescripts':
-      sitescriptsini_source => 'puppet:///modules/web/sitescripts',
+    sitescripts::configfragment {$title:
+      source => 'puppet:///modules/web/sitescripts',
     }
 
     spawn-fcgi::pool {"multiplexer":

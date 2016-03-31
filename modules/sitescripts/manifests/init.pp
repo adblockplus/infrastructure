@@ -25,10 +25,18 @@ class sitescripts (
 
   if ($sitescriptsini_source != '') or ($sitescriptsini_content != '') {
 
-    configfragment {'/etc/sitescripts.ini':
-      content => $sitescriptsini_content,
-      source => $sitescriptsini_source,
-    }
+    $content = $sitescriptsini_content
+    $source = $sitescriptsini_source
+  }
+  else {
+
+    $content = "# Puppet: Class['$title']\n"
+    $source = ''
+  }
+
+  configfragment {'/etc/sitescripts.ini':
+    content => $content,
+    source => $source,
   }
 
   $configfragments = hiera('sitescripts::configfragments', {})
