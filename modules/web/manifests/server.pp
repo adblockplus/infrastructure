@@ -52,13 +52,13 @@ class web::server(
     log => "access_log_$vhost"
   }
 
+  sitescripts::configfragment {$title:
+    source => 'puppet:///modules/web/sitescripts',
+  }
+
   if $multiplexer_locations != undef {
     include spawn-fcgi
     package {'python-flup':}
-
-    sitescripts::configfragment {$title:
-      source => 'puppet:///modules/web/sitescripts',
-    }
 
     spawn-fcgi::pool {"multiplexer":
       ensure => present,
