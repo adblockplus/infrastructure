@@ -2,10 +2,6 @@ class base ($zone='adblockplus.org') {
 
   include postfix, ssh, stdlib
 
-  package {['mercurial', 'vim', 'emacs', 'debian-goodies', 'htop']:
-    ensure => present,
-  }
-
   class {'users':
     stage => 'setup',
   }

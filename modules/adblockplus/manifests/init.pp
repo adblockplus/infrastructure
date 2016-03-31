@@ -36,6 +36,7 @@
 class adblockplus (
   $authority = hiera('adblockplus::authority', 'adblockplus.org'),
   $hosts = hiera_hash('adblockplus::hosts', {}),
+  $packages = hiera_array('adblockplus::packages', []),
   $users = hiera_hash('adblockplus::users', {}),
 ) {
 
@@ -99,6 +100,9 @@ class adblockplus (
 
   # Fix implicit package dependency Class['apt'] does not properly handle
   Exec['apt_update'] -> Package<|title != 'python-software-properties'|>
+
+  # https://issues.adblockplus.org/ticket/3574#comment:19
+  ensure_packages($packages)
 
   # https://projects.puppetlabs.com/issues/4145
   ensure_resource('file', '/etc/ssh/ssh_known_hosts', {

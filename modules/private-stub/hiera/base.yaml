@@ -6,6 +6,11 @@ classes:
 adblockplus::log::uplink:
   log@log1.adblockplus.org
 
+adblockplus::packages:
+  - "debian-goodies"
+  - "mercurial"
+  - "vim"
+
 adblockplus::users:
   test:
     authorized_keys:
