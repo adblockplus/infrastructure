@@ -2,10 +2,6 @@ class base ($zone='adblockplus.org') {
 
   include postfix, ssh, stdlib
 
-  class {'users':
-    stage => 'setup',
-  }
-
   class {'logrotate':
     stage => 'runtime',
   }

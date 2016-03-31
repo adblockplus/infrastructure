@@ -38,7 +38,6 @@ define adblockplus::user (
 ) {
 
   include adblockplus
-  include users
 
   # Re-used multiple times below
   $home = "/home/$name"
