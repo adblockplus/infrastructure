@@ -1,0 +1,10 @@
+# Puppet: Adblockplus::Log::Tracker['<%= @title %>']
+<source>
+  @type tail
+  @label <%= scope.lookupvar('adblockplus::log::name') %>
+  format <%= @format %>
+  path <%= @path %>
+  pos_file <%= scope.lookupvar('adblockplus::log::index') %>
+  tag <%= @name %>
+</source>
+

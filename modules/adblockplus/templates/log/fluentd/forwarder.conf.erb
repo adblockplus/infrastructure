@@ -1,0 +1,30 @@
+# Puppet: Class['<%= @title %>']
+<label <%= scope.lookupvar('adblockplus::log::name') %>>
+  <match **>
+
+    # http://docs.fluentd.org/articles/out_forward
+    @type forward
+
+    <server>
+      name adblockplus-log-master
+      host <%= @host %>
+      port <%= @port %>
+    </server>
+
+    # http://docs.fluentd.org/articles/buf_file
+    buffer_type file
+    buffer_path  /var/run/<%= scope.lookupvar('adblockplus::log::agent') %>/forwarder.*
+
+    # http://docs.fluentd.org/articles/out_file
+    <secondary>
+      @type file
+      append
+      flush_at_shutdown
+      path /var/log/<%= scope.lookupvar('adblockplus::log::agent') %>/rejected
+      time_slice_format %Y%m%d
+      utc
+    </secondary>
+
+  </match>
+</label>
+

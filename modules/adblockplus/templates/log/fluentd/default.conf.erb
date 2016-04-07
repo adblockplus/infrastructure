@@ -1,0 +1,23 @@
+# http://docs.fluentd.org/articles/config-file#error-label
+<label @ERROR>
+  <match **>
+    @type file
+    append true
+    compress gzip
+    flush_at_shutdown
+    path /var/log/<%= @agent %>/error
+    time_slice_format %Y%m%d
+    utc
+  </match>
+</label>
+
+# http://docs.fluentd.org/articles/config-file#match-order
+<match **>
+  @type file
+  append true
+  compress gzip
+  flush_at_shutdown
+  path /var/log/<%= @agent %>/unmatched
+  time_slice_format %Y%m%d
+  utc
+</match>
