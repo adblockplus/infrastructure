@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 
 import distutils.spawn
 import io
@@ -8,7 +8,7 @@ import sys
 
 if distutils.spawn.find_executable('puppet') \
     and distutils.spawn.find_executable('hiera'):
-  sys.exit(os.EX_OK)
+    sys.exit(os.EX_OK)
 
 PUPPETLABS_SOURCES = '''
 deb http://apt.puppetlabs.com precise main
@@ -93,10 +93,10 @@ add_key_process = subprocess.Popen(['apt-key', 'add', '-'], stdin=subprocess.PIP
 add_key_process.communicate(PUPPETLABS_GPG_KEY)
 
 with io.open('/etc/apt/sources.list.d/puppetlabs.list', 'wb') as handle:
-  handle.write(PUPPETLABS_SOURCES)
+    handle.write(PUPPETLABS_SOURCES)
 
 with io.open('/etc/apt/preferences.d/puppetlabs', 'wb') as handle:
-  handle.write(PUPPETLABS_PREFS)
+    handle.write(PUPPETLABS_PREFS)
 
 subprocess.check_call(['apt-get', '-y', 'update'])
 subprocess.check_call(['apt-get', '-y', 'install',
@@ -104,8 +104,8 @@ subprocess.check_call(['apt-get', '-y', 'install',
                        'puppet', 'puppet-common', 'hiera-puppet'])
 
 if not os.path.exists('/etc/puppet/hiera.yaml'):
-  realpath = os.path.realpath(__file__)
-  dirname = os.path.dirname(realpath)
-  config = os.path.join(dirname, 'hiera.yaml')
-  if os.path.exists(config):
-    os.symlink(config, '/etc/puppet/hiera.yaml')
+    realpath = os.path.realpath(__file__)
+    dirname = os.path.dirname(realpath)
+    config = os.path.join(dirname, 'hiera.yaml')
+    if os.path.exists(config):
+        os.symlink(config, '/etc/puppet/hiera.yaml')
