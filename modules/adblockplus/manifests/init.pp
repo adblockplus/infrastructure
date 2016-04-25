@@ -49,6 +49,11 @@ class adblockplus (
     zone => $authority,
   }
 
+  # See https://issues.adblockplus.org/ticket/3575#comment:2
+  class {'logrotate':
+    stage => 'runtime',
+  }
+
   # Class['apt'] cannot yet be configured to update on-demand
   class {'apt':
     always_apt_update => ($environment != 'development'),

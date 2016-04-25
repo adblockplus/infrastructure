@@ -1,9 +1,5 @@
 class base ($zone='adblockplus.org') {
 
-  class {'logrotate':
-    stage => 'runtime',
-  }
-
   $servers = hiera('servers')
   create_resources(base::explicit_host_record, $servers)
 
