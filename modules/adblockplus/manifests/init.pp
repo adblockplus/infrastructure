@@ -40,6 +40,10 @@ class adblockplus (
   $users = hiera_hash('adblockplus::users', {}),
 ) {
 
+  include postfix
+  include ssh
+  include stdlib
+
   # See https://issues.adblockplus.org/ticket/3574#comment:8
   class {'base':
     zone => $authority,
