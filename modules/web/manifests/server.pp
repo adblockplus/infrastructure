@@ -41,7 +41,25 @@ class web::server(
     ensure => $geoip ? {false => 'absent', default => 'present'},
   }
 
-  package {['python-jinja2', 'python-markdown']:}
+  ensure_packages(['python-pip'])
+
+  # Make sure that apt packages corresponding to the pip-installed modules below
+  # won't be installed unintentionally, these will take precedence otherwise.
+  package {['python-jinja2', 'python-markdown']:
+    ensure => 'held',
+  }
+
+  package {'Jinja2':
+    ensure => '2.8',
+    provider => 'pip',
+    require => [Package['python-pip'], Package['python-jinja2']],
+  }
+
+  package {'markdown':
+    ensure => '2.6.6',
+    provider => 'pip',
+    require => [Package['python-pip'], Package['python-markdown']],
+  }
 
   nginx::hostconfig {$vhost:
     content => template('web/site.conf.erb'),
