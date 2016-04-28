@@ -95,6 +95,11 @@ servers:
     role: web/subscribe
     ssh_public_key: *vagrant_box
     groups: [http-servers]
+  web-easylist-abp-org-1:
+    ip: [10.8.0.156]
+    role: web/easylist
+    ssh_public_key: *vagrant_box
+    groups: [http-servers]
   log1:
     ip: [10.8.0.210]
     role: logserver

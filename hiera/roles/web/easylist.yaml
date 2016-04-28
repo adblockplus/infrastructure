@@ -1,0 +1,7 @@
+classes:
+  statsclient:
+  web::server:
+    vhost: easylist.adblockplus.org
+    is_default: true
+    repository: easylist.adblockplus.org
+
