@@ -18,6 +18,7 @@ servers:
     groups: [http-servers]
   download1:
     ip: [10.8.0.126]
+    role: downloadserver
     ssh_public_key: *vagrant_box
     groups: [http-servers]
   filtermaster1:
