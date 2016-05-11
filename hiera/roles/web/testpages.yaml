@@ -5,5 +5,16 @@ classes:
     certificate: testpages.adblockplus.org_sslcert.pem
     private_key: testpages.adblockplus.org_sslcert.key
     is_default: true
+    multiplexer_locations:
+      - "/sitekey-frame"
     repository: testpages.adblockplus.org
+
+sitescripts::configfragments:
+  sitekey_frame:
+    content: |
+      [multiplexer]
+      sitescripts.testpages.web.sitekey_frame =
+      [testpages]
+      sitekeyFrameTemplate=/var/www/testpages.adblockplus.org/templates/sitekey_frame.tmpl
+      sitekeyPath=/var/www/testpages.adblockplus.org/static/site.key
 
