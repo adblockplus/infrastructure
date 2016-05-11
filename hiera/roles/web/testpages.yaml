@@ -15,6 +15,9 @@ sitescripts::configfragments:
       [multiplexer]
       sitescripts.testpages.web.sitekey_frame =
       [testpages]
-      sitekeyFrameTemplate=/var/www/testpages.adblockplus.org/templates/sitekey_frame.tmpl
-      sitekeyPath=/var/www/testpages.adblockplus.org/static/site.key
+      sitekeyFrameTemplate=/home/www/testpages.adblockplus.org/templates/sitekey_frame.tmpl
+      sitekeyPath=/home/www/testpages.adblockplus.org/static/site.key
+
+adblockplus::packages:
+  - python-m2crypto
 
