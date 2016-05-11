@@ -34,11 +34,5 @@ class base ($zone='adblockplus.org') {
       role => $role,
       public_key => $public_key,
     }
-
-    # Implicit realization behavior has been introduced by accident in a
-    # previous version, hence it should be kept until class base is obsolete
-    # and the obsolete records have been removed
-    realize(Host[$title])
-    realize(Sshkey[$title])
   }
 }
