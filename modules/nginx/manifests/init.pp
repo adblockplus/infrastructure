@@ -23,7 +23,7 @@ class nginx (
   }
 
   package {'nginx':
-    ensure => '1.8.1-1+precise0',
+    ensure => '1.10.0-0+precise0',
     require => Exec['purge-nginx'],
   }
 
