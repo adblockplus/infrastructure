@@ -71,6 +71,12 @@ location = /50x.html
   root /usr/share/nginx/html;
 }
 
+if ($http_host ~ "^(.+)\.$")
+{
+  set $canonical_host $1;
+  rewrite ^(.*) $scheme://$canonical_host$1 permanent;
+}
+
 <% if @content %>
   <%= content %>
 <% end %>
