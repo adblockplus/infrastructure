@@ -66,6 +66,14 @@ class nginx (
     require => Package['nginx'],
   }
 
+  @file {'/etc/nginx/dhparam.pem':
+    ensure => 'present',
+    mode => 0600,
+    notify => Service['nginx'],
+    require => Package['nginx'],
+    source => 'puppet:///modules/private/dhe_rsa_export.pem',
+  }
+
   define hostconfig (
       $domain = $title,
       $alt_names = [],
@@ -86,6 +94,8 @@ class nginx (
     }
 
     if $certificate and $private_key {
+      realize(File['/etc/nginx/dhparam.pem'])
+
       if !defined(File["/etc/nginx/${certificate}"]) {
         file {"/etc/nginx/${certificate}":
           ensure => file,

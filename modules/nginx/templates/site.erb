@@ -45,6 +45,7 @@
 
     ssl_certificate <%= certificate %>;
     ssl_certificate_key <%= private_key %>;
+    ssl_dhparam /etc/nginx/dhparam.pem;
 
     add_header Strict-Transport-Security max-age=31536000;
 <% else %>
