@@ -196,12 +196,20 @@ class nginx (
     subscribe => Service['nginx'],
   }
 
+  $restart_command = join([
+    'set -e',
+    'pid=`cat /var/run/nginx.pid`',
+    'kill -USR2 "$pid"',
+    'sleep 2',
+    'kill -QUIT "$pid"',
+  ], "\n")
+
   service {'nginx':
     ensure => running,
     enable => true,
-    restart => '/etc/init.d/nginx reload',
+    restart => $restart_command,
     hasstatus => true,
-    require => File['/etc/nginx/nginx.conf']
+    require => Package['nginx'],
   }
 
   file {'/usr/share/nginx/html/50x.html':
