@@ -1,5 +1,10 @@
 class nagios::client($server_address) {
-  package {['nagios-nrpe-server', 'tcpdump']: ensure => present}
+
+  ensure_packages([
+    'nagios-nrpe-server',
+    'sudo',
+    'tcpdump',
+  ])
 
   file {'/etc/nagios/nrpe.cfg':
     mode => 644,
@@ -21,7 +26,8 @@ class nagios::client($server_address) {
     owner => root,
     group => root,
     mode => 0440,
-    source => 'puppet:///modules/nagios/sudoers'
+    source => 'puppet:///modules/nagios/sudoers',
+    require => Package['sudo'],
   }
 
   file {'/usr/lib/nagios/plugins/check_bandwidth':
