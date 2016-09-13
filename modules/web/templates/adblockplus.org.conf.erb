@@ -1,7 +1,7 @@
 # XSS and clickjacking prevention headers
 
 set $csp_frame "";
-if ($uri ~ ^/(:?\w\w(_\w\w)?/)?(?:index|firefox|chrome|opera|android|internet-explorer|safari|yandex-browser|maxthon)?$)
+if ($uri ~ ^/(:?\w\w(_\w\w)?/)?(?:index|firefox|chrome|opera|android|internet-explorer|safari|yandex-browser|maxthon)?$|^/blog/)
 {
   set $csp_frame "; frame-src www.youtube-nocookie.com;";
 }

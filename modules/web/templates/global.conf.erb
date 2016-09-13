@@ -7,8 +7,8 @@ server
   listen 80;
   listen [::]:80;
 <%-     if @certificate != @private_key %>
-  listen 443 ssl spdy;
-  listen [::]:443 ssl spdy;
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
 
   ssl_certificate <%= @certificate %>;
   ssl_certificate_key <%= @private_key %>;
@@ -27,4 +27,3 @@ server
 }
 <%-   end %>
 <%- end %>
-
