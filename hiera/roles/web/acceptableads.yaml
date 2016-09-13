@@ -4,6 +4,8 @@ classes:
     vhost: acceptableads.com
     aliases:
       - www.acceptableads.com
+      - acceptableads.org
+      - www.acceptableads.org
     is_default: true
     multiplexer_locations:
       - /committee/apply/submit
