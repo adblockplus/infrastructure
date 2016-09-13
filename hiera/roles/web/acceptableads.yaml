@@ -5,5 +5,30 @@ classes:
     aliases:
       - www.acceptableads.com
     is_default: true
+    multiplexer_locations:
+      - /committee/apply/submit
     repository: web.acceptableads.com
+
+sitescripts::configfragments:
+  committee_form:
+    content: |
+      [DEFAULT]
+      mailer=/usr/sbin/sendmail
+      mailerDebug=no
+      [multiplexer]
+      sitescripts.formmail.web.formmail2 =
+      [formmail2]
+      committee.url = /committee/apply/submit
+      committee.template = formmail/template/committee.mail
+      committee.fields.name = mandatory
+      committee.fields.title = mandatory
+      committee.fields.title.mandatory = No job title entered
+      committee.fields.company = mandatory
+      committee.fields.company.mandatory = No company name entered
+      committee.fields.email = mandatory, email
+      committee.fields.email.email = Invalid email address
+      committee.fields.phone =
+      committee.fields.group = mandatory
+      committee.fields.group.mandatory = No group selected
+      committee.fields.motivation =
 
