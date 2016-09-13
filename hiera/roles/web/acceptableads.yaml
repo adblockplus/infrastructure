@@ -6,6 +6,8 @@ classes:
       - www.acceptableads.com
       - acceptableads.org
       - www.acceptableads.org
+    custom_config: |
+      rewrite ^(/..)?/Platform$ $1/platform permanent;
     is_default: true
     multiplexer_locations:
       - /committee/apply/submit
