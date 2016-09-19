@@ -94,6 +94,13 @@ location /redirect
   set $adblock_browser_android_download "https://downloads.adblockplus.org/adblockbrowser-1.1.0-arm.apk";
   set $adblock_browser_android_store "https://play.google.com/store/apps/details?id=org.adblockplus.browser";
 
+  set $lang "en";
+
+  if ($arg_lang ~ ^(\w+))
+  {
+    set $lang $1;
+  }
+
   # Google Play is not available in China, so we redirect them to the
   # builds for download, see https://issues.adblockplus.org/ticket/3094
   if ($geoip_country_code = 'CN')
@@ -139,7 +146,11 @@ location /redirect
   }
   if ($arg_link = "adblock_browser_android_support")
   {
-    rewrite ^ https://adblockbrowser.org/en/android-support/? redirect;
+    rewrite ^ https://adblockbrowser.org/$lang/android-support/? redirect;
+  }
+  if ($arg_link = "adblock_browser_android_faq")
+  {
+    rewrite ^ https://adblockbrowser.org/$lang/android-support/faq? redirect;
   }
   if ($arg_link = "adblock_browser_ios_support")
   {
@@ -170,7 +181,6 @@ location /redirect
     rewrite ^ https://play.google.com/store/apps/details?id=org.adblockplus.adblockplussbrowser? redirect;
   }
 
-  set $lang "en";
   set $link "";
   set $anchor "";
 
@@ -204,6 +214,10 @@ location /redirect
     set $link "privacy";
     set $anchor "#abp_issue_reporter";
   }
+  if ($arg_link = "privacy")
+  {
+    set $link "privacy";
+  }
   if ($arg_link = "contribute")
   {
     set $link "contribute";
@@ -231,10 +245,6 @@ location /redirect
     return 404;
   }
 
-  if ($arg_lang ~ ^(\w+))
-  {
-    set $lang $1;
-  }
   if (!-f "$document_root/$lang/$link")
   {
     set $lang "!!";
