@@ -97,9 +97,25 @@ class updateserver(
     content => template('updateserver/update_update_manifests.erb')
   }
 
-  $update_update_manifests_dependencies = ['python-crypto', 'python-jinja2']
+  ensure_packages(['python-pip', 'python-dev'])
 
-  package {$update_update_manifests_dependencies:}
+  # Make sure that apt packages corresponding to the pip-installed modules below
+  # won't be installed unintentionally, these will take precedence otherwise.
+  package {['python-jinja2', 'python-crypto']:
+    ensure => 'held',
+  }
+
+  package {'Jinja2':
+    ensure => '2.8',
+    provider => 'pip',
+    require => [Package['python-pip'], Package['python-jinja2']],
+  }
+
+  package {'pycrypto':
+    ensure => '2.6.1',
+    provider => 'pip',
+    require => [Package['python-pip'], Package['python-crypto'], Package['python-dev']],
+  }
 
   exec {'update_update_manifests':
     command => $update_update_manifests_script,
@@ -109,7 +125,7 @@ class updateserver(
                 Fetch_repository[$repositories_to_sync],
                 File[$update_update_manifests_script],
                 File[$update_manifest_dirs], File[$safari_certificate_path],
-                Package[$update_update_manifests_dependencies]]
+                Package['Jinja2', 'pycrypto']]
   }
 
   cron {'update_update_manifests':
