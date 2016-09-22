@@ -97,7 +97,7 @@ class updateserver(
     content => template('updateserver/update_update_manifests.erb')
   }
 
-  $update_update_manifests_dependencies = ['python-m2crypto', 'python-jinja2']
+  $update_update_manifests_dependencies = ['python-crypto', 'python-jinja2']
 
   package {$update_update_manifests_dependencies:}
 
