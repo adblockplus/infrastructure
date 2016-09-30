@@ -7,7 +7,7 @@ classes:
       - acceptableads.org
       - www.acceptableads.org
     custom_config: |
-      rewrite ^(/..)?/Platform$ $1/platform permanent;
+      rewrite ^(/..)?/[Pp]latform$ $1/tool-certification permanent;
     is_default: true
     multiplexer_locations:
       - /committee/apply/submit
