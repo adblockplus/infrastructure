@@ -101,7 +101,7 @@ class trac(
   }
 
   exec { 'install_TracSpamFilter':
-    command => "pip install svn+http://svn.edgewall.com/repos/trac/plugins/1.0/spam-filter",
+    command => "pip install svn+https://svn.edgewall.org/repos/trac/plugins/1.0/spam-filter",
     require => Package[
 	'spambayes',
 	'python-pip'],
