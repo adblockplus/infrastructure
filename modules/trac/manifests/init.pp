@@ -9,7 +9,9 @@ class trac(
     ensure => present
   }
 
-  include nginx, spawn-fcgi
+  include stdlib
+  include nginx
+  include spawn-fcgi
 
   file {$fcgi_config_dir:
     ensure => directory,
@@ -146,6 +148,15 @@ class trac(
     mode => 644,
   }
 
+  file {"trac_performance_fix_py":
+    ensure => present,
+    path => '/usr/local/lib/python2.7/dist-packages/trac_performance_fix.py',
+    source => 'puppet:///modules/trac/trac_performance_fix.py',
+    owner => 'root',
+    mode => 644,
+  }
+
+
   define instance (
       $config = 'trac/trac.ini.erb',
       $description = 'Issue Tracker',
@@ -246,6 +257,13 @@ class trac(
         Package["tofrodos"]],
     }
   
+    file_line {"patch $name trac.fcgi":
+      path => "/home/trac/htdocs-$name/cgi-bin/trac.fcgi",
+      match => '^# Author.*$',
+      line => "# Author\nimport trac_performance_fix",
+      require => Exec["deploy_$name"],
+    }
+
     file {"/home/trac/htdocs-$name/htdocs/common/logo.png":
       ensure => present,
       source => $logo,
