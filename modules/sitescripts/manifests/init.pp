@@ -23,6 +23,8 @@ class sitescripts (
     }
   }
 
+  ensure_packages(['python-flup'])
+
   if ($sitescriptsini_source != '') or ($sitescriptsini_content != '') {
 
     $content = $sitescriptsini_content

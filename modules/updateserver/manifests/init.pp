@@ -138,7 +138,6 @@ class updateserver(
   }
 
   include spawn-fcgi
-  package {'python-flup':}
 
   spawn-fcgi::pool {"multiplexer":
     ensure => present,
@@ -149,7 +148,6 @@ class updateserver(
     children => 1,
     require => [
       Class["sitescripts"],
-      Package["python-flup"],
     ],
   }
 }

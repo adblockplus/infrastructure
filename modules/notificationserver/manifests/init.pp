@@ -29,7 +29,6 @@ class notificationserver($is_default = false) {
   }
 
   include spawn-fcgi
-  package {'python-flup':}
 
   spawn-fcgi::pool {'multiplexer':
     ensure => present,
@@ -42,7 +41,6 @@ class notificationserver($is_default = false) {
     require => [
       Class['sitescripts'],
       Exec['fetch_notifications'],
-      Package['python-flup']
     ]
   }
 

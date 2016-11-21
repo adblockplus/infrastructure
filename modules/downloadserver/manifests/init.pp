@@ -14,7 +14,7 @@ class downloadserver(
     sitescriptsini_source => 'puppet:///modules/downloadserver/sitescripts',
   }
 
-  package {['python-flup', 'python-jinja2']:}
+  package {'python-jinja2':}
   include spawn-fcgi
 
   spawn-fcgi::pool {'multiplexer':
@@ -26,7 +26,7 @@ class downloadserver(
     children => 1,
     require => [
       Class['sitescripts'],
-      Package['python-flup', 'python-jinja2'],
+      Package['python-jinja2'],
     ],
   }
 

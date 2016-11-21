@@ -48,7 +48,7 @@ class hgweb(
 
   include ssh, nginx
 
-  $required_packages = ['mercurial-common', 'python-flup', 'spawn-fcgi']
+  $required_packages = ['mercurial-common', 'spawn-fcgi']
   ensure_packages($required_packages)
 
   class {'sitescripts':

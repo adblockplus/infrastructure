@@ -76,7 +76,6 @@ class web::server(
 
   if $multiplexer_locations != undef {
     include spawn-fcgi
-    package {'python-flup':}
 
     spawn-fcgi::pool {"multiplexer":
       ensure => present,
@@ -87,7 +86,6 @@ class web::server(
       children => 1,
       require => [
         Class["sitescripts"],
-        Package["python-flup"],
       ],
     }
   }
