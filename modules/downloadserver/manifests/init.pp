@@ -98,13 +98,6 @@ class downloadserver(
     mode => 0600;
   }
 
-  file {'/home/rsync/.ssh/known_hosts':
-    ensure => file,
-    owner => rsync,
-    mode => 0444,
-    source => 'puppet:///modules/downloadserver/known_hosts'
-  }
-
   file {'/home/rsync/.ssh/id_rsa':
     ensure => file,
     owner => rsync,
@@ -121,10 +114,9 @@ class downloadserver(
 
   cron {'mirror-devbuilds':
     ensure => present,
-    require => [File['/home/rsync/.ssh/known_hosts'],
-                File['/home/rsync/.ssh/id_rsa'],
+    require => [File['/home/rsync/.ssh/id_rsa'],
                 File['/var/www/devbuilds']],
-    command => 'rsync -e ssh -ltprz --delete devbuilds@ssh.adblockplus.org:. /var/www/devbuilds',
+    command => 'rsync -e ssh -ltprz --delete devbuilds@server16.adblockplus.org:. /var/www/devbuilds',
     environment => hiera('cron::environment', []),
     user => rsync,
     hour => '*',
