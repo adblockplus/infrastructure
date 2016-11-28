@@ -33,7 +33,11 @@ def define_standard_vm(config, host_name, ip, role=nil)
     end
 
     # The repository location in the production system's puppet master
-    config.vm.synced_folder ".", "/etc/puppet/infrastructure"
+    if system('which', 'rsync', :out => File::NULL)
+      config.vm.synced_folder '.', '/etc/puppet/infrastructure', type: 'rsync'
+    else
+      config.vm.synced_folder '.', '/etc/puppet/infrastructure'
+    end
 
     config.vm.provision :shell, :inline => '
       sudo /etc/puppet/infrastructure/hiera/install_precise.py
