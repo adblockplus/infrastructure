@@ -48,7 +48,7 @@ def define_standard_vm(config, host_name, ip, role=nil)
         '--debug',
       ]
       puppet.manifests_path = 'manifests'
-      puppet.manifest_file = 'nodes.pp'
+      puppet.manifest_file = 'site.pp'
       puppet.module_path = 'modules'
     end
 
