@@ -102,10 +102,6 @@ class statsmaster::awstats {
       host => 'web2.adblockplus.org',
       log => 'access_log_adblockplus.org',
     },
-    'easylist.adblockplus.org' => {
-      host => 'ssh.adblockplus.org',
-      log => 'access_log_easylist',
-    },
     'share.adblockplus.org' => {
       host => 'web-sh-abp-org-1.adblockplus.org',
       log => 'access_log_share.adblockplus.org',
