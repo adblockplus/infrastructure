@@ -54,11 +54,16 @@
 #   $primary_ip = getparam(Host['node1'], 'ip')
 #   $key_type = getparam(Sshkey['node1'], 'type')
 #
+#   # Resources associated with 'absent' hosts are always realized
+#   adblockplus::host {'node0':
+#     ensure => 'absent',
+#   }
+#
 define adblockplus::host (
   $ensure = 'present',
   $fqdn = "$name.$adblockplus::authority",
   $groups = [],
-  $ips,
+  $ips = [],
   $public_key = undef,
   $role = undef,
 ) {
@@ -84,7 +89,7 @@ define adblockplus::host (
 
   @host {$title:
     ensure => $ensure,
-    ip => pick($ips),
+    ip => pick($ips[0], '0.0.0.0'),
     name => $fqdn,
     tag => ['adblockplus::host'],
   }

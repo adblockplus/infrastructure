@@ -1,4 +1,8 @@
 ---
+adblockplus::hosts:
+  absent-example:
+    ensure: "absent"
+
 servers:
   filter1:
     ip: [10.8.0.120]
