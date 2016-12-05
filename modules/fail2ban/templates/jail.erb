@@ -1,0 +1,15 @@
+<% @jails.each do |name, config| -%>
+<%   if !config['logpath'].empty? -%>
+[<%= name %>]
+<%     if config['filter'].empty? -%>
+filter = <%= name %>
+<%     end -%>
+<%     configuration = scope.function_merge(@jail_default, config) -%>
+<%     configuration.each do |key, value| -%>
+<%= key %> = <%= value %>
+<%     end %>
+<%   else -%>
+<%     raise Puppet::Error, "Log path missing from configuration" -%>
+<%   end -%>
+<% end -%>
+
