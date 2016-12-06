@@ -6,6 +6,7 @@ sitescripts_var_root=/var/lib/sitescripts
 adblockplusfirefox_repository=%(sitescripts_var_root)s/adblockplus
 adblockplusfirefox_galleryID=adblock-plus
 adblockplussafari_repository=%(sitescripts_var_root)s/adblockpluschrome
+adblockplussafari_revision=safari
 adblockplussafari_type=safari
 adblockplussafari_key=%(sitescripts_var_root)s/adblockplussafari.pem
 adblockplusandroid_repository=%(sitescripts_var_root)s/adblockplusandroid
