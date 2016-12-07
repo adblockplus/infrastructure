@@ -76,7 +76,7 @@ def getValidHosts(options):
     else:
         sys.exit('Please either specify a --remote host or use --local')
 
-    servers = config.get('servers', {})
+    servers = config.get('adblockplus::hosts', {})
     return servers
 
 
@@ -92,11 +92,11 @@ def resolveHostList(options):
     else:
         for name in options.hosts:
             chunk = [
-                value.get('dns', key) for (key, value) in valid_hosts.items()
+                value.get('fqdn', key) for (key, value) in valid_hosts.items()
 
                 if name == key
                 or name == '*'
-                or name == value.get('dns', None)
+                or name == value.get('fqdn', None)
                 or name in value.get('groups', ())
             ]
 
