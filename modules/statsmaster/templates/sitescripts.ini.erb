@@ -1,7 +1,7 @@
 <%
-servers = scope.function_hiera('servers', {})
+servers = scope.function_hiera('adblockplus::hosts', {})
 filter_servers = servers.select { |hostname, record| record.fetch('role', nil) == 'filterserver' }
-fqdn = lambda { |hostname, record| record.fetch 'dns', "#{hostname}.adblockplus.org" }
+fqdn = lambda { |hostname, record| record.fetch 'fqdn', "#{hostname}.adblockplus.org" }
 -%>
 [stats]
 geoip_db=/usr/share/GeoIP/GeoIP.dat

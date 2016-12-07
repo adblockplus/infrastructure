@@ -64,7 +64,7 @@ end
 # configuration file:
 begin
   config = YAML.load_file(HOSTS_CONFIG)
-  servers = config.fetch("servers", {})
+  servers = config.fetch("adblockplus::hosts", {})
   host = servers.fetch(hostname, {})
   role = host.fetch("role", "default")
 rescue Exception => error

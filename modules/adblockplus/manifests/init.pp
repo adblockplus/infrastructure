@@ -7,8 +7,7 @@
 # === Parameters:
 #
 # [*authority*]
-#   The authorative domain or zone associated with the current environment,
-#   similar to the deprecated and soon to be removed $base::zone.
+#   The authorative domain or zone associated with the current environment.
 #
 # [*hosts*]
 #   A hash of adblockplus::host $name => $parameter items to set up in this
@@ -43,11 +42,6 @@ class adblockplus (
   include postfix
   include ssh
   include stdlib
-
-  # See https://issues.adblockplus.org/ticket/3574#comment:8
-  class {'base':
-    zone => $authority,
-  }
 
   # See https://issues.adblockplus.org/ticket/3575#comment:2
   class {'logrotate':

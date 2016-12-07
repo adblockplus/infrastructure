@@ -2,121 +2,120 @@
 adblockplus::hosts:
   absent-example:
     ensure: "absent"
-
-servers:
   filter1:
-    ip: [10.8.0.120]
+    ips: [10.8.0.120]
     role: filterserver
-    ssh_public_key: &vagrant_box
-      AAAAB3NzaC1yc2EAAAADAQABAAABAQDkXTOj2JwvwlDaHbaMrDuosuRuU5ZuKe1EHNJa67ZxkB1a6Y1ObDxfYiYnvI5i9sQyUmmc5TrGAGGJs1BrriMaPayBaTSf3ymU2Rqxj3GZXuiioCxGV8I2R/aOhwvpbnVqZH5O99IuAZbrag5J/WhDWgWuk3gFrZxEwQmZW144tJH//I3b0oMAr3/arBViVeU52dHhKX9xdStTzFpWKUav/NoKKrgB91QKwPx8U6ymuDoCQU7qyTBnAX1sYuSwEMJzVRqtmKLybR4Xp5A94EMbJsgVbq4LrUrMo00FdLV0EGMmA2Kmd/9D+CuZXoD6/mWkzmaVfiUMKhrorM05voFp
+    public_key: &vagrant_box
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkXTOj2JwvwlDaHbaMrDuosuRuU5ZuKe1EHNJa67ZxkB1a6Y1ObDxfYiYnvI5i9sQyUmmc5TrGAGGJs1BrriMaPayBaTSf3ymU2Rqxj3GZXuiioCxGV8I2R/aOhwvpbnVqZH5O99IuAZbrag5J/WhDWgWuk3gFrZxEwQmZW144tJH//I3b0oMAr3/arBViVeU52dHhKX9xdStTzFpWKUav/NoKKrgB91QKwPx8U6ymuDoCQU7qyTBnAX1sYuSwEMJzVRqtmKLybR4Xp5A94EMbJsgVbq4LrUrMo00FdLV0EGMmA2Kmd/9D+CuZXoD6/mWkzmaVfiUMKhrorM05voFp"
     groups: [filter-servers]
   server4:
-    ip: [10.8.0.99]
+    ips: [10.8.0.99]
     role: monitoringserver
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   codereview1:
-    ip: [10.8.0.132]
+    ips: [10.8.0.132]
     role: codereviewserver
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   download1:
-    ip: [10.8.0.126]
+    ips: [10.8.0.126]
     role: downloadserver
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   filtermaster1:
-    ip: [10.8.0.127]
+    ips: [10.8.0.127]
     role: filtermasterserver
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
   server10:
-    ip: [10.8.0.105]
+    ips: [10.8.0.105]
     role: intraforumserver
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   issues1:
-    ip: [10.8.0.131]
-    ssh_public_key: *vagrant_box
+    ips: [10.8.0.131]
+    public_key: *vagrant_box
     groups: [http-servers]
   stats1:
-    ip: [10.8.0.130]
+    ips: [10.8.0.130]
     role: statsmaster
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   update1:
-    ip: [10.8.0.128]
+    ips: [10.8.0.128]
     role: updateserver
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   web1:
-    ip: [10.8.0.129]
+    ips: [10.8.0.129]
     role: web/eyeo
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   web2:
-    ip: [10.8.0.145]
-    ssh_public_key: *vagrant_box
+    ips: [10.8.0.145]
+    public_key: *vagrant_box
     groups: [http-servers]
   web3:
-    ip: [10.8.0.146]
+    ips: [10.8.0.146]
     role: web/testpages
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   web-sh-abp-org-1:
-    ip: [10.8.0.147]
+    ips: [10.8.0.147]
     role: web/share
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   web-yt-abp-me-1:
-    ip: [10.8.0.148]
+    ips: [10.8.0.148]
     role: web/youtube
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   web-fb-abp-me-1:
-    ip: [10.8.0.149]
+    ips: [10.8.0.149]
     role: web/facebook
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   web-aa-com-1:
-    ip: [10.8.0.150]
+    ips: [10.8.0.150]
     role: web/acceptableads
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   hg1:
-    ip: [10.8.0.152]
+    ips: [10.8.0.152]
     role: hgwebserver
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   build1:
-    ip: [10.8.0.153]
+    ips: [10.8.0.153]
     role: buildmasterserver
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   web-abb-org-1:
-    ip: [10.8.0.154]
+    ips: [10.8.0.154]
     role: web/adblockbrowser
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   web-subscribe-abp-org-1:
-    ip: [10.8.0.155]
+    ips: [10.8.0.155]
     role: web/subscribe
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   web-easylist-abp-org-1:
-    ip: [10.8.0.156]
+    ips: [10.8.0.156]
     role: web/easylist
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
   log1:
-    ip: [10.8.0.210]
+    ips: [10.8.0.210]
     role: logserver
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
   logprocessor1:
-    ip: [10.8.0.211]
+    ips: [10.8.0.211]
     role: logprocessor
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
   telemetry1:
-    ip: [10.8.0.220]
+    ips: [10.8.0.220]
     role: telemetryserver
-    ssh_public_key: *vagrant_box
+    public_key: *vagrant_box
     groups: [http-servers]
+
