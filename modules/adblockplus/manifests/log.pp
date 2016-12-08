@@ -47,7 +47,7 @@ class adblockplus::log (
   class {'fluent':
     package => {
       ensure =>  $ensure ? {
-        'present' => '2.3.1-0',
+        'present' => '2.3.*',
         default => 'absent',
       },
       provider => 'apt',
