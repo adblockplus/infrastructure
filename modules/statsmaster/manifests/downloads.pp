@@ -26,8 +26,9 @@ class statsmaster::downloads {
                  Class["sitescripts"]
                ],
     command => "pypy -m sitescripts.stats.bin.logprocessor && python -m sitescripts.stats.bin.pagegenerator",
-    environment => ['MAILTO=admins@adblockplus.org,root',
-      'PYTHONPATH=/opt/sitescripts'],
+    environment => concat(hiera('cron::environment', []), [
+      'PYTHONPATH=/opt/sitescripts',
+    ]),
     user => stats,
     hour => 1,
     minute => 30,

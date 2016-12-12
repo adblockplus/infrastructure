@@ -67,7 +67,6 @@ class statsmaster(
 
   class {'geoip':
     cron => {
-      'environment' => ['MAILTO=admins@adblockplus.org,root'],
       'hour' => 3,
       'minute' => 15,
       'monthday' => 3,
