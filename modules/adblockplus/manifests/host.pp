@@ -46,8 +46,8 @@
 #   realize(Sshkey['node1'])
 #
 #   # Global realization, i.e. when creating a node all others can access
-#   realize(Host<|tag == 'adblockplus::host'|>)
-#   realize(Sshkey<|tag == 'adblockplus::host'|>)
+#   Host<|tag == 'adblockplus::host'|>
+#   Sshkey<|tag == 'adblockplus::host'|>
 #
 #   # Addressing (meta-) parameters for re-using their values
 #   $fqdn = getparam(Adblockplus::Host['node1'], 'fqdn')
