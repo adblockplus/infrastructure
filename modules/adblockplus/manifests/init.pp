@@ -17,6 +17,10 @@
 #   A hash of adblockplus::user $name => $parameter items to set up in this
 #   context, i.e. via Hiera.
 #
+# [*packages*]
+#   An array of adblockplus::packages items to set up in this context,
+#   i.e. via Hiera.
+#
 # === Examples:
 #
 #   class {'adblockplus':
