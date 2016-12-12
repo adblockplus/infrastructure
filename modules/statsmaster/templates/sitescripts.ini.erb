@@ -1,21 +1,6 @@
-<%
-servers = scope.function_hiera('adblockplus::hosts', {})
-filter_servers = servers.select { |hostname, record| record.fetch('role', nil) == 'filterserver' }
-fqdn = lambda { |hostname, record| record.fetch 'fqdn', "#{hostname}.adblockplus.org" }
--%>
 [stats]
 geoip_db=/usr/share/GeoIP/GeoIP.dat
 geoipv6_db=/usr/share/GeoIP/GeoIPv6.dat
-
-# Subscription mirrors accumulated via Puppet
-<% filter_servers.each do |hostname, record| -%>
-mirror_<%= hostname %>=subscription ssh://stats@<%= fqdn.call(hostname, record) %>/access_log_easylist_downloads.1.gz
-<% end -%>
-
-# Notification mirrors accumulated via Puppet
-<% filter_servers.each do |hostname, record| -%>
-mirror_n_<%= hostname %>=notification ssh://stats@<%= fqdn.call(hostname, record) %>/access_log_notification.1.gz
-<% end -%>
 
 mirror_download1=download ssh://stats@download1.adblockplus.org/access_log_downloads.1.gz
 mirror_download2=download ssh://stats@download2.adblockplus.org/access_log_downloads.1.gz
@@ -35,3 +20,4 @@ outputDirectory=/var/www/stats
 mainPageTemplate=stats/template/main.html
 fileOverviewTemplate=stats/template/fileOverview.html
 filePageTemplate=stats/template/fileStats.html
+
