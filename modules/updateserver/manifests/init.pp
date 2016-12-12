@@ -130,7 +130,6 @@ class updateserver(
 
   cron {'update_update_manifests':
     ensure => present,
-    environment => ['MAILTO=admins@adblockplus.org'],
     command => $update_update_manifests_script,
     user => 'sitescripts',
     minute => '*/10',
