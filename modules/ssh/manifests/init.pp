@@ -8,6 +8,10 @@ class ssh(
     'openssh-server',
   ])
 
+  package {['libssl1.0.0', 'openssl']:
+    ensure => 'latest',
+  }
+
   concat {'sshd_config':
     path => '/etc/ssh/sshd_config',
     owner => root,
@@ -38,4 +42,6 @@ class ssh(
     hasrestart => true,
     subscribe => Concat['sshd_config']
   }
+
+  Service['ssh'] <~ Package['libssl1.0.0', 'openssl']
 }

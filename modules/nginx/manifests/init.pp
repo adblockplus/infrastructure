@@ -6,6 +6,10 @@ class nginx (
     $geoip_city = undef,
   ) inherits nginx::params {
 
+  # Class['ssh'] is assumed to handle SSL-related quirks and therefore
+  # the inclusion here became necessary.
+  include ssh
+
   apt::ppa {'ppa:nginx/stable':
   }
 
@@ -211,6 +215,8 @@ class nginx (
     hasstatus => true,
     require => Package['nginx'],
   }
+
+  Service['nginx'] <~ Class['ssh']
 
   file {'/usr/share/nginx/html/50x.html':
     mode => 0644,
