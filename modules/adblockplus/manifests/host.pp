@@ -23,6 +23,10 @@
 #   the first one of which is considered the primary IP address, and each of
 #   which is included as $alias in the (virtual) Sshkey[$title] resource.
 #
+# [*os*]
+#   Indicates the host's operating system. Recognized values include i.e.
+#   "ubuntu-precise" and "debian-jessie".
+#
 # [*public_key*]
 #   The host's public (SSH) key, i.e "ssh-rsa AA.... host1.example.com", for
 #   use with the (virual) Sshkey[$title] resource. Note that this implies the
@@ -64,6 +68,7 @@ define adblockplus::host (
   $fqdn = "$name.$adblockplus::authority",
   $groups = [],
   $ips = [],
+  $os = undef,
   $public_key = undef,
   $role = undef,
 ) {
