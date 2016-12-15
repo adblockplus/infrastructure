@@ -12,6 +12,11 @@ adblockplus::hosts:
     os: "ubuntu-precise"
     public_key: &vagrant_box_precise
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkXTOj2JwvwlDaHbaMrDuosuRuU5ZuKe1EHNJa67ZxkB1a6Y1ObDxfYiYnvI5i9sQyUmmc5TrGAGGJs1BrriMaPayBaTSf3ymU2Rqxj3GZXuiioCxGV8I2R/aOhwvpbnVqZH5O99IuAZbrag5J/WhDWgWuk3gFrZxEwQmZW144tJH//I3b0oMAr3/arBViVeU52dHhKX9xdStTzFpWKUav/NoKKrgB91QKwPx8U6ymuDoCQU7qyTBnAX1sYuSwEMJzVRqtmKLybR4Xp5A94EMbJsgVbq4LrUrMo00FdLV0EGMmA2Kmd/9D+CuZXoD6/mWkzmaVfiUMKhrorM05voFp vagrant@precise64"
+  puppetmaster0:
+    ips: [10.8.0.100]
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
+    role: "puppetmaster"
   filter1:
     ips: [10.8.0.120]
     role: filterserver
