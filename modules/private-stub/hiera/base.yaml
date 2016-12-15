@@ -1,5 +1,6 @@
 classes:
   adblockplus:
+  adblockplus::puppet::agent:
   adblockplus::sudo:
   nagios::client:
     server_address: monitoring.adblockplus.org

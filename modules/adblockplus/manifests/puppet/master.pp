@@ -29,12 +29,14 @@ class adblockplus::puppet::master (
   $service = hiera('adblockplus::puppet::master::service', {}),
 ) {
 
-  include adblockplus
+  include adblockplus::puppet
   include puppetmaster
   include stdlib
 
   # https://forge.puppet.com/puppetlabs/stdlib#ensure_resource
-  ensure_resource('package', 'puppetmaster', $package)
+  ensure_resource('package', 'puppetmaster', merge({
+    'ensure' => $adblockplus::puppet::ensure,
+  }, $package))
 
   # https://forge.puppet.com/puppetlabs/stdlib#getparam
   if getparam(Package['puppet'], 'ensure') !~ /^(absent|purged)$/ {
