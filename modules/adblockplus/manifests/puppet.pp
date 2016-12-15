@@ -40,7 +40,7 @@ class adblockplus::puppet (
 
   # http://stackoverflow.com/questions/22816946/
   ensure_resource('file', '/var/lib/puppet/facts.d/pup3665', {
-    'content' => "#!/bin/sh\necho 'pup3665=workaround'\n",
+    'content' => "#!/bin/sh\necho 'pup3665=workaround'\n\n",
     'ensure' => $ensure_file,
     'group' => 'root',
     'mode' => 0755,
