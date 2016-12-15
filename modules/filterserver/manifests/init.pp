@@ -38,7 +38,7 @@ class filterserver($is_default = false) {
   }
 
   nginx::hostconfig{'easylist-downloads.adblockplus.org':
-    alt_names => 'easylist-msie.adblockplus.org',
+    alt_names => ['easylist-msie.adblockplus.org'],
     source => 'puppet:///modules/filterserver/site.conf',
     is_default => $is_default,
     certificate => 'easylist-downloads.adblockplus.org_sslcert.pem',
