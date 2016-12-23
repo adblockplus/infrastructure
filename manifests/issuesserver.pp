@@ -86,7 +86,7 @@ node 'issues1' {
       session.last_visit < UNIX_TIMESTAMP(NOW() - INTERVAL 5 DAY)' >/dev/null",
     ensure => present,
     hour => 2,
-    minute => 0,
+    minute => 15,
     require => Trac::Instance['issues'],
     user => trac,
   }
