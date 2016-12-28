@@ -111,7 +111,7 @@ def resolveHostList(options):
 def runCommand(user, host, command, ignore_errors=False):
     if not isinstance(command, list):
         command = [command]
-    command = ['ssh'] + (['-l', user] if user else []) + [host] + command
+    command = ['ssh'] + ['-t'] + (['-l', user] if user else []) + [host] + command
     if ignore_errors:
         subprocess.call(command)
     else:

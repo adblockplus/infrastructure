@@ -20,6 +20,11 @@ def parseOptions(args):
     )
 
     parser.add_argument(
+        '-a', '--tags', metavar='tags', dest='tags', type=str,
+        help='restrict catalog, as in puppet agent --tags'
+    )
+
+    parser.add_argument(
         'hosts', metavar='host|group', nargs='+',
         help='target host or group, can be specified multiple times',
     )
@@ -36,6 +41,9 @@ def parseOptions(args):
     else:
         options.mode = ' --test'
 
+    if options.tags:
+        options.tags = ' --tags %s' % options.tags
+
     return options
 
 
@@ -49,9 +57,10 @@ def updateMaster(options):
     runCommand(options.user, options.remote, remoteCommand)
 
 
-def updateClient(user, host, mode):
+def updateClient(user, host, mode, tags):
     print 'Provisioning %s...' % host
-    remoteCommand = 'sudo puppet agent%s' % mode
+    remoteCommand = 'sudo puppet agent%s%s' % (mode, tags or '')
+    print 'Remote command is %s' % remoteCommand
 
     # Have to ignore errors here, Puppet will return non-zero for successful runs
     runCommand(user, host, remoteCommand, ignore_errors=True)
@@ -64,4 +73,4 @@ if __name__ == '__main__':
         print >>sys.stderr, 'No valid hosts or groups specified, nothing to do'
         sys.exit(0)
     for host in needKicking:
-        updateClient(options.user, host, options.mode)
+        updateClient(options.user, host, options.mode, options.tags)
