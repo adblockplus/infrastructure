@@ -109,7 +109,7 @@ define adblockplus::host (
     type => $sshkey_type,
   }
 
-  if $ensure == 'absent' {
+  if !ensure_state($ensure) {
     realize(Host[$title])
     realize(Sshkey[$title])
   }

@@ -21,18 +21,9 @@ class adblockplus::puppet (
   # https://forge.puppet.com/puppetlabs/stdlib
   include stdlib
 
-  if $ensure !~ /^(absent|purged)$/ {
-    $ensure_directory = 'directory'
-    $ensure_file = 'file'
-  }
-  else {
-    $ensure_directory = 'absent'
-    $ensure_file = 'absent'
-  }
-
   # https://tickets.puppetlabs.com/browse/PUP-3655
   ensure_resource('file', '/var/lib/puppet/facts.d', {
-    ensure => $ensure_directory,
+    ensure => ensure_directory_state($ensure),
     group => 'root',
     mode => 0755,
     owner => 'root',
@@ -41,7 +32,7 @@ class adblockplus::puppet (
   # http://stackoverflow.com/questions/22816946/
   ensure_resource('file', '/var/lib/puppet/facts.d/pup3665', {
     'content' => "#!/bin/sh\necho 'pup3665=workaround'\n\n",
-    'ensure' => $ensure_file,
+    'ensure' => ensure_file_state($ensure),
     'group' => 'root',
     'mode' => 0755,
     'owner' => 'root',
