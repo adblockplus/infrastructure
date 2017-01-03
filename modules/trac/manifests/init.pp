@@ -57,7 +57,7 @@ class trac(
   }
 
   exec { 'install_SensitiveTickets':
-    command => "pip install svn+https://trac-hacks.org/svn/sensitiveticketsplugin/trunk/",
+    command => "pip install svn+https://trac-hacks.org/svn/sensitiveticketsplugin/0.11",
     require => Package['subversion', 'python-pip'],
     unless => "python -c 'import sensitivetickets'",
   }
