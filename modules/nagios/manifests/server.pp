@@ -27,6 +27,13 @@ class nagios::server(
     ensure => present
   }
 
+  if $::operatingsystem == 'Debian' {
+    class { 'apt::backports':
+      release  => 'jessie',
+      location => 'http://ftp.debian.org/debian',
+    }
+  }
+
   nginx::hostconfig{$domain:
     source => 'puppet:///modules/nagios/site.conf',
     is_default => $is_default,
