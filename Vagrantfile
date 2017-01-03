@@ -59,7 +59,7 @@ Vagrant.configure('2') do |config|
           set -e -- '#{sync_path}' /etc/puppet/hiera.yaml
           if ! which puppet >/dev/null; then
             apt-get -y update
-            apt-get -y install puppet
+            apt-get -y install puppet apt-transport-https
           fi
           test -e "$1" || ln -s /vagrant "$1"
           test -e "$2" || ln -s infrastructure/hiera/hiera.yaml "$2"

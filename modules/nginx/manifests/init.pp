@@ -10,25 +10,44 @@ class nginx (
   # the inclusion here became necessary.
   include ssh
 
-  apt::ppa {'ppa:nginx/stable':
-  }
-
-  apt::source {'nginx':
-    ensure => 'absent',
-  }
-
-  exec {'purge-nginx':
-    command => '/usr/bin/apt-get -y purge nginx',
-    logoutput => true,
-    path => '/usr/sbin:/usr/bin:/sbin:/bin',
-    refreshonly => true,
-    returns => [0, 100],
-    subscribe => Apt::Ppa['ppa:nginx/stable'],
-  }
-
   package {'nginx':
-    ensure => '1.10.1-3+precise3',
-    require => Exec['purge-nginx'],
+    ensure => 'latest',
+  }
+
+  if $::lsbdistcodename == 'precise' {
+
+    apt::ppa {'ppa:nginx/stable':
+    }
+
+    apt::source {'nginx':
+      ensure => 'absent',
+    }
+
+    exec {'purge-nginx':
+      before => Package['nginx'],
+      command => '/usr/bin/apt-get -y purge nginx',
+      logoutput => true,
+      path => '/usr/sbin:/usr/bin:/sbin:/bin',
+      refreshonly => true,
+      returns => [0, 100],
+      subscribe => Apt::Ppa['ppa:nginx/stable'],
+    }
+  }
+
+  if $::operatingsystem == 'Debian' {
+
+    apt::key {'nginx':
+      key => 'ABF5BD827BD9BF62',
+      key_content => template('nginx/apt.key.erb'),
+    }
+
+    apt::source {'nginx':
+      before => Package['nginx'],
+      location => 'https://nginx.org/packages/mainline/debian/',
+      release => downcase($::lsbdistcodename),
+      repos => 'nginx',
+      require => Apt::Key['nginx'],
+    }
   }
 
   user {'nginx':
