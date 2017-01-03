@@ -19,12 +19,15 @@ adblockplus::hosts:
     role: "puppetmaster"
   filter1:
     ips: [10.8.0.120]
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     role: filterserver
     groups: [filter-servers]
   server4:
     ips: [10.8.0.99]
     role: monitoringserver
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   codereview1:
     ips: [10.8.0.132]
@@ -34,12 +37,14 @@ adblockplus::hosts:
   download1:
     ips: [10.8.0.126]
     role: downloadserver
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   filtermaster1:
     ips: [10.8.0.127]
     role: filtermasterserver
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
   server10:
     ips: [10.8.0.105]
     role: intraforumserver
@@ -47,88 +52,106 @@ adblockplus::hosts:
     groups: [http-servers]
   issues1:
     ips: [10.8.0.131]
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   stats1:
     ips: [10.8.0.130]
     role: statsmaster
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   update1:
     ips: [10.8.0.128]
     role: updateserver
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   web1:
     ips: [10.8.0.129]
     role: web/eyeo
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   web2:
     ips: [10.8.0.145]
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   web3:
     ips: [10.8.0.146]
     role: web/testpages
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   web-sh-abp-org-1:
     ips: [10.8.0.147]
     role: web/share
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   web-yt-abp-me-1:
     ips: [10.8.0.148]
     role: web/youtube
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   web-fb-abp-me-1:
     ips: [10.8.0.149]
     role: web/facebook
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   web-aa-com-1:
     ips: [10.8.0.150]
     role: web/acceptableads
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   hg1:
     ips: [10.8.0.152]
     role: hgwebserver
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   build1:
     ips: [10.8.0.153]
     role: buildmasterserver
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   web-abb-org-1:
     ips: [10.8.0.154]
     role: web/adblockbrowser
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   web-subscribe-abp-org-1:
     ips: [10.8.0.155]
     role: web/subscribe
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   web-easylist-abp-org-1:
     ips: [10.8.0.156]
     role: web/easylist
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   log1:
     ips: [10.8.0.210]
     role: logserver
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
   logprocessor1:
     ips: [10.8.0.211]
     role: logprocessor
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
   telemetry1:
     ips: [10.8.0.220]
     role: telemetryserver
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
 
