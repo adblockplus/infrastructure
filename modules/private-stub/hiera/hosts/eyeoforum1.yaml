@@ -1,0 +1,38 @@
+classes:
+  statsclient:
+  nginx:
+      worker_connections: 500
+  discourse_docker:
+    domain: "forum.eyeo.com"
+    certificate: "forum.eyeo.com_sslcert.pem"
+    private_key: "forum.eyeo.com_sslcert.key"
+    is_default: true
+    admins:
+      - 'test1@example.com'
+      - 'test2@example.com'
+    google_oauth2_client_id: '999843142701-ob74a7iua4vc6850stl29fdd8bhrt68j.apps.googleusercontent.com'
+    google_oauth2_client_secret: 'jVpuVO2T1T4T9WQxAfGHWgeY'
+    site_settings:
+      title: "eyeo internal discussions"
+      contact_email: "admins@adblockplus.org"
+      notification_email: "donotreply@adblockplus.org"
+      site_contact_username: "system"
+      allow_user_locale: "t"
+      share_links: ""
+      login_required: "t"
+      must_approve_users: "f"
+      enable_local_logins: "f"
+      allow_new_registrations: "t"
+      enable_google_oauth2_logins: "t"
+      enable_yahoo_logins: "f"
+      enable_twitter_logins: "f"
+      enable_instagram_logins: "f"
+      enable_facebook_logins: "f"
+      enable_github_logins: "f"
+      email_domains_blacklist: ""
+      email_domains_whitelist: "adblockplus.org|eyeo.com"
+      enforce_global_nicknames: "f"
+      max_mentions_per_post: 50
+      force_https: "t"
+      white_listed_spam_host_domains: "adblockplus.org,eyeo.com"
+

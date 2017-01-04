@@ -56,6 +56,12 @@ adblockplus::hosts:
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     groups: [http-servers]
+  eyeoforum1:
+    ips: [10.8.0.107]
+    role: forumserver
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
+    groups: [http-servers]
   issues1:
     ips: [10.8.0.131]
     os: "debian-jessie"
