@@ -1,0 +1,8 @@
+classes:
+  nginx:
+  docker:
+  discourse_docker:
+
+requirements:
+  memory: 4096
+
