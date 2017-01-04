@@ -1,0 +1,39 @@
+classes:
+  statsclient:
+  nginx:
+      worker_connections: 500
+  discourse_docker:
+    domain: "forum.adblockplus.org"
+    certificate: "forum.adblockplus.org_sslcert.pem"
+    private_key: "forum.adblockplus.org_sslcert.key"
+    is_default: true
+    admins:
+      - 'test1@adblockplus.org'
+      - 'test2@adblockplus.org'
+    # Google OAuth2 credentials (only valid for https://forum-test.adblockplus.org)
+    google_oauth2_client_id: '698709125406-3jodbnl429ie9r00gv4j3ve1olg02sv7.apps.googleusercontent.com'
+    google_oauth2_client_secret: 'tB2ESr1b99qJpbOYqv3PtuPU'
+    site_settings:
+      title: "Adblock Plus Community Forum"
+      contact_email: "admins@adblockplus.org"
+      notification_email: "donotreply@adblockplus.org"
+      site_contact_username: "system"
+      allow_user_locale: "t"
+      share_links: ""
+      login_required: "f"
+      must_approve_users: "f"
+      enable_local_logins: "f"
+      allow_new_registrations: "t"
+      enable_google_oauth2_logins: "t"
+      enable_yahoo_logins: "f"
+      enable_twitter_logins: "t"
+      enable_instagram_logins: "f"
+      enable_facebook_logins: "t"
+      enable_github_logins: "t"
+      email_domains_blacklist: ""
+      email_domains_whitelist: ""
+      enforce_global_nicknames: "f"
+      max_mentions_per_post: 50
+      force_https: "t"
+      white_listed_spam_host_domains: "adblockplus.org,eyeo.com"
+
