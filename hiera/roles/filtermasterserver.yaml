@@ -2,6 +2,8 @@ classes:
   filtermaster:
 
 filtermaster::repos:
+  - easylist
+  - easylistgermany
   - easylistitaly
   - easylistchina
   - easylistcombinations
