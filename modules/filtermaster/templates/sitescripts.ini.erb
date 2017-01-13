@@ -12,7 +12,7 @@ outdir=/home/rsync/generated
 
 # https://issues.adblockplus.org/ticket/3774
 malwaredomains_mirrors=
-	http://mirror3.malwaredomains.com
-	http://mirror1.malwaredomains.com
-	http://mirror2.malwaredomains.com
+<% @malwaredomains_mirrors.each do |mirror| -%>
+	<%= mirror %>
+<% end -%>
 

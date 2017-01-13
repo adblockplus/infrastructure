@@ -27,3 +27,8 @@ filtermaster::repo_downloads:
       - easylist+exceptionrules_content_blocker.json
       - easylist_content_blocker.json
 
+filtermaster::malwaredomains_mirrors:
+  - http://mirror3.malwaredomains.com
+  - http://mirror1.malwaredomains.com
+  - http://mirror2.malwaredomains.com
+

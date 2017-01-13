@@ -1,6 +1,7 @@
 class filtermaster(
   $repos = hiera('filtermaster::repos', []),
   $repo_downloads = hiera('filtermaster::repo_downloads', {}),
+  $malwaredomains_mirrors = hiera('filtermaster::malwaredomains_mirrors', []),
 ) {
 
   Cron {
