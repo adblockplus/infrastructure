@@ -1,0 +1,15 @@
+classes:
+  fail2ban:
+    package:
+      ensure: present
+    jails:
+      CVE20130235:
+        filter: CVE20130235
+        logpath: '/var/log/nginx/access.log'
+        banaction: 'iptables-multiport'
+        port: 'http,https'
+    filters:
+      CVE20130235:
+        regexes:
+        - '^<HOST>.*\"WordPress\/.*'
+
