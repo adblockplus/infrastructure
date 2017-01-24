@@ -1,5 +1,8 @@
 user <%= scope.lookupvar('nginx::params::user') %> <%= scope.lookupvar('nginx::params::group') %>;
 worker_processes <%= worker_processes %>;
+<% if scope.lookupvar('lsbdistcodename') == 'precise' -%>
+include /etc/nginx/modules-enabled/*.conf;
+<% end -%>
 
 error_log /var/log/nginx/error.log notice;
 pid /var/run/nginx.pid;
