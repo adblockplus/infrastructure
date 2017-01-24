@@ -1,5 +1,4 @@
 classes:
-  puppetmaster:
   nagios::server:
     domain: "monitoring.adblockplus.org"
     certificate: "monitoring.adblockplus.org_sslcert.pem"
