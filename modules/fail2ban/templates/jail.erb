@@ -4,7 +4,7 @@
 <%     if config['filter'].empty? -%>
 filter = <%= name %>
 <%     end -%>
-<%     configuration = scope.function_merge(@jail_default, config) -%>
+<%     configuration = scope.function_merge([@jail_default, config]) -%>
 <%     configuration.each do |key, value| -%>
 <%= key %> = <%= value %>
 <%     end %>
