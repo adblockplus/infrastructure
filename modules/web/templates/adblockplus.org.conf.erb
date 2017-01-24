@@ -180,6 +180,30 @@ location /redirect
   {
     rewrite ^ https://play.google.com/store/apps/details?id=org.adblockplus.adblockplussbrowser? redirect;
   }
+  if ($arg_link = "releases")
+  {
+    rewrite ^ /releases? redirect;
+  }
+  if ($arg_link = "social_facebook")
+  {
+    rewrite ^ https://www.facebook.com/adblockplus? redirect;
+  }
+  if ($arg_link = "social_gplus")
+  {
+    rewrite ^ https://www.google.com/+AdblockPlus? redirect;
+  }
+  if ($arg_link = "social_renren")
+  {
+    rewrite ^ http://www.renren.com/601651969? redirect;
+  }
+  if ($arg_link = "social_twitter")
+  {
+    rewrite ^ https://twitter.com/adblockplus? redirect;
+  }
+  if ($arg_link = "social_weibo")
+  {
+    rewrite ^ http://e.weibo.com/adblockplus/? redirect;
+  }
 
   set $link "";
   set $anchor "";
