@@ -37,7 +37,7 @@ class nginx (
   if $::operatingsystem == 'Debian' {
 
     apt::key {'nginx':
-      key => 'ABF5BD827BD9BF62',
+      key => '7BD9BF62',
       key_content => template('nginx/apt.key.erb'),
     }
 
