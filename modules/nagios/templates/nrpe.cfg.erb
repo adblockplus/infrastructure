@@ -11,7 +11,9 @@ command_timeout=60
 connection_timeout=300
 command[check_load]=/usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
 command[check_disk]=/usr/lib/nagios/plugins/check_disk -w 3 -c 1
-command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 150 -c 200
+command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w <%=
+    scope.function_hiera(['nagios::client::total_procs_warning_threshold', 150]).to_i %> -c <%=
+    scope.function_hiera(['nagios::client::total_procs_critical_threshold', 200]).to_i %>
 command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
 command[check_bandwidth]=/usr/lib/nagios/plugins/check_bandwidth <%=
     scope.function_hiera(['nagios::client::bandwidth_warning_threshold', 130000]).to_i * 1000 %> <%=
