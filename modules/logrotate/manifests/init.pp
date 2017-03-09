@@ -6,13 +6,7 @@ class logrotate {
   }
 
   cron {'logrotate':
-    ensure => present,
-    require => Exec['ensure_logrotate_status'],
-    command => '/usr/sbin/logrotate /etc/logrotate.conf',
-    environment => hiera('cron::environment', []),
-    user => root,
-    hour => '0',
-    minute => '0'
+    ensure => 'absent',
   }
 
   $config = hiera('logrotate::config', {})
