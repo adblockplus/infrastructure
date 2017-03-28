@@ -42,7 +42,7 @@ if __name__ == "__main__":
   swapfree = meminfo.get("swapfree", 0) + meminfo.get("swapcached", 0)
 
   mempercentage = round(float(memfree) / memtotal * 100)
-  swappercentage = round(float(swapfree) / swaptotal * 100)
+  swappercentage = round(float(swapfree) / swaptotal * 100) if swaptotal else 0
 
   status = "memory %i%% (%s/%s) swap %i%% (%s/%s)" % (
     mempercentage, format_memory(memfree), format_memory(memtotal),
