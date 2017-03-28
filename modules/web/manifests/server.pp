@@ -142,41 +142,4 @@ class web::server(
     minute  => '*/10',
   }
 
-  # We have to set up the APT source and install the jsdoc package via npm
-  # manually. Once we're on Puppet 3, we can use the official nodejs module for
-  # all this: https://forge.puppetlabs.com/puppetlabs/nodejs
-
-  apt::source {'nodesource':
-    location => 'https://deb.nodesource.com/node_4.x',
-    release => 'precise',
-    repos => 'main',
-    key => '68576280',
-    key_content => template('web/nodesource.gpg.key.erb'),
-  }
-
-  package {'nodejs':
-    require => Apt::Source['nodesource'],
-  }
-
-  exec {'install_jsdoc':
-    command => 'npm install --global jsdoc',
-    path => ['/usr/bin/'],
-    require => Package['nodejs'],
-    onlyif => 'test ! -x /usr/bin/jsdoc',
-  }
-
-  package {['make', 'doxygen']:}
-
-  cron {'generate_docs':
-    ensure => present,
-    require => [
-      Class['sitescripts'],
-      Exec['install_jsdoc'],
-      Package['make', 'doxygen'],
-      File['/var/www/docs'],
-    ],
-    command => 'python -m sitescripts.docs.bin.generate_docs',
-    user => www,
-    minute => '5-55/10',
-  }
 }
