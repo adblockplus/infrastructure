@@ -77,7 +77,7 @@ class downloadserver(
     command => 'hg pull -q -u -R /var/www/downloads/',
     environment => hiera('cron::environment', []),
     user => hg,
-    minute => '*/10'
+    minute => '3-59/20'
   }
 
   file {'/var/www/devbuilds':
