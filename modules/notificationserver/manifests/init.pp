@@ -23,7 +23,7 @@ class notificationserver($is_default = false) {
   cron {'update_notifications':
     command => 'hg pull -q -u -R /opt/notifications',
     environment => hiera('cron::environment', []),
-    minute => '*/5',
+    minute => '2-59/20',
     user => 'nginx',
     require => Exec['fetch_notifications'],
   }
