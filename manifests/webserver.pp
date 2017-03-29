@@ -51,7 +51,7 @@ repository=$sitescripts_var_dir/subscriptionlist",
     environment => hiera('cron::environment', []),
     command => "hg pull --quiet --repository $subscriptions_repo",
     user => 'sitescripts',
-    minute => '*/10',
+    minute => '1-59/20',
     require => Exec['fetch_repository_subscriptionlist']
   }
 
