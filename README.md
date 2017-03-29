@@ -160,7 +160,7 @@ from itself.
 
 3. Clone the infrastructure repository
 
-	hg clone ssh://hg@adblockplus.org/infrastructure /etc/puppet/infrastructure
+	hg clone https://hg.adblockplus.org/infrastructure /etc/puppet/infrastructure
 	rmdir /etc/puppet/{modules,manifests,templates}
 	ln -s /etc/puppet/infrastructure/manifests /etc/puppet/manifests
 	ln -s /etc/puppet/infrastructure/modules /etc/puppet/modules
