@@ -57,6 +57,6 @@ class sitescripts (
     environment => hiera('cron::environment', []),
     user => root,
     require => Exec["fetch_sitescripts"],
-    minute => [15, 30, 45],
+    minute => [15],
   }
 }
