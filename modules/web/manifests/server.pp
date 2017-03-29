@@ -132,14 +132,14 @@ class web::server(
   cron {'update_cms':
     ensure => present,
     command => "hg pull -q -u -R /opt/cms",
-    minute  => '5-55/10',
+    minute  => '4-59/20',
   }
 
   cron {'update_repo':
     ensure => present,
     command => "hg pull -q -R /home/www/${repository} && python -m cms.bin.generate_static_pages /home/www/${repository} /var/www/${vhost}",
     user => www,
-    minute  => '*/10',
+    minute  => '5-59/20',
   }
 
 }
