@@ -2,6 +2,7 @@
   daily
   rotate 30
   compress
+  delaycompress
   missingok
   nodateext
   sharedscripts
