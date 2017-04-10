@@ -1,1 +1,1 @@
-%sudo ALL=(ALL) NOPASSWD:/usr/bin/puppet agent,/usr/bin/puppet agent --test,/usr/bin/puppet agent --test --noop
+%sudo ALL=(ALL) NOPASSWD:/usr/bin/puppet agent --test*
