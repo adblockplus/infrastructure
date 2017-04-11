@@ -72,6 +72,15 @@ location = /50x.html
   root /usr/share/nginx/html;
 }
 
+# https://issues.adblockplus.org/ticket/4894
+location /easylistchina+easylist.txt
+{
+  if ($http_user_agent = "")
+  {
+    return 400;
+  }
+}
+
 if ($http_host ~ "^(.+)\.$")
 {
   set $canonical_host $1;
