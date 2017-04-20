@@ -43,7 +43,10 @@ class filterserver($is_default = false) {
     is_default => $is_default,
     certificate => 'easylist-downloads.adblockplus.org_sslcert.pem',
     private_key => 'easylist-downloads.adblockplus.org_sslcert.key',
-    log => 'access_log_easylist_downloads'
+    log => 'access_log_easylist_downloads',
+    global_config => join([
+      'proxy_cache_path /var/cache/nginx/proxy levels=1 keys_zone=filters:1m;',
+    ], "\n"),
   }
 
   file {'/home/rsync/.ssh':
