@@ -92,4 +92,11 @@ repository=$sitescripts_var_dir/subscriptionlist",
     user => www,
     minute => '5-55/10',
   }
+
+  adblockplus::log::rotation {'nginx_email_submission':
+    count => 120,
+    ensure => 'present',
+    interval => 'monthly',
+    path => '/var/log/nginx/email_submission',
+  }
 }

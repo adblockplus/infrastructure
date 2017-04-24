@@ -307,7 +307,9 @@ location ~ ^(/blog|/releases|/development-builds|/atom|/rss|/category|/section|/
 }
 location /submitEmail
 {
-  try_files $uri @proxied;
+  # https://issues.adblockplus.org/ticket/3204
+  access_log /var/log/nginx/email_submission data;
+  echo_read_request_body;
 }
 location /verifyEmail
 {
