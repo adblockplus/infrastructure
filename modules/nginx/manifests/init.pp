@@ -222,9 +222,7 @@ class nginx (
   $restart_command = join([
     'set -e',
     'pid=`cat /var/run/nginx.pid`',
-    'kill -USR2 "$pid"',
-    'sleep 2',
-    'kill -QUIT "$pid"',
+    'kill -HUP "$pid"',
   ], "\n")
 
   service {'nginx':
