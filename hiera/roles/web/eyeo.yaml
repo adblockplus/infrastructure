@@ -13,6 +13,11 @@ classes:
       rewrite ^(/de)?/index\.html$ / permanent;
       rewrite ^(/de)?/job\.html$ /jobs permanent;
 
+      location /acceptable-ads-application.html
+      {
+        rewrite (.*) https://acceptableads.com/solutions/get-whitelisted/ redirect;
+      }
+
       location ~ ^(/[^/]+/jobs)/
       {
         error_page 404 $1/not-available;
