@@ -102,7 +102,7 @@ class web::server(
     path => ["/usr/bin/", "/bin/"],
     require => Package['mercurial'],
     timeout => 0,
-    onlyif => "test ! -d /opt/cms",
+    creates => "/opt/cms/.hg/hgrc",
   }
 
   exec {"fetch_repo":
@@ -111,7 +111,7 @@ class web::server(
     require => Package['mercurial'],
     user => www,
     timeout => 0,
-    onlyif => "test ! -d /home/www/${repository}",
+    creates => "/home/www/${repository}/.hg/hgrc",
   }
 
   file {'/var/www':
