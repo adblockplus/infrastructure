@@ -12,6 +12,8 @@ class web::server(
 
   include sitescripts
 
+  $PYTHONPATH = 'PYTHONPATH=/opt/cms:/opt/sitescripts'
+
   # Ensure there is at least one character in the respective strings;
   # see https://codereview.adblockplus.org/29329028/#msg3
   validate_re($vhost, '.+')
@@ -25,7 +27,7 @@ class web::server(
 
   Cron {
     environment => concat(hiera('cron::environment', []), [
-      'PYTHONPATH=/opt/cms:/opt/sitescripts',
+      $PYTHONPATH,
     ]),
   }
 
@@ -114,6 +116,20 @@ class web::server(
     creates => "/home/www/${repository}/.hg/hgrc",
   }
 
+  $initialize_content_exec = [
+    'python', '-m', 'cms.bin.generate_static_pages',
+    "/home/www/${repository}", "/var/www/${vhost}",
+  ]
+
+  exec {"initialize_content":
+    command => shellquote($initialize_content_exec),
+    path => ["/usr/bin/", "/bin/"],
+    user => www,
+    subscribe => [Exec["fetch_repo"], Exec["fetch_cms"]],
+    refreshonly => true,
+    environment => $PYTHONPATH,
+  }
+
   file {'/var/www':
     ensure => directory,
     mode => 755,
@@ -135,9 +151,21 @@ class web::server(
     minute  => '4-59/20',
   }
 
+  $update_repo_cmd = [
+    "hg", "pull", "-q", "-R", "/home/www/${repository}",
+  ]
+
+  $update_webpage_cmd = join(
+    [
+      shellquote($update_repo_cmd),
+      shellquote($initialize_content_exec)
+    ],
+    "&&"
+  )
+
   cron {'update_repo':
     ensure => present,
-    command => "hg pull -q -R /home/www/${repository} && python -m cms.bin.generate_static_pages /home/www/${repository} /var/www/${vhost}",
+    command => $update_webpage_cmd,
     user => www,
     minute  => '5-59/20',
   }
