@@ -99,8 +99,14 @@ class web::server(
     managehome => true,
   }
 
+  $fetch_cms_cmd = [
+    'hg', 'clone',
+    'https://hg.adblockplus.org/cms/',
+    '/opt/cms',
+  ]
+
   exec {"fetch_cms":
-    command => "hg clone https://hg.adblockplus.org/cms/ /opt/cms",
+    command => shellquote($fetch_cms_cmd),
     path => ["/usr/bin/", "/bin/"],
     require => Package['mercurial'],
     timeout => 0,
