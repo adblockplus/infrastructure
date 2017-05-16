@@ -107,8 +107,15 @@ class web::server(
     creates => "/opt/cms/.hg/hgrc",
   }
 
+  $fetch_repo_cmd = [
+    'hg', 'clone',
+    '--noupdate',
+    "https://hg.adblockplus.org/${repository}",
+    "/home/www/${repository}",
+  ]
+
   exec {"fetch_repo":
-    command => "hg clone -U https://hg.adblockplus.org/${repository} /home/www/${repository}",
+    command => shellquote($fetch_repo_cmd),
     path => ["/usr/bin/", "/bin/"],
     require => Package['mercurial'],
     user => www,
