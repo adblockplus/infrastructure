@@ -158,9 +158,16 @@ class web::server(
     mode => 755,
   }
 
+  $update_cms_cmd = [
+    'hg', 'pull',
+    '--quiet',
+    '--update',
+    '--repository', '/opt/cms',
+  ]
+
   cron {'update_cms':
     ensure => present,
-    command => "hg pull -q -u -R /opt/cms",
+    command => shellquote($update_cms_cmd),
     minute  => '4-59/20',
   }
 
