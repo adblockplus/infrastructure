@@ -172,7 +172,9 @@ class web::server(
   }
 
   $update_repo_cmd = [
-    "hg", "pull", "-q", "-R", "/home/www/${repository}",
+    'hg', 'pull',
+    '--quiet',
+    '--repository', "/home/www/${repository}",
   ]
 
   $update_webpage_cmd = join(
