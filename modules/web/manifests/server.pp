@@ -105,9 +105,12 @@ class web::server(
     '/opt/cms',
   ]
 
+  Exec {
+    path => ["/usr/bin/", "/bin/"],
+  }
+
   exec {"fetch_cms":
     command => shellquote($fetch_cms_cmd),
-    path => ["/usr/bin/", "/bin/"],
     require => Package['mercurial'],
     timeout => 0,
     creates => "/opt/cms/.hg/hgrc",
@@ -122,7 +125,6 @@ class web::server(
 
   exec {"fetch_repo":
     command => shellquote($fetch_repo_cmd),
-    path => ["/usr/bin/", "/bin/"],
     require => Package['mercurial'],
     user => www,
     timeout => 0,
@@ -136,7 +138,6 @@ class web::server(
 
   exec {"initialize_content":
     command => shellquote($initialize_content_exec),
-    path => ["/usr/bin/", "/bin/"],
     user => www,
     subscribe => [Exec["fetch_repo"], Exec["fetch_cms"]],
     refreshonly => true,
