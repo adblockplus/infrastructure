@@ -20,7 +20,8 @@ class nagios::server(
     mode   => 0644
   }
 
-  include nginx, 'spawn-fcgi'
+  include nginx
+  include spawn_fcgi
 
   package {['nagios3', 'nagios3-doc', 'nagios-nrpe-plugin', 'php5-cgi',
             'fcgiwrap', 'pnp4nagios']:
@@ -42,7 +43,7 @@ class nagios::server(
     log => 'access_log_monitoring'
   }
 
-  spawn-fcgi::php-pool {'global':
+  spawn_fcgi::php_pool {'global':
     ensure => present,
     socket => '/tmp/php-fastcgi.sock',
     children => '3',

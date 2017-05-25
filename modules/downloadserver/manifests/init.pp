@@ -15,9 +15,9 @@ class downloadserver(
   }
 
   package {'python-jinja2':}
-  include spawn-fcgi
+  include spawn_fcgi
 
-  spawn-fcgi::pool {'multiplexer':
+  spawn_fcgi::pool {'multiplexer':
     ensure => present,
     fcgi_app => '/opt/sitescripts/multiplexer.fcgi',
     socket => '/tmp/multiplexer-fastcgi.sock',

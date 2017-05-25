@@ -11,7 +11,7 @@ class trac(
 
   include stdlib
   include nginx
-  include spawn-fcgi
+  include spawn_fcgi
 
   file {$fcgi_config_dir:
     ensure => directory,
@@ -271,7 +271,7 @@ class trac(
       require => Exec["deploy_$name"],
     }
 
-    spawn-fcgi::pool {"tracd_${name}":
+    spawn_fcgi::pool {"tracd_${name}":
       ensure => present,
       fcgi_app => "/home/trac/htdocs-$name/cgi-bin/trac.fcgi",
       socket => "/tmp/${name}-fastcgi.sock",
