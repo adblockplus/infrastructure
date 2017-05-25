@@ -12,7 +12,7 @@ class web::server(
 
   include sitescripts
 
-  $PYTHONPATH = 'PYTHONPATH=/opt/cms:/opt/sitescripts'
+  $pythonpath = 'PYTHONPATH=/opt/cms:/opt/sitescripts'
 
   # Ensure there is at least one character in the respective strings;
   # see https://codereview.adblockplus.org/29329028/#msg3
@@ -27,7 +27,7 @@ class web::server(
 
   Cron {
     environment => concat(hiera('cron::environment', []), [
-      $PYTHONPATH,
+      $pythonpath,
     ]),
   }
 
@@ -141,7 +141,7 @@ class web::server(
     user => www,
     subscribe => [Exec["fetch_repo"], Exec["fetch_cms"]],
     refreshonly => true,
-    environment => $PYTHONPATH,
+    environment => $pythonpath,
   }
 
   file {'/var/www':
