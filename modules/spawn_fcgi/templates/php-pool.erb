@@ -1,0 +1,25 @@
+<% if socket != :undef -%>
+-s <%= socket %>
+    <% if mode != :undef -%>
+-M <%= mode %>
+    <% end -%>
+-U <%= user %>
+-G <%= group %>
+<% end -%>
+<% if real_ip != :undef -%>
+-a <%= real_ip %>
+-p <%= port %>
+<% end -%>
+<% if children != :undef -%>
+-C <%= children %>
+<% end -%>
+<% if chroot != :undef -%>
+-c <%= chroot %>
+-S
+<% end -%>
+-u <%= user %>
+-g <%= group %>
+-- <%= real_fcgi_app %>
+<% if fcgi_app_args != :undef -%>
+<%= fcgi_app_args %>
+<% end -%>
