@@ -6,4 +6,4 @@ modules/concat = infrastructure-puppet-concat hg:3c198eaf8394 git:6f4f617
 modules/postgresql = infrastructure-puppet-postgresql hg:8c90d2297756 git:4.0.0
 modules/apt = infrastructure-puppetlabs-apt hg:2ad7ae372ae8 git:7798599
 modules/mysql = infrastructure-puppetlabs-mysql hg:19a880f3bc58 git:3de37ee
-modules/stdlib = infrastructure-puppetlabs-stdlib hg:7a0c38fc49ae git:9a06f11
+modules/stdlib = infrastructure-puppetlabs-stdlib hg:53988851a465 git:2a75ed0
