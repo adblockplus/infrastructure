@@ -19,7 +19,8 @@ command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w <%=
 command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
 command[check_bandwidth]=/usr/lib/nagios/plugins/check_bandwidth <%=
     scope.function_hiera(['nagios::client::bandwidth_warning_threshold', 130000]).to_i * 1000 %> <%=
-    scope.function_hiera(['nagios::client::bandwidth_critical_threshold', 150000]).to_i * 1000 %>
+    scope.function_hiera(['nagios::client::bandwidth_critical_threshold', 150000]).to_i * 1000 %> <%=
+    scope.function_hiera(['nagios::client::bandwidth_network_interface', 'eth0']).to_s %>
 command[check_connections]=/usr/lib/nagios/plugins/check_connections
 command[check_memory]=/usr/lib/nagios/plugins/check_memory
 include=/etc/nagios/nrpe_local.cfg

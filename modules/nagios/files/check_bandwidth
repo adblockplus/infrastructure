@@ -12,23 +12,24 @@ def format_bandwidth(bits):
   else:
     return "%.2f bit/s" % bits
 
-def getmacaddress():
+def getmacaddress(nic="eth0"):
   # See man netdevice for the request structure: it has to start with 16 bytes
   # containing the interface name, the OS will write 8 bytes after that (2 bytes
   # family name and 6 bytes actual MAC address).
   s = socket.socket()
   SIOCGIFHWADDR = 0x8927   # see man ioctl_list
-  return fcntl.ioctl(s.fileno(), SIOCGIFHWADDR, struct.pack("24s", "eth0"))[18:24]
+  return fcntl.ioctl(s.fileno(), SIOCGIFHWADDR, struct.pack("24s", nic))[18:24]
 
 if __name__ == "__main__":
-  if len(sys.argv) != 3:
+  if len(sys.argv) != 4:
     script_name = os.path.basename(sys.argv[0])
-    print "Usage: %s WARN CRIT" % script_name
+    print "Usage: %s WARN CRIT NIC" % script_name
     sys.exit(0)
 
   (warn, crit) = sys.argv[1:3]
   warn = int(sys.argv[1])
   crit = int(sys.argv[2])
+  nic = str(sys.argv[3])
 
   process = subprocess.Popen(
     ["sudo", "tcpdump", "-q", "-s", "64", "-G", str(INTERVAL), "-W", "1", "-w", "-"],
