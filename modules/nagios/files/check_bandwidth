@@ -26,7 +26,6 @@ if __name__ == "__main__":
     print "Usage: %s WARN CRIT NIC" % script_name
     sys.exit(0)
 
-  (warn, crit) = sys.argv[1:3]
   warn = int(sys.argv[1])
   crit = int(sys.argv[2])
   nic = str(sys.argv[3])
