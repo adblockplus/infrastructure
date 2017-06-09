@@ -18,6 +18,7 @@ filtermaster::repos:
   - antiadblockfilters
   - adwarefilters
   - listear
+  - customfilterlists
 
 filtermaster::repo_downloads:
   exceptionrules:
