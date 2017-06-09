@@ -136,6 +136,10 @@ location /redirect
   {
     rewrite ^ /forum/viewtopic.php?t=23597? redirect;
   }
+  if ($arg_link = "firefox_support")
+  {
+    rewrite ^ /forum/viewforum.php?f=1? redirect;
+  }
   if ($arg_link = "adblock_browser_android_beta_community")
   {
     rewrite ^ https://plus.google.com/communities/104936844759781288661? redirect;
