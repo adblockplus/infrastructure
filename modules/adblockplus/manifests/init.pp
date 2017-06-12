@@ -52,11 +52,6 @@ class adblockplus (
     stage => 'runtime',
   }
 
-  # Class['apt'] cannot yet be configured to update on-demand
-  class {'apt':
-    always_apt_update => ($environment != 'development'),
-  }
-
   # Used as internal constant within adblockplus::* resources
   $directory = '/var/adblockplus'
 
