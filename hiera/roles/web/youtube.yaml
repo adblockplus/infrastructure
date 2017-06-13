@@ -1,5 +1,4 @@
 classes:
-  statsclient:
   web::server:
     vhost: youtube.adblockplus.me
     certificate: youtube.adblockplus.me_sslcert.pem

@@ -1,5 +1,4 @@
 classes:
-  statsclient:
   nginx:
       worker_connections: 500
   discourse_docker:

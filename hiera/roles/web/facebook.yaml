@@ -1,5 +1,4 @@
 classes:
-  statsclient:
   web::server:
     vhost: facebook.adblockplus.me
     certificate: facebook.adblockplus.me_sslcert.pem

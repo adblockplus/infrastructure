@@ -1,5 +1,4 @@
 classes:
-  statsclient:
   downloadserver:
     domain: downloads.adblockplus.org
     certificate: downloads.adblockplus.org_sslcert.pem

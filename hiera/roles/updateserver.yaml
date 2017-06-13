@@ -1,5 +1,4 @@
 classes:
-  statsclient:
   updateserver:
     domain: update.adblockplus.org
     certificate: update.adblockplus.org_sslcert.pem

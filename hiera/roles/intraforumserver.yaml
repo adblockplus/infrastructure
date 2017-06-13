@@ -1,5 +1,4 @@
 classes:
-  statsclient:
   discourse:
     domain: "intraforum.adblockplus.org"
     certificate: "intraforum.adblockplus.org_sslcert.pem"

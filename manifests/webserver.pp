@@ -1,5 +1,4 @@
 node 'web2' {
-  include statsclient
 
   class {'web::server':
     vhost => 'adblockplus.org',

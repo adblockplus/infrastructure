@@ -1,5 +1,4 @@
 classes:
-  statsclient:
   web::server:
     vhost: eyeo.com
     certificate: eyeo.com_sslcert.pem

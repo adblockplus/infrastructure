@@ -1,5 +1,4 @@
 classes:
-  statsclient:
   web::server:
     vhost: share.adblockplus.org
     certificate: share.adblockplus.org_sslcert.pem

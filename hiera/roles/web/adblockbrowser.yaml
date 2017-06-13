@@ -1,5 +1,4 @@
 classes:
-  statsclient:
   web::server:
     vhost: adblockbrowser.org
     aliases:
