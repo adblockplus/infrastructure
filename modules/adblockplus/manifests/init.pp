@@ -43,6 +43,7 @@ class adblockplus (
   $users = hiera_hash('adblockplus::users', {}),
 ) {
 
+  include adblockplus::legacy
   include postfix
   include ssh
   include stdlib
