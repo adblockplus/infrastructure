@@ -67,12 +67,6 @@ adblockplus::hosts:
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     groups: [http-servers]
-  stats1:
-    ips: [10.8.0.130]
-    role: statsmaster
-    os: "debian-jessie"
-    public_key: *vagrant_box_jessie
-    groups: [http-servers]
   update1:
     ips: [10.8.0.128]
     role: updateserver
