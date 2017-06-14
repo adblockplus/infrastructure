@@ -1,5 +1,5 @@
 user <%= scope.lookupvar('nginx::params::user') %> <%= scope.lookupvar('nginx::params::group') %>;
-worker_processes <%= worker_processes %>;
+worker_processes <%= @worker_processes %>;
 <% if scope.lookupvar('lsbdistcodename') == 'precise' -%>
 include /etc/nginx/modules-enabled/*.conf;
 <% end -%>
@@ -8,7 +8,7 @@ error_log /var/log/nginx/error.log notice;
 pid /var/run/nginx.pid;
 
 events {
-  worker_connections <%= worker_connections %>;
+  worker_connections <%= @worker_connections %>;
   <% if scope.lookupvar('nginx::params::multi_accept') == 'on' %>multi_accept on;<% end %>
 }
 worker_rlimit_nofile <%= scope.lookupvar('nginx::params::worker_rlimit_nofile') %>;
@@ -51,7 +51,7 @@ http {
   ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH EDH+aRSA -3DES DES-CBC3-SHA !aNULL !eNULL !LOW !MD5 !EXP !PSK !SRP !DSS !RC4";
   ssl_prefer_server_ciphers on;
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-  <% if ssl_session_cache == 'on' %>
+  <% if @ssl_session_cache == 'on' %>
   ssl_session_cache shared:SSL:1m;
   <% else %>
   ssl_session_cache off;

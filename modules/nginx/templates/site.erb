@@ -9,16 +9,16 @@
 
 <% server_name = lambda do |domain, alt_names| %><%= domain %><% @alt_names.each do |name| %>, <%= name %><% end %><% end %>
 
-<% if global_config %>
+<% if @global_config %>
   <%= @global_config %>
 <% end %>
 
 <% if @certificate and @private_key %>
   server
   {
-    server_name <% server_name[domain, alt_names] %>;
+    server_name <% server_name[@domain, @alt_names] %>;
 
-    <% if is_default %>
+    <% if @is_default %>
       listen 80 default_server;
       listen [::]:80 default_server;
     <% else %>
@@ -33,9 +33,9 @@
   }
   server
   {
-    server_name <% server_name[domain, alt_names] %>;
+    server_name <% server_name[@domain, @alt_names] %>;
 
-    <% if is_default %>
+    <% if @is_default %>
       listen 443 ssl http2 default_server;
       listen [::]:443 ssl http2 default_server;
     <% else %>
@@ -43,17 +43,17 @@
       listen [::]:443 ssl http2;
     <% end %>
 
-    ssl_certificate <%= certificate %>;
-    ssl_certificate_key <%= private_key %>;
+    ssl_certificate <%= @certificate %>;
+    ssl_certificate_key <%= @private_key %>;
     ssl_dhparam /etc/nginx/dhparam.pem;
 
     add_header Strict-Transport-Security max-age=31536000;
 <% else %>
   server
   {
-    server_name <% server_name[domain, alt_names] %>;
+    server_name <% server_name[@domain, @alt_names] %>;
 
-    <% if is_default %>
+    <% if @is_default %>
       listen 80 default_server;
       listen [::]:80 default_server;
     <% else %>
@@ -62,7 +62,7 @@
     <% end %>
 <% end %>
 
-access_log /var/log/nginx/<%= log %> <%= log_format %>;
+access_log /var/log/nginx/<%= @log %> <%= @log_format %>;
 
 # redirect server error pages to the static page /50x.html
 #
@@ -88,10 +88,10 @@ if ($http_host ~ "^(.+)\.$")
 }
 
 <% if @content %>
-  <%= content %>
+  <%= @content %>
 <% end %>
 
 <% if @source %>
-  <% include_file[source] %>
+  <% include_file[@source] %>
 <% end %>
 }
