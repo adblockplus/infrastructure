@@ -1,4 +1,4 @@
-root /var/www/<%= vhost %>;
+root /var/www/<%= @vhost %>;
 index index;
 default_type text/html;
 charset utf-8;
@@ -6,7 +6,7 @@ charset utf-8;
 set $index_page "index";
 
 <% if @custom_config %>
-  <%= custom_config %>
+  <%= @custom_config %>
 <% end %>
 
 location /
