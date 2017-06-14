@@ -9,9 +9,9 @@
 # Description: Enable service provided by daemon.
 ### END INIT INFO
 
-user="<%= user %>"
-name="<%= name %>"
-cmd="<%= command %>"
+user="<%= @user %>"
+name="<%= @name %>"
+cmd="<%= @command %>"
 
 pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
@@ -31,8 +31,8 @@ case "$1" in
       echo "Already started"
     else
       echo "Starting $name"
-      <% if workdir != :undef -%>
-      cd "<%= workdir %>"
+      <% if @workdir != :undef -%>
+      cd "<%= @workdir %>"
       <% end -%>
       sudo -u "$user" \
           <% for variable in @env -%>
