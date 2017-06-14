@@ -1,25 +1,25 @@
-<% if @socket != :undef -%>
+<% if @socket != nil -%>
 -s <%= @socket %>
-    <% if @mode != :undef -%>
+    <% if @mode != nil -%>
 -M <%= @mode %>
     <% end -%>
 -U <%= @user %>
 -G <%= @group %>
 <% end -%>
-<% if @real_ip != :undef -%>
+<% if @real_ip != nil -%>
 -a <%= @real_ip %>
 -p <%= @port %>
 <% end -%>
-<% if @children != :undef -%>
+<% if @children != nil -%>
 -C <%= @children %>
 <% end -%>
-<% if @chroot != :undef -%>
+<% if @chroot != nil -%>
 -c <%= @chroot %>
 -S
 <% end -%>
 -u <%= @user %>
 -g <%= @group %>
 -- <%= @real_fcgi_app %>
-<% if @fcgi_app_args != :undef -%>
+<% if @fcgi_app_args != nil -%>
 <%= @fcgi_app_args %>
 <% end -%>
