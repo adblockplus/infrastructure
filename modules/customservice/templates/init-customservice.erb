@@ -31,7 +31,7 @@ case "$1" in
       echo "Already started"
     else
       echo "Starting $name"
-      <% if @workdir != :undef -%>
+      <% if @workdir != nil -%>
       cd "<%= @workdir %>"
       <% end -%>
       sudo -u "$user" \
