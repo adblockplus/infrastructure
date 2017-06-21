@@ -4,7 +4,7 @@ class sitescripts (
   ){
 
   @concat {'/etc/sitescripts.ini':
-    mode => 644,
+    mode => '644',
     owner => root,
     group => root,
   }
