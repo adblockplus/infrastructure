@@ -51,7 +51,7 @@ class notificationserver($is_default = false) {
   File {
     owner => root,
     group => root,
-    mode => 0644,
+    mode => '0644',
   }
 
   nginx::hostconfig{'notification.adblockplus.org':
