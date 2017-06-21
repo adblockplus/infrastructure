@@ -16,7 +16,7 @@ class trac(
   file {$fcgi_config_dir:
     ensure => directory,
     owner => 'root',
-    mode => 755,
+    mode => '755',
     require => Package['nginx'],
   }
 
@@ -138,14 +138,14 @@ class trac(
     ensure => present,
     source => 'puppet:///modules/trac/trac.ini',
     owner => 'trac',
-    mode => 644,
+    mode => '644',
   }
 
   file {'/home/trac/robots.txt':
     ensure => 'present',
     source => 'puppet:///modules/trac/robots.txt',
     owner => 'trac',
-    mode => 644,
+    mode => '644',
   }
 
   file {"trac_performance_fix_py":
@@ -153,7 +153,7 @@ class trac(
     path => '/usr/local/lib/python2.7/dist-packages/trac_performance_fix.py',
     source => 'puppet:///modules/trac/trac_performance_fix.py',
     owner => 'root',
-    mode => 644,
+    mode => '644',
   }
 
 
@@ -184,7 +184,7 @@ class trac(
     file {"${trac::fcgi_config_dir}/${name}.conf":
       ensure => file,
       owner => 'root',
-      mode => 644,
+      mode => '644',
       content => template('trac/fcgi.conf.erb'),
       require => File[$trac::fcgi_config_dir],
       notify => Service['nginx'],
