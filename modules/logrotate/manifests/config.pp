@@ -50,7 +50,7 @@ define logrotate::config (
       default => 'present',
     },
     group => 'root',
-    mode => 0644,
+    mode => '0644',
     owner => 'root',
     path => "/etc/logrotate.d/$name",
     source => $source,
