@@ -58,7 +58,7 @@ class nginx (
   File {
     owner => root,
     group => root,
-    mode => 0644,
+    mode => '0644',
   }
 
   Exec {
@@ -91,7 +91,7 @@ class nginx (
 
   @file {'/etc/nginx/dhparam.pem':
     ensure => 'present',
-    mode => 0600,
+    mode => '0600',
     notify => Service['nginx'],
     require => Package['nginx'],
     source => 'puppet:///modules/private/dhe_rsa_export.pem',
@@ -122,7 +122,7 @@ class nginx (
       if !defined(File["/etc/nginx/${certificate}"]) {
         file {"/etc/nginx/${certificate}":
           ensure => file,
-          mode => 0400,
+          mode => '0400',
           notify => Service['nginx'],
           before => File["/etc/nginx/sites-available/${domain}"],
           require => Package['nginx'],
@@ -133,7 +133,7 @@ class nginx (
       if !defined(File["/etc/nginx/${private_key}"]) {
         file {"/etc/nginx/${private_key}":
           ensure => file,
-          mode => 0400,
+          mode => '0400',
           notify => Service['nginx'],
           before => File["/etc/nginx/sites-available/${domain}"],
           require => Package['nginx'],
@@ -236,7 +236,7 @@ class nginx (
   Service['nginx'] <~ Class['ssh']
 
   file {'/usr/share/nginx/html/50x.html':
-    mode => 0644,
+    mode => '0644',
     owner => 'root',
     require => Package['nginx'],
     source => 'puppet:///modules/nginx/50x.html',
