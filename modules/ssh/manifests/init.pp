@@ -16,7 +16,7 @@ class ssh(
     path => '/etc/ssh/sshd_config',
     owner => root,
     group => root,
-    mode => 0644,
+    mode => '0644',
     require => Package['openssh-server']
   }
 
@@ -29,7 +29,7 @@ class ssh(
   file {'ssh_config':
     content => template('ssh/ssh_config.erb'),
     group => 'root',
-    mode => 0644,
+    mode => '0644',
     owner => 'root',
     path => '/etc/ssh/ssh_config',
     require => Package['openssh-client'],
