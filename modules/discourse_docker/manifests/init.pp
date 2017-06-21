@@ -64,7 +64,7 @@ class discourse_docker(
 
   file {'/var/discourse':
     ensure => directory,
-    mode => 755,
+    mode => '755',
     owner => root,
     group => root
   }
@@ -80,7 +80,7 @@ class discourse_docker(
 
   file {'/var/discourse/containers/app.yml':
     ensure => file,
-    mode => 600,
+    mode => '600',
     owner => root,
     group => root,
     content => template('discourse_docker/app.yml.erb'),
