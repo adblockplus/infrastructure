@@ -54,7 +54,7 @@ define fluent::config (
     content => $content,
     ensure => $ensure,
     group => $fluent::group,
-    mode => 0640,
+    mode => '0640',
     notify => Service['fluent'],
     owner => getparam(File['fluent'], 'owner'),
     path =>  "$fluent::directory/config.d/$name.conf",

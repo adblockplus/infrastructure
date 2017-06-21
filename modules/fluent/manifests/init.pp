@@ -120,7 +120,7 @@ class fluent (
       default => 'absent',
     },
     group => getparam(File[$title], 'group'),
-    mode => 0755,
+    mode => '0755',
     owner => getparam(File[$title], 'owner'),
     require => Package[$title],
   }
