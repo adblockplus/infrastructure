@@ -43,5 +43,6 @@ class ssh(
     subscribe => Concat['sshd_config']
   }
 
-  Service['ssh'] <~ Package['libssl1.0.0', 'openssl']
+  Service['ssh'] <~ Package['libssl1.0.0']
+  Service['ssh'] <~ Package['openssl']
 }
