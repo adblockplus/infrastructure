@@ -71,21 +71,21 @@ class discourse(
 
   file {'/opt/discourse':
     ensure => directory,
-    mode => 755,
+    mode => '0755',
     owner => discourse,
     group => www-data
   }
 
   file {['/opt/discourse/tmp', '/opt/discourse/tmp/pids']:
     ensure => directory,
-    mode => 755,
+    mode => '0755',
     owner => discourse,
     group => www-data,
     require => Exec['fetch-discourse']
   }
 
   file {'/opt/discourse/config/discourse.conf':
-    mode => 600,
+    mode => '0600',
     owner => discourse,
     group => www-data,
     content => template('discourse/discourse.conf.erb'),
@@ -94,7 +94,7 @@ class discourse(
   }
 
   file {'/usr/local/bin/init-discourse':
-    mode => 0755,
+    mode => '0755',
     owner => root,
     group => root,
     source => 'puppet:///modules/discourse/init-discourse'
@@ -113,7 +113,7 @@ class discourse(
     ensure => present,
     owner => root,
     group => root,
-    mode => 0440,
+    mode => '0440',
     source => 'puppet:///modules/discourse/sudoers',
     require => User['discourse']
   }
