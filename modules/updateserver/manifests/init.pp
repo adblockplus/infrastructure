@@ -16,7 +16,7 @@ class updateserver(
 
   file {'/var/www':
     ensure => directory,
-    mode => 0755,
+    mode => '0755',
     require => Package['nginx']
   }
 
@@ -24,7 +24,7 @@ class updateserver(
 
   file {$update_dir:
     ensure => directory,
-    mode => 0755
+    mode => '0755',
   }
 
   $sitescripts_var_dir = '/var/lib/sitescripts'
@@ -36,7 +36,7 @@ class updateserver(
 
   file {$sitescripts_var_dir:
     ensure => directory,
-    mode => 0755,
+    mode => '0755',
     owner => 'sitescripts',
     group => 'sitescripts'
   }
@@ -48,7 +48,7 @@ class updateserver(
 
   file {$update_manifest_dirs:
     ensure => directory,
-    mode => 0755,
+    mode => '0755',
     owner => 'sitescripts',
     group => 'sitescripts'
   }
