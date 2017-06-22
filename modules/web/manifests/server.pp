@@ -22,7 +22,7 @@ class web::server(
   File {
     owner  => 'root',
     group  => 'root',
-    mode   => 0644,
+    mode   => '0644',
   }
 
   Cron {
@@ -146,7 +146,7 @@ class web::server(
 
   file {'/var/www':
     ensure => directory,
-    mode => 755,
+    mode => '0755',
   }
 
   file {[
@@ -156,7 +156,7 @@ class web::server(
   ]:
     ensure => directory,
     owner => www,
-    mode => 755,
+    mode => '0755',
   }
 
   $update_cms_cmd = [
