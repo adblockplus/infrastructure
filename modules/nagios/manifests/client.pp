@@ -7,7 +7,7 @@ class nagios::client($server_address) {
   ])
 
   file {'/etc/nagios/nrpe.cfg':
-    mode => 644,
+    mode => '0644',
     owner => root,
     group => root,
     content => template('nagios/nrpe.cfg.erb'),
@@ -25,14 +25,14 @@ class nagios::client($server_address) {
     ensure => present,
     owner => root,
     group => root,
-    mode => 0440,
+    mode => '0440',
     source => 'puppet:///modules/nagios/sudoers',
     require => Package['sudo'],
   }
 
   file {'/usr/lib/nagios/plugins/check_bandwidth':
     ensure => present,
-    mode => 755,
+    mode => '0755',
     owner => root,
     group => root,
     source => 'puppet:///modules/nagios/check_bandwidth',
@@ -44,7 +44,7 @@ class nagios::client($server_address) {
 
   file {'/usr/lib/nagios/plugins/check_connections':
     ensure => present,
-    mode => 755,
+    mode => '0755',
     owner => root,
     group => root,
     source => 'puppet:///modules/nagios/check_connections',
@@ -53,7 +53,7 @@ class nagios::client($server_address) {
 
   file {'/usr/lib/nagios/plugins/check_memory':
     ensure => present,
-    mode => 755,
+    mode => '0755',
     owner => root,
     group => root,
     source => 'puppet:///modules/nagios/check_memory',

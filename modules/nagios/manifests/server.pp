@@ -17,7 +17,7 @@ class nagios::server(
   File {
     owner  => 'root',
     group  => 'root',
-    mode   => 0644
+    mode   => '0644',
   }
 
   include nginx
