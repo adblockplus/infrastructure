@@ -56,7 +56,7 @@ define adblockplus::user (
       'present' => 'directory',
       default => $ensure,
     },
-    mode => 0700,
+    mode => '0700',
     owner => $name,
     require => User[$name],
   }
@@ -64,7 +64,7 @@ define adblockplus::user (
   file {"$home/.ssh/authorized_keys":
     content => join($authorized_keys, "\n"),
     ensure => $ensure,
-    mode => 0644,
+    mode => '0644',
     owner => $name,
     require => File["$home/.ssh"],
   }

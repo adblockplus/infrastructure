@@ -74,7 +74,7 @@ class adblockplus::log (
     before => Service['fluent'],
     ensure => 'directory',
     group => $group,
-    mode => 0775,
+    mode => '0775',
     owner => $user,
   }
 

@@ -60,7 +60,7 @@ class adblockplus (
   # managed via Puppet, but accessible by all users with access to the system
   @file {$directory:
     ensure => 'directory',
-    mode => 0755,
+    mode => '0755',
     owner => 'root',
   }
 
@@ -71,7 +71,7 @@ class adblockplus (
       content => 'UTC',
       ensure => 'present',
       group => 'root',
-      mode => 0644,
+      mode => '0644',
       notify => Service['cron'],
       owner => 'root';
     '/etc/localtime':
@@ -94,7 +94,7 @@ class adblockplus (
     content => template('adblockplus/crontab.erb'),
     owner => 'root',
     group => 'root',
-    mode => 0644,
+    mode => '0644',
   }
 
   # Work around https://issues.adblockplus.org/ticket/3479
@@ -103,11 +103,11 @@ class adblockplus (
     file {
       '/etc/ssh/ssh_host_rsa_key':
         source => 'puppet:///modules/adblockplus/development_host_rsa_key',
-        mode => 600,
+        mode => '0600',
         notify => Service['ssh'];
       '/etc/ssh/ssh_host_rsa_key.pub':
         source => 'puppet:///modules/adblockplus/development_host_rsa_key.pub',
-        mode => 644;
+        mode => '0644',
     }
   }
 
@@ -120,7 +120,7 @@ class adblockplus (
   # https://projects.puppetlabs.com/issues/4145
   ensure_resource('file', '/etc/ssh/ssh_known_hosts', {
     ensure => 'present',
-    mode => 0644,
+    mode => '0644',
   })
 
   # See modules/adblockplus/manifests/host.pp

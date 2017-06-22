@@ -25,7 +25,7 @@ class adblockplus::puppet (
   ensure_resource('file', '/var/lib/puppet/facts.d', {
     ensure => ensure_directory_state($ensure),
     group => 'root',
-    mode => 0755,
+    mode => '0755',
     owner => 'root',
   })
 
@@ -34,7 +34,7 @@ class adblockplus::puppet (
     'content' => "#!/bin/sh\necho 'pup3665=workaround'\n\n",
     'ensure' => ensure_file_state($ensure),
     'group' => 'root',
-    'mode' => 0755,
+    'mode' => '0755',
     'owner' => 'root',
   })
 

@@ -36,7 +36,7 @@ class adblockplus::sudo (
   file {'/etc/sudoers.d/puppet':
     ensure => $ensure,
     group => 'root',
-    mode => 0440,
+    mode => '0440',
     owner => 'root',
     require => Package['sudo'],
     source => 'puppet:///modules/adblockplus/sudoers/puppet'
