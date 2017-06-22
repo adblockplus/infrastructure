@@ -10,7 +10,7 @@ class filterserver($is_default = false) {
     file {'/var/www':
       ensure => directory,
       owner => nginx,
-      mode => 0755,
+      mode => '0755',
       require => User['nginx']
     }
   }
@@ -29,7 +29,7 @@ class filterserver($is_default = false) {
   File {
     owner => root,
     group => root,
-    mode => 0644,
+    mode => '0644',
   }
 
   file {'/var/www/easylist':
@@ -53,12 +53,12 @@ class filterserver($is_default = false) {
     ensure => directory,
     require => User['rsync'],
     owner => rsync,
-    mode => 0600;
+    mode => '0600',
   }
 
   concat {'/home/rsync/.ssh/known_hosts':
     owner => rsync,
-    mode => 0444,
+    mode => '0444',
   }
 
   concat::fragment {'filtermaster_hostname':
@@ -80,7 +80,7 @@ class filterserver($is_default = false) {
                  User['rsync']
                ],
     owner => rsync,
-    mode => 0400,
+    mode => '0400',
     source => 'puppet:///modules/private/rsync@easylist-downloads.adblockplus.org'
   }
 
@@ -91,7 +91,7 @@ class filterserver($is_default = false) {
                  User['rsync']
                ],
     owner => rsync,
-    mode => 0400,
+    mode => '0400',
     source => 'puppet:///modules/private/rsync@easylist-downloads.adblockplus.org.pub'
   }
 
