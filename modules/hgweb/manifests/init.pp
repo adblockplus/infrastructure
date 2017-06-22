@@ -66,7 +66,7 @@ class hgweb(
   file {'/home/hg/.ssh':
     ensure => 'directory',
     group => 'hg',
-    mode => 0750,
+    mode => '0750',
     owner => 'hg',
     require => User['hg'],
   }
@@ -74,7 +74,7 @@ class hgweb(
   file {'/home/hg/web':
     ensure => 'directory',
     group => 'hg',
-    mode => 0755,
+    mode => '0755',
     owner => 'hg',
     require => User['hg'],
   }
@@ -82,7 +82,7 @@ class hgweb(
   file {'/home/hg/web/hgaccess':
     ensure => 'directory',
     group => 'hg',
-    mode => 0644,
+    mode => '0644',
     owner => 'hg',
     recurse => true,
     replace => false,
@@ -93,7 +93,7 @@ class hgweb(
   file {'/home/hg/web/hgaccess/.hg/hgrc':
     content => template('hgweb/hgrc.erb'),
     group => 'hg',
-    mode => 0644,
+    mode => '0644',
     owner => 'hg',
     require => [
       Class['sitescripts'],
@@ -141,13 +141,13 @@ class hgweb(
   }
 
   file {'/etc/hgweb.ini':
-    mode => 644,
+    mode => '0644',
     require => Package[$required_packages],
     source => 'puppet:///modules/hgweb/hgweb.ini',
   }
 
   file {'/opt/hgweb.fcgi':
-    mode => 755,
+    mode => '0755',
     require => File['/etc/hgweb.ini'],
     source => 'puppet:///modules/hgweb/hgweb.fcgi',
   }
@@ -155,14 +155,14 @@ class hgweb(
   if $::operatingsystem == "Debian" {
     file {'init_script':
       name => '/etc/systemd/system/hgweb.service',
-      mode => 755,
+      mode => '0755',
       require => File['/opt/hgweb.fcgi'],
       source => 'puppet:///modules/hgweb/hgweb.service',
     }
   } else {
     file {'init_script':
       name => '/etc/init.d/hgweb',
-      mode => 755,
+      mode => '0755',
       require => File['/opt/hgweb.fcgi'],
       source => 'puppet:///modules/hgweb/hgweb.sh',
     }
@@ -170,7 +170,7 @@ class hgweb(
 
   file {'/home/hg/web/robots.txt':
     group => 'hg',
-    mode => 0644,
+    mode => '0644',
     owner => 'hg',
     require => File['/home/hg/web'],
     source => 'puppet:///modules/hgweb/robots.txt',
