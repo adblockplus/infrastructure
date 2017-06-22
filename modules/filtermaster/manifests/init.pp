@@ -37,7 +37,7 @@ class filtermaster(
   file {'/home/rsync/update_repos.sh':
     ensure => file,
     owner => rsync,
-    mode => 0700,
+    mode => '0700',
     source => 'puppet:///modules/filtermaster/update_repos.sh'
   }
 
@@ -60,13 +60,13 @@ class filtermaster(
   file {'/home/rsync/.ssh':
     ensure => directory,
     owner => rsync,
-    mode => 0600
+    mode => '0600',
   }
 
   file {'/home/rsync/.ssh/authorized_keys':
     ensure => file,
     owner => rsync,
-    mode => 0600,
+    mode => '0600',
     source => 'puppet:///modules/private/rsync@easylist-downloads.adblockplus.org.pub'
   }
 
@@ -76,7 +76,7 @@ class filtermaster(
     ensure => file,
     owner => root,
     group => root,
-    mode => 600,
+    mode => '0600',
     source => 'puppet:///modules/private/filtermaster.adblockplus.org_ssh.key'
   }
 
