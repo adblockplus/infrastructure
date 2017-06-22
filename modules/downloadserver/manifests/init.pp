@@ -40,7 +40,7 @@ class downloadserver(
   file {'/var/www':
     ensure => directory,
     owner => hg,
-    mode => 0644
+    mode => '0644',
   }
 
   exec { "fetch_downloads":
@@ -55,7 +55,7 @@ class downloadserver(
   File {
     owner => root,
     group => root,
-    mode => 0644,
+    mode => '0644',
   }
 
   nginx::hostconfig{$domain:
@@ -95,20 +95,20 @@ class downloadserver(
     ensure => directory,
     require => User['rsync'],
     owner => rsync,
-    mode => 0600;
+    mode => '0600',
   }
 
   file {'/home/rsync/.ssh/id_rsa':
     ensure => file,
     owner => rsync,
-    mode => 0400,
+    mode => '0400',
     source => 'puppet:///modules/private/rsync@downloads.adblockplus.org'
   }
 
   file {'/home/rsync/.ssh/id_rsa.pub':
     ensure => file,
     owner => rsync,
-    mode => 0400,
+    mode => '0400',
     source => 'puppet:///modules/private/rsync@downloads.adblockplus.org.pub'
   }
 
