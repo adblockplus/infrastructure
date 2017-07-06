@@ -114,7 +114,7 @@ class adblockplus (
   Exec['apt_update'] -> Package<|title != 'python-software-properties'|>
 
   # https://issues.adblockplus.org/ticket/3574#comment:19
-  $packages = hiera_array('adblockplus::packages', []),
+  $packages = hiera_array('adblockplus::packages', [])
   ensure_packages($packages)
 
   # https://projects.puppetlabs.com/issues/4145
