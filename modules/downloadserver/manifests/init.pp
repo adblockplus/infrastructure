@@ -5,6 +5,8 @@ class downloadserver(
     $is_default = false
   ) {
 
+  include adblockplus::web
+
   class {'nginx':
     worker_connections => 4000,
     ssl_session_cache => off,
@@ -35,12 +37,6 @@ class downloadserver(
     comment => 'Mercurial client user',
     home => '/home/hg',
     managehome => true
-  }
-
-  file {'/var/www':
-    ensure => directory,
-    owner => hg,
-    mode => '0644',
   }
 
   exec { "fetch_downloads":
