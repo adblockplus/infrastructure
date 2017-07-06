@@ -1,0 +1,11 @@
+# Puppet: <%= @title %>
+
+# http://hub.eyeo.com/issues/1975
+location /
+{
+<%- @targets.sort.each do |key, target| -%>
+  rewrite ^/<%= key %>(/.*)?$ "<%= target %>" break;
+<%- end -%>
+  rewrite ^/.*$ "<%= @default %>" last;
+}
+
