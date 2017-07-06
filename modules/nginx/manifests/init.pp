@@ -66,12 +66,19 @@ class nginx (
     logoutput => 'on_failure',
   }
 
-
-  file {'/etc/nginx/nginx.conf':
-    content => template('nginx/nginx.conf.erb'),
+  concat {'/etc/nginx/nginx.conf':
     require => Package['nginx'],
-    notify => Service['nginx']
   }
+
+  concat::fragment {'nginx.conf#main':
+    content => template('nginx/nginx.conf.erb'),
+    notify => Service['nginx'],
+    order => '10',
+    target => '/etc/nginx/nginx.conf',
+  }
+
+  $modules = hiera_hash('nginx::modules', {})
+  create_resources('nginx::module', $modules)
 
   file {'/etc/nginx/sites-available':
     ensure => directory,
