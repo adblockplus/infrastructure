@@ -11,6 +11,7 @@ class web::server(
 ) {
 
   include sitescripts
+  include adblockplus::web
 
   $pythonpath = 'PYTHONPATH=/opt/cms:/opt/sitescripts'
 
@@ -142,11 +143,6 @@ class web::server(
     subscribe => [Exec["fetch_repo"], Exec["fetch_cms"]],
     refreshonly => true,
     environment => $pythonpath,
-  }
-
-  file {'/var/www':
-    ensure => directory,
-    mode => '0755',
   }
 
   file {[
