@@ -19,7 +19,7 @@
 #
 # [*packages*]
 #   An array of adblockplus::packages items to set up in this context,
-#   i.e. via Hiera.
+#   via Hiera, exclusively.
 #
 # === Examples:
 #
@@ -39,7 +39,6 @@
 class adblockplus (
   $authority = hiera('adblockplus::authority', 'adblockplus.org'),
   $hosts = hiera_hash('adblockplus::hosts', {}),
-  $packages = hiera_array('adblockplus::packages', []),
   $users = hiera_hash('adblockplus::users', {}),
 ) {
 
@@ -115,6 +114,7 @@ class adblockplus (
   Exec['apt_update'] -> Package<|title != 'python-software-properties'|>
 
   # https://issues.adblockplus.org/ticket/3574#comment:19
+  $packages = hiera_array('adblockplus::packages', []),
   ensure_packages($packages)
 
   # https://projects.puppetlabs.com/issues/4145
