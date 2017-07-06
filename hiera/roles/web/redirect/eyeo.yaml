@@ -1,0 +1,12 @@
+classes:
+  adblockplus::web::redirector:
+    domain: "eyeo.to"
+    default: "https://eyeo.com/"
+
+adblockplus::web::redirector::targets:
+  acceptableads: "https://acceptableads.com/"
+  adblockbrowser: "https://adblockbrowser.org/"
+  adblockplus: "https://adblockplus.org/"
+  jobs: "https://eyeo.com/en/jobs"
+  team: "https://eyeo.com/en/team"
+
