@@ -1,0 +1,5 @@
+classes:
+  adblockplus::web::redirector:
+    domain: "adblockbrowser.to"
+    default: "https://adblockbrowser.org/"
+
