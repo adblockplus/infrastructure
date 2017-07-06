@@ -8,3 +8,8 @@ classes:
 nginx::worker_connections: 4000
 nginx::ssl_session_cache: off
 
+# http://hub.eyeo.com/issues/1990
+nginx::modules:
+  geoip:
+    name: "ngx_http_geoip_module.so"
+
