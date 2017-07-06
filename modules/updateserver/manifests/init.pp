@@ -4,6 +4,9 @@ class updateserver(
     $private_key,
     $is_default=false
   ) {
+
+  include adblockplus::web
+
   class {'nginx':
     worker_connections => 4000,
     ssl_session_cache => off,
@@ -12,12 +15,6 @@ class updateserver(
   File {
     owner => root,
     group => root
-  }
-
-  file {'/var/www':
-    ensure => directory,
-    mode => '0755',
-    require => Package['nginx']
   }
 
   $update_dir = '/var/www/update'
