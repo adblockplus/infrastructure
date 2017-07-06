@@ -4,3 +4,7 @@ classes:
   notificationserver:
     is_default: false
 
+# http://hub.eyeo.com/issues/1981
+nginx::worker_connections: 4000
+nginx::ssl_session_cache: off
+

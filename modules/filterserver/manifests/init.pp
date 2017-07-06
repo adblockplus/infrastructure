@@ -1,10 +1,6 @@
 class filterserver($is_default = false) {
-  if !defined(Class['nginx']) {
-    class {'nginx':
-      worker_connections => 4000,
-      ssl_session_cache => off,
-    }
-  }
+
+  include nginx
 
   if !defined(File['/var/www']) {
     file {'/var/www':

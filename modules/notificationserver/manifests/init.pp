@@ -1,10 +1,6 @@
 class notificationserver($is_default = false) {
-  if !defined(Class['nginx']) {
-    class {'nginx':
-      worker_connections => 4000,
-      ssl_session_cache => off,
-    }
-  }
+
+  include nginx
 
   class {'sitescripts':
     sitescriptsini_source => 'puppet:///modules/notificationserver/sitescripts.ini'
