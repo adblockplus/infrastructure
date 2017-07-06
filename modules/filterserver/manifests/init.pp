@@ -1,15 +1,7 @@
 class filterserver($is_default = false) {
 
+  include adblockplus::web
   include nginx
-
-  if !defined(File['/var/www']) {
-    file {'/var/www':
-      ensure => directory,
-      owner => nginx,
-      mode => '0755',
-      require => User['nginx']
-    }
-  }
 
   user {'subscriptionstat':
     ensure => absent,
