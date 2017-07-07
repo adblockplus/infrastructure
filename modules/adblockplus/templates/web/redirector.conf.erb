@@ -6,6 +6,6 @@ location /
 <%- @targets.sort.each do |key, target| -%>
   rewrite ^/<%= key %>(/.*)?$ "<%= target %>" break;
 <%- end -%>
-  rewrite ^/.*$ "<%= @default %>" last;
+  rewrite ^(/.*)$ "<%= @default %>" last;
 }
 

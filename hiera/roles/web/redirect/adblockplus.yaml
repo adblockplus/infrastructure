@@ -1,5 +1,5 @@
 classes:
   adblockplus::web::redirector:
     domain: "adblockplus.to"
-    default: "https://adblockplus.org/"
+    default: "https://eyeo.to/adblockplus$1"
 
