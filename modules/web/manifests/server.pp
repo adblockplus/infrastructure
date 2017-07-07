@@ -59,7 +59,7 @@ class web::server(
   }
 
   package {'markdown':
-    ensure => '2.6.6',
+    ensure => '2.6.8',
     provider => 'pip',
     require => [Package['python-pip'], Package['python-markdown']],
   }
