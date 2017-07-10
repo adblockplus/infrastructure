@@ -7,6 +7,8 @@ adblockplus::web::redirector::targets:
   acceptableads: "https://acceptableads.com/"
   adblockbrowser: "https://adblockbrowser.org/"
   adblockplus: "https://adblockplus.org/"
+  flattr: "https://flattr.com/"
+  flattr-publishers: "https://flattr.com/publishers"
   jobs: "https://eyeo.com/en/jobs"
   team: "https://eyeo.com/en/team"
 
