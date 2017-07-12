@@ -1,0 +1,23 @@
+classes:
+  nodejs:
+  adblockplus::legacy::webserver:
+  adblockplus::log:
+
+adblockplus::log::rotations:
+  nginx_email_submission:
+    count: 120
+    ensure: present
+    interval: monthly
+    path: /var/log/nginx/email_submission
+
+nodejs::packages:
+  jsdoc:
+
+sitescripts::configfragments:
+  formmail_template:
+    content: |
+      [multiplexer]
+      sitescripts.subscriptions.web.fallback =
+      [subscriptions]
+      repository=/home/www/subscriptionlist
+
