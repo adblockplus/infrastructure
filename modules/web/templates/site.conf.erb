@@ -26,6 +26,12 @@ location /
     set $preferredRegion $1;
   }
 
+  if ($arg_fb_locale ~ ^(\w\w)_(\w\w)$)
+  {
+    set $preferredLang $1;
+    set $preferredRegion $2;
+  }
+
   # Redirect canonical URLs to language-specific versions
 
   if (-e "$document_root/${preferredLang}_$preferredRegion$uri")
