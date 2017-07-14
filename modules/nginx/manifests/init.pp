@@ -78,7 +78,9 @@ class nginx (
   }
 
   $modules = hiera_hash('nginx::modules', {})
-  create_resources('nginx::module', $modules)
+  ensure_resources('nginx::module', $modules, {
+    ensure => 'present',
+  })
 
   file {'/etc/nginx/sites-available':
     ensure => directory,
