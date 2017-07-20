@@ -10,9 +10,6 @@ adblockplus::log::rotations:
     interval: monthly
     path: /var/log/nginx/email_submission
 
-nodejs::packages:
-  jsdoc:
-
 sitescripts::configfragments:
   formmail_template:
     content: |
