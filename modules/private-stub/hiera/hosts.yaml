@@ -64,6 +64,7 @@ adblockplus::hosts:
     groups: [http-servers]
   issues1:
     ips: [10.8.0.131]
+    role: issueserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     groups: [http-servers]

@@ -15,4 +15,3 @@ class {'apt':
   always_apt_update => ($environment != 'development'),
 }
 
-import 'nodes.pp'

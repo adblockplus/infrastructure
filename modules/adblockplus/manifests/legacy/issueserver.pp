@@ -1,4 +1,11 @@
-node 'issues1' {
+# == Class: adblockplus::legacy::issueserver
+#
+# A container for migrating obsolete resources in issueserver1, formerly located
+# in manifests/issueserver.pp.
+#
+# See http://hub.eyeo.com/issues/1255 for more information.
+#
+class adblockplus::legacy::issueserver {
 
   include private::trac
 
@@ -97,3 +104,4 @@ node 'issues1' {
     pidfile => "/var/run/500-tracd_issues_spawn-fcgi.pid",
   }
 }
+
