@@ -96,6 +96,19 @@ class adblockplus (
     mode => '0644',
   }
 
+  # There should be no need to run portmap on any host atm (see also
+  # CERT-Bund#2016033028001392). TODO: Handle the service setup in a
+  # distinct class when it becomes a dependency of any application
+  if $::lsbdistcodename == 'jessie' {
+
+    # https://packages.debian.org/jessie/portmap
+    service {'portmap':
+      enable => false,
+      ensure => 'stopped',
+      name => 'rpcbind',
+    }
+  }
+
   # Work around https://issues.adblockplus.org/ticket/3479
   if $::environment == 'development' {
 
