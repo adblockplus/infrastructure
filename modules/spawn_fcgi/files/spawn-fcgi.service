@@ -1,0 +1,23 @@
+# Copy of the automatically generated unit after running
+# systemctl enable spawn-fcgi on debian 8.8/systemd 215
+
+[Unit]
+SourcePath=/etc/init.d/spawn-fcgi
+Description=LSB: initscript to manage a pool of workers configured in $POOL_DIR
+Before=runlevel2.target runlevel3.target runlevel4.target runlevel5.target shutdown.target
+After=remote-fs.target systemd-journald-dev-log.socket
+Conflicts=shutdown.target
+
+[Service]
+Type=forking
+Restart=no
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=yes
+SysVStartPriority=2
+ExecStart=/etc/init.d/spawn-fcgi start
+ExecStop=/etc/init.d/spawn-fcgi stop
+ExecReload=/etc/init.d/spawn-fcgi reload
+
