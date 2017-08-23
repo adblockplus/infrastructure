@@ -1,0 +1,9 @@
+[Unit]
+Description=Registers infromation received by an http/s petition.
+
+[Service]
+ExecStart=/usr/local/bin/mimeo.py '--response=<%= @response %>' '--format=<%= @format %>' '--port=<%= @port %>' /var/adblockplus/mimeo/data
+
+[Install]
+WantedBy=multi-user.target
+
