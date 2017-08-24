@@ -1,13 +1,22 @@
 classes:
+  adblockplus::web::mimeo:
+    format: $remote_addr - - [$time_local] "$request" $status $bytes_sent "$http_referer" "$http_user_agent" "$http_x_forwarded_for" - "$http_accept_language" "$http_host" "$http_x_client_id" $http_content_length "$http_content_type" $request_body
+    response: All good, carry on!
+    port: 8000
   web::server:
     vhost: adblockbrowser.org
     aliases:
       - www.adblockbrowser.org
     is_default: true
     custom_config: |
-      location = /submit-feedback/ {
-        access_log /var/log/nginx/adblockbrowser_feedback data;
-        echo_read_request_body;
+      location /submit-feedback {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header User-Agent $http_user_agent;
+        proxy_set_header Referer $http_referer;
+        proxy_set_header X-Forwarded-For $http_x_forwarded_for;
+        proxy_set_header Accept-Language $http_accept_language;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Client-Id $http_x_client_id;
       }
     repository: web.adblockbrowser.org
     multiplexer_locations:

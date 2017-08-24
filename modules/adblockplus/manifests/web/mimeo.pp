@@ -18,10 +18,14 @@
 #   A string (like format parameter) representing the response sent to the
 #   client.
 #
+# [*rotation*]
+#   Overwrite the default log rotation configuration
+#
 class adblockplus::web::mimeo (
   $format = '',
   $port = 8000,
   $response = '',
+  $rotation = {},
 ){
   include adblockplus
 
@@ -79,5 +83,24 @@ class adblockplus::web::mimeo (
     subscribe => File['/etc/systemd/system/mimeo.service'],
     refreshonly => true,
   }
+
+  # https://docs.puppet.com/puppet/latest/types/file.html#file-attribute-source
+  $default_content = $rotation['source'] ? {
+    undef => join([
+      '/var/adblockplus/mimeo/data {',
+      '  weekly',
+      '  rotate 30',
+      '  compress',
+      '  missingok',
+      '  nodateext',
+      '}',
+    ], "\n"),
+    default => undef,
+  }
+
+  ensure_resource('logrotate::config', 'mimeo_data', merge({
+    content => $default_content,
+    ensure => 'present',
+  }, $rotation))
 }
 

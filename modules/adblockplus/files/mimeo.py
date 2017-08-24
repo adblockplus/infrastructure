@@ -40,12 +40,15 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         status = 200
         content = bytes(self.response, 'UTF-8')
+        request_body_len = int(self.headers.get('content-length', 0))
+        request_body = self.rfile.read(body_len).decode('UTF-8')
         values = {
             'remote_addr': self.address_string(),
             'time_local': self.log_date_time_string(),
             'request': self.requestline,
             'status': status,
             'bytes_sent': len(content),
+            'request_body': request_body,
         }
         values.update(self.get_header_values())
         try:
