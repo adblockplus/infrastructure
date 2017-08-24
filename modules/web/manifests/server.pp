@@ -1,6 +1,7 @@
 class web::server(
     $vhost,
     $repository,
+    $remote = "https://hg.adblockplus.org/${repository}",
     $certificate = hiera('web::server::certificate', 'undef'),
     $private_key = hiera('web::server::private_key', 'undef'),
     $is_default = false,
@@ -112,7 +113,7 @@ class web::server(
 
   exec {"fetch_cms":
     command => shellquote($fetch_cms_cmd),
-    require => Package['mercurial'],
+    require => Class['adblockplus::mercurial'],
     timeout => 0,
     creates => "/opt/cms/.hg/hgrc",
   }
@@ -120,13 +121,13 @@ class web::server(
   $fetch_repo_cmd = [
     'hg', 'clone',
     '--noupdate',
-    "https://hg.adblockplus.org/${repository}",
+    $remote,
     "/home/www/${repository}",
   ]
 
   exec {"fetch_repo":
     command => shellquote($fetch_repo_cmd),
-    require => Package['mercurial'],
+    require => Class['adblockplus::mercurial'],
     user => www,
     timeout => 0,
     creates => "/home/www/${repository}/.hg/hgrc",
