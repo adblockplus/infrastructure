@@ -80,7 +80,7 @@ adblockplus::hosts:
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     groups: [http-servers]
-  web2:
+  adblockplus-org-1:
     ips: [10.8.0.145]
     role: web/adblockplus
     os: "debian-jessie"
