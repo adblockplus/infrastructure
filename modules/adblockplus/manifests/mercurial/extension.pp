@@ -72,7 +72,7 @@ define adblockplus::mercurial::extension (
 
     ensure_resource('package', $name, merge({
       ensure => $adblockplus::mercurial::ensure,
-      require => Package['python-dev'],
+      require => Package['python-pip'],
     }, $package))
 
     Package[$name] <- Package['mercurial']
