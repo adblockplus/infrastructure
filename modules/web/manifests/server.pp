@@ -1,7 +1,6 @@
 class web::server(
     $vhost,
     $repository,
-    $remote = "https://hg.adblockplus.org/${repository}",
     $certificate = hiera('web::server::certificate', 'undef'),
     $private_key = hiera('web::server::private_key', 'undef'),
     $is_default = false,
@@ -13,6 +12,8 @@ class web::server(
 
   include sitescripts
   include adblockplus::web
+
+  $remote = hiera('web::server::remote', "https://hg.adblockplus.org/${repository}")
 
   $pythonpath = 'PYTHONPATH=/opt/cms:/opt/sitescripts'
 
