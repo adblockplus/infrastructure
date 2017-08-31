@@ -2,6 +2,7 @@ class filterserver($is_default = false) {
 
   include adblockplus::web
   include nginx
+  include geoip
 
   user {'subscriptionstat':
     ensure => absent,

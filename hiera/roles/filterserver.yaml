@@ -1,8 +1,9 @@
 classes:
-  filterserver:
-    is_default: true
+  adblockplus::legacy::filterserver:
   notificationserver:
     is_default: false
+
+filterserver::is_default: true
 
 # http://hub.eyeo.com/issues/1981
 nginx::worker_connections: 4000
