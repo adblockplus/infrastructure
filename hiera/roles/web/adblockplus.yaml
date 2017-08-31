@@ -2,6 +2,17 @@ classes:
   nodejs:
   adblockplus::legacy::webserver:
 
+web::server::vhost: adblockplus.org
+web::server::certificate: adblockplus.org_sslcert.pem
+web::server::private_key: adblockplus.org_sslcert.key
+web::server::is_default: true
+web::server::aliases:
+  - www.adblockplus.org
+web::server::repository: web.adblockplus.org
+web::server::multiplexer_locations:
+  - /getSubscription
+web::server::geoip: true
+
 sitescripts::configfragments:
   formmail_template:
     content: |
