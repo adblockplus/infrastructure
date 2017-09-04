@@ -4,7 +4,7 @@
 #
 class adblockplus::legacy::filterserver {
 
-  include filterserver
+  include ::filterserver
 
   package {'geoip-database-contrib':
     ensure => 'purged',
