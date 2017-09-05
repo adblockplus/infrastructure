@@ -14,7 +14,7 @@ classes:
 
       location /acceptable-ads-application.html
       {
-        rewrite (.*) https://acceptableads.com/solutions/get-whitelisted/ redirect;
+        rewrite (.*) https://acceptableads.com/get-whitelisted/ redirect;
       }
 
       location ~ ^(/[^/]+/jobs)/
@@ -33,4 +33,3 @@ sitescripts::configfragments:
       sitescripts.formmail.web.formmail =
       [formmail]
       template=formmail/template/eyeo.mail
-
