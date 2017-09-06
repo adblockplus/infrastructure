@@ -52,7 +52,28 @@ location /
   {
     rewrite ^(.*) /en$1 last;
   }
+}
 
+# Redirect language URIs if no translations are found for the requested page
+
+location ~ ^/([a-z][a-z]\_[A-Z][A-Z])(/.+)
+{
+  if (!-e "$document_root$uri")
+  {
+    # if there is no language+region translation, try parent language URI
+    # example /es_MX/page -> /es/page
+    rewrite ^/([a-z][a-z])\_([A-Z][A-Z])(/.+) /$1$3 redirect;
+  }
+}
+
+location ~ ^/([a-z][a-z])(/.+)
+{
+  if (!-e "$document_root$uri")
+  {
+    # if there is no language translation, try canonical page for default language
+    # example /es/page -> /page
+    rewrite ^/([a-z][a-z])(/.+) $2 redirect;
+  }
 }
 
 <% if @multiplexer_locations %>
