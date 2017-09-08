@@ -13,6 +13,12 @@ location /
 {
   expires 1d;
 
+  # Redirect server/language root
+
+  rewrite ^/$ /$index_page last;
+  rewrite ^/(\w\w(_\w\w)?)$ /$1/ permanent;
+  rewrite ^/(\w\w(_\w\w)?)/$ /$1/$index_page last;
+
   # Match Accept-Language header against available languages
 
   set $preferredLang en;
@@ -47,11 +53,6 @@ location /
     rewrite ^(.*) /en$1 last;
   }
 
-  # Redirect server/language root
-
-  rewrite ^/$ /$index_page last;
-  rewrite ^/(\w\w(_\w\w)?)$ /$1/ permanent;
-  rewrite ^/(\w\w(_\w\w)?)/$ /$1/$index_page last;
 }
 
 <% if @multiplexer_locations %>
