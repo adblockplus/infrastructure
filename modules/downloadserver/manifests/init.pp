@@ -112,7 +112,7 @@ class downloadserver(
     ensure => present,
     require => [File['/home/rsync/.ssh/id_rsa'],
                 File['/var/www/devbuilds']],
-    command => 'rsync -e ssh -ltprz --delete devbuilds@server16.adblockplus.org:. /var/www/devbuilds',
+    command => 'rsync -e ssh -ltprz --delete devbuilds@buildmaster.adblockplus.org:. /var/www/devbuilds',
     environment => hiera('cron::environment', []),
     user => rsync,
     hour => '*',
