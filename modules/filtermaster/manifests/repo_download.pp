@@ -25,10 +25,10 @@ define filtermaster::repo_download (
   $static_files = [],
 ) {
 
+  include adblockplus::mercurial
+
   $directory = "/home/rsync/subscription/$title"
   $repository = "https://hg.adblockplus.org/$title"
-
-  ensure_packages(['mercurial'])
 
   exec {"filtermaster::repo_download#$title":
     command => shellquote('hg', 'clone', $repository, $directory),
