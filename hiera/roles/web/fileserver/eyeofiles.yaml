@@ -1,0 +1,6 @@
+classes:
+  adblockplus::web::fileserver:
+    domain: eyeofiles.com
+    repositories:
+      "v8":
+

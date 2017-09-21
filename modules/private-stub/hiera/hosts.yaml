@@ -168,4 +168,10 @@ adblockplus::hosts:
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     groups: [http-servers]
+  eyeofiles-1:
+    ips: [10.8.0.226]
+    role: web/fileserver/eyeofiles
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
+    groups: [http-servers]
 
