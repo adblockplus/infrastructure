@@ -141,4 +141,8 @@ class adblockplus (
 
   # See modules/adblockplus/manifests/user.pp
   create_resources('adblockplus::user', $users)
+
+  # modules/adblockplus/manifests/sudoers.pp
+  $sudoers = hiera_hash('adblockplus::sudoers', {})
+  create_resources('adblockplus::sudoers', $sudoers)
 }
