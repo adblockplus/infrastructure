@@ -16,6 +16,32 @@ class notificationserver($is_default = false) {
     onlyif => 'test ! -d /opt/notifications'
   }
 
+  # http://hub.eyeo.com/issues/3927
+  $cache_flush = 'find /var/cache/nginx/notification -type f -exec rm -rf {} +'
+  $cache_user = 'www-data'
+
+  # https://linux.die.net/man/5/sudoers
+  file {'/etc/sudoers.d/notification-cache':
+    content => "nginx ALL=($cache_user) NOPASSWD:/usr/bin/$cache_flush\n",
+    ensure => 'present',
+    group => 'root',
+    mode => '0440',
+    owner => 'root',
+  }
+
+  # https://docs.puppet.com/puppet/latest/types/augeas.html
+  augeas {'files/opt/notifications/.hg/hgrc/hooks/cache':
+    changes => [
+      "set hooks/changegroup.cache 'sudo -u $cache_user $cache_flush'",
+    ],
+    incl => '/opt/notifications/.hg/hgrc',
+    lens => 'Puppet.lns',
+    require => [
+      Exec['fetch_notifications'],
+      File['/etc/sudoers.d/notification-cache'],
+    ],
+  }
+
   cron {'update_notifications':
     command => 'hg pull -q -u -R /opt/notifications',
     environment => hiera('cron::environment', []),
