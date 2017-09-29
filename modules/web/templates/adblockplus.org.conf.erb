@@ -116,6 +116,10 @@ location /redirect
   {
     rewrite ^ /forum/? redirect;
   }
+  if ($arg_link = "firefox_support")
+  {
+    rewrite ^ /forum/viewforum.php?f=1? redirect;
+  }
   if ($arg_link = "chrome_support")
   {
     rewrite ^ /forum/viewforum.php?f=10? redirect;
@@ -183,6 +187,81 @@ location /redirect
   if ($arg_link = "adblock_plus_sbrowser_store")
   {
     rewrite ^ https://play.google.com/store/apps/details?id=org.adblockplus.adblockplussbrowser? redirect;
+  }
+  if ($arg_link = "adblock_plus_chrome_dnt")
+  {
+    rewrite ^ https://support.google.com/chrome/answer/2790761? redirect;
+  }
+  if ($arg_link = "adblock_plus_firefox_dnt")
+  {
+    rewrite ^ https://www.mozilla.org/en-US/firefox/dnt/? redirect;
+  }
+  if ($arg_link = "adblock_plus_opera_dnt")
+  {
+    rewrite ^ http://help.opera.com/Windows/12.10/en/notrack.html? redirect;
+  }
+  if ($arg_link = "adblock_plus_edge_dnt")
+  {
+    rewrite ^ https://privacy.microsoft.com/en-us/windows-10-microsoft-edge-and-privacy? redirect;
+  }
+  if ($arg_link = "adblock_plus_report_bug")
+  {
+    rewrite ^ https://adblockplus.org/bugs#reporting? redirect;
+  }
+  if ($arg_link = "adblock_plus_report_ad")
+  {
+    rewrite ^ https://forums.lanik.us/viewforum.php?f=62? redirect;
+  }
+
+  set $forum_id "64";
+  set $forum_link "";
+  if ($arg_link = "adblock_plus_report_issue")
+  {
+    set $forum_link "https://forums.lanik.us/viewforum.php?f=";
+  }
+  if ($lang = "id")
+  {
+    set $forum_id "94";
+  }
+  if ($lang = "nl")
+  {
+    set $forum_id "100";
+  }
+  if ($lang = "de")
+  {
+    set $forum_id "90";
+  }
+  if ($lang = "it")
+  {
+    set $forum_id "96";
+  }
+  if ($lang = "es")
+  {
+    set $forum_id "103";
+  }
+  if ($lang = "lt")
+  {
+    set $forum_id "101";
+  }
+  if ($lang = "lv")
+  {
+    set $forum_id "99";
+  }
+  if ($lang = "ar")
+  {
+    set $forum_id "98";
+  }
+  if ($lang = "fr")
+  {
+    set $forum_id "91";
+  }
+  if ($lang = "ru")
+  {
+    set $forum_id "102";
+  }
+  if ($forum_link != "")
+  {
+    rewrite ^ $forum_link$forum_id? redirect;
   }
   if ($arg_link = "releases")
   {
@@ -266,6 +345,11 @@ location /redirect
   if ($arg_link = "contributors")
   {
     set $link "contributors";
+  }
+  if ($arg_link = "whitelist")
+  {
+    set $link "faq_basics";
+    set $anchor "#disable";
   }
 
   if ($link = "")
