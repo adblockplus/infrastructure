@@ -18,6 +18,9 @@ classes:
         proxy_set_header Host $http_host;
         proxy_set_header X-Client-Id $http_x_client_id;
       }
+      location /badadssuck {
+        rewrite ^(.*) https://eyeo.to/$1 redirect;
+      }
     repository: web.adblockbrowser.org
     multiplexer_locations:
       - /sendInstallationLink

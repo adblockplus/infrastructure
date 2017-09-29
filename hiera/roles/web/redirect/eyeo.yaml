@@ -7,6 +7,7 @@ adblockplus::web::redirector::targets:
   acceptableads: "https://acceptableads.com/"
   adblockbrowser: "https://adblockbrowser.org/"
   adblockplus: "https://adblockplus.org/"
+  badadssuck: "https://itunes.apple.com/app/adblock-browser/id1015653330"
   flattr: "https://flattr.com/"
   flattr-publishers: "https://flattr.com/publishers"
   jobs: "https://eyeo.com/en/jobs"
