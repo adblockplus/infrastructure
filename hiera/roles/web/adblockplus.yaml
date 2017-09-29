@@ -20,4 +20,20 @@ sitescripts::configfragments:
       sitescripts.subscriptions.web.fallback =
       [subscriptions]
       repository=/home/www/subscriptionlist
+  generate_docs:
+    content: |
+      [docs]
+      temp_directory=/tmp/sitescripts-generate-docs
+      adblockplus_repository=https://hg.adblockplus.org/adblockplus
+      adblockplus_target_directory=/var/www/docs/jsdoc/adblockplus
+      adblockplus_command=./build.py -t gecko docs {output_dir} >/dev/null 2>&1
+      adblockpluschrome_repository=https://hg.adblockplus.org/adblockpluschrome
+      adblockpluschrome_target_directory=/var/www/docs/jsdoc/adblockpluschrome
+      adblockpluschrome_command=./build.py -t chrome docs {output_dir} >/dev/null 2>&1
+      adblockpluscore_repository=https://hg.adblockplus.org/adblockpluscore
+      adblockpluscore_target_directory=/var/www/docs/jsdoc/adblockpluscore
+      adblockpluscore_command=./generate_docs.py {output_dir} >/dev/null 2>&1
+      libadblockplus_repository=https://hg.adblockplus.org/libadblockplus
+      libadblockplus_target_directory=/var/www/docs/docs/libadblockplus
+      libadblockplus_command=make docs >/dev/null 2>&1 && mv docs/html {output_dir}
 
