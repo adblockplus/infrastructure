@@ -26,6 +26,14 @@ class ssh(
     order => '01',
   }
 
+  # http://hub.eyeo.com/issues/4433
+  $sshd_configfragments = hiera_hash('ssh::sshd_configfragments', {})
+
+  create_resources('concat::fragment', $sshd_configfragments, {
+    target => 'sshd_config',
+    order => '10',
+  })
+
   file {'ssh_config':
     content => template('ssh/ssh_config.erb'),
     group => 'root',
