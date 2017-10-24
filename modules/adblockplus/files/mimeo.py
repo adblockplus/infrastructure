@@ -72,6 +72,10 @@ if __name__ == '__main__':
                         type=str, nargs='?',
                         default=DEFAULT_LOG,
                         help='Format of the log ouput')
+    parser.add_argument('--address', action='store',
+                        type=str, nargs='?',
+                        default='127.0.0.1',
+                        help='Address to listen on [default: 127.0.0.1]')
     parser.add_argument('output', action='store',
                         type=str, nargs='?', default='-',
                         help='The file where the logs will be written')
@@ -84,7 +88,7 @@ if __name__ == '__main__':
         Handler.output = fh
         Handler.format = args.format
         Handler.response = args.response
-        server_address = ('', args.port)
+        server_address = (args.address, args.port)
         httpd = HTTPServer(server_address, Handler)
         httpd.serve_forever()
     finally:
