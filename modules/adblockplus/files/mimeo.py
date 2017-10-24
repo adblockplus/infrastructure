@@ -41,7 +41,7 @@ class Handler(BaseHTTPRequestHandler):
         status = 200
         content = bytes(self.response, 'UTF-8')
         request_body_len = int(self.headers.get('content-length', 0))
-        request_body = self.rfile.read(body_len).decode('UTF-8')
+        request_body = self.rfile.read(request_body_len).decode('UTF-8')
         values = {
             'remote_addr': self.address_string(),
             'time_local': self.log_date_time_string(),
