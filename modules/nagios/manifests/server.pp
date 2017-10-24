@@ -1,4 +1,5 @@
 class nagios::server(
+    $directory = hiera('nagios::server::directory', '/var/lib/nagios3'),
     $domain,
     $certificate,
     $private_key,
@@ -48,6 +49,32 @@ class nagios::server(
     socket => '/tmp/php-fastcgi.sock',
     children => '3',
     require => Package['php5-cgi']
+  }
+
+  # See http://hub.eyeo.com/issues/4612#note-2
+  if $::osfamily == 'Debian' {
+
+    $dpkg_statoverride = 'dpkg-statoverride'
+    $dpkg_options = shellquote(['nagios', 'nagios', '751', "$directory"])
+    $dpkg_options_rw = shellquote(['nagios', 'www-data', '2710', "$directory/rw"])
+
+    exec {"$directory":
+      command => "$dpkg_statoverride --update --add $dpkg_options",
+      unless => "$dpkg_statoverride --list $dpkg_options",
+      path => ["/usr/bin/", "/bin/"],
+      user => root,
+      notify => Service['nagios3'],
+      require => Package['nagios3'],
+    }
+
+    exec {"$directory/rw":
+      command => "$dpkg_statoverride --update --add $dpkg_options_rw",
+      unless => "$dpkg_statoverride --list $dpkg_options_rw",
+      path => ["/usr/bin/", "/bin/"],
+      user => root,
+      notify => Service['nagios3'],
+      require => Package['nagios3'],
+    }
   }
 
   service {'nagios3':
