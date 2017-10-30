@@ -12,5 +12,5 @@ adblockplus::web::redirector::targets:
   flattr-publishers: "https://flattr.com/publishers"
   jobs: "https://eyeo.com/en/jobs"
   team: "https://eyeo.com/en/team"
-  adblockplus/privacy-friendly-ads: "https://adblockplus.org/en/acceptable-ads#privacy"
+  adblockplus/privacy-friendly-ads: "https://adblockplus.org/acceptable-ads#privacy-friendly-acceptable-ads"
 
