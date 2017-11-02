@@ -88,7 +88,7 @@ class adblockplus::web::mimeo (
   $default_content = $rotation['source'] ? {
     undef => join([
       '/var/adblockplus/mimeo/data {',
-      '  weekly',
+      '  daily',
       '  rotate 30',
       '  compress',
       '  missingok',
