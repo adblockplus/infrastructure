@@ -13,7 +13,7 @@ classes:
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header User-Agent $http_user_agent;
         proxy_set_header Referer $http_referer;
-        proxy_set_header X-Forwarded-For $http_x_forwarded_for;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Accept-Language $http_accept_language;
         proxy_set_header Host $http_host;
         proxy_set_header X-Client-Id $http_x_client_id;
