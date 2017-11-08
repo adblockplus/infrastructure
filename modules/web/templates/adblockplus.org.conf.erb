@@ -354,7 +354,8 @@ location /redirect
 
   if ($link = "")
   {
-    return 404;
+    # If there is no match in the legacy redirects, let the new redirect service handle it:
+    rewrite ^ $scheme://adblockplus.to/$arg_link/legacy redirect;
   }
 
   if (!-f "$document_root/$lang/$link")
