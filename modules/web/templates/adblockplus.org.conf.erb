@@ -342,11 +342,6 @@ location /redirect
     set $link "acceptable-ads";
     set $anchor "#criteria";
   }
-  if ($arg_link = "privacy_friendly_ads")
-  {
-    set $link "acceptable-ads";
-    set $anchor "#privacy-friendly-acceptable-ads";
-  }
   if ($arg_link = "contributors")
   {
     set $link "contributors";
