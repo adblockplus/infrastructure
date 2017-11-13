@@ -19,6 +19,9 @@
 #   won't change the current one, if any. Use "*" to disable the user's
 #   password explicitly.
 #
+# [*shell*]
+#   The path to the user's login shell.
+#
 # === Examples:
 #
 #   adblockplus::user {'pinocchio':
@@ -28,6 +31,7 @@
 #     ],
 #     groups => ['sudo', 'adm'],
 #     password_hash => '$6$k.fe9F4U$OIav.SJ..................',
+#     shell => '/bin/ksh',
 #   }
 #
 define adblockplus::user (
@@ -35,6 +39,7 @@ define adblockplus::user (
   $ensure = 'present',
   $groups = [],
   $password_hash = undef,
+  $shell = '/bin/bash',
 ) {
 
   include adblockplus
@@ -48,7 +53,7 @@ define adblockplus::user (
     home => $home,
     managehome => true,
     password => $password_hash,
-    shell => '/bin/bash',
+    shell => $shell,
   }
 
   file {"$home/.ssh":
