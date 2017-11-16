@@ -6,6 +6,8 @@ classes:
 adblockplus::web::redirector::targets:
   acceptableads: "https://acceptableads.com/"
   adblockbrowser: "https://adblockbrowser.org/"
+  adblockbrowser/android: "https://play.google.com/store/apps/details?id=org.adblockplus.browser"
+  adblockbrowser/ios: "https://itunes.apple.com/app/adblock-browser-best-ad-blocker/id1015653330"
   adblockplus: "https://adblockplus.org/"
   badadssuck: "https://itunes.apple.com/app/adblock-browser/id1015653330"
   flattr: "https://flattr.com/"
