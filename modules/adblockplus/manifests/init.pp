@@ -21,6 +21,10 @@
 #   An array of adblockplus::packages items to set up in this context,
 #   via Hiera, exclusively.
 #
+# [*services*]
+#   A hiera_hash() of zero or more service items used as 2nd parameter for
+#   the ensure_resources('service', ...) function.
+#
 # === Examples:
 #
 #   class {'adblockplus':
@@ -145,4 +149,8 @@ class adblockplus (
   # modules/adblockplus/manifests/sudoers.pp
   $sudoers = hiera_hash('adblockplus::sudoers', {})
   create_resources('adblockplus::sudoers', $sudoers)
+
+  # https://puppet.com/docs/puppet/latest/types/service.html
+  $services = hiera_hash('adblockplus::services', {})
+  create_resources('service', $services)
 }
