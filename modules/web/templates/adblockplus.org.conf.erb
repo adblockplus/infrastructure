@@ -108,109 +108,19 @@ location /redirect
     set $adblock_browser_android_store $adblock_browser_android_download;
   }
 
-  if ($arg_link = "reporter_connect_issue")
-  {
-    rewrite ^ /forum/? redirect;
-  }
-  if ($arg_link = "reporter_other_link")
-  {
-    rewrite ^ /forum/? redirect;
-  }
-  if ($arg_link = "firefox_support")
-  {
-    rewrite ^ /forum/viewforum.php?f=1? redirect;
-  }
-  if ($arg_link = "chrome_support")
-  {
-    rewrite ^ /forum/viewforum.php?f=10? redirect;
-  }
-  if ($arg_link = "opera_support")
-  {
-    rewrite ^ /forum/viewforum.php?f=14? redirect;
-  }
-  if ($arg_link = "safari_support")
-  {
-    rewrite ^ /forum/viewforum.php?f=18? redirect;
-  }
-  if ($arg_link = "edge_support")
-  {
-    rewrite ^ /forum/viewforum.php?f=27? redirect;
-  }
-  if ($arg_link = "knownIssuesChrome_filterstorage")
-  {
-    rewrite ^ /forum/viewtopic.php?t=23597? redirect;
-  }
-  if ($arg_link = "firefox_support")
-  {
-    rewrite ^ /forum/viewforum.php?f=1? redirect;
-  }
-  if ($arg_link = "adblock_browser_android_beta_community")
-  {
-    rewrite ^ https://plus.google.com/communities/104936844759781288661? redirect;
-  }
-  if ($arg_link ~ "^adblock_browser_promotion_\d$")
-  {
-    rewrite ^ https://adblockplus.org/adblock-browser redirect;
-  }
-  if ($arg_link = "adblock_browser_android_support")
-  {
-    rewrite ^ /forum/viewforum.php?f=24? redirect;
-  }
-  if ($arg_link = "adblock_browser_android_faq")
-  {
-    rewrite ^ /forum/viewforum.php?f=24? redirect;
-  }
-  if ($arg_link = "adblock_browser_ios_support")
-  {
-    rewrite ^ /forum/viewforum.php?f=25? redirect;
-  }
   if ($arg_link = "adblock_browser_android_store")
   {
     rewrite ^ $adblock_browser_android_store? redirect;
   }
-  if ($arg_link = "adblock_browser_ios_store")
+
+  if ($arg_link ~ "^adblock_browser_promotion_\d$")
   {
-    rewrite ^ https://geo.itunes.apple.com/us/app/adblock-browser-best-ad-blocker/id1015653330?mt=8? redirect;
+    rewrite ^ https://adblockplus.org/adblock-browser redirect;
   }
+
   if ($arg_link = "adblock_browser_android_download")
   {
     rewrite ^ $adblock_browser_android_download? redirect;
-  }
-  if ($arg_link = "adblock_plus_safari_ios_support")
-  {
-    rewrite ^ /forum/viewforum.php?f=26? redirect;
-  }
-  if ($arg_link = "adblock_plus_safari_ios_store")
-  {
-    rewrite ^ https://itunes.apple.com/app/adblock-plus-abp/id1028871868? redirect;
-  }
-  if ($arg_link = "adblock_plus_sbrowser_store")
-  {
-    rewrite ^ https://play.google.com/store/apps/details?id=org.adblockplus.adblockplussbrowser? redirect;
-  }
-  if ($arg_link = "adblock_plus_chrome_dnt")
-  {
-    rewrite ^ https://support.google.com/chrome/answer/2790761? redirect;
-  }
-  if ($arg_link = "adblock_plus_firefox_dnt")
-  {
-    rewrite ^ https://www.mozilla.org/en-US/firefox/dnt/? redirect;
-  }
-  if ($arg_link = "adblock_plus_opera_dnt")
-  {
-    rewrite ^ http://help.opera.com/Windows/12.10/en/notrack.html? redirect;
-  }
-  if ($arg_link = "adblock_plus_edge_dnt")
-  {
-    rewrite ^ https://privacy.microsoft.com/en-us/windows-10-microsoft-edge-and-privacy? redirect;
-  }
-  if ($arg_link = "adblock_plus_report_bug")
-  {
-    rewrite ^ https://adblockplus.org/bugs#reporting? redirect;
-  }
-  if ($arg_link = "adblock_plus_report_ad")
-  {
-    rewrite ^ https://forums.lanik.us/viewforum.php?f=62? redirect;
   }
 
   set $forum_id "64";
@@ -262,30 +172,6 @@ location /redirect
   if ($forum_link != "")
   {
     rewrite ^ $forum_link$forum_id? redirect;
-  }
-  if ($arg_link = "releases")
-  {
-    rewrite ^ /releases? redirect;
-  }
-  if ($arg_link = "social_facebook")
-  {
-    rewrite ^ https://www.facebook.com/adblockplus? redirect;
-  }
-  if ($arg_link = "social_gplus")
-  {
-    rewrite ^ https://www.google.com/+AdblockPlus? redirect;
-  }
-  if ($arg_link = "social_renren")
-  {
-    rewrite ^ http://www.renren.com/601651969? redirect;
-  }
-  if ($arg_link = "social_twitter")
-  {
-    rewrite ^ https://twitter.com/adblockplus? redirect;
-  }
-  if ($arg_link = "social_weibo")
-  {
-    rewrite ^ http://e.weibo.com/adblockplus/? redirect;
   }
 
   set $link "";
