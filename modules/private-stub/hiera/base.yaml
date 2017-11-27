@@ -24,6 +24,7 @@ adblockplus::packages:
   - "python-dev"
   - "python-pip"
   - "vim"
+  - "mailutils"
 
 adblockplus::users:
   test:
