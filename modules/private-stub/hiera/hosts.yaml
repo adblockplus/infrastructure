@@ -128,7 +128,7 @@ adblockplus::hosts:
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     groups: [http-servers]
-  web-abb-org-1:
+  adblockbrowser-org-1:
     ips: [10.8.0.154]
     role: web/adblockbrowser
     os: "debian-jessie"
