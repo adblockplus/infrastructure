@@ -29,7 +29,7 @@ sitescripts::configfragments:
       adblockplus_command=./build.py -t gecko docs {output_dir} >/dev/null 2>&1
       adblockpluschrome_repository=https://hg.adblockplus.org/adblockpluschrome
       adblockpluschrome_target_directory=/var/www/docs/jsdoc/adblockpluschrome
-      adblockpluschrome_command=./build.py -t chrome docs {output_dir} >/dev/null 2>&1
+      adblockpluschrome_command=./build.py docs {output_dir} >/dev/null 2>&1
       adblockpluscore_repository=https://hg.adblockplus.org/adblockpluscore
       adblockpluscore_target_directory=/var/www/docs/jsdoc/adblockpluscore
       adblockpluscore_command=./generate_docs.py {output_dir} >/dev/null 2>&1
