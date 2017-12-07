@@ -174,4 +174,9 @@ adblockplus::hosts:
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     groups: [http-servers]
+  abp-builds-1:
+    ips: [10.8.0.227]
+    role: buildserver
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
 
