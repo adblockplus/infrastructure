@@ -5,6 +5,7 @@ class updateserver(
     $is_default=false
   ) {
 
+  include adblockplus::abpssembly
   include adblockplus::web
 
   class {'nginx':

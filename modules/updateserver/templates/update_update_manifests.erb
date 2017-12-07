@@ -9,7 +9,7 @@ flock -n 9 || exit 0
 hg pull -q -R "<%= @sitescripts_var_dir %>/<%= repository %>"
 <% end %>
 
-export PYTHONPATH=/opt/sitescripts
+export PYTHONPATH=/opt/abpssembly
 python -m sitescripts.extensions.bin.updateUpdateManifests
 
 rm -f "$lock_file"
