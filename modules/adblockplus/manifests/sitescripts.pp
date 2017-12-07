@@ -7,5 +7,5 @@ class adblockplus::sitescripts {
   ensure_resources('adblockplus::sitescripts::repository', $repositories)
 
   # http://hub.eyeo.com/issues/5979
-  include sitescripts
+  include ::sitescripts
 }
