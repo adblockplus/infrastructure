@@ -1,3 +1,15 @@
 classes:
   adblockplus::build::server:
 
+ssh::sshd_configfragments:
+  devbuilds:
+    content: |
+      Match User devbuilds
+        AllowTcpForwarding no
+        X11Forwarding no
+        AllowAgentForwarding no
+        GatewayPorts no
+        ForceCommand rsync --server --sender -vltprz . /home/devbuilds/builds/
+    ensure:
+      "present"
+
