@@ -63,7 +63,7 @@ class adblockplus::legacy::webserver {
   cron {'generate_docs':
     ensure => 'present',
     require => [
-      Class['sitescripts'],
+      Class['::sitescripts'],
       Class['web::server'],
       Class['nodejs'],
     ],
