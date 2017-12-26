@@ -8,9 +8,10 @@ define adblockplus::sitescripts::repository (
     'python-flup',
   ])
 
-  $ensure_dependencies_command = shellquote([
-    'python', '--', "$location/ensure_dependencies.py", '-q'
-  ])
+  $ensure_dependencies_command = join([
+    shellquote(['cd', $location]),
+    shellquote(['python', 'ensure_dependencies.py', '-q']),
+  ], ' && ')
 
   $fetch_command = join([
     shellquote(['hg', 'clone', $source, $location]),
