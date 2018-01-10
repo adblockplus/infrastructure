@@ -5,4 +5,5 @@ Disallow: /log
 Disallow: /newticket
 Disallow: /timeline
 Disallow: /search
+Disallow: /subjects
 
