@@ -110,23 +110,32 @@ Configuring Puppet
 
 ### Prerequisites
 
-1. Install Ubuntu Server 12.04 LTS
-2. Run `hiera/install_precise.py` as user `root` to install Puppet and Hiera
-3. Enable pluginsync (Add the following to the _main_ section in
-   _/etc/puppet/puppet.conf_)
+1. Install Debian Jessie
+2. Install necessary packages (as root or with sudo):
 
-	pluginsync=true
+    apt update
+    apt install puppet apt-transport-https
 
-4. Configure the master address (Add the following to the bottom of
-	_/etc/puppet/puppet.conf_)
+3. Modify `/etc/puppet/puppet.conf` as follows:
 
-	[agent]
-	server = puppetmaster.adblockplus.org
+    [main]
+    ...
+    pluginsync=true
+    ...
+    [agent]
+    server = puppetmaster.adblockplus.org
 
 Now you can either set it up as a pure agent or as a master. The
 master provides the configuration, agents fetch it from the master and
 apply it locally. The master is also an agent, fetching configuration
 from itself.
+
+#### Ubuntu variation (legacy setup)
+
+Like with debian, but the first two steps as follows:
+
+1. Install Ubuntu Server 12.04 LTS
+2. Run `hiera/install_precise.py` as user `root` to install Puppet and Hiera
 
 ### Puppet agent
 
