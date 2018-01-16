@@ -289,7 +289,7 @@ class trac(
 
   # Daily restart required for log rotation of all instances at once
   cron {'restart-trac-daily':
-    command => 'service spawn-fcgi restart >/tmp/spawn-fcgi-restart.log',
+    command => '/usr/sbin/service spawn-fcgi restart >/tmp/spawn-fcgi-restart.log',
     environment => hiera('cron::environment', []),
     hour => '1',
     minute => '0',
