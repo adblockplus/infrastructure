@@ -47,4 +47,10 @@ adblockplus::web::redirector::targets:
   adblockplus/social_renren: "http://www.renren.com/601651969?"
   adblockplus/social_twitter: "https://twitter.com/adblockplus?"
   adblockplus/social_weibo: "http://e.weibo.com/adblockplus/?"
+  adblockplus/sbrowser_samsung_internet_store/google_play: "https://play.google.com/store/apps/details?id=com.sec.android.app.sbrowser"
+  adblockplus/sbrowser_samsung_internet_store/galaxy_apps: "https://apps.samsung.com/appquery/appDetail.as?appId=com.sec.android.app.sbrowser"
+  adblockplus/sbrowser_samsung_internet_store/app_store_360: "http://zhushou.360.cn/detail/index/soft_id/3248635?recrefer=SE_D_三星浏览器"
+  adblockplus/sbrowser_samsung_internet_store/baidu: "https://shouji.baidu.com/software/22835675.html"
+  adblockplus/sbrowser_samsung_internet_store/tencent: "http://sj.qq.com/myapp/detail.htm?apkName=com.sec.android.app.sbrowser"
+  adblockplus/sbrowser_samsung_internet_store: "https://www.samsung.com/de/apps/samsung-internet/"
 
