@@ -11,6 +11,31 @@ classes:
     multiplexer_locations:
       - /committee/apply/submit
     repository: web.acceptableads.com
+  sitescripts::formmail:
+
+committee_application_template: &committee_application_template |
+  To: committee@acceptableads.org
+  From: donotreply@adblockplus.org
+  Reply-To: {{(fields.name,fields.email)|emailaddr|mime}}
+  Subject: Submission for Acceptable Ads committee by {{fields.name|mime}} from {{fields.company|mime}}
+  Content-Transfer-Encoding: 8bit
+  Content-Type: text/plain; charset="UTF-8"
+
+  {{fields.name}} would like to apply for the Acceptable Ads committee:
+
+  Name: {{fields.name}}
+  Title: {{fields.title}}
+  Company: {{fields.company}}
+  Email: {{fields.email}}
+  Phone: {{fields.phone}}
+  Group: {{fields.group}}
+
+  Motivation:
+  {{fields.motivation}}
+
+sitescripts::formmail::templates:
+  committee.mail:
+    content: *committee_application_template
 
 sitescripts::configfragments:
   committee_form:
@@ -22,7 +47,7 @@ sitescripts::configfragments:
       sitescripts.formmail.web.formmail2 =
       [formmail2]
       committee.url = /committee/apply/submit
-      committee.template = formmail/template/committee.mail
+      committee.template = /var/sitescripts/formmail/committee.mail
       committee.fields.name = mandatory
       committee.fields.title = mandatory
       committee.fields.title.mandatory = No job title entered
@@ -35,3 +60,14 @@ sitescripts::configfragments:
       committee.fields.group.mandatory = No group selected
       committee.fields.motivation =
 
+logrotate::config:
+  committee_email_data:
+    content: |
+      /var/log/committee_email {
+        weekly
+        rotate 30
+        compress
+        missingok
+        nodateext
+      }
+    ensure: 'present'

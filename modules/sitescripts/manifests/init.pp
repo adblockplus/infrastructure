@@ -1,9 +1,17 @@
 class sitescripts (
+    $directory = {},
     $sitescriptsini_source = '',
     $sitescriptsini_content = '',
   ){
 
   ensure_resource('adblockplus::sitescripts::repository', 'sitescripts')
+
+  ensure_resource('file', $title, merge({
+   'ensure' => 'directory',
+   'path' => '/var/sitescripts',
+  }, $directory))
+
+  $directory_path = getparam(File[$title], 'path')
 
   @concat {'/etc/sitescripts.ini':
     mode => '644',
