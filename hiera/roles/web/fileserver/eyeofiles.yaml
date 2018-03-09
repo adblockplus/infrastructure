@@ -1,6 +1,11 @@
 classes:
   adblockplus::web::fileserver:
-    domain: eyeofiles.com
-    repositories:
-      "v8":
 
+adblockplus::web::fileserver::domain: eyeofiles.com
+adblockplus::web::fileserver::repositories:
+  "v8":
+  "helpcenter":
+    users:
+      "gl-help-eyeo-com":
+        authorized_keys:
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC/CeG5dWP7WefWl42b6n6ZThuJwENvHrPngv90G8jXHB/rijRQrnh6hwV6L68HsoSvDkbOaskNCJHKQvEAWX16SnpNBQFiP7dt+LWJqgjWMMxea4NyGijhDn3r7fb7L2t9Pw1LfzHGO5DWCUAuW6dNkphG4LEDg9BI60/AWfirmiMvKA9jpVIl0omYQriE9oPYLj8VowOlJwJR0NtZ9GQgFYzkqlZ9k++/e/jv7T7QouNrHsI3D5NtIIMFC4r3qUiBffayJk8eWGOdzuN8YVm6KP3Znc8JO3nU62ZjekRYeUSLDtbqdakQRLHwjRvDnnZn96DhybCK6JzlsAG/vSPD0zszY7uDtFOXpQCzMSWS/jGwMNhtQTaHfbd9+J0rNw/wIw3zocLEli6JAzHHcOb5UAnkNRglh026AVrZ3iAhxwwjuYItOQTrdDRCcE5M9233T6kdUqwbkEFv7R1shnUHyP2jeawH52571d5PilXUD9Sb5hAs4atZo/tzrNEi1VF5XWhq2EU9Kcea0SEDuXDm6zhPpLpk3DBPoDWaI/ZSQo7UxX6oqnK9isHyMJUscqSqWqoCACHCXA/FvcWDEpXNLOryH3rBqvSfYVvNkHhanJN5zQY4jgMcU5yg0ti996R4MFL8pKZBpuChFovIiwmyb++j/GtsHL/o/Bv0aBr7+w== fspiegel@client080"

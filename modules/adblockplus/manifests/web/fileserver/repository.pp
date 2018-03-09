@@ -14,11 +14,13 @@
 #   Whether to set up the repository or not. Removing repositories is not
 #   supported.
 #
-# Members are handled manually on the target server for now.
-#      Figure out how to provision them some day.
+# [*users*]
+# System users that should be created and added to the group that has 
+# write permissions for the repository directory
 #
 define adblockplus::web::fileserver::repository (
   $ensure = 'present',
+  $users = {},
 ){
 
   $repositories_directory = "$adblockplus::directory/fileserver"
@@ -38,6 +40,12 @@ define adblockplus::web::fileserver::repository (
       Group["www-$name"],
     ],
   }
+
+  ensure_resources('adblockplus::user', $users, {
+    ensure => $ensure,
+    password_hash => '*',
+    groups => ["www-$name"],
+  })
 
   realize(File[$adblockplus::directory])
 
