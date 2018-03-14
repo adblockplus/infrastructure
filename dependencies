@@ -1,9 +1,9 @@
 # VCS-specific root URLs for the repositories
-_root = hg:https://hg.adblockplus.org/ git:https://github.com/adblockplus/
+_root = hg:https://hg.adblockplus.org/ git:https://github.com/eyeo-it/
 
 # VCS-specific references to submodule revisions
-modules/concat = infrastructure-puppet-concat hg:3c198eaf8394 git:6f4f617
-modules/postgresql = infrastructure-puppet-postgresql hg:8c90d2297756 git:4.0.0
-modules/apt = infrastructure-puppetlabs-apt hg:2ad7ae372ae8 git:7798599
-modules/mysql = infrastructure-puppetlabs-mysql hg:19a880f3bc58 git:3de37ee
-modules/stdlib = infrastructure-puppetlabs-stdlib hg:53988851a465 git:2a75ed0
+modules/concat = puppet-module-puppetlabs-concat hg:3c198eaf8394 git:6f4f617
+modules/postgresql = puppet-module-puppetlabs-postgresql hg:8c90d2297756 git:4.0.0
+modules/apt = puppet-module-puppetlabs-apt hg:2ad7ae372ae8 git:7798599
+modules/mysql = puppet-module-puppetlabs-mysql hg:19a880f3bc58 git:3de37ee
+modules/stdlib = puppet-module-puppetlabs-stdlib hg:53988851a465 git:2a75ed0
