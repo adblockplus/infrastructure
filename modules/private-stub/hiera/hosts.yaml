@@ -50,18 +50,6 @@ adblockplus::hosts:
     role: intraforumserver
     public_key: *vagrant_box_precise
     groups: [http-servers]
-  abpforum1:
-    ips: [10.8.0.106]
-    role: forumserver
-    os: "debian-jessie"
-    public_key: *vagrant_box_jessie
-    groups: [http-servers]
-  eyeoforum1:
-    ips: [10.8.0.107]
-    role: forumserver
-    os: "debian-jessie"
-    public_key: *vagrant_box_jessie
-    groups: [http-servers]
   issues-2:
     ips: [10.8.0.131]
     role: issueserver
