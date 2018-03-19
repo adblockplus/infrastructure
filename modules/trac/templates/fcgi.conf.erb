@@ -1,5 +1,19 @@
 location <%= @location_base %>/
 {
+
+  location <%= @location_base %>/subjects
+  {
+    if ($arg_q = "")
+    {
+      return 403;
+    }
+
+    if ($arg_limit = "")
+    {
+      return 403;
+    }
+  }
+
   fastcgi_pass unix:/tmp/<%= @name %>-fastcgi.sock;
   fastcgi_split_path_info ^(<%= @location_base %>)(.*)$;
   include /etc/nginx/fastcgi_params;
