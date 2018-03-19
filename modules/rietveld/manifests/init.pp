@@ -119,4 +119,16 @@ class rietveld(
       File['dev_appserver.py', '_python_runtime.py', 'config.ini'],
     ],
   }
+
+  # http://hub.eyeo.com/issues/9222
+  cron {'rietveld#restart':
+    command => join([
+      'service rietveld stop | grep -v "^Stopping rietveld"',
+      'sleep 10',
+      'service rietveld start | grep -v "^Starting rietveld"',
+    ], '; '),
+    hour => 5,
+    minute => 8,
+    user => 'root',
+  }
 }
