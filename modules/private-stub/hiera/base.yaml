@@ -7,15 +7,6 @@ classes:
     server_address: monitoring.adblockplus.org
   fail2ban:
 
-adblockplus::mercurial::extensions:
-  hggit:
-    package:
-      ensure: 0.8.9
-      name: hg-git
-      provider: pip
-      install_options:
-        - https://pypi.python.org/pypi/hg-git
-
 adblockplus::log::uplink:
   log@log1.adblockplus.org
 
