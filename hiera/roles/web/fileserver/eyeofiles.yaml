@@ -1,5 +1,5 @@
 classes:
-  adblockplus::web::fileserver
+  adblockplus::web::fileserver:
 
 adblockplus::web::fileserver::domain: eyeofiles.com
 
