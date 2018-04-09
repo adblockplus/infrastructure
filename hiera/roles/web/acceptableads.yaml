@@ -14,7 +14,7 @@ classes:
   sitescripts::formmail:
 
 committee_application_template: &committee_application_template |
-  To: committee@acceptableads.org
+  To: committee@acceptableads.org,committee@eyeo.com
   From: donotreply@adblockplus.org
   Reply-To: {{(fields.name,fields.email)|emailaddr|mime}}
   Subject: Submission for Acceptable Ads committee by {{fields.name|mime}} from {{fields.company|mime}}
