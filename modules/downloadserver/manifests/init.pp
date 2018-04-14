@@ -39,13 +39,23 @@ class downloadserver(
     managehome => true
   }
 
+  file { '/var/www/downloads':
+    ensure => 'directory',
+    mode => '0755',
+    group => 'hg',
+    owner => 'hg',
+  }
+
   exec { "fetch_downloads":
     command => "hg clone https://hg.adblockplus.org/downloads /var/www/downloads",
     path => ["/usr/bin/", "/bin/"],
-    require => Package['mercurial'],
     user => hg,
+    require => [
+      Package['mercurial'],
+      File['/var/www/downloads'],
+    ],
     timeout => 0,
-    onlyif => "test ! -d /var/www/downloads"
+    creates => "/var/www/downloads/.hg/hgrc",
   }
 
   File {
