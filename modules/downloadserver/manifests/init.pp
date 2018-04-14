@@ -86,6 +86,10 @@ class downloadserver(
     minute => '3-59/20'
   }
 
+  ensure_packages([
+    'rsync',
+  ])
+
   file {'/var/www/devbuilds':
     ensure => directory,
     owner => rsync
@@ -120,8 +124,11 @@ class downloadserver(
 
   cron {'mirror-devbuilds':
     ensure => present,
-    require => [File['/home/rsync/.ssh/id_rsa'],
-                File['/var/www/devbuilds']],
+    require => [
+      File['/home/rsync/.ssh/id_rsa'],
+      File['/var/www/devbuilds'],
+      Package['rsync'],
+    ],
     command => 'rsync -e ssh -ltprz --delete devbuilds@buildmaster.adblockplus.org:. /var/www/devbuilds',
     environment => hiera('cron::environment', []),
     user => rsync,
