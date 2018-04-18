@@ -88,6 +88,7 @@ rewrite ^/androidupdates.xml$ https://update.adblockplus.org/adblockplusandroid/
 rewrite ^/ieupdate.json$ https://update.adblockplus.org/adblockplusie/update.json permanent;
 
 rewrite ^/(\w\w(_\w\w)?/)?adblock-browser/?$ https://adblockbrowser.org/ permanent;
+rewrite ^/devbuilds/?$ https://adblockplus.org/development-builds permanent;
 
 location /redirect
 {
