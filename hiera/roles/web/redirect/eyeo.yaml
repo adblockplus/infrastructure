@@ -53,4 +53,5 @@ adblockplus::web::redirector::targets:
   adblockplus/sbrowser_samsung_internet_store/baidu: "https://shouji.baidu.com/software/22835675.html"
   adblockplus/sbrowser_samsung_internet_store/tencent: "http://sj.qq.com/myapp/detail.htm?apkName=com.sec.android.app.sbrowser"
   adblockplus/sbrowser_samsung_internet_store: "https://www.samsung.com/de/apps/samsung-internet/"
+  adblockplus/help_center: "https://help.eyeo.com/"
 
