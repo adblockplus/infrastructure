@@ -25,26 +25,30 @@ define adblockplus::web::fileserver::repository (
 
   $repositories_directory = "$adblockplus::directory/fileserver"
   $repository_directory = "$repositories_directory/$name"
-  $repository_host = "$name.$adblockplus::web::fileserver::domain"
+  $group_name = "www-$name"
+  $repository_host = $name ? {
+    'www' =>  "$adblockplus::web::fileserver::domain",
+    default => "$name.$adblockplus::web::fileserver::domain",
+  }
 
-  group {"www-$name":
+  group {"$group_name":
     ensure => $ensure,
   }
 
   file {"$repository_directory":
     ensure => ensure_directory_state($ensure),
-    group => "www-$name",
+    group => $group_name,
     mode => '0775',
     require => [
       File["$repositories_directory"],
-      Group["www-$name"],
+      Group[$group_name],
     ],
   }
 
   ensure_resources('adblockplus::user', $users, {
     ensure => $ensure,
     password_hash => '*',
-    groups => ["www-$name"],
+    groups => [$group_name],
   })
 
   realize(File[$adblockplus::directory])
