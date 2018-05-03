@@ -167,4 +167,10 @@ adblockplus::hosts:
     role: buildserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
+  trusted-news-1:
+    ips: [10.8.0.228]
+    role: web/fileserver/trusted-news
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
+    groups: [http-servers]
 
