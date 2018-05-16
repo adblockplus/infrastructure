@@ -250,4 +250,11 @@ class nginx (
     require => Package['nginx'],
     source => 'puppet:///modules/nginx/50x.html',
   }
+
+  file {'/usr/local/bin/anonymize-access-log':
+    group => 'root',
+    mode => '0755',
+    owner => 'root',
+    source => 'puppet:///modules/nginx/anonymize-access-log.py',
+  }
 }
