@@ -13,7 +13,6 @@ adblockplus::log::uplink:
 adblockplus::packages:
   - "debian-goodies"
   - "python-dev"
-  - "python-pip"
   - "vim"
   - "mailutils"
 

@@ -1,3 +1,5 @@
+include adblockplus::legacy
+
 Cron {
   environment => hiera('cron::environment', []),
 }

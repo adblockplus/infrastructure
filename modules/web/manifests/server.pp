@@ -46,8 +46,6 @@ class web::server(
     ensure => $geoip ? {false => 'absent', default => 'present'},
   }
 
-  ensure_packages(['python-pip'])
-
   # Make sure that apt packages corresponding to the pip-installed modules below
   # won't be installed unintentionally, these will take precedence otherwise.
   package {['python-jinja2', 'python-markdown']:

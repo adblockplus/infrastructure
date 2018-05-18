@@ -5,7 +5,7 @@ class trac(
     $fcgi_config_dir = '/etc/nginx/trac.d',
     $is_default = false) inherits private::trac {
 
-  package {['python-mysqldb','python-pip','subversion', 'tofrodos', 'graphviz']:
+  package {['python-mysqldb', 'subversion', 'tofrodos', 'graphviz']:
     ensure => present
   }
 
