@@ -34,12 +34,22 @@ class geoip (
   $cron = {},
   $ensure = 'present',
   $hook = undef,
-  $packages = ['geoip-database'],
+  $packages = [
+    'geoip-database',
+    'python-geoip',
+  ],
   $script = '/usr/local/sbin/update-geoip-database',
 ) {
 
   ensure_resource('package', $packages, {
     ensure => $ensure,
+  })
+
+  ensure_resource('package', 'python-geoip2', {
+    ensure => $ensure,
+    name => 'geoip2',
+    provider => 'pip',
+    require => Package['python-pip'],
   })
 
   create_resources('cron', {geoip => $cron}, {
