@@ -9,6 +9,40 @@ classes:
       - www.adblockbrowser.org
     is_default: true
     custom_config: |
+      rewrite ^/android-support/faq/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/android-support/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/android-support/privacy-options/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/android-support/acceptable-ads-config/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/ios-support/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
+      rewrite ^/es-ES/?$ https://adblockbrowser.org/es/ permanent;
+      rewrite ^/android-support/install/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/ios-support/additional-filter-lists/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
+      rewrite ^/android-support/customizing-abb/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/android-support/adding-filter-list/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/android-support/changing-language https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/ios-support/changing-search-engine/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
+      rewrite ^/ios-support/view-whitelisted-websites/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
+      rewrite ^/ios-support/adding-filter-list/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
+      rewrite ^/ios-support/disable-search-suggestions/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
+      rewrite ^/ios-support/acceptable-ads-config/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
+      rewrite ^/zh-CN/?$ https://adblockbrowser.org/zh_CN/ permanent;
+      rewrite ^/android-support/removing-filter-list/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/ios-support/install/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
+      rewrite ^/android-support/display-options/?^ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/blog/?$ https://adblockplus.org/blog/ permanent;
+      rewrite ^/zh-CN/android-support/customizing-abb/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/pt-BR/android-support/acceptable-ads-config/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/es-ES/android-support/changing-language/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/es-ES/android-support/removing-filter-list/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/index.html https://adblockbrowser.org/ permanent;
+      rewrite ^/android/? https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/pt-PT/android-support/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/ios-support/removing-filter-list/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
+      rewrite ^/zh-CN/android-support/adding-filter-list/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
+      rewrite ^/zh-TW/ios-support/install/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
+      location ~ /forum/view(forum|topic) {
+       rewrite ^/forum/view(forum|topic) https://adblockplus.org/forum/view$1.php permanent;
+      }
       location /submit-feedback {
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header User-Agent $http_user_agent;
