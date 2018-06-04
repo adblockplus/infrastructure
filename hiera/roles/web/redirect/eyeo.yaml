@@ -56,4 +56,5 @@ adblockplus::web::redirector::targets:
   adblockplus/sbrowser_samsung_internet_store: "https://www.samsung.com/de/apps/samsung-internet/"
   adblockplus/help_center: "https://help.eyeo.com/"
   adblockplus/firefox_install: "https://addons.mozilla.org/firefox/downloads/latest/adblock-plus/"
-
+  adblockplus/acceptable_ads_opt_out: "https://adblockplus.org/acceptable-ads#optout"
+  adblockplus/terms: "https://adblockplus.org/terms"
