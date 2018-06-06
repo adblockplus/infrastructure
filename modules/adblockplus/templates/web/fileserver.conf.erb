@@ -1,0 +1,9 @@
+# Puppet: <%= @title %>
+
+location / {
+    root /var/www/$host;
+<% if @auth_file != nil -%>
+    auth_basic "Password protected";
+    auth_basic_user_file <%= @auth_filename %>;
+<% end -%>
+  }
