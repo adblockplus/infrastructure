@@ -59,3 +59,4 @@ adblockplus::web::redirector::targets:
   adblockplus/firefox_install: "https://addons.mozilla.org/firefox/downloads/latest/adblock-plus/"
   adblockplus/acceptable_ads_opt_out: "https://adblockplus.org/acceptable-ads#optout?"
   adblockplus/terms: "https://adblockplus.org/terms"
+  adblockplus/eyeo: "https://eyeo.com/?"
