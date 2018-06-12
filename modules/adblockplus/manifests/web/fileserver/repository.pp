@@ -22,10 +22,13 @@
 #   Overwrite the default options of the authentication file used for basic
 #   http authentication for nginx.
 #
+# [*aliases*]
+#  Array of alternative names that will be redirected to the main virtual host
 define adblockplus::web::fileserver::repository (
   $ensure = 'present',
   $users = {},
   $auth_file = undef,
+  $aliases = [],
 ){
 
   $repositories_directory = "$adblockplus::directory/fileserver"
@@ -38,6 +41,7 @@ define adblockplus::web::fileserver::repository (
   $auth_filename = "${::adblockplus::directory}/htpasswd/${name}"
 
   nginx::hostconfig {"$repository_host":
+    global_config => template("web/global.conf.erb"),
     content => template("adblockplus/web/fileserver.conf.erb"),
     is_default => false,
     certificate => $adblockplus::web::fileserver::certificate,
