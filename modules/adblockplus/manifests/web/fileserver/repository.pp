@@ -46,7 +46,7 @@ define adblockplus::web::fileserver::repository (
     is_default => false,
     certificate => $adblockplus::web::fileserver::certificate,
     private_key => $adblockplus::web::fileserver::private_key,
-    log => 'access_log_fileserver',
+    log => "access_log_$repository_host",
   }
 
   if $auth_file != undef {
