@@ -60,3 +60,8 @@ adblockplus::web::redirector::targets:
   adblockplus/acceptable_ads_opt_out: "https://adblockplus.org/acceptable-ads#optout?"
   adblockplus/terms: "https://adblockplus.org/terms"
   adblockplus/eyeo: "https://eyeo.com/?"
+  adblockplus/opera_install: "https://addons.opera.com/extensions/details/opera-adblock/"
+  adblockplus/ie_install: "https://update.adblockplus.org/latest/adblockplusie.exe"
+  adblockplus/safari_install: "https://update.adblockplus.org/latest/adblockplussafari.safariextz"
+  adblockplus/ios_install: "https://itunes.apple.com/us/app/adblock-plus-abp-remove-ads-browse-faster-without-tracking/id1028871868?mt=8"
+  adblockplus/edge_install: "https://www.microsoft.com/store/p/adblock-plus/9nblggh4r9nz"
