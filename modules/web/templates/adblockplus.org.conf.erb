@@ -90,6 +90,9 @@ rewrite ^/ieupdate.json$ https://update.adblockplus.org/adblockplusie/update.jso
 rewrite ^/(\w\w(_\w\w)?/)?adblock-browser/?$ https://adblockbrowser.org/ permanent;
 rewrite ^/devbuilds/?$ https://adblockplus.org/development-builds permanent;
 
+# http://hub.eyeo.com/issues/12308
+rewrite ^/poland/?$ /poland.html last;
+
 location /redirect
 {
   set $adblock_browser_android_download "https://downloads.adblockplus.org/adblockbrowser-1.1.0-arm.apk";
