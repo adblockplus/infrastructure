@@ -65,3 +65,5 @@ adblockplus::web::redirector::targets:
   adblockplus/safari_install: "https://update.adblockplus.org/latest/adblockplussafari.safariextz?"
   adblockplus/ios_install: "https://itunes.apple.com/us/app/adblock-plus-abp-remove-ads-browse-faster-without-tracking/id1028871868?mt=8?"
   adblockplus/edge_install: "https://www.microsoft.com/store/p/adblock-plus/9nblggh4r9nz?"
+  adblockplus/ios_safari_install: "https://itunes.apple.com/us/app/adblock-plus-abp-remove-ads-browse-faster-without-tracking/id1028871868?mt=8?"
+  adblockplus/android_samsung_install: "https://play.google.com/store/apps/details?id=org.adblockplus.adblockplussbrowser?"
