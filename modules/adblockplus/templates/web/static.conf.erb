@@ -1,0 +1,80 @@
+# Puppet: <%= @title %>
+
+root /var/www/<%= @domain %>;
+index index;
+default_type text/html;
+charset utf-8;
+
+set $index_page "index";
+
+<% if @custom_config %>
+<%=   @custom_config %>
+<% end %>
+
+location /
+{
+  expires 1d;
+
+  # Redirect server/language root
+
+  rewrite ^/$ /$index_page last;
+  rewrite ^/([a-z][a-z](_[A-Z][A-Z])?)$ /$1/ permanent;
+  rewrite ^/([a-z][a-z](_[A-Z][A-Z])?)/$ /$1/$index_page last;
+
+  # Match Accept-Language header against available languages
+
+  set $language en;
+  set $region "";
+
+  if ($http_accept_language ~ ^([a-z][a-z])\b)
+  {
+    set $language $1;
+  }
+  if ($http_accept_language ~ ^([a-z][a-z])-([A-Z][A-Z])\b)
+  {
+    set $region $1;
+  }
+
+  if ($arg_fb_locale ~ ^([a-z][a-z])_([A-Z][A-Z])$)
+  {
+    set $language $1;
+    set $region $2;
+  }
+
+  # Redirect canonical URLs to language-specific versions
+
+  if (-e "$document_root/${language}_$region$uri")
+  {
+    rewrite ^(.*) /${language}_$region last;
+  }
+  if (-e "$document_root/$language$uri")
+  {
+    rewrite ^(.*) /$language$1 last;
+  }
+  if (-e "$document_root/en$uri")
+  {
+    rewrite ^(.*) /en$1 last;
+  }
+}
+
+# Redirect language URIs if no translations are found for the requested page
+
+location ~ ^/([a-z][a-z]\_[A-Z][A-Z])(/.+)
+{
+  if (!-e "$document_root$uri")
+  {
+    # if there is no language+region translation, try parent language URI
+    # example /es_MX/page -> /es/page
+    rewrite ^/([a-z][a-z])\_([A-Z][A-Z])(/.+) /$1$3 redirect;
+  }
+}
+
+location ~ ^/([a-z][a-z])(/.+)
+{
+  if (!-e "$document_root$uri")
+  {
+    # if there is no language translation, try canonical page for default language
+    # example /es/page -> /page
+    rewrite ^/([a-z][a-z])(/.+) $2 redirect;
+  }
+}

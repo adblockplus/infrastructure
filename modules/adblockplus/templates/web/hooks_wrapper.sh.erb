@@ -1,0 +1,31 @@
+#!/bin/sh
+# Puppet: <%= @title %>
+# This script is a wrapper of accesible hooks, defined via hiera and accessed
+# via ssh with the ForceCommand option.
+
+usage()
+{
+  echo "Avaiable commands are:"
+  echo "help"
+<% @hooks.keys.each do |key| -%>
+  echo "<%= key %>"
+<% end -%>
+}
+
+command="$1"; shift
+case "$command" in
+  "help")
+    usage
+    ;;
+<% @hooks.each do |command, values| -%>
+"<%= command %>")
+    "<%= File.join(@wrapper_path, command) %>" "$@"
+    ;;
+<% end -%>
+  *)
+    echo "Unrecognized command"
+    usage
+    exit 1
+    ;;
+esac
+
