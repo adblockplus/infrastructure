@@ -1,0 +1,11 @@
+classes:
+  adblockplus::web::static:
+    domain: "help.eyeo.com"
+    deploy_user: "helpcenter-deploy"
+
+adblockplus::web::static::hooks:
+  uptime:
+    file:
+      target: "/usr/bin/uptime"
+      ensure: "link"
+
