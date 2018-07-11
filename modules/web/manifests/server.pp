@@ -115,7 +115,6 @@ class web::server(
 
   $fetch_repo_cmd = [
     'hg', 'clone',
-    '--noupdate',
     $remote,
     "/home/www/${repository}",
   ]
