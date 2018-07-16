@@ -7,11 +7,11 @@ class web::server(
     $aliases = undef,
     $custom_config = undef,
     $multiplexer_locations = undef,
-    $geoip = false,
 ) {
 
   include sitescripts
   include adblockplus::web
+  include geoip
 
   $remote = hiera('web::server::remote', "https://hg.adblockplus.org/${repository}")
 
@@ -35,15 +35,7 @@ class web::server(
   }
 
   class {'nginx':
-    geoip_country => $geoip ? {
-      false => undef,
-      default => '/usr/share/GeoIP/GeoIPv6.dat',
-    },
-  }
-
-  class {'geoip':
-    cron => {hour => 0, minute => 8, monthday => 15},
-    ensure => $geoip ? {false => 'absent', default => 'present'},
+    geoip_country => '/usr/share/GeoIP/GeoIPv6.dat',
   }
 
   # Make sure that apt packages corresponding to the pip-installed modules below

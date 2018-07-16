@@ -11,7 +11,6 @@ web::server::aliases:
 web::server::repository: web.adblockplus.org
 web::server::multiplexer_locations:
   - /getSubscription
-web::server::geoip: true
 
 sitescripts::configfragments:
   formmail_template:
