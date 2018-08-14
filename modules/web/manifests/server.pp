@@ -160,6 +160,8 @@ class web::server(
   $update_repo_cmd = [
     'hg', 'pull',
     '--quiet',
+    '--rev', 'master',
+    '--update',
     '--repository', "/home/www/${repository}",
   ]
 
