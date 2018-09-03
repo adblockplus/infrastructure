@@ -69,3 +69,4 @@ adblockplus::web::redirector::targets:
   adblockplus/android_samsung_install: "https://play.google.com/store/apps/details?id=org.adblockplus.adblockplussbrowser?"
   adblockplus/safari-app-extension-migration: "https://adblockplus.org/safari-app-extension-migration"
   adblockplus/ambassadors-privacy-policy: "https://privacy.eyeofiles.com/Facebook_Groups_Information.pdf?"
+  adblockplus/facebook_sug_pp: "https://privacy.eyeofiles.com/Facebook_SUG_PP.pdf"
