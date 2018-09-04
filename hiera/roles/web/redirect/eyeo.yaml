@@ -70,3 +70,4 @@ adblockplus::web::redirector::targets:
   adblockplus/safari-app-extension-migration: "https://adblockplus.org/safari-app-extension-migration"
   adblockplus/ambassadors-privacy-policy: "https://privacy.eyeofiles.com/Facebook_Groups_Information.pdf?"
   adblockplus/facebook_sug_pp: "https://privacy.eyeofiles.com/Facebook_SUG_PP.pdf"
+  adblockplus/macos_safari_install: "https://itunes.apple.com/us/app/adblock-plus-for-safari/id1432731683?ls=1&mt=8"
