@@ -71,3 +71,5 @@ adblockplus::web::redirector::targets:
   adblockplus/ambassadors-privacy-policy: "https://privacy.eyeofiles.com/Facebook_Groups_Information.pdf?"
   adblockplus/facebook_sug_pp: "https://privacy.eyeofiles.com/Facebook_SUG_PP.pdf"
   adblockplus/macos_safari_install: "https://itunes.apple.com/us/app/adblock-plus-for-safari/id1432731683?ls=1&mt=8"
+  adblockplus/chrome_install: "https://chrome.google.com/webstore/detail/cfhdojbkjhnklbpkdaibdccddilifddb"
+  adblockplus/yandex_install: "https://chrome.google.com/webstore/detail/cfhdojbkjhnklbpkdaibdccddilifddb"
