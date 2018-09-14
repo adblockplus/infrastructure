@@ -44,6 +44,7 @@ class hgweb(
   $hgaccess = 'puppet:///modules/hgweb/hgaccess',
   $templates = hiera('hgweb::templates', '/usr/share/mercurial/templates'),
   $trac_abpbot_password = hiera('hgweb::trac_abpbot_password', 'abpbot'),
+  $custom_config = undef,
 ) {
 
   include ssh, nginx

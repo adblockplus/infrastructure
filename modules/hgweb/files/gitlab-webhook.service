@@ -1,0 +1,11 @@
+[Unit]
+Description=Sync mercurial and git repositories triggered by a push on gitlab.
+Wants=hgweb.service
+Before=hgweb.service
+
+[Service]
+ExecStart=/usr/local/bin/gitlab-webhook
+User=www-data
+
+[Install]
+WantedBy=multi-user.target

@@ -2,4 +2,9 @@ classes:
   hgweb:
     domain: "hg.adblockplus.org"
     is_default: true
+    custom_config: |
+      location /gitlab_webhook {
+        proxy_pass http://127.0.0.1:8000;
+      }
+  hgweb::endpoint:
 
