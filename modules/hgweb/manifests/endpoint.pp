@@ -70,7 +70,7 @@ class hgweb::endpoint () {
 
   $sudoers_content = join([
     "www-data ALL=(hg) NOPASSWD: /usr/bin/git",
-    "www-data ALL=(hg) NOPASSWD: /usr/bin/hg",
+    "www-data ALL=(hg) NOPASSWD: /usr/local/bin/hg",
   ], "\n")
 
   adblockplus::sudoers {'gitlab_sync_repository':

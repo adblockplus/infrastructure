@@ -49,8 +49,8 @@ class Handler(BaseHTTPRequestHandler):
         # https://gitlab.com/help/user/project/integrations/webhooks
         try:
             if path.isdir(git_directory) and path.isdir(hg_directory):
-                check_call(self.hg_command, cwd=hg_directory)
                 check_call(self.git_command, cwd=git_directory)
+                check_call(self.hg_command, cwd=hg_directory)
                 self.send_simple_response(202)
             else:
                 self.send_simple_response(400)
