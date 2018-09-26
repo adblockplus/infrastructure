@@ -1,5 +1,9 @@
 # Puppet: <%= @title %>
 
+<% if @custom_config %>
+<%=  @custom_config %>
+<% end %>
+
 # http://hub.eyeo.com/issues/1975
 location /
 {

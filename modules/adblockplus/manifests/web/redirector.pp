@@ -28,6 +28,10 @@
 #   A hash of zero or more redirect URL items indexed by the associated URL
 #   slug, respectively.
 #
+# [*custom_config*]
+#   A string that allows custom nginx configuration being written to the
+#   configuration file.
+#
 # === Examples:
 #
 #   class {'adblockplus::web::redirector':
@@ -45,6 +49,7 @@ class adblockplus::web::redirector (
   $ssl_certificate = undef,
   $ssl_private_key = undef,
   $targets = {},
+  $custom_config = undef,
 ) {
 
   include nginx
