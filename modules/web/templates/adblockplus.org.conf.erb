@@ -93,6 +93,10 @@ rewrite ^/devbuilds/?$ https://adblockplus.org/development-builds permanent;
 # http://hub.eyeo.com/issues/12308
 rewrite ^/poland/?$ /poland.html last;
 
+# http://hub.eyeo.com/issues/15595
+rewrite ^/de/ad-blocker-safari/?$ https://adblockplus.org/de/ redirect;
+rewrite ^/fr/ad-blocker-safari/?$ https://adblockplus.org/fr/ redirect;
+
 location /redirect
 {
   set $adblock_browser_android_download "https://downloads.adblockplus.org/adblockbrowser-1.1.0-arm.apk";
