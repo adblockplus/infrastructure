@@ -32,3 +32,7 @@ location <%= @location_base %>/robots.txt
   alias /home/trac/robots.txt;
 }
 
+# http://hub.eyeo.com/issues/14860
+rewrite /about/?$ https://adblockplus.org/privacy redirect;
+sub_filter "Powered by" "";
+sub_filter "Trac 1.0.1" "Privacy Policy";
