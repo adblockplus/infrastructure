@@ -33,7 +33,7 @@ class nodejs (
   },
   $package = {},
   $source = {
-    location => 'https://deb.nodesource.com/node_4.x',
+    location => 'https://deb.nodesource.com/node_8.x',
     release => downcase($lsbdistcodename),
     repos => 'main',
   },
