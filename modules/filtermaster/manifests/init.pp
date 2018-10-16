@@ -12,12 +12,13 @@ class filtermaster(
 
   include ssh
 
+  # http://hub.eyeo.com/issues/16572
   concat::fragment {'sshd_max_limits':
     target => 'sshd_config',
     order => '50',
     content => '
-      MaxSessions 50
-      MaxStartups 50
+      MaxSessions 100
+      MaxStartups 100
     '
   }
 
