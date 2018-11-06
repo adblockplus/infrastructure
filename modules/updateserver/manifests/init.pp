@@ -72,7 +72,7 @@ class updateserver(
   $repositories_to_sync = ['downloads', 'adblockplus', 'adblockplusandroid',
                            'adblockpluschrome', 'adblockplusie',
                            'elemhidehelper', 'abpwatcher', 'abpcustomization',
-                           'urlfixer']
+                          ]
 
   define fetch_repository() {
     $repository_path = "${updateserver::sitescripts_var_dir}/${title}"
