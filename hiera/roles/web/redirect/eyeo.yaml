@@ -75,4 +75,5 @@ adblockplus::web::redirector::targets:
   adblockplus/yandex_install: "https://chrome.google.com/webstore/detail/cfhdojbkjhnklbpkdaibdccddilifddb"
   adblockplus/macos_safari_install_int_build: "https://builds.eyeofiles.com/Adblock-Plus.dmg"
   eyeo/interviews_pp: "https://privacy.eyeofiles.com/interviews_pp.pdf?"
+  adblockplus/letzte-werbung: "https://adblockplus.org/?utm_source=letzteWerbung?"
   
