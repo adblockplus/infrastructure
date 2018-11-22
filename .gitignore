@@ -1,0 +1,13 @@
+# https://git-scm.com/docs/gitignore
+
+# https://www.mercurial-scm.org/
+.hg
+
+# https://www.vagrantup.com/docs/other/environmental-variables.html#vagrant_dotfile_path
+.vagrant
+
+# https://docs.python.org/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
+**/*.pyc
+
+# Usually a symbolic link to modules/private-stub, see README.md
+modules/private
