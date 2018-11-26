@@ -2,3 +2,5 @@ classes:
   adblockplus::web::redirector:
     domain: "giftofadblocking.com"
     default: "https://adblockplus.org/gift-of-ad-blocking"
+    aliases:
+      - "www.giftofadblocking.com"
