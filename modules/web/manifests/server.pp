@@ -38,6 +38,10 @@ class web::server(
     geoip_country => '/usr/share/GeoIP/GeoIPv6.dat',
   }
 
+  nginx::module{'geoip':
+    path => 'modules/ngx_http_geoip_module.so',
+  }
+
   # Make sure that apt packages corresponding to the pip-installed modules below
   # won't be installed unintentionally, these will take precedence otherwise.
   package {['python-jinja2', 'python-markdown']:
