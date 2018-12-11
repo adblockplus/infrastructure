@@ -11,10 +11,6 @@ class adblockplus::legacy::webserver {
     custom_config => template("web/adblockplus.org.conf.erb"),
   }
 
-  nginx::module{'geoip':
-    path => 'modules/ngx_http_geoip_module.so',
-  }
-
   ensure_packages([
     'make',
     'doxygen',
