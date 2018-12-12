@@ -12,7 +12,6 @@ class adblockplus::mercurial::extension::hggit (
 ) {
 
   $dependencies = [
-    'python-pip',
     'libffi-dev',
     'libssl-dev',
   ]
@@ -20,12 +19,12 @@ class adblockplus::mercurial::extension::hggit (
   ensure_packages($dependencies)
 
   exec {'upgrade setuptools':
-    command => '/usr/bin/pip install --upgrade setuptools',
+    command => '/usr/local/bin/pip install --upgrade setuptools',
     require => Package[$dependencies],
   }
 
   exec {'upgrade urllib3':
-    command => '/usr/bin/pip install --upgrade urllib3',
+    command => '/usr/local/bin/pip install --upgrade urllib3',
     require => Package[$dependencies],
   }
 
