@@ -43,7 +43,8 @@ filtermaster::repo_downloads:
       - easylist-full+ruadlist-minified+exceptionrules-minimal.json
       - easylist-full+ruadlist-minified.json
       - easylist-full.json
-
+      - easylist_min+exceptionrules_content_blocker.json
+      - easylist_min_content_blocker.json
 filtermaster::malwaredomains_mirrors:
   - http://mirror1.malwaredomains.com
   - http://mirror2.malwaredomains.com
