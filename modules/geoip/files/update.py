@@ -7,10 +7,7 @@ import urllib
 import zlib
 
 downloads = {
-    '/usr/share/GeoIP/GeoIP.dat': 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz',
     '/usr/share/GeoIP/GeoIPv6.dat': 'http://geolite.maxmind.com/download/geoip/database/GeoIPv6.dat.gz',
-
-    '/usr/share/GeoIP/GeoIPCity.dat': 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz',
     '/usr/share/GeoIP/GeoIPCityv6.dat': 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCityv6-beta/GeoLiteCityv6.dat.gz',
 
     '/usr/share/GeoIP/GeoIP2.tar': 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz',
