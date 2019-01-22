@@ -1,3 +1,10 @@
 classes:
   adblockplus::legacy::issueserver:
 
+fail2ban::jails:
+  CRAWLERS:
+    filter: apache-badbots
+    logpath: '/var/log/nginx/access_log_trac'
+    banaction: 'iptables-multiport'
+    port: 'http,https'
+

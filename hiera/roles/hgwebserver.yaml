@@ -9,3 +9,10 @@ classes:
       }
   hgweb::endpoint:
 
+fail2ban::jails:
+  CRAWLERS:
+    filter: apache-badbots
+    logpath: '/var/log/nginx/access_log_hg'
+    banaction: 'iptables-multiport'
+    port: 'http,https'
+
