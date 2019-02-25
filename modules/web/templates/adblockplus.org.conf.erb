@@ -110,8 +110,8 @@ location /redirect
   }
 
   # Google Play is not available in China, so we redirect them to the
-  # builds for download, see https://issues.adblockplus.org/ticket/3094
-  if ($geoip_country_code = 'CN')
+  # builds for download, see http://hub.eyeo.com/issues/20183
+  if ($arg_locale ~ "^zh(-|_)[a-zA-Z]{2}")
   {
     set $adblock_browser_android_store $adblock_browser_android_download;
   }
