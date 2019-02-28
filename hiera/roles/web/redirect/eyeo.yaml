@@ -76,4 +76,5 @@ adblockplus::web::redirector::targets:
   adblockplus/macos_safari_install_int_build: "https://builds.eyeofiles.com/Adblock-Plus.dmg"
   eyeo/interviews_pp: "https://privacy.eyeofiles.com/interviews_pp.pdf?"
   adblockplus/letzte-werbung: "https://adblockplus.org/?utm_source=letzteWerbung?"
+  adblockplus/help_center_abp_en: "https://help.eyeo.com/en/adblockplus/?"
   
