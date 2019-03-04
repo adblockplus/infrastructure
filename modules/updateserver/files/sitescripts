@@ -3,8 +3,6 @@ sitescripts.extensions.web.downloads =
 
 [extensions]
 sitescripts_var_root=/var/lib/sitescripts
-adblockplusfirefox_repository=%(sitescripts_var_root)s/adblockpluschrome
-adblockplusfirefox_galleryID=adblock-plus
 adblockplussafari_repository=%(sitescripts_var_root)s/adblockpluschrome
 adblockplussafari_revision=safari
 adblockplussafari_type=safari
@@ -16,8 +14,6 @@ adblockplusie_type=ie
 downloadsRepo=%(sitescripts_var_root)s/downloads
 downloadsURL=https://downloads.adblockplus.org/
 web_root=/var/www/update
-geckoUpdateManifestPath=%(web_root)s/gecko/updates.json
-geckoUpdateManifest=extensions/template/updates.json
 safariUpdateManifestPath=%(web_root)s/adblockplussafari/updates.plist
 safariUpdateManifest=extensions/template/updates.plist
 androidUpdateManifestPath=%(web_root)s/adblockplusandroid/updates.xml
