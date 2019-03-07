@@ -131,6 +131,11 @@ location /redirect
     rewrite ^ $adblock_browser_android_download? redirect;
   }
 
+  if ($arg_link = "filterdoc")
+  {
+    rewrite ^ https://help.eyeo.com/adblockplus/how-to-write-filters? redirect;
+  }
+
   set $forum_id "64";
   set $forum_link "";
   if ($arg_link = "adblock_plus_report_issue")
@@ -201,10 +206,6 @@ location /redirect
   if ($arg_link = "faq")
   {
     set $link "faq";
-  }
-  if ($arg_link = "filterdoc")
-  {
-    set $link "filters";
   }
   if ($arg_link = "subscriptions")
   {
