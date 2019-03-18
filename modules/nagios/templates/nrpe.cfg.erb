@@ -12,7 +12,7 @@ connection_timeout=300
 command[check_load]=/usr/lib/nagios/plugins/check_load -w <%=
     scope.function_hiera(['nagios::client::load_warning_threshold', [20,15,10]]).join(",") %> -c <%=
     scope.function_hiera(['nagios::client::load_critical_threshold', [30,25,20]]).join(",") %>
-command[check_disk]=/usr/lib/nagios/plugins/check_disk -w 3 -c 1
+command[check_disk]=/usr/lib/nagios/plugins/check_disk -w 20 -c 10
 command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w <%=
     scope.function_hiera(['nagios::client::total_procs_warning_threshold', 150]).to_i %> -c <%=
     scope.function_hiera(['nagios::client::total_procs_critical_threshold', 200]).to_i %>
