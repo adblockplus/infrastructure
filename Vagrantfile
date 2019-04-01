@@ -51,7 +51,7 @@ Vagrant.configure('2') do |config|
       elsif record['os'] == 'debian-jessie'
 
         # https://www.vagrantup.com/docs/boxes.html
-        host.vm.box = 'sagepe/jessie'
+        host.vm.box = 'debian/contrib-jessie64'
         host.vm.box_check_update = false
 
         # https://packages.debian.org/jessie/puppet
