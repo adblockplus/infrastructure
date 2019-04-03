@@ -1,4 +1,4 @@
 adblockplus::web::fileserver::repositories:
   "example":
     users:
-      "example-user"
+      "example-user":
