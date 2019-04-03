@@ -52,7 +52,7 @@ Vagrant.configure('2') do |config|
 
         # https://www.vagrantup.com/docs/boxes.html
         host.vm.box = 'debian/contrib-jessie64'
-        host.vm.box_check_update = false
+        host.vm.box_url = 'https://vagrantcloud.com/debian/contrib-jessie64'
 
         # https://packages.debian.org/jessie/puppet
         host.vm.provision :shell, :privileged => true, :inline => <<-end
