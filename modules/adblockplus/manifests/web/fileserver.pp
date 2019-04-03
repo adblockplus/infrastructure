@@ -25,7 +25,6 @@ class adblockplus::web::fileserver(
   $domain,
   $certificate = undef,
   $private_key = undef,
-  $repositories={},
 ){
 
   include nginx
@@ -41,6 +40,8 @@ class adblockplus::web::fileserver(
   file {"${::adblockplus::directory}/htpasswd":
     ensure => directory,
   }
+
+  $repositories = hiera_hash('adblockplus::web::fileserver::repositories', {})
 
   ensure_resources('adblockplus::web::fileserver::repository', $repositories, {
     ensure => 'present',
