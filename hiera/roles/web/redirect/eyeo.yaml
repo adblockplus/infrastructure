@@ -77,4 +77,5 @@ adblockplus::web::redirector::targets:
   eyeo/interviews_pp: "https://privacy.eyeofiles.com/interviews_pp.pdf?"
   adblockplus/letzte-werbung: "https://adblockplus.org/?utm_source=letzteWerbung?"
   adblockplus/help_center_abp_en: "https://help.eyeo.com/en/adblockplus/?"
+  adblockplus/edge_chromium_install: "https://chrome.google.com/webstore/detail/adblock-plus-free-ad-bloc/cfhdojbkjhnklbpkdaibdccddilifddb?"
   
