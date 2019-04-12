@@ -38,7 +38,6 @@ class geoip (
     'geoip-database',
     'python-geoip',
   ],
-  $script = '/usr/local/sbin/update-geoip-database',
 ) {
 
   ensure_resource('package', $packages, {
@@ -52,19 +51,14 @@ class geoip (
     require => Package['python-pip'],
   })
 
+  $script = 'wget https://geoip.eyeofiles.com/GeoIPv6.dat -O /usr/share/GeoIP/GeoIPv6.dat'
+
   create_resources('cron', {geoip => $cron}, {
     command => $hook ? {undef => $script, default => "$script && $hook"},
     ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
-    hour => 0,
+    hour => 1,
     minute => 0,
     user => 'root',
   })
 
-  file {$script:
-    before => Cron['geoip'],
-    ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
-    mode => 0755,
-    require => Package[$packages],
-    source => 'puppet:///modules/geoip/update.py',
-  }
 }
