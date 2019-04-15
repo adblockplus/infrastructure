@@ -51,7 +51,7 @@ class geoip (
     require => Package['python-pip'],
   })
 
-  $script = 'wget https://geoip.eyeofiles.com/GeoIPv6.dat -O /usr/share/GeoIP/GeoIPv6.dat'
+  $script = 'wget -q https://geoip.eyeofiles.com/GeoIPv6.dat -O /usr/share/GeoIP/GeoIPv6.dat'
 
   create_resources('cron', {geoip => $cron}, {
     command => $hook ? {undef => $script, default => "$script && $hook"},
