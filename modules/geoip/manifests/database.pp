@@ -56,7 +56,7 @@ class geoip::database (
   $script = join([
     "/usr/bin/wget -q ${source} -O $(date +${geoip_directory}/GeoIPv6_\\%Y_\\%m_\\%d).zip",
     "cd ${geoip_directory}",
-    '/opt/geolite2legacy/geolite2legacy.py -i $(date +GeoIPv6_\%Y_\%m_\%d).zip -f /opt/geolite2legacy/geoname2fips.csv -o $(date +GeoIPv6_\%Y_\%m_\%d).dat -6',
+    '/opt/geolite2legacy/geolite2legacy.py -i $(date +GeoIPv6_\%Y_\%m_\%d).zip -f /opt/geolite2legacy/geoname2fips.csv -o $(date +GeoIPv6_\%Y_\%m_\%d).dat -6 1>/dev/null',
   ], '&&')
 
   create_resources('cron', {geoip => $cron}, {
