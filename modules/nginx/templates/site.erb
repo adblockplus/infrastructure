@@ -36,11 +36,11 @@
     server_name <% server_name[@domain, @alt_names] %>;
 
     <% if @is_default %>
-      listen 443 ssl http2 default_server;
-      listen [::]:443 ssl http2 default_server;
+      listen 443 ssl <% if @operatingsystem == 'Debian' %>http2<% end %> default_server;
+      listen [::]:443 ssl <% if @operatingsystem == 'Debian' %>http2<% end %> default_server;
     <% else %>
-      listen 443 ssl http2;
-      listen [::]:443 ssl http2;
+      listen 443 ssl <% if @operatingsystem == 'Debian' %>http2<% end %>;
+      listen [::]:443 ssl <% if @operatingsystem == 'Debian' %>http2<% end %>;
     <% end %>
 
     ssl_certificate <%= @certificate %>;
