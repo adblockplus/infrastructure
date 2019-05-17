@@ -1,5 +1,6 @@
 classes:
   filtermaster:
+  filtermaster::iflu:
 
 filtermaster::repos:
   - easylist
@@ -49,4 +50,7 @@ filtermaster::repo_downloads:
 filtermaster::malwaredomains_mirrors:
   - http://mirror1.malwaredomains.com
   - http://mirror2.malwaredomains.com
+
+filtermaster::iflu::filterlists:
+  easylist: {}
 
