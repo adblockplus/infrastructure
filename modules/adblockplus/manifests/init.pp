@@ -43,7 +43,6 @@
 class adblockplus (
   $authority = hiera('adblockplus::authority', 'adblockplus.org'),
   $hosts = hiera_hash('adblockplus::hosts', {}),
-  $users = hiera_hash('adblockplus::users', {}),
 ) {
 
   include adblockplus::legacy
@@ -144,6 +143,7 @@ class adblockplus (
   create_resources('adblockplus::host', $hosts)
 
   # See modules/adblockplus/manifests/user.pp
+  $users = hiera_hash('adblockplus::users', {})
   create_resources('adblockplus::user', $users)
 
   # modules/adblockplus/manifests/sudoers.pp
