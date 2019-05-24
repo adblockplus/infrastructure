@@ -53,7 +53,6 @@ class fail2ban (
   $package = hiera('fail2ban::package', {}),
   $service = hiera('fail2ban::service', {}),
   $jails = hiera('fail2ban::jails', {}),
-  $filters = hiera('fail2ban::filters', {}),
 ) {
 
   include stdlib
@@ -81,6 +80,7 @@ class fail2ban (
     }, $service))
 
     # See modules/fail2ban/manifests/filter.pp
+    $filters = hiera_hash('fail2ban::filters', {})
     create_resources('fail2ban::filter', $filters)
 
     file {'/etc/fail2ban/jail.local':
