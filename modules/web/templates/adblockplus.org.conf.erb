@@ -135,6 +135,10 @@ location /redirect
   {
     rewrite ^ https://help.eyeo.com/adblockplus/how-to-write-filters? redirect;
   }
+  if ($arg_link = "imprint")
+  {
+    rewrite ^ https://adblockplus.org/$lang/impressum? redirect;
+  }
 
   set $forum_id "64";
   set $forum_link "";
