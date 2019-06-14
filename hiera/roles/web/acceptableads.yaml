@@ -44,8 +44,8 @@ sitescripts::configfragments:
       mailer=/usr/sbin/sendmail
       mailerDebug=no
       [multiplexer]
-      sitescripts.formmail.web.formmail2 =
-      [formmail2]
+      sitescripts.formmail.web.formmail =
+      [formmail]
       committee.url = /committee/apply/submit
       committee.csv_log = /var/log/committee_email.csv_log
       committee.template = /var/sitescripts/formmail/committee.mail
