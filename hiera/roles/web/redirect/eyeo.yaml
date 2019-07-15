@@ -78,4 +78,9 @@ adblockplus::web::redirector::targets:
   adblockplus/letzte-werbung: "https://adblockplus.org/?utm_source=letzteWerbung?"
   adblockplus/help_center_abp_en: "https://help.eyeo.com/en/adblockplus/?"
   adblockplus/edge_chromium_install: "https://microsoftedge.microsoft.com/insider-addons/detail/gmgoamodcdcjnbaobigkjelfplakmdhh?"
-  
+  chrome_review_low: "https://chrome.google.com/webstore/detail/adblock-plus-free-ad-bloc/cfhdojbkjhnklbpkdaibdccddilifddb/reviews?ref=store-rating?"
+  chrome_review: "https://chrome.google.com/webstore/detail/adblock-plus-free-ad-bloc/cfhdojbkjhnklbpkdaibdccddilifddb/reviews?ref=store-rating?"
+  firefox_review_low: "https://addons.mozilla.org/firefox/addon/adblock-plus/?"
+  firefox_review: "https://addons.mozilla.org/firefox/addon/adblock-plus/?"
+  opera_review_low: "https://addons.opera.com/extensions/details/adblock-plus/?"
+  opera_review: "https://addons.opera.com/extensions/details/adblock-plus/?"
