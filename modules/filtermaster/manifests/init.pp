@@ -1,6 +1,4 @@
 class filtermaster(
-  $repos = hiera('filtermaster::repos', []),
-  $repo_downloads = hiera('filtermaster::repo_downloads', {}),
   $malwaredomains_mirrors = hiera('filtermaster::malwaredomains_mirrors', []),
 ) {
 
@@ -21,6 +19,8 @@ class filtermaster(
       MaxStartups 100
     '
   }
+
+  $repo_downloads = hiera_hash('filtermaster::repo_downloads', {})
 
   concat::fragment {'sshd_user_rsync':
     target => 'sshd_config',
@@ -94,6 +94,7 @@ class filtermaster(
 
   create_resources('filtermaster::repo_download', $repo_downloads)
 
+  $repos = hiera_array('filtermaster::repos', [])
   filtermaster::repo_download {$repos:
   }
 
