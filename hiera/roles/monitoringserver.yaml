@@ -55,6 +55,11 @@ nagios::server::services:
     hostgroup_name: 'http-servers'
     service_description: 'HTTP'
     check_command: 'check_http'
+  https:
+    use: 'generic-service'
+    hostgroup_name: 'http-servers'
+    service_description: 'HTTPS'
+    check_command: 'check_https_hostname'
   easylist-http:
     use: 'generic-service'
     hostgroup_name: 'filter-servers'
