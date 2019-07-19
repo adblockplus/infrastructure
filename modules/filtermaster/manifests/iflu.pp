@@ -19,7 +19,7 @@ class filtermaster::iflu (
 
   # python-abp contains a script called fldiff that will find the diff between
   # the latest filter list, and any number of previous filter lists.
-  # from: https://github.com/adblockplus/python-abp
+  # from: https://gitlab.com/eyeo/auxiliary/python-abp
   ensure_resource('package', ['python-abp'], {
     ensure => '0.1.2',
     provider => 'pip',

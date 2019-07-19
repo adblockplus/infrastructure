@@ -44,7 +44,7 @@ define filtermaster::iflu::filterlist (
 
   # According to the specification of incremental filter lists updates, the
   # diffs should be up to two days and no more. For more info see:
-  # https://gitlab.com/eyeo/devops/python-abp/wikis/iflu-0.1
+  # https://gitlab.com/eyeo/auxiliary/python-abp/wikis/iflu-0.1
   $script = join([
     "cd ${filtermaster::iflu::data_directory}",
     "cp ${title}.txt $(date +${archive_directory}/${title}_\\%d_\\%m_\\%Y_\\%H_\\%M.txt)",
