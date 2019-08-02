@@ -51,7 +51,13 @@ class geoip (
     require => Package['python-pip'],
   })
 
-  $script = 'wget -q https://geoip.eyeofiles.com/GeoIPv6.dat -O /usr/share/GeoIP/GeoIPv6.dat'
+  $geoip_dataset = '/usr/share/GeoIP/GeoIPv6.dat'
+
+  $script = join([
+    "wget -q https://geoip.eyeofiles.com/GeoIPv6.dat -O $geoip_dataset.new",
+    "savelog -qnl $geoip_dataset",
+    "mv $geoip_dataset.new $geoip_dataset",
+  ], ' && ')
 
   create_resources('cron', {geoip => $cron}, {
     command => $hook ? {undef => $script, default => "$script && $hook"},
