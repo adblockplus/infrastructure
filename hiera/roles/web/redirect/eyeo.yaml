@@ -86,3 +86,4 @@ adblockplus::web::redirector::targets:
   adblockplus/opera_review: "https://addons.opera.com/extensions/details/adblock-plus/?"
   adblockplus/adware: "https://help.eyeo.com/adblockplus/adware?"
   adblockplus/block_element: "https://help.eyeo.com/adblockplus/block-item-or-element?"
+  adblockplus/acceptable_ads_survey: "https://adblockplus.org/acceptable-ads-survey?"
