@@ -35,7 +35,7 @@ class web::server(
   }
 
   class {'nginx':
-    geoip_country => '/usr/share/GeoIP/GeoIPv6.dat',
+    geoip_country => '/usr/share/GeoIP/GeoIPv4.dat',
   }
 
   nginx::module{'geoip':

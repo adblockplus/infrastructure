@@ -51,10 +51,10 @@ class geoip (
     require => Package['python-pip'],
   })
 
-  $geoip_dataset = '/usr/share/GeoIP/GeoIPv6.dat'
+  $geoip_dataset = '/usr/share/GeoIP/GeoIPv4.dat'
 
   $script = join([
-    "wget -q https://geoip.eyeofiles.com/GeoIPv6.dat -O $geoip_dataset.new",
+    "wget -q https://geoip.eyeofiles.com/GeoIPv4.dat -O $geoip_dataset.new",
     "savelog -qnl $geoip_dataset",
     "mv $geoip_dataset.new $geoip_dataset",
   ], ' && ')
