@@ -90,6 +90,11 @@ class downloadserver(
     'rsync',
   ])
 
+  file {'/var/www/releases':
+    ensure => directory,
+    owner => rsync
+  }
+
   file {'/var/www/devbuilds':
     ensure => directory,
     owner => rsync
@@ -134,5 +139,33 @@ class downloadserver(
     user => rsync,
     hour => '*',
     minute => '4-54/10'
+  }
+
+  cron {'mirror-gitlab-devbuilds':
+    ensure => present,
+    require => [
+      File['/home/rsync/.ssh/id_rsa'],
+      File['/var/www/devbuilds'],
+      Package['rsync'],
+    ],
+    command => 'rsync -e ssh -ltprz builds_user@eyeofiles.com:/var/adblockplus/fileserver/builds/devbuilds/ /var/www/devbuilds/',
+    environment => hiera('cron::environment', []),
+    user => rsync,
+    hour => '*',
+    minute => '6-56/10'
+  }
+
+  cron {'mirror-gitlab-releases':
+    ensure => present,
+    require => [
+      File['/home/rsync/.ssh/id_rsa'],
+      File['/var/www/releases'],
+      Package['rsync'],
+    ],
+    command => 'rsync -e ssh -ltprz builds_user@eyeofiles.com:/var/adblockplus/fileserver/builds/releases/ /var/www/releases/',
+    environment => hiera('cron::environment', []),
+    user => rsync,
+    hour => '*',
+    minute => '8-58/10'
   }
 }
