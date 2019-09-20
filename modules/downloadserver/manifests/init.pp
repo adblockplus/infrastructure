@@ -92,12 +92,14 @@ class downloadserver(
 
   file {'/var/www/releases':
     ensure => directory,
-    owner => rsync
+    owner => rsync,
+    require => User['rsync'],
   }
 
   file {'/var/www/devbuilds':
     ensure => directory,
-    owner => rsync
+    owner => rsync,
+    require => User['rsync'],
   }
 
   user {'rsync':
@@ -117,14 +119,16 @@ class downloadserver(
     ensure => file,
     owner => rsync,
     mode => '0400',
-    source => 'puppet:///modules/private/rsync@downloads.adblockplus.org'
+    source => 'puppet:///modules/private/rsync@downloads.adblockplus.org',
+    require => User['rsync'],
   }
 
   file {'/home/rsync/.ssh/id_rsa.pub':
     ensure => file,
     owner => rsync,
     mode => '0400',
-    source => 'puppet:///modules/private/rsync@downloads.adblockplus.org.pub'
+    source => 'puppet:///modules/private/rsync@downloads.adblockplus.org.pub',
+    require => User['rsync'],
   }
 
   cron {'mirror-devbuilds':
