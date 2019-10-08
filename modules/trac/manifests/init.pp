@@ -21,7 +21,12 @@ class trac(
   }
 
   nginx::hostconfig {$domain:
-    content => "include $fcgi_config_dir/*;",
+    content => join([
+      "include $fcgi_config_dir/*;",
+      "location /newticket", "{",
+      "rewrite ^(.*) https://gitlab.com/eyeo permanent;",
+      "}",
+    ], "\n"),
     is_default => $is_default,
     certificate => $certificate,
     private_key => $private_key,
