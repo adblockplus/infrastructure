@@ -4,7 +4,9 @@
   compress
   delaycompress
   missingok
-  nodateext
+  dateext
+  dateyesterday
+  dateformat .%Y-%m-%d
   sharedscripts
   postrotate
     [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
