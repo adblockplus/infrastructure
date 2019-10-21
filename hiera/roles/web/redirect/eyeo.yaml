@@ -87,3 +87,4 @@ adblockplus::web::redirector::targets:
   adblockplus/adware: "https://help.eyeo.com/adblockplus/adware?"
   adblockplus/block_element: "https://help.eyeo.com/adblockplus/block-item-or-element?"
   adblockplus/acceptable_ads_survey: "https://adblockplus.org/acceptable-ads-survey?"
+  adblockplus/adblock_plus_release_blog_3.7: "https://adblockplus.org/blog/new-release-adblock-plus-37?"
