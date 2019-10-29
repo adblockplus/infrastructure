@@ -59,6 +59,12 @@ class geoip (
     "mv $geoip_dataset.new $geoip_dataset",
   ], ' && ')
 
+  ensure_resource('exec', 'fetch-geoip-db', {
+    command => $script,
+    creates => $geoip_dataset,
+    path => ['/usr/bin/', '/bin/'],
+  })
+
   create_resources('cron', {geoip => $cron}, {
     command => $hook ? {undef => $script, default => "$script && $hook"},
     ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
