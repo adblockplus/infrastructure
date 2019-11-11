@@ -11,6 +11,7 @@ web::server::aliases:
 web::server::repository: web.adblockplus.org
 web::server::multiplexer_locations:
   - /getSubscription
+# NB: web::server::custom_config will not work because adblockplus::legacy::webserver overrides it
 
 sitescripts::configfragments:
   formmail_template:

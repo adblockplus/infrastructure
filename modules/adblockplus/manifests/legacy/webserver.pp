@@ -9,6 +9,7 @@ class adblockplus::legacy::webserver {
 
   class {'web::server':
     custom_config => template("web/adblockplus.org.conf.erb"),
+    custom_global_config => template('web/adblockplus.org.global.conf.erb'),
   }
 
   ensure_packages([

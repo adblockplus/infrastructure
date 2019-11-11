@@ -7,6 +7,7 @@ class web::server(
     $aliases = undef,
     $custom_config = undef,
     $multiplexer_locations = undef,
+    $custom_global_config = undef,
 ) {
 
   include sitescripts
