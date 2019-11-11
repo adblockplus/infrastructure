@@ -51,8 +51,8 @@ Vagrant.configure('2') do |config|
       elsif record['os'] == 'debian-jessie'
 
         # https://www.vagrantup.com/docs/boxes.html
-        host.vm.box = 'debian/contrib-jessie64'
-        host.vm.box_url = 'https://vagrantcloud.com/debian/contrib-jessie64'
+        host.vm.box = 'debian/jessie64'
+        host.vm.box_url = 'https://vagrantcloud.com/debian/jessie64'
 
         # https://packages.debian.org/jessie/puppet
         host.vm.provision :shell, :privileged => true, :inline => <<-end
