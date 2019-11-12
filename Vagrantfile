@@ -80,6 +80,11 @@ Vagrant.configure('2') do |config|
       # https://www.vagrantup.com/docs/networking/
       host.vm.network :private_network, ip: record['ips'][0]
 
+      # Role-specific requirements, optional
+      role_name = record.fetch('role', 'default')
+      role_file = File.expand_path("../hiera/roles/#{role_name}.yaml", __FILE__)
+      role_data = File.exists?(role_file) ? YAML.load_file(role_file) : {}
+
       # https://www.vagrantup.com/docs/virtualbox/configuration.html
       host.vm.provider :virtualbox do |virtualbox|
 
@@ -91,14 +96,25 @@ Vagrant.configure('2') do |config|
         # Work around https://www.virtualbox.org/ticket/11649
         virtualbox.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
 
-        # Role-specific requirements, optional
-        role_name = record.fetch('role', 'default')
-        role_file = File.expand_path("../hiera/roles/#{role_name}.yaml", __FILE__)
-        role_data = File.exists?(role_file) ? YAML.load_file(role_file) : {}
         role_data.fetch('requirements', {}).each do |key, value|
           virtualbox.customize ['modifyvm', :id, "--#{key}", value.to_s]
         end
 
+      end
+
+      # https://github.com/vagrant-libvirt/vagrant-libvirt#domain-specific-options
+      config.vm.provider('libvirt') do |libvirt|
+        role_data.fetch('requirements', {}).each do |key, value|
+          case key
+          when "cpus"
+            libvirt.cpus = value.to_i
+          when "memory"
+            libvirt.memory = value.to_i
+          else
+            message = "Unrecognized requirement '#{key}=#{value}' for host '#{name}'"
+            raise Vagrant::Errors::VagrantError, message
+          end
+        end
       end
 
       # https://www.vagrantup.com/docs/provisioning/puppet_apply.html
