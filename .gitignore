@@ -11,3 +11,6 @@
 
 # Usually a symbolic link to modules/private-stub, see README.md
 modules/private
+
+# Backup files commonly created by some text editors
+**/*~
