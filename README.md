@@ -51,9 +51,19 @@ recommended to set this option to `false` or `input`, e.g. by running
 
 ### Requirements
 
-* [VirtualBox](https://www.virtualbox.org/)
 * [Vagrant](http://vagrantup.com/)
+* a provider of Vagrant virtual machines, such as:
+** [libvirt](https://libvirt.org/)
+** [VirtualBox](https://www.virtualbox.org/)
 * `modules/private` exists (see above)
+
+### Prepare Vagrant
+
+If you use VirtualBox, make sure the VMs use Vagrant box templates that
+support the VirtualBox shared folder method.
+
+If you use libvirt, make sure you have an NFS server as the shared folder
+method.
 
 ### Start a VM
 

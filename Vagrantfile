@@ -53,6 +53,11 @@ Vagrant.configure('2') do |config|
         # https://www.vagrantup.com/docs/boxes.html
         host.vm.box = 'debian/jessie64'
         host.vm.box_url = 'https://vagrantcloud.com/debian/jessie64'
+        # Try to facilitate vboxfs for synced_folder
+        if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'virtualbox'
+          host.vm.box = 'debian/contrib-jessie64'
+          host.vm.box_url = 'https://vagrantcloud.com/debian/contrib-jessie64'
+        end
 
         # https://packages.debian.org/jessie/puppet
         host.vm.provision :shell, :privileged => true, :inline => <<-end
@@ -61,6 +66,7 @@ Vagrant.configure('2') do |config|
             apt-get -y update
             apt-get -y install puppet apt-transport-https
           fi
+          # This implies config.vm.synced_folder('.', '/vagrant')
           test -e "$1" || ln -s /vagrant "$1"
           test -e "$2" || ln -s infrastructure/hiera/hiera.yaml "$2"
           puppet agent --enable
