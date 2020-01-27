@@ -107,6 +107,8 @@ rewrite ^/fr/ad-blocker-safari/?$ https://adblockplus.org/fr/ redirect;
 # http://hub.eyeo.com/issues/24895
 rewrite ^/(\w\w(_\w\w)?/)?filters$ https://help.eyeo.com/en/adblockplus/how-to-write-filters permanent;
 
+rewrite ^/android-about/?$ https://adblockplus.org/ permanent;
+
 location /redirect
 {
   set $adblock_browser_android_download "https://downloads.adblockplus.org/adblockbrowser-1.1.0-arm.apk";
