@@ -88,3 +88,4 @@ adblockplus::web::redirector::targets:
   adblockplus/block_element: "https://help.eyeo.com/adblockplus/block-item-or-element?"
   adblockplus/acceptable_ads_survey: "https://adblockplus.org/acceptable-ads-survey?"
   adblockplus/adblock_plus_release_blog_3.7: "https://adblockplus.org/blog/new-release-adblock-plus-37?"
+  os2020agenda: "https://docs.google.com/spreadsheets/d/19SozCfFEF9TpgkUOGRj1Hq5Z-DsBZFm8LPXX0toAEAg/?"
