@@ -8,13 +8,13 @@ class web::server(
     $custom_config = undef,
     $multiplexer_locations = undef,
     $custom_global_config = undef,
+    $vcs = 'git',
 ) {
 
   include sitescripts
   include adblockplus::web
+  include adblockplus::git
   include geoip
-
-  $remote = hiera('web::server::remote', "https://hg.adblockplus.org/${repository}")
 
   $pythonpath = 'PYTHONPATH=/opt/cms:/opt/sitescripts'
 
@@ -86,6 +86,29 @@ class web::server(
     }
   }
 
+  $cms_vcs_creates = "/opt/cms/.git/config"
+  $fetch_cms_cmd = [
+    'git', 'clone',
+    'https://gitlab.com/eyeo/websites/cms',
+    '/opt/cms',
+  ]
+  exec {"fetch_cms":
+    command => shellquote($fetch_cms_cmd),
+    require => Class["adblockplus::git"],
+    timeout => 0,
+    creates => $cms_vcs_creates,
+  }
+  $update_cms_cmd = [
+    'git',
+    '-C', '/opt/cms',
+    'pull', '--quiet',
+  ]
+  cron {'update_cms':
+    ensure => present,
+    command => shellquote($update_cms_cmd),
+    minute  => '4-59/20',
+  }
+
   user {'www':
     ensure => present,
     comment => 'Web content owner',
@@ -93,36 +116,46 @@ class web::server(
     managehome => true,
   }
 
-  $fetch_cms_cmd = [
-    'hg', 'clone',
-    'https://hg.adblockplus.org/cms/',
-    '/opt/cms',
-  ]
-
   Exec {
     path => ["/usr/bin/", "/bin/"],
   }
 
-  exec {"fetch_cms":
-    command => shellquote($fetch_cms_cmd),
-    require => Class['adblockplus::mercurial'],
-    timeout => 0,
-    creates => "/opt/cms/.hg/hgrc",
+  if $vcs == "hg" {
+    $vcs_class = 'adblockplus::mercurial'
+    $repo_vcs_creates = "/home/www/${repository}/.hg/hgrc"
+    $fetch_repo_cmd = [
+      'hg', 'clone', '--update', 'master',
+      hiera('web::server::remote', "https://hg.adblockplus.org/${repository}"),
+      "/home/www/${repository}",
+    ]
+    $update_repo_cmd = [
+      'hg', 'pull',
+      '--quiet',
+      '--rev', 'master',
+      '--update',
+      '--repository', "/home/www/${repository}",
+    ]
+  } else {
+    $vcs_class = 'adblockplus::git'
+    $repo_vcs_creates = "/home/www/${repository}/.git/config"
+    $fetch_repo_cmd = [
+      'git', 'clone',
+      hiera('web::server::remote', "https://gitlab.com/eyeo/websites/${repository}"),
+      "/home/www/${repository}",
+    ]
+    $update_repo_cmd = [
+      'git',
+      '-C', "/home/www/${repository}",
+      'pull', '--quiet',
+    ]
   }
-
-  $fetch_repo_cmd = [
-    'hg', 'clone',
-    '--update', 'master',
-    $remote,
-    "/home/www/${repository}",
-  ]
 
   exec {"fetch_repo":
     command => shellquote($fetch_repo_cmd),
-    require => Class['adblockplus::mercurial'],
+    require => Class[$vcs_class],
     user => www,
     timeout => 0,
-    creates => "/home/www/${repository}/.hg/hgrc",
+    creates => $repo_vcs_creates,
   }
 
   $initialize_content_exec = [
@@ -148,27 +181,6 @@ class web::server(
     mode => '0755',
   }
 
-  $update_cms_cmd = [
-    'hg', 'pull',
-    '--quiet',
-    '--rev', 'master',
-    '--update',
-    '--repository', '/opt/cms',
-  ]
-
-  cron {'update_cms':
-    ensure => present,
-    command => shellquote($update_cms_cmd),
-    minute  => '4-59/20',
-  }
-
-  $update_repo_cmd = [
-    'hg', 'pull',
-    '--quiet',
-    '--rev', 'master',
-    '--update',
-    '--repository', "/home/www/${repository}",
-  ]
 
   $update_webpage_cmd = join(
     [
