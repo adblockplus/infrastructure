@@ -90,3 +90,8 @@ adblockplus::web::redirector::targets:
   adblockplus/adblock_plus_release_blog_3.7: "https://adblockplus.org/blog/new-release-adblock-plus-37?"
   adblockplus/adblock_plus_release_blog_3.8: "https://adblockplus.org/blog/new-release-adblock-plus-38?"
   os2020agenda: "https://docs.google.com/spreadsheets/d/19SozCfFEF9TpgkUOGRj1Hq5Z-DsBZFm8LPXX0toAEAg/?"
+  adblockplus/chrome_store: "https://chrome.google.com/webstore/detail/adblock-plus-free-ad-bloc/cfhdojbkjhnklbpkdaibdccddilifddb?"
+  adblockplus/edge_store: "https://microsoftedge.microsoft.com/addons/detail/gmgoamodcdcjnbaobigkjelfplakmdhh?"
+  adblockplus/firefox_store: "https://addons.mozilla.org/firefox/addon/adblock-plus/?"
+  adblockplus/opera_store: "https://addons.opera.com/extensions/details/adblock-plus/?"
+  adblockplus/donation_update_page: "https://adblockplus.org/donate?utm_source=abp&utm_medium=update_page&utm_campaign=donate?"
