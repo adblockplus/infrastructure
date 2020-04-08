@@ -131,7 +131,18 @@ class adblockplus (
 
   # https://issues.adblockplus.org/ticket/3574#comment:19
   $packages = hiera_array('adblockplus::packages', [])
-  ensure_packages($packages)
+  ensure_packages(
+    $packages,
+    {
+      before => Exec['set-default-editor'],
+    }
+  )
+
+  exec {'set-default-editor':
+    command => '/usr/bin/update-alternatives --set editor /bin/nano',
+    logoutput => true,
+    timeout => 0,
+  }
 
   # https://projects.puppetlabs.com/issues/4145
   ensure_resource('file', '/etc/ssh/ssh_known_hosts', {
