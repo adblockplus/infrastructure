@@ -23,26 +23,28 @@ nagios::server::hostgroups:
     members: ','
   http-servers:
     members: ','
+  nrpe-servers:
+    members: ','
 
 nagios::server::services:
   current-load:
     use: 'generic-service'
-    hostgroup_name: 'all'
+    hostgroup_name: 'nrpe-servers'
     service_description: 'Current Load'
     check_command: 'check_nrpe_1arg!check_load'
   disk-space:
     use: 'generic-service'
-    hostgroup_name: 'all'
+    hostgroup_name: 'nrpe-servers'
     service_description: 'Disk Space'
     check_command: 'check_nrpe_1arg!check_disk'
   total-processes:
     use: 'generic-service'
-    hostgroup_name: 'all'
+    hostgroup_name: 'nrpe-servers'
     service_description: 'Total Processes'
     check_command: 'check_nrpe_1arg!check_total_procs'
   zombie-processes:
     use: 'generic-service'
-    hostgroup_name: 'all'
+    hostgroup_name: 'nrpe-servers'
     service_description: 'Zombie Processes'
     check_command: 'check_nrpe_1arg!check_zombie_procs'
   ssh:
@@ -72,18 +74,18 @@ nagios::server::services:
     check_command: 'check_notification_http'
   bandwidth:
     use: 'generic-service'
-    hostgroup_name: 'all'
+    hostgroup_name: 'nrpe-servers'
     service_description: 'Bandwidth'
     check_command: 'check_nrpe_timeout!check_bandwidth!20'
     first_notification_delay: '15'
   connections:
     use: 'generic-service'
-    hostgroup_name: 'all'
+    hostgroup_name: 'nrpe-servers'
     service_description: 'Connections'
     check_command: 'check_nrpe_1arg!check_connections'
   memory:
     use: 'generic-service'
-    hostgroup_name: 'all'
+    hostgroup_name: 'nrpe-servers'
     service_description: 'Memory'
     check_command: 'check_nrpe_1arg!check_memory'
 

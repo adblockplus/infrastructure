@@ -8,175 +8,182 @@ adblockplus::hosts:
     os: "debian-jessie"
     public_key: &vagrant_box_jessie
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkXTOj2JwvwlDaHbaMrDuosuRuU5ZuKe1EHNJa67ZxkB1a6Y1ObDxfYiYnvI5i9sQyUmmc5TrGAGGJs1BrriMaPayBaTSf3ymU2Rqxj3GZXuiioCxGV8I2R/aOhwvpbnVqZH5O99IuAZbrag5J/WhDWgWuk3gFrZxEwQmZW144tJH//I3b0oMAr3/arBViVeU52dHhKX9xdStTzFpWKUav/NoKKrgB91QKwPx8U6ymuDoCQU7qyTBnAX1sYuSwEMJzVRqtmKLybR4Xp5A94EMbJsgVbq4LrUrMo00FdLV0EGMmA2Kmd/9D+CuZXoD6/mWkzmaVfiUMKhrorM05voFp vagrant@contrib-jessie"
+    groups: [nrpe-servers]
   precise0:
     ips: [10.8.0.102]
     os: "ubuntu-precise"
     public_key: &vagrant_box_precise
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkXTOj2JwvwlDaHbaMrDuosuRuU5ZuKe1EHNJa67ZxkB1a6Y1ObDxfYiYnvI5i9sQyUmmc5TrGAGGJs1BrriMaPayBaTSf3ymU2Rqxj3GZXuiioCxGV8I2R/aOhwvpbnVqZH5O99IuAZbrag5J/WhDWgWuk3gFrZxEwQmZW144tJH//I3b0oMAr3/arBViVeU52dHhKX9xdStTzFpWKUav/NoKKrgB91QKwPx8U6ymuDoCQU7qyTBnAX1sYuSwEMJzVRqtmKLybR4Xp5A94EMbJsgVbq4LrUrMo00FdLV0EGMmA2Kmd/9D+CuZXoD6/mWkzmaVfiUMKhrorM05voFp vagrant@precise64"
+    groups: [nrpe-servers]
   puppetmaster0:
     ips: [10.8.0.100]
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     role: "puppetmaster"
+    groups: [nrpe-servers]
   filter1:
     ips: [10.8.0.120]
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     role: filterserver
-    groups: [filter-servers]
+    groups: [filter-servers, nrpe-servers]
   server4:
     ips: [10.8.0.99]
     role: monitoringserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   codereview1:
     ips: [10.8.0.132]
     role: codereviewserver
     public_key: *vagrant_box_precise
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   download1:
     ips: [10.8.0.126]
     role: downloadserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   filtermaster1:
     ips: [10.8.0.127]
     role: filtermasterserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
+    groups: [nrpe-servers]
   server10:
     ips: [10.8.0.105]
     role: intraforumserver
     public_key: *vagrant_box_precise
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   issues-2:
     ips: [10.8.0.131]
     role: issueserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   update1:
     ips: [10.8.0.128]
     role: updateserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   eyeo-com-1:
     ips: [10.8.0.129]
     role: web/eyeo
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   adblockplus-org-1:
     ips: [10.8.0.145]
     role: web/adblockplus
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   testpages-1:
     ips: [10.8.0.146]
     role: web/testpages
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   share-1:
     ips: [10.8.0.147]
     role: web/share
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   youtube-me-1:
     ips: [10.8.0.148]
     role: web/youtube
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   facebook-me-1:
     ips: [10.8.0.149]
     role: web/facebook
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   acceptableads-com-1:
     ips: [10.8.0.150]
     role: web/acceptableads
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   hg1:
     ips: [10.8.0.152]
     role: hgwebserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   build1:
     ips: [10.8.0.153]
     role: buildmasterserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   adblockbrowser-org-1:
     ips: [10.8.0.154]
     role: web/adblockbrowser
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   subscribe-1:
     ips: [10.8.0.155]
     role: web/subscribe
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   easylist-1:
     ips: [10.8.0.156]
     role: web/easylist
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   log1:
     ips: [10.8.0.210]
     role: logserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
+    groups: [nrpe-servers]
   logprocessor1:
     ips: [10.8.0.211]
     role: logprocessor
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
+    groups: [nrpe-servers]
   telemetry1:
     ips: [10.8.0.220]
     role: telemetryserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   redirect-1:
     ips: [10.8.0.225]
     role: web/redirect/eyeo
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   eyeofiles-1:
     ips: [10.8.0.226]
     role: web/fileserver/eyeofiles
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   abp-builds-1:
     ips: [10.8.0.227]
     role: buildserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
+    groups: [nrpe-servers]
   trusted-news-1:
     ips: [10.8.0.228]
     role: web/fileserver/trusted-news
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-    groups: [http-servers]
+    groups: [http-servers, nrpe-servers]
   help-eyeo-com-1:
     ips: [10.8.0.229]
     role: web/static/helpcenter
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-
+    groups: [nrpe-servers]
