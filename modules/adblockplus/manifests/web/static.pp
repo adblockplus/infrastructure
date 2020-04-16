@@ -62,12 +62,6 @@ class adblockplus::web::static (
   include nginx
   include ssh
 
-  File {
-    mode => '0755',
-    owner => $deploy_user,
-    group => $deploy_user,
-  }
-
   ensure_resource('file', "/var/www/$domain", {
     ensure => ensure_directory_state($ensure),
     owner => 'www-data',
@@ -110,11 +104,17 @@ class adblockplus::web::static (
   ensure_resource('file', 'commands_dir', {
     path => $wrapper_path,
     ensure => ensure_directory_state($ensure),
+    mode => '0755',
+    owner => $deploy_user,
+    group => $deploy_user,
   })
 
   ensure_resource('file', '/usr/local/bin/hooks_wrapper', {
     ensure => ensure_file_state($ensure),
     content => template('adblockplus/web/hooks_wrapper.sh.erb'),
+    mode => '0755',
+    owner => $deploy_user,
+    group => $deploy_user,
   })
 
   # https://docs.puppet.com/puppet/latest/function.html#createresources
