@@ -65,12 +65,12 @@ nagios::server::services:
   easylist-http:
     use: 'generic-service'
     hostgroup_name: 'filter-servers'
-    service_description: 'HTTP'
+    service_description: 'Easylist'
     check_command: 'check_easylist_http'
   notification-http:
     use: 'generic-service'
     hostgroup_name: 'filter-servers'
-    service_description: 'HTTP'
+    service_description: 'Notification'
     check_command: 'check_notification_http'
   bandwidth:
     use: 'generic-service'
