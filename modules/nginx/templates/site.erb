@@ -30,6 +30,14 @@
     {
       rewrite (.*) https://$host$1 permanent;
     }
+
+    location = /nginx_status {
+      allow 127.0.0.1;
+      allow ::1;
+      deny all;
+      stub_status;
+    }
+
   }
   server
   {
