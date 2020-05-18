@@ -13,7 +13,6 @@
   <%= @global_config %>
 <% end %>
 
-<% if @certificate and @private_key %>
   server
   {
     server_name <% server_name[@domain, @alt_names] %>;
@@ -26,6 +25,7 @@
       listen [::]:80;
     <% end %>
 
+<% if @certificate and @private_key %>
     location /
     {
       rewrite (.*) https://$host$1 permanent;
@@ -48,18 +48,6 @@
     ssl_dhparam /etc/nginx/dhparam.pem;
 
     add_header Strict-Transport-Security max-age=31536000;
-<% else %>
-  server
-  {
-    server_name <% server_name[@domain, @alt_names] %>;
-
-    <% if @is_default %>
-      listen 80 default_server;
-      listen [::]:80 default_server;
-    <% else %>
-      listen 80;
-      listen [::]:80;
-    <% end %>
 <% end %>
 
 access_log /var/log/nginx/<%= @log %> <%= @log_format %>;
