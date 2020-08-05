@@ -95,3 +95,4 @@ adblockplus::web::redirector::targets:
   adblockplus/firefox_store: "https://addons.mozilla.org/firefox/addon/adblock-plus/?"
   adblockplus/opera_store: "https://addons.opera.com/extensions/details/adblock-plus/?"
   adblockplus/donation_update_page: "https://adblockplus.org/donate?utm_source=abp&utm_medium=update_page&utm_campaign=donate?"
+  adblockplus/donate_frp_page: "https://adblockplus.org/donate?utm_source=abp&utm_medium=frp_page&utm_campaign=donate?"
