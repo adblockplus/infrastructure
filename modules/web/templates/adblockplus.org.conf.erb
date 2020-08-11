@@ -15,76 +15,9 @@ if ($uri ~ ^/(:?\w\w(_\w\w)?/)?(?:index|firefox|chrome|opera|android|internet-ex
 add_header Content-Security-Policy "$csp_default $csp_img $csp_style $csp_script $csp_frame $csp_connect $csp_font";
 add_header X-Frame-Options "sameorigin";
 
-# User agent sniffing
-
-set $user_agent "";
-set $index_page "";
-
-if ($http_user_agent ~ \bGecko/\d+)
-{
-  set $user_agent "firefox";
-}
-if ($http_user_agent ~ \bSafari/\d+)
-{
-  set $user_agent "safari";
-}
-if ($http_user_agent ~ \bChrome/\d+)
-{
-  set $user_agent "chrome";
-}
-if ($http_user_agent ~ \bMSIE\ \d+)
-{
-  set $user_agent "internet-explorer";
-}
-if ($http_user_agent ~ \bTrident/\d+)
-{
-  set $user_agent "internet-explorer";
-}
-if ($http_user_agent ~ \bPresto/\d+)
-{
-  set $user_agent "opera";
-}
-if ($http_user_agent ~ \bOPR/\d+)
-{
-  set $user_agent "opera";
-}
-if ($http_user_agent ~ \bAndroid\s.*\bAppleWebKit/\d+)
-{
-  set $user_agent "android";
-}
-if ($http_user_agent ~ \bEdge/\d+)
-{
-  set $user_agent "edge";
-}
-if ($http_user_agent ~ \bYaBrowser/\d+)
-{
-  set $user_agent "yandex-browser";
-}
-if ($http_user_agent ~ \bMaxthon/\d+)
-{
-  set $user_agent "maxthon";
-}
-if ($http_user_agent ~ \b(iPad|iPhone|iPod)\b)
-{
-  set $user_agent "ios";
-  set $index_page "safari";
-}
-
-sub_filter ' id="content" class="' ' id="content" class="ua-$user_agent ';
-sub_filter_last_modified on;
-
-if ($index_page = "")
-{
-  set $index_page $user_agent;
-}
-
-if ($index_page = "")
-{
-  set $index_page "firefox";
-}
-
 # Various redirects
 
+rewrite ^/(.*/)?(android|chrome|edge|firefox|internet-explorer|opera|safari|yandex-browser)/?$ / permanent;
 rewrite ^/(\w\w(_\w\w)?/)?changelog-1.3.1$ /$1\changelog-1.3 permanent;
 rewrite ^/downloads/(.*) https://downloads.adblockplus.org/$1 permanent;
 
