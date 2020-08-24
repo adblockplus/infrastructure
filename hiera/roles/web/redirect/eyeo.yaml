@@ -97,3 +97,4 @@ adblockplus::web::redirector::targets:
   adblockplus/donation_update_page: "https://adblockplus.org/donate?utm_source=abp&utm_medium=update_page&utm_campaign=donate?"
   adblockplus/donate_frp_page: "https://adblockplus.org/donate?utm_source=abp&utm_medium=frp_page&utm_campaign=donate?"
   adblockplus/donate_aa_optout: "https://adblockplus.org/donate?utm_source=abp&utm_medium=aa_optout&utm_campaign=donate?"
+  adblockplus/block_cookie_warnings: "https://adblockplus.org/block-cookie-warnings?"
