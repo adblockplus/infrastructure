@@ -206,13 +206,15 @@ location /redirect
     set $link "donate";
     set $anchor "?utm_source=abp&utm_medium=settings_page&utm_campaign=donate";
   }
-
+  if ($link = "share")
+  {
+    rewrite ^ https://share.adblockplus.org/$lang/? redirect;
+  }
   if ($link = "")
   {
     # If there is no match in the legacy redirects, bridge request to new redirect service:
     rewrite ^ $scheme://eyeo.to/adblockplus/$arg_link/legacy redirect;
   }
-
   if (!-f "$document_root/$lang/$link")
   {
     set $lang "!!";
@@ -225,10 +227,6 @@ location /redirect
   if (!-f "$document_root/$lang/$link")
   {
     set $lang "en";
-  }
-  if ($link = "share")
-  {
-    rewrite ^ https://share.adblockplus.org/$lang/? redirect;
   }
   if ($link = "uninstalled")
   {
