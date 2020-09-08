@@ -291,7 +291,7 @@ location @proxied
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
 
-# $tracking_model is defined in custom_global_config
-location = /js/tracking.js {
-  try_files $uri /js/tracking-$tracking_model.js =503;
+# $testing_model is defined in custom_global_config
+location = /js/testing/setup.js {
+  try_files $uri /js/testing/$testing_model.js =503;
 }
