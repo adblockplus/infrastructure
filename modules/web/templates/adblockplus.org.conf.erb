@@ -293,5 +293,5 @@ location @proxied
 
 # $testing_model is defined in custom_global_config
 location = /js/testing/setup.js {
-  try_files $uri /js/testing/$testing_model.js =503;
+  try_files /js/testing/$testing_model.js =503;
 }
