@@ -48,11 +48,12 @@ class adblockplus::web::redirector (
   $domain = $::domain,
   $ssl_certificate = undef,
   $ssl_private_key = undef,
-  $targets = {},
   $custom_config = undef,
 ) {
 
   include nginx
+
+  $targets = hiera_hash('adblockplus::web::redirector::targets', {})
 
   nginx::hostconfig {$title:
     alt_names => $aliases,
