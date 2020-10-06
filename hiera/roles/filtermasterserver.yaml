@@ -24,22 +24,6 @@ filtermaster::repo_downloads:
     static_files:
       - easylist+exceptionrules_content_blocker.json
       - easylist_content_blocker.json
-      - easylist-full+easylistchina-minified+exceptionrules-minimal.json
-      - easylist-full+easylistchina-minified.json
-      - easylist-full+easylistdutch-minified+exceptionrules-minimal.json
-      - easylist-full+easylistdutch-minified.json
-      - easylist-full+easylistgermany-minified+exceptionrules-minimal.json
-      - easylist-full+easylistgermany-minified.json
-      - easylist-full+easylistitaly-minified+exceptionrules-minimal.json
-      - easylist-full+easylistitaly-minified.json
-      - easylist-full+easylistspanish-minified+exceptionrules-minimal.json
-      - easylist-full+easylistspanish-minified.json
-      - easylist-full+exceptionrules-minimal.json
-      - easylist-full+liste_fr-minified+exceptionrules-minimal.json
-      - easylist-full+liste_fr-minified.json
-      - easylist-full+ruadlist-minified+exceptionrules-minimal.json
-      - easylist-full+ruadlist-minified.json
-      - easylist-full.json
       - easylist_min+exceptionrules_content_blocker.json
       - easylist_min_content_blocker.json
 
