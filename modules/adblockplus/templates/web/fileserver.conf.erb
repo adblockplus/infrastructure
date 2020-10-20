@@ -6,4 +6,7 @@ location / {
     auth_basic "Password protected";
     auth_basic_user_file <%= @auth_filename %>;
 <% end -%>
+<% if @autoindex != nil -%>
+    autoindex on;
+<% end -%>
   }

@@ -29,6 +29,7 @@ define adblockplus::web::fileserver::repository (
   $users = {},
   $auth_file = undef,
   $aliases = [],
+  $autoindex = undef,
 ){
 
   $repositories_directory = "$adblockplus::directory/fileserver"
