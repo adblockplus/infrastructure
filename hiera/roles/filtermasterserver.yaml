@@ -26,6 +26,7 @@ filtermaster::repo_downloads:
       - easylist_content_blocker.json
       - easylist_min+exceptionrules_content_blocker.json
       - easylist_min_content_blocker.json
+      - easylist+easylistgermany-minified.json
 
 filtermaster::malwaredomains_mirrors:
   - http://mirror1.malwaredomains.com
