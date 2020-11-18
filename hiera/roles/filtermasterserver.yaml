@@ -16,6 +16,7 @@ filtermaster::repos:
   - antiadblockfilters
   - listear
   - customfilterlists
+  - abpvn
 
 filtermaster::repo_downloads:
   exceptionrules:
@@ -26,7 +27,22 @@ filtermaster::repo_downloads:
       - easylist_content_blocker.json
       - easylist_min+exceptionrules_content_blocker.json
       - easylist_min_content_blocker.json
+      - easylist+easylistchina-minified.json
+      - easylist+easylistchina-minified+exceptionrules-minimal.json
       - easylist+easylistgermany-minified.json
+      - easylist+easylistgermany-minified+exceptionrules-minimal.json
+      - easylist+easylistitaly-minified.json
+      - easylist+easylistitaly-minified+exceptionrules-minimal.json
+      - easylist+easylistspanish-minified.json
+      - easylist+easylistspanish-minified+exceptionrules-minimal.json
+      - easylist+easylistdutch-minified.json
+      - easylist+easylistdutch-minified+exceptionrules-minimal.json
+      - easylist+liste_fr-minified.json
+      - easylist+liste_fr-minified+exceptionrules-minimal.json
+      - easylist+ruadlist-minified.json
+      - easylist+ruadlist-minified+exceptionrules-minimal.json
+      - easylist+abpvn-minified.json
+      - easylist+abpvn-minified+exceptionrules-minimal.json
 
 filtermaster::malwaredomains_mirrors:
   - http://mirror1.malwaredomains.com
