@@ -10,14 +10,12 @@ Conflicts=shutdown.target
 
 [Service]
 Type=forking
-Restart=no
 TimeoutSec=5min
 IgnoreSIGPIPE=no
 KillMode=process
-GuessMainPID=no
-RemainAfterExit=yes
 SysVStartPriority=2
 ExecStart=/etc/init.d/spawn-fcgi start
 ExecStop=/etc/init.d/spawn-fcgi stop
 ExecReload=/etc/init.d/spawn-fcgi reload
-
+Restart=on-failure
+RestartSec=60s

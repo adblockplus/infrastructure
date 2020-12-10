@@ -66,10 +66,6 @@ class notificationserver($is_default = false) {
     ]
   }
 
-  customservice::supervisor {'spawn-fcgi':
-    pidfile => '/var/run/500-multiplexer_spawn-fcgi.pid',
-  }
-
   File {
     owner => root,
     group => root,
