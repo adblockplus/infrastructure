@@ -43,6 +43,9 @@ filtermaster::repo_downloads:
       - easylist+ruadlist-minified+exceptionrules-minimal.json
       - easylist+abpvn-minified.json
       - easylist+abpvn-minified+exceptionrules-minimal.json
+  crumbsfilterlist:
+    static_files:
+      - crumbs-privacy-friendly.txt
 
 filtermaster::malwaredomains_mirrors:
   - http://mirror1.malwaredomains.com
