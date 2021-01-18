@@ -26,6 +26,10 @@ class filterserver($is_default = false) {
     owner => rsync
   }
 
+  $global_config = hiera('filterserver::global_config', join([
+    'proxy_cache_path /var/cache/nginx/proxy levels=1 keys_zone=filters:1m;',
+  ], "\n"))
+
   nginx::hostconfig{'easylist-downloads.adblockplus.org':
     alt_names => ['easylist-msie.adblockplus.org'],
     source => 'puppet:///modules/filterserver/site.conf',
@@ -33,9 +37,7 @@ class filterserver($is_default = false) {
     certificate => 'easylist-downloads.adblockplus.org_sslcert.pem',
     private_key => 'easylist-downloads.adblockplus.org_sslcert.key',
     log => 'access_log_easylist_downloads',
-    global_config => join([
-      'proxy_cache_path /var/cache/nginx/proxy levels=1 keys_zone=filters:1m;',
-    ], "\n"),
+    global_config => $global_config,
   }
 
   file {'/home/rsync/.ssh':
