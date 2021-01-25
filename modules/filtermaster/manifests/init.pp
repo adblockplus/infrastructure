@@ -1,5 +1,5 @@
 class filtermaster(
-  $malwaredomains_mirrors = hiera('filtermaster::malwaredomains_mirrors', []),
+
 ) {
 
   Cron {
@@ -104,15 +104,6 @@ class filtermaster(
     user => rsync,
     require => User['rsync'],
     minute => '*/10'
-  }
-
-  cron {'update_malware':
-    ensure => present,
-    command => "python -m sitescripts.subscriptions.bin.updateMalwareDomainsList",
-    user => rsync,
-    require => User['rsync'],
-    hour => '*/6',
-    minute => 15
   }
 
   cron {'update_repos':

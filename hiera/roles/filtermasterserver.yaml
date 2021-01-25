@@ -9,7 +9,6 @@ filtermaster::repos:
   - easylistchina
   - easylistcombinations
   - easylistspanish
-  - malwaredomains
   - ruadlist
   - listefr
   - easylistdutch
@@ -46,10 +45,6 @@ filtermaster::repo_downloads:
   crumbsfilterlist:
     static_files:
       - crumbs-privacy-friendly.txt
-
-filtermaster::malwaredomains_mirrors:
-  - http://mirror1.malwaredomains.com
-  - http://mirror2.malwaredomains.com
 
 filtermaster::iflu::filterlists:
   easylist: {}
