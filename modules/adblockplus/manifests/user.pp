@@ -63,14 +63,16 @@ define adblockplus::user (
     },
     mode => '0700',
     owner => $name,
+    group => $name,
     require => User[$name],
   }
 
   file {"$home/.ssh/authorized_keys":
     content => join($authorized_keys, "\n"),
     ensure => $ensure,
-    mode => '0644',
+    mode => '0600',
     owner => $name,
+    group => $name,
     require => File["$home/.ssh"],
   }
 }
