@@ -195,6 +195,11 @@ location /redirect
     set $link "faq_basics";
     set $anchor "#disable";
   }
+  if ($arg_link = "allowlist")
+  {
+    set $link "faq_basics";
+    set $anchor "#disable";
+  }
   if ($arg_link = "acceptable_ads_opt_out")
   {
     set $link "acceptable-ads";
