@@ -6,6 +6,7 @@ Before=hgweb.service
 [Service]
 ExecStart=/usr/local/bin/gitlab-webhook
 User=www-data
+LimitNOFILE=32768
 
 [Install]
 WantedBy=multi-user.target
