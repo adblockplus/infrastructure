@@ -79,4 +79,20 @@ class hgweb::endpoint () {
       content => "$sudoers_content\n",
     },
   }
+
+  # Daily garbage collection for output git checkouts
+  cron {'garbage-collect-git-web':
+    command => 'for d in $(find /home/hg/web/ -maxdepth 6 -path "*/.hg/git/refs/heads/*" | cut -d/ -f5 | sort -u); do git -C $d/.hg/git gc --auto --quiet; done',
+    environment => hiera('cron::environment', []),
+    hour => '1',
+    minute => '0',
+    user => 'hg',
+  }
+  cron {'garbage-collect-git-import':
+    command => 'for d in /home/hg/import/git*/*; do git -C $d gc --auto --quiet; done',
+    environment => hiera('cron::environment', []),
+    hour => '2',
+    minute => '0',
+    user => 'hg',
+  }
 }
