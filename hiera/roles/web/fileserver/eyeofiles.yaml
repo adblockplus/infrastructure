@@ -1,9 +1,4 @@
 classes:
   adblockplus::web::fileserver:
-  geoip::database:
 
 adblockplus::web::fileserver::domain: eyeofiles.com
-adblockplus::web::fileserver::repositories:
-  geoip:
-
-geoip::database::hook: 'ln -f -s $(date +/var/adblockplus/fileserver/geoip/GeoIPv4_\%Y_\%m_\%d).dat /var/adblockplus/fileserver/geoip/GeoIPv4.dat'
