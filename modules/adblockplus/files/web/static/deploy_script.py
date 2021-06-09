@@ -24,6 +24,7 @@ import shutil
 import tarfile
 import tempfile
 import urllib
+import traceback
 
 
 __doc__ = """This script MUST be renamed in the form of $WEBSITE, e.g.
@@ -128,6 +129,7 @@ if __name__ == '__main__':
                             contents""".format(name)
             sys.exit(error_message)
     except Exception as error:
+        traceback.print_exc()
         sys.exit(error)
     finally:
         shutil.rmtree(temporary_directory)
