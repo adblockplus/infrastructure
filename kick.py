@@ -50,8 +50,8 @@ def parseOptions(args):
 def updateMaster(options):
     print 'Updating data on the puppet master...'
     remoteCommand = ' && '.join([
-        'sudo hg pull -qu -R /etc/puppet/infrastructure',
-        'sudo hg pull -qu -R /etc/puppet/infrastructure/modules/private',
+        'sudo hg pull -u -R /etc/puppet/infrastructure',
+        'sudo hg pull -u -R /etc/puppet/infrastructure/modules/private',
         'sudo /etc/puppet/infrastructure/ensure_dependencies.py /etc/puppet/infrastructure',
     ])
     runCommand(options.user, options.remote, remoteCommand)
