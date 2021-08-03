@@ -160,12 +160,21 @@ class hgweb(
       require => File['/opt/hgweb.fcgi'],
       source => 'puppet:///modules/hgweb/hgweb.service',
     }
+    cron {'hgweb_active':
+      ensure => present,
+      command => 'systemctl is-active --quiet hgweb.service || systemctl restart hgweb.service',
+      user => 'root',
+      minute => '*'
+    }
   } else {
     file {'init_script':
       name => '/etc/init.d/hgweb',
       mode => '0755',
       require => File['/opt/hgweb.fcgi'],
       source => 'puppet:///modules/hgweb/hgweb.sh',
+    }
+    customservice::supervisor {'hgweb':
+      ensure => 'present',
     }
   }
 
@@ -185,10 +194,6 @@ class hgweb(
     pattern => 'hgweb.fcgi',
     require => File['init_script'],
     subscribe => File['/etc/hgweb.ini'],
-  }
-
-  customservice::supervisor {'hgweb':
-    ensure => 'present',
   }
 
   nginx::hostconfig {$domain:
