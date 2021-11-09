@@ -15,6 +15,16 @@ if ($uri ~ ^/(:?\w\w(_\w\w)?/)?(?:index|firefox|chrome|opera|android|internet-ex
 add_header Content-Security-Policy "$csp_default $csp_img $csp_style $csp_script $csp_frame $csp_connect $csp_font";
 add_header X-Frame-Options "sameorigin";
 
+  set $cors "";
+  if ($http_origin ~* \.adblockplus\.org$) {
+      set $cors "true";
+  }
+  location ~* .(js|css|ttf|ttc|otf|eot|woff|woff2)$ {
+    if ($cors = "true") {
+      add_header access-control-allow-origin "*";
+    }
+  }
+
 # Various redirects
 
 rewrite ^/(.*/)?(android|chrome|edge|firefox|internet-explorer|opera|safari|yandex-browser)/?$ / permanent;
