@@ -257,12 +257,13 @@ location /devbuilds
   rewrite ^(.*) https://downloads.adblockplus.org$1;
 }
 
-# Locations still served by the legacy server
-
 location ~ ^(/blog|/releases|/development-builds|/atom|/rss|/category|/section|/author|/file_download|/images|/textpattern)($|/)
 {
-  try_files $uri @proxied;
+  rewrite ^(.*) https://blog.adblockplus.org$1;
 }
+
+# Locations still served by the legacy server
+
 location /verifyEmail
 {
   # Workaround for MS Outlook's behavior of re-encoding URLs;
