@@ -262,6 +262,11 @@ location ~ ^(/blog|/releases|/development-builds|/atom|/rss|/category|/section|/
   rewrite ^(.*) https://blog.adblockplus.org$1;
 }
 
+location /forum
+{
+  rewrite ^/forum($|/.*) https://forum.adblockplus.org$1;
+}
+
 # Locations still served by the legacy server
 
 location /verifyEmail
@@ -274,10 +279,6 @@ location /verifyEmail
     rewrite ^(.*)$ $1?email=$email_user%40$email_domain&signature=$arg_signature&product=$arg_product&lang=$arg_lang? redirect;
   }
 
-  try_files $uri @proxied;
-}
-location /forum
-{
   try_files $uri @proxied;
 }
 location /subscriptions.xml
