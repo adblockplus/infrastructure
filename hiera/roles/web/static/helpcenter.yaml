@@ -2,10 +2,242 @@ classes:
   adblockplus::web::static:
     domain: "help.eyeo.com"
     deploy_user: "helpcenter-deploy"
+    custom_config: |
+      location ~* ^.*/adblockplus/only-allow-ads-without-third-party-tracking/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360060964214;
+      }
+      location ~* ^.*/adblockplus/block-social-media-icons-tracking/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002518862;
+      }
+      location ~* ^.*/adblockplus/block-all-ads/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002514182-Block-all-ads;
+      }
+      location ~* ^.*/adblockplus/turn-abp-on-off-manually/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002778481;
+      }
+      location ~* ^.*/adblockplus/remove-a-filter-list/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062860213;
+      }
+      location ~* ^.*/adblockplus/configure-automatic-updates/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002533802;
+      }
+      location ~* ^.*/adblockplus/remove-a-website-from-the-allowlist/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002589982;
+      }
+      location ~* ^.*/adblockplus/block-item-or-element/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002523962;
+      }
+      location ~* ^.*/adblockplus/snippet-filters-tutorial/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002338501;
+      }
+      location ~* ^.*/adblockplus/hide-the-adblock-plus-icon/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002513982;
+      }
+      location ~* ^.*/adblockplus/view-blocked-items/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360061047214;
+      }
+      location ~* ^.*/adblockplus/add-a-website-to-the-allowlist/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002589982;
+      }
+      location ~* ^.*/adblockplus/how-to-write-filters/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062733293;
+      }
+      location ~* ^.*/adblockplus/remove-a-language/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360061046914;
+      }
+      location ~* ^.*/adblockplus/xpath-filters/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360060928614;
+      }
+      location ~* ^.*/adblockplus/add-a-language/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360061048494;
+      }
+      location ~* ^.*/adblockplus/add-a-filter-list/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062859673;
+      }
+      location ~* ^.*/adblockplus/block-additional-tracking/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062783853;
+      }
+      location ~* ^.*/adblockplus/custom-filters/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062859913;
+      }
+      location ~* ^.*/adblockplus/firefox-tracking-protection-allowlisting/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360061048594;
+      }
+      location ~* ^.*/adblockplus/what-are-filter-lists/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4402702235667;
+      }
+      location ~* ^.*/adblockplus/adware/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062861653;
+      }
+      location ~* ^.*/adblockplus/disable-ad-blocker/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4402789017747;
+      }
+      location ~* ^.*/adblockplus/edge-first-run-page-workaround/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002429201;
+      }
+      location ~* ^.*/adblockplus/privacy-policy-faq/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4403021775251;
+      }
+      location ~* ^.*/adblockplus/data-corruption/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062861133;
+      }
+      location ~* ^.*/adblockplus/how-to-check-your-browser-settings/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500005073781;
+      }
+      location ~* ^.*/adblockplus/why-is-abp-counter-high/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4403006327315;
+      }
+      location ~* ^.*/adblockplus/report-an-issue/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062870553;
+      }
+      location ~* ^.*/adblockplus/popup-ads-browser-notifications/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4402082447251;
+      }
+      location ~* ^.*/adblockplus/i-still-see-ads/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500000334961-I-still-see-ads;
+      }
+      location ~* ^.*/adblockplus/error-when-updating-abp-safari-app/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4402661260179;
+      }
+      location ~* ^.*/adblockplus/broken-website/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002533742;
+      }
+      location ~* ^.*/adblockplus/how-to-clear-cache-and-cookies/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500003987502;
+      }
+      location ~* ^.*/adblockplus/how-to-locate-error-logs/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4402612988179;
+      }
+      location ~* ^.*/adblockplus/Stop-Firefox-Recurring-Tab/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062870593;
+      }
+      location ~* ^.*/adblockplus/support-start/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4402383512211;
+      }
+      location ~* ^.*/adblockplus/filter-lists-disappearing-after-firefox-update/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/6365741005587;
+      }
+      location ~* ^.*/adblockplus/asked-to-turn-off-adblocker-after-allowlisting/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500003502101;
+      }
+      location ~* ^.*/adblockplus/how-to-check-your-installed-extensions/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500004338001;
+      }
+      location ~* ^.*/adblockplus/how-to-capture-a-screenshot/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4402100929683;
+      }
+      location ~* ^.*/adblockplus/problems-installing/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360060909474;
+      }
+      location ~* ^.*/adblockplus/uninstall-adblock-plus/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002407902;
+      }
+      location ~* ^.*/adblockplus/download-and-install-adblock-plus/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002320801;
+      }
+      location ~* ^.*/adblockplus/is-adblock-plus-the-same-thing-as-adblock/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062733133;
+      }
+      location ~* ^.*/adblockplus/what-are-acceptable-ads/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360060910754;
+      }
+      location ~* ^.*/adblockplus/donations/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/360062874273;
+      }
+      location ~* ^.*/adblockbrowser/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410640231315-Adblock-Browser;
+      }
+      location ~* ^.*/adblockbrowser/adding-a-filter-list/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410655478931-How-to-Add-or-Remove-filter-list-for-ABB;
+      }
+      location ~* ^.*/adblockbrowser/adding-a-browser-language/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410640306323-How-to-add-your-browsing-language;
+      }
+      location ~* ^.*/adblockbrowser/adjusting-privacy-settings/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410649752851-Adjusting-Privacy-settings-in-Adblock-Browser;
+      }
+      location ~* ^.*/adblockbrowser/clearing-browsing-data/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410649734675-Clear-your-ABB-browsing-history-cache-and-website-data;
+      }
+      location ~* ^.*/adblockbrowser/selecting-a-search-engine/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410640489107-Selecting-your-browser-search-engine;
+      }
+      location ~* ^.*/adblockbrowser/adding-a-website-to-the-allowlist/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410655894675-Adding-a-website-to-your-allowlist;
+      }
+      location ~* ^.*/adblockbrowser/configuring-automatic-updates/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410640564883-Configuring-automatic-filter-updates-;
+      }
+      location ~* ^.*/adblockbrowser/adjusting-accesssibility-settings/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410649779219-Adjusting-Accessibility-settings;
+      }
+      location ~* ^.*/adblockbrowser/adjusting-abb-notifications/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410649509139-Adjusting-Adblock-Browser-Notifications-;
+      }
+      location ~* ^.*/adblockbrowser/removing-a-filter-list/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410655478931-How-to-Add-or-Remove-filter-list-for-ABB;
+      }
 
 adblockplus::web::static::hooks:
   uptime:
     file:
       target: "/usr/bin/uptime"
       ensure: "link"
-
