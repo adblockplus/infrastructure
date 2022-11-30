@@ -125,7 +125,7 @@ classes:
       }
       location ~* ^.*/adblockplus/i-still-see-ads/?$ {
         set $args '';
-        return 301 https://help.adblockplus.org/hc/articles/1500000334961-I-still-see-ads;
+        return 301 https://help.adblockplus.org/hc/sections/1500000334961-I-still-see-ads;
       }
       location ~* ^.*/adblockplus/error-when-updating-abp-safari-app/?$ {
         set $args '';
@@ -234,6 +234,26 @@ classes:
       location ~* ^.*/adblockbrowser/removing-a-filter-list/?$ {
         set $args '';
         return 301 https://help.adblockplus.org/hc/articles/4410655478931-How-to-Add-or-Remove-filter-list-for-ABB;
+      }
+      location ~* ^.*/adblockplus/check-abp-version/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/1500002427821-Check-your-Adblock-Plus-version;
+      }
+      location ~* ^.*/adblockplus/how-to-redeem-adblock-plus-premium/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/7982499964051-How-to-redeem-your-Adblock-Plus-Premium-upgrade;
+      }
+      location ~* ^.*/adblockplus/how-to-upgrade-to-adblock-plus-premium/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/7982499964051-How-to-redeem-your-Adblock-Plus-Premium-upgrade;
+      }
+      location ~* ^.*/adblockplus/distraction-control/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/9272246482451-Learn-about-Distraction-Control;
+      }
+      location ~* ^.*/adblockplus/getting-started-with-adblock-plus-premium/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/8155189140115-Get-started-with-AdBlock-Plus-Premium;
       }
 
 adblockplus::web::static::hooks:
