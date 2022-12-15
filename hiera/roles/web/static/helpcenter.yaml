@@ -255,6 +255,31 @@ classes:
         set $args '';
         return 301 https://help.adblockplus.org/hc/articles/8155189140115-Get-started-with-AdBlock-Plus-Premium;
       }
+      location ~* ^.*/adblockplus/compatibility-issues/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/11732618326675;
+      }
+      location ~* ^.*/adblockbrowser/blocking-all-ads/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/11731846287891-Block-all-ads-on-Adblock-Browser;
+      }
+      location ~* ^.*/adblockbrowser/finding-abb-version/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/11731972076435-How-to-check-your-Adblock-Browser-Version;
+      }
+      location ~* ^.*/adblockbrowser/adding-a-browser-language/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410640306323-How-to-add-your-browsing-language;
+      }
+      location ~* ^.*/adblockbrowser/removing-a-website-from-the-allowlist/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410655894675;
+      }
+      location ~* ^.*/adblockbrowser/removing-a-browser-language/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org/hc/articles/4410640306323-How-to-add-or-remove-your-browsing-language;
+      }
+
 
 adblockplus::web::static::hooks:
   uptime:
