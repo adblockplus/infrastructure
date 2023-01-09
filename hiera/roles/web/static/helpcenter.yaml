@@ -193,7 +193,7 @@ classes:
       }
       location ~* ^.*/adblockbrowser/?$ {
         set $args '';
-        return 301 https://help.adblockplus.org/hc/articles/4410640231315-Adblock-Browser;
+        return 301 https://help.adblockplus.org/hc/sections/4410640231315-Adblock-Browser;
       }
       location ~* ^.*/adblockbrowser/adding-a-filter-list/?$ {
         set $args '';
