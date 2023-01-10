@@ -279,6 +279,14 @@ classes:
         set $args '';
         return 301 https://help.adblockplus.org/hc/articles/4410640306323-How-to-add-or-remove-your-browsing-language;
       }
+      location ~* ^.*/adblockplus/?$ {
+        set $args '';
+        return 301 https://help.adblockplus.org;
+      }
+      location ~* ^/$ {
+        set $args '';
+        return 301 https://help.adblockplus.org;
+      }
 
 
 adblockplus::web::static::hooks:
